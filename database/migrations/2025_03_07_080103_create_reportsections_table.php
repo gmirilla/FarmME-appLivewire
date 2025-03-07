@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('reportsections', function (Blueprint $table) {
             $table->id();
+            $table->integer('reportid');
             $table->foreign('reportid')->references('id')->on('reports');
             $table->string('sectionname');
-            $table->int('section_seq');
+            $table->integer('section_seq');
             $table->string('sectionstate');
             $table->timestamps();
         });

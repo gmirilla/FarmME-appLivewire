@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('reportquestions', function (Blueprint $table) {
             $table->id();
+            $table->integer('reportid');
             $table->foreign('reportid')->references('id')->on('reports');
+            $table->integer('reportsectionid');
             $table->foreign('reportsectionid')->references('id')->on('reportsections');
-            $table->int('question_seq');
+            $table->integer('question_seq');
             $table->string('question');
             $table->string('questiontype');
             $table->string('questionstate');
