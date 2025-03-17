@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\reportsection;
+use App\Models\reports;
 use Illuminate\Http\Request;
 
 class ReportsectionController extends Controller
@@ -14,6 +15,53 @@ class ReportsectionController extends Controller
     {
         //
     }
+    public function newsection(Request $request)
+    {
+        //
+
+
+        $newsection = new reportsection();
+        $newsection->reportid=$request->reportid;
+        $newsection->sectionname=$request->sectionname;
+        $newsection->section_seq=$request->section_seq;
+        $newsection->sectionstate=$request->sectionstate;
+
+        $newsection->save();
+
+        $sections=reportsection::where('reportid',  $request->reportid)->get();
+        $report=reports::where('id',  $request->reportid)->get();
+
+
+        return view('report.reportsection')
+        ->with('sections', $sections)
+        ->with('reports', $report);
+    }
+
+    public function getsection(Request $report)
+    {
+        //
+
+    $sections=reportsection::where('reportid',$report->reportid)->get();
+
+        
+
+        return response()->json($sections);
+    }
+
+    public function showsection(Request $request)
+    {
+        //
+        
+
+    $sections=reportsection::where('reportid',$request->reportid)->get();
+    $report=reports::where('id',$request->reportid)->get();
+
+
+        
+
+        return view('report.reportsection')->with('sections', $sections)->with('reports', $report);
+    }
+
 
     /**
      * Show the form for creating a new resource.

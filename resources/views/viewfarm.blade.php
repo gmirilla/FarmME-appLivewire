@@ -19,8 +19,8 @@
                     <input type="text" readonly class="form-control" value="{{$farm->farmcode}}">
                 </div>
                 <div class="mb-3">
-                    <label>FARM AREA</label>
-                    <input type="text" readonly class="form-control" value="100Ha">
+                    <label>FARM AREA {{$farm->measurement}}</label>
+                    <input type="text" readonly class="form-control" value="{{$farm->farmarea }}">
                 </div>
                 <div class="mb-3">
                     <label>ASSIGNED STAFF</label>
@@ -40,6 +40,11 @@
                 <div class="mb-3">
                     <label>NEXT INSPECTION</label>
                     <input type="text" readonly class="form-control" value="{{$farm->nextinspection}}">
+                    <form action="" method="POST">
+                        <input type="number" name="farmid" hidden value="{{$farm->id}}">
+                        <button class="btn btn-primary"> >> </button>
+
+                    </form>
                 </div>
                 <h4 class="h4" style="text-align: center; background-color:cornflowerblue">INSPECTION RECORDS</h4>
                 TO DO: Show list of all Farm Inspection Records

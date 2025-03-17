@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\FarmController;
+use App\Http\Controllers\ReportsController;
+use App\Http\Controllers\ReportsectionController;
+use App\Http\Controllers\ReportquestionsController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,6 +32,17 @@ Route::middleware('auth')->group(function () {
         Route::post('/farm/schedule', [FarmController::class, 'newinspectiondate']);
         Route::get('/farm/view', [FarmController::class, 'displayfarm']);
     });
+
+Route::middleware('auth')->group(function () {
+    Route::get('report',[ReportsController::class, 'new'])->name('new');
+    Route::get('report/new',[ReportsController::class, 'new_report'])->name('new_report');
+    Route::post('report/new',[ReportsController::class, 'new_report'])->name('new_report');
+    Route::post('report/showsection',[ReportsectionController::class, 'showsection'])->name('showsection');
+    Route::post('report/getsection',[ReportsectionController::class, 'getsection'])->name('getsection');
+    Route::post('report/newsection',[ReportsectionController::class, 'newsection'])->name('newsection');
+    Route::post('report/showquestion',[ReportquestionsController::class, 'showquestion'])->name('showquestion');
+    Route::post('report/newquestion',[ReportquestionsController::class, 'newquestion'])->name('newquestion');
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

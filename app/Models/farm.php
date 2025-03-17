@@ -14,5 +14,11 @@ class farm extends Model
         'farmstate',
         'lastinspection',
         'nextinspection',
+        'latitude',
+        'longitude',
+        'farmarea',
+        'inspectorid',
+        'measurement'
+
     ];
 }
