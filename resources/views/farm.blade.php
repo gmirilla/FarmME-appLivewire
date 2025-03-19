@@ -1,12 +1,12 @@
 <x-layouts.app>
   
 <div>
-  <!--
-<form id='search'>
+
+<form id='search' name='searchforfarm' method='get' action='farm'>
   <input type="text" placeholder="Search for Farm" name="farmsearch" style="border: solid 1px grey ; padding:3px">
-  <input type="submit" class="btn btn-success" value="Search">
+  <input type="submit" class="btn btn-success" value="Search **TO DO">
 <form>
-  -->
+
   <a href='/newfarm' ><button type="button" class="btn btn-primary" style="margin:5px"> Register New Farm</button> </a>   
 </div>
 <div>
