@@ -13,7 +13,7 @@ class inspectionanswers extends Model
         'sectionid',
         'reportid',
         'answer',
-        'comments'
+        'sectionidcomments'
         
     ];
 }

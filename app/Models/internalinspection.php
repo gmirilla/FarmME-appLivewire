@@ -17,4 +17,10 @@ class internalinspection extends Model
         'reportid',
         'inspectionstate'
     ];
+
+    public function farm() {
+        return $this->hasOne(farm::class);
+    }
+    
+    
 }

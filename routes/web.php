@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\FarmController;
+use App\Http\Controllers\InternalinspectionController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ReportsectionController;
 use App\Http\Controllers\ReportquestionsController;
@@ -42,6 +43,14 @@ Route::middleware('auth')->group(function () {
     Route::post('report/newsection',[ReportsectionController::class, 'newsection'])->name('newsection');
     Route::post('report/showquestion',[ReportquestionsController::class, 'showquestion'])->name('showquestion');
     Route::post('report/newquestion',[ReportquestionsController::class, 'newquestion'])->name('newquestion');
+});
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('inspection',[InternalinspectionController::class, 'index'])->name('index');
+    Route::get('inspection/new',[InternalinspectionController::class, 'new'])->name('new');
+    Route::post('inspection/start',[InternalinspectionController::class, 'start'])->name('start');
+    Route::post('inspection/nextsection',[InternalinspectionController::class, 'nextsection'])->name('nextsection');
 });
 
 Route::middleware(['auth'])->group(function () {
