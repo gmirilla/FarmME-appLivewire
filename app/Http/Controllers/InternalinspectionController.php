@@ -49,7 +49,7 @@ class InternalinspectionController extends Controller
 
 
 
-        $inspections= internalinspection::where('internalinspectorid', $user->id)->get();
+        //$inspections= internalinspection::where('internalinspectorid', $user->id)->get();
         $farms=farm::where('inspectorid',$user->id)->get();
         $reports=reports::where('reportstate', 'ACTIVE')->get();
         //dd($farms);
