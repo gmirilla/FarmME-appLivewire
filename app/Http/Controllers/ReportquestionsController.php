@@ -21,14 +21,38 @@ class ReportquestionsController extends Controller
      */
     public function showquestion(Request $request)
     {
-        //
+
        // dd($request);
 
         $section=reportsection::where('id', $request->sectionid)->first();
         
         $report=reports::where('id', $request->reportid)->first();
         $questions=reportquestions::where('reportsectionid',$request->sectionid)->get();
- 
+
+
+
+                #Get all ACTIVE questions on current report
+                $allquestions=reportquestions::where('reportid',$request->reportid)->where('questionstate','ACTIVE')->get();
+
+                #Calculte and Update report Maximum scores 
+                #QUESTION TYPEA (YES/NO) =2
+                #QUESTION TYPEB (POOR/FAIR/GOOD/VERYGOOD)=4 
+                $maxscore=0;
+               
+                foreach ($allquestions as $question) {
+                   switch ($question->questiontype) {
+                       case 'TYPEB':
+                           $maxscore=$maxscore+4;
+                           break; 
+                       case 'TYPEA':
+                           $maxscore=$maxscore+2;
+                           break;
+                   }
+                }
+                $report=reports::where('id', $request->reportid)->first();
+                $report->max_score=$maxscore;
+                $report->save();
+        
      //dd($sections);
 
         return view('report.reportquestion')
@@ -57,6 +81,27 @@ class ReportquestionsController extends Controller
         $newquestion->save();
 
         $questions=reportquestions::where('reportsectionid',$request->reportsectionid)->get();
+
+        #Get all ACTIVE questions on current report
+        $allquestions=reportquestions::where('reportid',$request->reportid)->where('questionstate','ACTIVE')->get();
+
+         #Calculte and Update report Maximum scores 
+         #QUESTION TYPEA (YES/NO) =2
+         #QUESTION TYPEB (POOR/FAIR/GOOD/VERYGOOD)=4 
+         $maxscore=0;
+         foreach ($allquestions as $question) {
+            switch ($question->questiontype) {
+                case 'TYPEB':
+                    $maxscore=$maxscore+4;
+                    
+                case 'TYPEA':
+                    $maxscore=$maxscore+2;
+                default:
+                    $maxscore=0;
+            }
+         }
+         $report->max_score=$maxscore;
+         $report->save();
 
  
 

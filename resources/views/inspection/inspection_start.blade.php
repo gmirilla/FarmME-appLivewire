@@ -4,6 +4,7 @@
     $current=0+$sectioncounter;
     $noquestions= sizeof($reportquestions);
     $counter=0;
+    //dd($inspection);
  @endphp
     <div>
         <div class="row">
@@ -17,7 +18,7 @@
             <h5>{{$reportsections[$current]->sectionname}} </h5>
             <form action="nextsection" method="POST">
                 @csrf
-            <table class="table table-striped">
+            <table class="table table-striped table-info table-hover">
                 <tbody>
                 <thead>
                     <th>#</th>
@@ -25,7 +26,12 @@
                     <th>Answer</th>
                     <th>Remarks</th>
                 </thead>
+
                 @forelse ($reportquestions as $question )
+
+ 
+
+ 
                 @if ($question->reportsectionid==$reportsections[$current]->id)
 
                 <tr>
@@ -33,25 +39,40 @@
                     <td class="col-4">{{$question->question}}</td>
                     <td class="col-2"> 
                         <div class="form-check">
+                            @if ($question->answer==1)
+                            <input class="form-check-input"   checked type="radio" id="poor" name="answers[{{$counter}}]" value="1" required>
+                            @else
                             <input class="form-check-input"  type="radio" id="poor" name="answers[{{$counter}}]" value="1" required>
+                            @endif
                             <label class="form-check-label" for="poor">Poor</label>
                         </div>
                         <div class="form-check">
+                            @if ($question->answer==2)
+                            <input class="form-check-input"   checked type="radio" id="fair" name="answers[{{$counter}}]" value="2">
+                            @else
                             <input class="form-check-input"  type="radio" id="fair" name="answers[{{$counter}}]" value="2">
+                            @endif
                             <label class="form-check-label" for="fair">Fair</label>
                         </div>
                         <div class="form-check">
+                            @if ($question->answer==3)
+                            <input class="form-check-input"   checked type="radio" id="good" name="answers[{{$counter}}]" value="3">
+                            @else
                             <input class="form-check-input"  type="radio" id="good" name="answers[{{$counter}}]" value="3">
+                            @endif
                             <label class="form-check-label" for="good">Good</label>
                         </div>
                         <div class="form-check">
-
+                            @if ($question->answer==4)
+                            <input class="form-check-input"   checked type="radio" id="vgood" name="answers[{{$counter}}]" value="4">
+                            @else
                             <input class="form-check-input"  type="radio" id="vgood" name="answers[{{$counter}}]" value="4">
+                            @endif
                             <label class="form-check-label" for="vgood">Very Good</label>
                         </div>              
                     </td>
                     <td class="col-3">
-                        <textarea class="form-control" name="comments[]" placeholder="Enter any Remarks/Justification"></textarea>
+                        <textarea class="form-control" name="comments[]" placeholder="Enter any Remarks/Justification">{{$question->sectionidcomments}}</textarea>
                         <input class="form-check-input"  hidden type="number" id="question" name="question[]" value="{{$question->id}}" >
                     </td>
                 </tr>
@@ -77,5 +98,6 @@
 
         </div>
     </div>
+
 </x-layouts.app>
 

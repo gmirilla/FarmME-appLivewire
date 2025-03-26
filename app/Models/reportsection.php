@@ -12,5 +12,6 @@ class reportsection extends Model
         'sectionname',
         'section_seq',
         'sectionstate'
+
     ];
 }

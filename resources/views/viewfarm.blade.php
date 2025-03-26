@@ -48,6 +48,30 @@
                 </div>
                 <h4 class="h4" style="text-align: center; background-color:cornflowerblue">INSPECTION RECORDS</h4>
                 TO DO: Show list of all Farm Inspection Records
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                        <th>Report Name</th>
+                        <th>Score</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Comment</th>
+                        </tr>
+                    </thead>  
+                    <tbody> 
+                 @forelse ($farmreports as $farmreport)
+                 <tr>
+                 <td>{{$farmreport->reportname}}</td>
+                 <td>{{number_format(($farmreport->score / $farmreport->max_score *100),2)}}%</td> 
+                 <td>{{$farmreport->created_at}}</td>
+                 <td>{{$farmreport->inspectionstate}}</td>
+                 <td><textarea name="" id="" cols="20" rows="3">Comments **To Do</textarea></td>
+                 </tr>
+                     @empty
+                    <tr> <td>NO INSPECTIONS CARRIED OUT</td></tr>
+                     @endforelse
+                </tbody>
+                </table>
             </div>
           </div>
 

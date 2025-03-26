@@ -9,6 +9,7 @@ class reports extends Model
     //
     protected $fillable = [
         'reportname',
-        'reportstate'
+        'reportstate',
+        'max_score'
     ];
 }

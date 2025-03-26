@@ -1,16 +1,16 @@
 <x-layouts.app>
   
 <div>
-
-<form id='search' name='searchforfarm' method='get' action='farm'>
+<!--
+<form method='get' action='dashboard'>
   <input type="text" placeholder="Search for Farm" name="farmsearch" style="border: solid 1px grey ; padding:3px">
   <input type="submit" class="btn btn-success" value="Search **TO DO">
 <form>
-
+-->
   <a href='/newfarm' ><button type="button" class="btn btn-primary" style="margin:5px"> Register New Farm</button> </a>   
 </div>
 <div>
-  
+
     <table class="table table-striped">
         <thead>
           <tr>
@@ -76,7 +76,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <input  type="submit" class="btn btn-primary" value="Save">
       </div>
     </form>
     </div>

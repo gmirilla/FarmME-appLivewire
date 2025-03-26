@@ -15,7 +15,8 @@ class internalinspection extends Model
         'inspectiondate',
         'inspectiontype',
         'reportid',
-        'inspectionstate'
+        'inspectionstate',
+        'score'
     ];
 
     public function farm() {

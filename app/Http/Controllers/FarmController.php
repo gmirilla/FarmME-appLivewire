@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\farm;
+use App\Models\internalinspection;
 use Illuminate\Http\Request;
 
 class FarmController extends Controller
@@ -88,10 +90,14 @@ class FarmController extends Controller
         $farms=farm::all();
         $id=farm::where('farmcode', $request->id)->first()->id;
         $farm=$farms->find($id);
+        $farmreports=DB::table('internalinspections')
+        ->leftJoin('reports', 'internalinspections.reportid', '=', 'reports.id')
+        ->select('reportname','score','internalinspections.created_at as created_at','inspectionstate','max_score' )
+        ->where('farmid',$id)->get();
 
 
 
-        return view('viewfarm')->with('farm', $farm);
+        return view('viewfarm')->with('farm', $farm)->with('farmreports', $farmreports);
     }
 
 

@@ -25,8 +25,10 @@ class InternalinspectionController extends Controller
         $user = Auth::user();
 
         $inspections = DB::table('internalinspections')
-    ->join('farms', 'internalinspections.farmid', '=', 'farms.id') // Join the 'insternalinspections' and 'farms' tables
-    ->select('farmcode','farmname','inspectionstate', 'internalinspections.id','farms.id','internalinspections.inspectorid', 'internalinspections.updated_at')
+    ->join('farms', 'internalinspections.farmid', '=', 'farms.id')
+    ->join('reports','internalinspections.reportid', '=', 'reports.id') // Join the 'insternalinspections' and 'farms' tables
+    ->select('farmcode','farmname','inspectionstate', 'internalinspections.id as iid','farms.id','internalinspections.reportid as reportid','score','max_score',
+    'internalinspections.inspectorid as inspectorid' , 'internalinspections.updated_at')
     ->where('internalinspections.inspectorid', $user->id)            // Select specific columns
     ->get();
 
@@ -58,6 +60,8 @@ class InternalinspectionController extends Controller
 
 
     }
+
+
     public function start(Request $request)
     {
         //TO DO GET ID and Rank of User
@@ -66,13 +70,15 @@ class InternalinspectionController extends Controller
         $user = Auth::user();
 
 
-   
 
-        $newinspection= internalinspection::where('internalinspectorid', $user->id)->get();
+
+        $newinspection= internalinspection::where('internalinspection', $request->internalinspectionid)->get();
         $farm=farm::where('id',$request->farmid)->first();
         $report=reports::where('reportstate', 'ACTIVE')->where('id', $request->reportid)->first();
         $reportsections=reportsection::where('reportid',$request->reportid)->where('sectionstate', 'ACTIVE')->get();
         $reportquestions=reportquestions::where('reportid',$request->reportid)->where('questionstate', 'ACTIVE')->get();
+        
+
 
         #Create and save a new inspection record if a new inspection process start
         if ($request->internalinspectionid==null) {
@@ -84,9 +90,29 @@ class InternalinspectionController extends Controller
             $newinspection->reportid=$request->reportid;
             $newinspection->inspectionstate='ACTIVE';
             $newinspection->save();
-        }  
+        } 
+        /** 
+        else {
+         #retrieve previously filled inspection sheet and answers
+         $newinspection= internalinspection::where('id',$request->internalinspectionid)->first();
+        // dd($newinspection);
+         $reportquestions= DB::table('reportquestions')
+         ->leftJoin('inspectionanswers','reportquestions.id' , '=', 'inspectionanswers.questionid') // Join the 'reportquestions' and 'answers' tables
+         ->select(
+            'reportquestions.id as id',
+            'reportquestions.reportid  as reportid',
+            'reportquestions.reportsectionid as reportsectionid',
+            'reportquestions.question_seq as question_seq',
+            'reportquestions.question as question',
+            'reportquestions.questiontype as questiontype',
+            'reportquestions.questionstate as questionstate',
+            'answer','sectionidcomments'
+         )
+         ->where('reportquestions.reportid',$request->reportid)->where('reportquestions.questionstate', 'ACTIVE')->where('internalinspectionid',$request->inspectionreportid)
+         ->get();        // Select specific columns
+        } 
+     */
 
-        
 
 
         $sectioncounter=$request->sectioncounter;
@@ -128,23 +154,51 @@ class InternalinspectionController extends Controller
         $report=reports::where('reportstate', 'ACTIVE')->where('id', $inspection->reportid)->first();
         $reportsections=reportsection::where('reportid',$inspection->reportid)->where('sectionstate', 'ACTIVE')->get();
         $reportquestions=reportquestions::where('reportid',$inspection->reportid)->where('questionstate', 'ACTIVE')->get();
-
         #Get the number of questions in the section
         $question=$request->question;
         $answers=$request->answers;
         $comments=$request->comments;
-        echo count($answers);
+
+
 
         #loop thru array 
+        #TO DO create a validation check to limit double posting
+        $score=$inspection->score;
         for ($i=0; $i < count($answers); $i++) { 
-            # code...
             $newanswer= new inspectionanswers();
             $newanswer->questionid=$question[$i];
             $newanswer->answer=$answers[$i];
             $newanswer->sectionidcomments=$comments[$i];
+            $newanswer->reportid=$report->id;
             $newanswer->internalinspectionid=$request->inspectionreportid;
             $newanswer->save();
+            $score=$score+$answers[$i];
         }
+        #Update Inspection REport score
+        $inspection->score=$score;
+        $inspection->save();
+
+/*
+        # TODO previous answers
+         #retrieve previously filled inspection sheet and answers
+         $newinspection= internalinspection::where('id',$request->internalinspectionid)->first();
+        // dd($newinspection);
+         $reportquestions= DB::table('reportquestions')
+         ->leftJoin('inspectionanswers','reportquestions.id' , '=', 'inspectionanswers.questionid') // Join the 'reportquestions' and 'answers' tables
+         ->select(
+            'reportquestions.id as id',
+            'reportquestions.reportid  as reportid',
+            'reportquestions.reportsectionid as reportsectionid',
+            'reportquestions.question_seq as question_seq',
+            'reportquestions.question as question',
+            'reportquestions.questiontype as questiontype',
+            'reportquestions.questionstate as questionstate',
+            'answer','sectionidcomments'
+         )
+         ->where('reportquestions.reportid',$request->reportid)->where('reportquestions.questionstate', 'ACTIVE')->where('internalinspectionid',$request->inspectionreportid)
+         ->get();   
+
+*/
 
 
 
@@ -160,12 +214,13 @@ class InternalinspectionController extends Controller
             #Return  to Inspections view 
             $inspections = DB::table('internalinspections')
             ->join('farms', 'internalinspections.farmid', '=', 'farms.id') // Join the 'insternalinspections' and 'farms' tables
-            ->select('farmcode','farmname','inspectionstate', 'internalinspections.id','farms.id','internalinspections.inspectorid', 'internalinspections.updated_at')
+            ->select('farmcode','farmname','inspectionstate', 'internalinspections.id','farms.id','score',
+            'internalinspections.inspectorid', 'internalinspections.updated_at')
             ->where('internalinspections.inspectorid', $user->id)            // Select specific columns
             ->get();
         
         
-                return view('inspection.inspection')->with('inspections',$inspections);
+                return view('dashboard');
         }
         
 
