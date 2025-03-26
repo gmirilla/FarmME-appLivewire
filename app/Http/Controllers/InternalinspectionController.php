@@ -49,7 +49,7 @@ class InternalinspectionController extends Controller
 
 
 
-        //$inspections= internalinspection::where('internalinspectorid', $user->id)->get();
+        $inspections= internalinspection::where('inspectorid', $user->id)->get();
         $farms=farm::where('inspectorid',$user->id)->get();
         $reports=reports::where('reportstate', 'ACTIVE')->get();
         //dd($farms);
@@ -72,7 +72,7 @@ class InternalinspectionController extends Controller
 
 
 
-        $newinspection= internalinspection::where('internalinspection', $request->internalinspectionid)->get();
+        $newinspection= internalinspection::where('id', $request->internalinspectionid)->get();
         $farm=farm::where('id',$request->farmid)->first();
         $report=reports::where('reportstate', 'ACTIVE')->where('id', $request->reportid)->first();
         $reportsections=reportsection::where('reportid',$request->reportid)->where('sectionstate', 'ACTIVE')->get();
