@@ -7,9 +7,6 @@
                 <h4 class="h4" style="text-align: center; background-color:green ; color:white">FARM DETAIL</h4>
                 <div class="mb-3">
                 <label>FARM NAME</label>
-                @php
-                    dd($farm);
-                @endphp
                 <input type="text" readonly class="form-control" value="{{$farm->farmname}}">
                 </div>
                 <div class="mb-3">
