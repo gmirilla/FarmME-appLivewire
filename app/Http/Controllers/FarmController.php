@@ -110,7 +110,7 @@ class FarmController extends Controller
         ->leftJoin('users', 'farms.inspectorid', '=','users.id')
         ->select(
             'farms.id as id',
-            'farmName',
+            'farmname',
             'community',
             'farmCode',
             'farmstate',
