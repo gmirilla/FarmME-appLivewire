@@ -12,7 +12,10 @@
                 </div>
                 <div class="mb-3">
                     <label>FARM CODE</label>
-                    <input type="text" readonly class="form-control" value="{{$farm->farmCode}}">
+                    @php
+                        dd($farm);
+                    @endphp
+                    <input type="text" readonly class="form-control" value="{{$farm->farmcode}}">
                 </div>
                 <div class="mb-3">
                     <label>COMMUNITY</label>

@@ -112,7 +112,7 @@ class FarmController extends Controller
             'farms.id as id',
             'farmname',
             'community',
-            'farmCode',
+            'farmcode',
             'farmstate',
             'lastinspection',
             'nextinspection',
@@ -122,7 +122,7 @@ class FarmController extends Controller
             'inspectorid',
             'measurement',
             'name', 'users.roles as uroles', 'users.id as uid'
-        )->where('farmCode', $request->id)->first(); 
+        )->where('farmcode', $request->id)->first(); 
         $farmreports=DB::table('internalinspections')
         ->leftJoin('reports', 'internalinspections.reportid', '=', 'reports.id')
         ->select('reportname','score','internalinspections.created_at as created_at','inspectionstate','max_score' )

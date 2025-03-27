@@ -10,7 +10,7 @@ class farm extends Model
     protected $fillable = [
         'farmname',
         'community',
-        'farmCode',
+        'farmcode',
         'farmstate',
         'lastinspection',
         'nextinspection',
