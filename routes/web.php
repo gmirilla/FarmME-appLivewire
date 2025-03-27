@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/newfarm', [FarmController::class, 'create'])->name('create');
         Route::post('/newfarm/Createfarm', [FarmController::class, 'store']);
         Route::post('/farm/schedule', [FarmController::class, 'newinspectiondate']);
+        Route::post('/farm/assignstaff', [FarmController::class, 'assignstaff']);
         Route::get('/farm/view', [FarmController::class, 'displayfarm']);
     });
 

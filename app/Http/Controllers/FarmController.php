@@ -22,6 +22,22 @@ class FarmController extends Controller
         return view('farm')->with('farmlist', $farmlist);
     }
 
+        /**
+     * Assign Staff to farm and retun to Farm page
+     */
+    public function assignstaff(Request $request)
+    {
+        //
+        $farm=farm::where('farmcode', $request->id)->first();
+        $farm->inspectorid=$request->staffid;
+        $farm->save();
+
+    return $this->displayfarm($request);
+
+
+
+    }
+
     /**
      * Show the form for creating a new farm.
      */
@@ -84,13 +100,29 @@ class FarmController extends Controller
      */
     public function displayfarm(Request $request)
     {
-        //
-       // dd($request);
+        //dd($request);
         
         //Display Details of Farm
         $farms=farm::all();
         $id=farm::where('farmcode', $request->id)->first()->id;
-        $farm=$farms->find($id);
+
+        $farm=DB::table('farms')
+        ->leftJoin('users', 'farms.inspectorid', '=','users.id')
+        ->select(
+            'farms.id as id',
+            'farmName',
+            'community',
+            'farmCode',
+            'farmstate',
+            'lastinspection',
+            'nextinspection',
+            'latitude',
+            'longitude',
+            'farmarea',
+            'inspectorid',
+            'measurement',
+            'name', 'users.roles as uroles', 'users.id as uid'
+        )->where('farmcode', $request->id)->first(); 
         $farmreports=DB::table('internalinspections')
         ->leftJoin('reports', 'internalinspections.reportid', '=', 'reports.id')
         ->select('reportname','score','internalinspections.created_at as created_at','inspectionstate','max_score' )
@@ -101,7 +133,8 @@ class FarmController extends Controller
 
 
 
-        return view('viewfarm')->with('farm', $farm)->with('farmreports', $farmreports)->with('user',$users);
+        return view('viewfarm')->with('farm', $farm)
+        ->with('farmreports', $farmreports)->with('users',$users);
     }
 
 

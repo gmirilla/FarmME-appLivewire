@@ -8,7 +8,7 @@ class farm extends Model
 {
     //Hold the Basic details of the Farm
     protected $fillable = [
-        'farmerName',
+        'farmName',
         'community',
         'farmCode',
         'farmstate',

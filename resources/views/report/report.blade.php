@@ -13,7 +13,7 @@
           <label for="floatingSelect">Report Name</label>            
           <button type="submit" class="btn btn-primary">GO</button>
           <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-          data-bs-target="#exampleModal" data-bs-whatever="test for creating">New report</button>  
+          data-bs-target="#exampleModal" data-bs-whatever="">New report</button>  
       </div> 
   </form>
   </div>
