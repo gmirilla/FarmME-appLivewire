@@ -12,7 +12,7 @@
                 </div>
                 <div class="mb-3">
                     <label>FARM CODE</label>
-                    <input type="text" readonly class="form-control" value="{{$farm->farmcode}}">
+                    <input type="text" readonly class="form-control" value="{{$farm->farmCode}}">
                 </div>
                 <div class="mb-3">
                     <label>COMMUNITY</label>
