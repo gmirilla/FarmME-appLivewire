@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use App\Models\farm;
 use App\Models\internalinspection;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class FarmController extends Controller
@@ -95,9 +96,12 @@ class FarmController extends Controller
         ->select('reportname','score','internalinspections.created_at as created_at','inspectionstate','max_score' )
         ->where('farmid',$id)->get();
 
+        #Get List of all Users on System
+        $users=User::all();
 
 
-        return view('viewfarm')->with('farm', $farm)->with('farmreports', $farmreports);
+
+        return view('viewfarm')->with('farm', $farm)->with('farmreports', $farmreports)->with('user',$users);
     }
 
 

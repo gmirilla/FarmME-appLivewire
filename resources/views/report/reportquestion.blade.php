@@ -72,7 +72,7 @@
                     <div><form action="showquestion" method="POST">
                       @csrf
                     <input type="text" hidden value="{{$question->id}}" name="questionid">
-                    <button type="submit" class="btn btn-primary">GO</button>
+                    <button disabled type="submit" class="btn btn-primary">GO</button>
                     </form></div></td>
                   </tr>   
                   @empty
