@@ -6,8 +6,8 @@
                 <div class="card" style="background-color:green; color:white">
                     <i class="fa-solid fa-user"></i> 
                     <div class="card-body">
-                        <h3 class="card-title">{{$usercount}}</h2>
-                      <p class="card-title" style="padding: 16px 0px 16px 0px">Number of Users</hp>
+                        <h3 class="card-title">{{$usercount}}</h3>
+                      <p class="card-title" style="padding: 16px 0px 16px 0px">Number of Users</p>
                       <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
                       <div  class="card-footer" style="text-align: center; ">
                         <h5  style="color: white">More info</h5>
@@ -22,8 +22,8 @@
                 <div class="card" style="background-color:#17a2b8; color:white">
                     <i class="fa-solid fa-user"></i> 
                     <div class="card-body">
-                        <h3 class="card-title">{{$farmcount}}</h2>
-                      <p class="card-title" style="padding: 16px 0px 16px 0px">Number of Farms</hp>
+                        <h3 class="card-title">{{$farmcount}}</h3>
+                      <p class="card-title" style="padding: 16px 0px 16px 0px">Number of Farms</p>
                         <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
                       <div class="card-footer" style="text-align: center; opacity: 0.5;">
                         <h5 style="color: white">More info</h5>
@@ -38,8 +38,8 @@
                 <div class="card" style="background-color:#dc3545; color:white">
                     <i class="fa-solid fa-user"></i> 
                     <div class="card-body">
-                        <h3 class="card-title">{{$inspectioncount}}</h2>
-                      <p class="card-title" style="padding: 16px 0px 16px 0px">Inspections Awaiting Approval</hp>
+                        <h3 class="card-title">{{$inspectioncount}}</h3>
+                      <p class="card-title" style="padding: 16px 0px 16px 0px">Inspections Awaiting Approval</p>
                         <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
                       <div class="card-footer" style="text-align: center; opacity: 0.5;">
                         <h5 style="color: white">More info</h5>
@@ -52,8 +52,22 @@
           <div class="card" style="background-color:#dc3545; color:white">
             <i class="fa-solid fa-user"></i> 
             <div class="card-body">
-                <h3 class="card-title">400ha</h2>
-              <p class="card-title" style="padding: 16px 0px 16px 0px">Total Acreage</hp>
+                <h5 class="card-title">10 Approved    5 Rejected</h5>
+              <p class="card-title" style="padding: 16px 0px 16px 0px">Inspections Completed</p>
+                <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
+              <div class="card-footer" style="text-align: center; opacity: 0.5;">
+                <h5 style="color: white">More info</h5>
+              </div>
+              </a>
+            </div>
+          </div>
+    </div>
+        <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
+          <div class="card" style="background-color:#dc3545; color:white">
+            <i class="fa-solid fa-user"></i> 
+            <div class="card-body">
+                <h3 class="card-title">400ha</h3>
+              <p class="card-title" style="padding: 16px 0px 16px 0px">Total Acreage</p>
                 <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
               <div class="card-footer" style="text-align: center; opacity: 0.5;">
                 <h5 style="color: white">More info</h5>
@@ -66,8 +80,8 @@
       <div class="card" style="background-color:#dc3545; color:white">
         <i class="fa-solid fa-user"></i> 
         <div class="card-body">
-            <h3 class="card-title">45000Kg</h2>
-          <p class="card-title" style="padding: 16px 0px 16px 0px">Estimated Total Yeild</hp>
+            <h3 class="card-title">45000Kg</h3>
+          <p class="card-title" style="padding: 16px 0px 16px 0px">Estimated Total Yeild</p>
             <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
           <div class="card-footer" style="text-align: center; opacity: 0.5;">
             <h5 style="color: white">More info</h5>
