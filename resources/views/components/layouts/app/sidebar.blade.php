@@ -15,8 +15,11 @@
                 <flux:navlist.group heading="Platform" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate style="margin-top:8px;">{{ __('Dashboard') }}</flux:navlist.item>                 
                     <flux:navlist.item icon="photo" href='/farm' style="margin-top:8px;">Farms</flux:navlist.item>
-                    <flux:navlist.item icon="photo" href='/report' style="margin-top:8px;">Reports</flux:navlist.item>
-                    <flux:navlist.item icon="photo" href='/inspection' style="margin-top:8px;">Inspections **TO DO</flux:navlist.item>
+                    <flux:navlist.item icon="photo" href='/report' style="margin-top:8px;">Report Config</flux:navlist.item>
+                    <flux:navlist.item icon="photo" href='/#' style="margin-top:8px;">User Admin</flux:navlist.item>
+                    <flux:navlist.item icon="photo" href='/inspection' style="margin-top:8px;">Farm Onboarding</flux:navlist.item>
+                    <flux:navlist.item icon="photo" href='/inspection' style="margin-top:8px;">Farm Inspections</flux:navlist.item>
+                    
 
                 </flux:navlist.group>
             </flux:navlist>

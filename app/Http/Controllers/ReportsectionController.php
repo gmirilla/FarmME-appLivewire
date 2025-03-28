@@ -28,7 +28,7 @@ class ReportsectionController extends Controller
 
         $newsection->save();
 
-        $sections=reportsection::where('reportid',  $request->reportid)->get();
+        $sections=reportsection::where('reportid',  $request->reportid)->orderBy('section_seq', 'asc')->get();
         $report=reports::where('id',  $request->reportid)->get();
 
 
@@ -53,7 +53,7 @@ class ReportsectionController extends Controller
         //
         
 
-    $sections=reportsection::where('reportid',$request->reportid)->get();
+    $sections=reportsection::where('reportid',$request->reportid)->orderBy('section_seq', 'asc')->get();
     $report=reports::where('id',$request->reportid)->get();
 
 

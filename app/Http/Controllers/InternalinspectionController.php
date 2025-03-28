@@ -20,7 +20,7 @@ class InternalinspectionController extends Controller
      */
     public function index()
     {
-        //TO DO GET ID and Rank of User
+        //TO DO GET ID and Role of User
         Auth::check();
         $user = Auth::user();
 
@@ -42,7 +42,7 @@ class InternalinspectionController extends Controller
 
     public function new(Request $request)
     {
-        //TO DO GET ID and Rank of User
+        //TO DO GET ID and Role of User
         // allow users to begin a new inspection of any farm assigned to them
         Auth::check();
         $user = Auth::user();
@@ -76,7 +76,7 @@ class InternalinspectionController extends Controller
         $farm=farm::where('id',$request->farmid)->first();
         $report=reports::where('reportstate', 'ACTIVE')->where('id', $request->reportid)->first();
         $reportsections=reportsection::where('reportid',$request->reportid)->where('sectionstate', 'ACTIVE')->get();
-        $reportquestions=reportquestions::where('reportid',$request->reportid)->where('questionstate', 'ACTIVE')->get();
+        $reportquestions=reportquestions::where('reportid',$request->reportid)->where('questionstate', 'ACTIVE')->orderBy('question_seq', 'asc')->get();
         
 
 
@@ -153,7 +153,7 @@ class InternalinspectionController extends Controller
         $farm=farm::where('id',$request->farmid)->first();
         $report=reports::where('reportstate', 'ACTIVE')->where('id', $inspection->reportid)->first();
         $reportsections=reportsection::where('reportid',$inspection->reportid)->where('sectionstate', 'ACTIVE')->get();
-        $reportquestions=reportquestions::where('reportid',$inspection->reportid)->where('questionstate', 'ACTIVE')->get();
+        $reportquestions=reportquestions::where('reportid',$inspection->reportid)->where('questionstate', 'ACTIVE')->orderBy('question_seq', 'asc')->get();
         #Get the number of questions in the section
         $question=$request->question;
         $answers=$request->answers;

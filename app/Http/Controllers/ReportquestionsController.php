@@ -27,7 +27,7 @@ class ReportquestionsController extends Controller
         $section=reportsection::where('id', $request->sectionid)->first();
         
         $report=reports::where('id', $request->reportid)->first();
-        $questions=reportquestions::where('reportsectionid',$request->sectionid)->get();
+        $questions=reportquestions::where('reportsectionid',$request->sectionid)->orderBy('question_seq', 'asc')->get();
 
 
 
@@ -80,7 +80,7 @@ class ReportquestionsController extends Controller
 
         $newquestion->save();
 
-        $questions=reportquestions::where('reportsectionid',$request->reportsectionid)->get();
+        $questions=reportquestions::where('reportsectionid',$request->reportsectionid)->orderBy('question_seq', 'asc')->get();
 
         #Get all ACTIVE questions on current report
         $allquestions=reportquestions::where('reportid',$request->reportid)->where('questionstate','ACTIVE')->get();
@@ -114,11 +114,14 @@ class ReportquestionsController extends Controller
 
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for editing a question.
      */
-    public function create()
+    public function editquestion(Request $request)
     {
-        //
+        //TO DO **
+        
+
+        return view('report.report_edit_question');
     }
 
     /**
