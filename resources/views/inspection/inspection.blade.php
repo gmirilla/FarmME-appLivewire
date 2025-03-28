@@ -15,6 +15,7 @@
 <tbody>
     <thead>
         <th>#</th>
+        <th>Type</th>
         <th>Farm</th>
         <th>Updated date</th>
         <th>Status</th>
@@ -22,6 +23,7 @@
         <th>Action</th>
     </thead>
     @forelse ($inspections as $inspection)
+    <td></td>
     <td></td>
     <td>{{$inspection->farmcode}} | {{$inspection->farmname}}</td>
     <td>{{$inspection->updated_at}}</td>

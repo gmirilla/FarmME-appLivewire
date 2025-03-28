@@ -18,9 +18,14 @@ class dashboardController extends Controller
         #Get number of users on System
         $usercount=User::where('roles','like', '%ACTIVE%' )->count();
         $farmcount=farm::where('farmstate','like', '%ACTIVE%' )->count();
+        $farmpendingcount=farm::where('farmstate','like', '%PENDING%' )->count();
         $inspectioncount=internalinspection::where('inspectionstate','like', '%SUBMITTED%' )->count();
 
-        return view('dashboard')->with('usercount',$usercount)->with('farmcount',$farmcount)->with('inspectioncount',$inspectioncount);
+        return view('dashboard')
+        ->with('usercount',$usercount)
+        ->with('farmcount',$farmcount)
+        ->with('inspectioncount',$inspectioncount)
+        ->with('farmpendingcount',$farmpendingcount);
     }
 
     /**

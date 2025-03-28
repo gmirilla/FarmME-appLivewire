@@ -88,6 +88,7 @@ class ReportquestionsController extends Controller
          #Calculte and Update report Maximum scores 
          #QUESTION TYPEA (YES/NO) =2
          #QUESTION TYPEB (POOR/FAIR/GOOD/VERYGOOD)=4 
+         #QUESTION TYPEC Comment Only =0
          $maxscore=0;
          foreach ($allquestions as $question) {
             switch ($question->questiontype) {
@@ -96,6 +97,8 @@ class ReportquestionsController extends Controller
                     
                 case 'TYPEA':
                     $maxscore=$maxscore+2;
+                case 'TYPEC':
+                        $maxscore=$maxscore+0;
                 default:
                     $maxscore=0;
             }

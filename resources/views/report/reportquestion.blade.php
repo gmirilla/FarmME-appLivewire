@@ -33,6 +33,7 @@
                 <select id="floatingQuestiontype" name="questiontype">
                     <option value="TYPEA">YES/NO</option>
                     <option value="TYPEB">POOR/FAIR/GOOD/V.GOOD</option>
+                    <option value="TYPEC">COMMENTS ONLY</option>
                 </select>
             </div>
             <div class="col-1">
