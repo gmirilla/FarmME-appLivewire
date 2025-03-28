@@ -67,6 +67,7 @@ class FarmController extends Controller
         $newfarm->farmname=$request->farmowner;
         $newfarm->community=$request->community;
         $newfarm->farmcode=$request->farmcode;
+        $newfarm->farmstate='PENDING';
         
         
         $newfarm->save();

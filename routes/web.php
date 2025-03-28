@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\dashboardController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\FarmController;
@@ -13,9 +14,16 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::view('dashboard', 'dashboard')
+Route::view('dashboard', 'dashboard2')
     ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+    ->name('dashboard2');
+
+
+    Route::middleware(['auth','verified'])->group(function () {
+        
+        Route::get('/dashboard', [dashboardController::class, 'index'])->name('dashboard');
+
+    });
 
     /** 
 Route::view('farm', 'farm')
