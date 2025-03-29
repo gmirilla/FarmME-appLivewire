@@ -20,9 +20,10 @@ class InternalinspectionController extends Controller
      */
     public function index()
     {
-        //TO DO GET ID and Role of User
-        Auth::check();
-        $user = Auth::user();
+                //Check if user is authorized to view resource
+                Auth::check();
+                $user = Auth::user();
+        
 
         $inspections = DB::table('internalinspections')
     ->join('farms', 'internalinspections.farmid', '=', 'farms.id')
@@ -42,12 +43,10 @@ class InternalinspectionController extends Controller
 
     public function new(Request $request)
     {
-        //TO DO GET ID and Role of User
-        // allow users to begin a new inspection of any farm assigned to them
-        Auth::check();
-        $user = Auth::user();
-
-
+                  //Check if user is authorized to view resource
+                  Auth::check();
+                  $user = Auth::user();
+          
 
         $inspections= internalinspection::where('inspectorid', $user->id)->get();
         $farms=farm::where('inspectorid',$user->id)->get();
@@ -64,13 +63,9 @@ class InternalinspectionController extends Controller
 
     public function start(Request $request)
     {
-        //TO DO GET ID and Rank of User
-        // allow users to begin a new inspection of any farm assigned to them
-        Auth::check();
-        $user = Auth::user();
-
-
-
+                //Check if user is authorized to view resource
+                Auth::check();
+                $user = Auth::user();
 
         $newinspection= internalinspection::where('id', $request->internalinspectionid)->get();
         $farm=farm::where('id',$request->farmid)->first();
@@ -235,51 +230,4 @@ class InternalinspectionController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(internalinspection $internalinspection)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(internalinspection $internalinspection)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, internalinspection $internalinspection)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(internalinspection $internalinspection)
-    {
-        //
-    }
 }

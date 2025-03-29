@@ -8,20 +8,27 @@ use App\Http\Controllers\InternalinspectionController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ReportsectionController;
 use App\Http\Controllers\ReportquestionsController;
+use App\Http\Controllers\userController;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-
+/** 
 Route::view('dashboard', 'dashboard2')
     ->middleware(['auth', 'verified'])
     ->name('dashboard2');
+*/
+Route::middleware('auth')->group(function () {
+    Route::get('user_admin',[userController::class, 'index'])->name('user_admin'); 
+    Route::post('user_update',[userController::class, 'user_update'])->name('user_update'); 
 
+});
 
     Route::middleware(['auth','verified'])->group(function () {
         
         Route::get('/dashboard', [dashboardController::class, 'index'])->name('dashboard');
+        Route::view('/unauthorized', 'unauthorized')->name('unauthorized');
 
     });
 

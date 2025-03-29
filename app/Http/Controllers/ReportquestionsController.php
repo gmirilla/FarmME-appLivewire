@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\reportquestions;
 use App\Models\reportsection;
 use App\Models\reports;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReportquestionsController extends Controller
 {
@@ -22,7 +24,14 @@ class ReportquestionsController extends Controller
     public function showquestion(Request $request)
     {
 
-       // dd($request);
+                //Check if user is authorized to view resource
+            
+                Auth::check();
+                $user = Auth::user();
+        
+                if ($user->roles!='ADMINISTRATOR') {
+                    return view('unauthorized');
+                }
 
         $section=reportsection::where('id', $request->sectionid)->first();
         
@@ -65,6 +74,13 @@ class ReportquestionsController extends Controller
     public function newquestion(Request $request)
     {
         //
+                        //Check if user is authorized to view resource
+                        Auth::check();
+                        $user = Auth::user();
+                
+                        if ($user->roles!='ADMINISTRATOR') {
+                            return view('unauthorized');
+                        }
 
         $section=reportsection::where('id', $request->reportsectionid)->first();
         
@@ -122,48 +138,15 @@ class ReportquestionsController extends Controller
     public function editquestion(Request $request)
     {
         //TO DO **
-        
+                        //Check if user is authorized to view resource
+                        Auth::check();
+                        $user = Auth::user();
+                
+                        if ($user->roles!='ADMINISTRATOR') {
+                            return view('unauthorized');
+                        }
 
         return view('report.report_edit_question');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(reportquestions $reportquestions)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(reportquestions $reportquestions)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, reportquestions $reportquestions)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(reportquestions $reportquestions)
-    {
-        //
-    }
 }
