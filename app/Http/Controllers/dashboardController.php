@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\farm;
 use App\Models\internalinspection;
 use Illuminate\Http\Request;
@@ -15,11 +16,32 @@ class dashboardController extends Controller
     public function index()
     {
         //
-        #Get number of users on System
-        $usercount=User::where('roles','like', '%ACTIVE%' )->count();
-        $farmcount=farm::where('farmstate','like', '%ACTIVE%' )->count();
-        $farmpendingcount=farm::where('farmstate','like', '%PENDING%' )->count();
-        $inspectioncount=internalinspection::where('inspectionstate','like', '%SUBMITTED%' )->count();
+                //Check if user is authorized to view resource
+                Auth::check();
+                $user = Auth::user();
+
+        switch ($user->roles) {
+            case 'ADMINISTRATOR':
+                # code...
+                $usercount=User::where('roles','like', '%ACTIVE%' )->count();
+                $farmcount=farm::where('farmstate','like', '%ACTIVE%' )->count();
+                $farmpendingcount=farm::where('farmstate','like', '%PENDING%' )->count();
+                $inspectioncount=internalinspection::where('inspectionstate','like', '%SUBMITTED%' )->count();
+                break;
+            case 'INSPECTOR':
+                # code...
+                $usercount=1;
+                $farmcount=farm::where('farmstate','like', '%ACTIVE%' )->where('inspectorid',$user->id)->count();
+                $farmpendingcount=farm::where('farmstate','like', '%PENDING%' )->where('inspectorid',$user->id)->count();
+                $inspectioncount=internalinspection::where('inspectionstate','like', '%SUBMITTED%' )->where('inspectorid',$user->id)->count(); 
+                break;
+                        
+            default:
+                # code...
+                return redirect()->route('unauthorized');
+                break;
+        }     
+    
 
         return view('dashboard')
         ->with('usercount',$usercount)
@@ -36,43 +58,5 @@ class dashboardController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

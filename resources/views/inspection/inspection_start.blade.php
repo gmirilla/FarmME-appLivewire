@@ -37,7 +37,31 @@
                 <tr>
                     <td class="col-1">{{$counter+1}}</td>
                     <td class="col-4">{{$question->question}}</td>
-                    <td class="col-2"> 
+                    <td class="col-2">
+
+                        @switch($question->questiontype)
+                            @case("TYPEA")
+                            <!-- Html to handle TypeB questions (Yes/NO)-->
+                            <div class="form-check">
+                                @if ($question->answer==1)
+                                <input class="form-check-input"   checked type="radio" id="yes" name="answers[{{$counter}}]" value="1" required>
+                                @else
+                                <input class="form-check-input"  type="radio" id="yes" name="answers[{{$counter}}]" value="1" required>
+                                @endif
+                                <label class="form-check-label" for="yes">YES</label>
+                            </div>
+                            <div class="form-check">
+                                @if ($question->answer==2)
+                                <input class="form-check-input"   checked type="radio" id="no" name="answers[{{$counter}}]" value="2">
+                                @else
+                                <input class="form-check-input"  type="radio" id="no" name="answers[{{$counter}}]" value="2">
+                                @endif
+                                <label class="form-check-label" for="no">NO</label>
+                            </div>
+                                
+                                @break
+                            @case("TYPEB")
+                     <!-- Html to handle TypeB questions (Poor/fair/good/v.good)-->
                         <div class="form-check">
                             @if ($question->answer==1)
                             <input class="form-check-input"   checked type="radio" id="poor" name="answers[{{$counter}}]" value="1" required>
@@ -69,11 +93,25 @@
                             <input class="form-check-input"  type="radio" id="vgood" name="answers[{{$counter}}]" value="4">
                             @endif
                             <label class="form-check-label" for="vgood">Very Good</label>
-                        </div>              
+                        </div> 
+                            @break
+
+                            @case("TYPEC") 
+                            <!-- Html to handle TypeB questions (comments only)-->
+                            <div class="form-check">
+                                <input class="form-check-input"   checked type="radio" id="commentonly" name="answers[{{$counter}}]" value="1" required>
+                                <label class="form-check-label" for="commentsonly">Comment Only</label>
+                            </div>   
+                            @break
+                        
+                            @default
+                                
+                        @endswitch
                     </td>
                     <td class="col-3">
                         <textarea class="form-control" name="comments[]" placeholder="Enter any Remarks/Justification">{{$question->sectionidcomments}}</textarea>
                         <input class="form-check-input"  hidden type="number" id="question" name="question[]" value="{{$question->id}}" >
+                        <input class="form-check-input"  hidden type="number" id="sectionid" name="sectionid[]" value="{{$question->reportsectionid}}" >
                     </td>
                 </tr>
                 @php

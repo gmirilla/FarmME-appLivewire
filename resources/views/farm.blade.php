@@ -1,5 +1,8 @@
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 <x-layouts.app>
-  
 <div>
 <!--
 <form method='get' action='dashboard'>
@@ -7,11 +10,11 @@
   <input type="submit" class="btn btn-success" value="Search **TO DO">
 <form>
 -->
-  <a href='/newfarm' ><button type="button" class="btn btn-primary" style="margin:5px"> Register New Farm</button> </a>   
+  <a href='/newfarm' class="btn btn-primary" style="margin:5px"> Register New Farm</a>   
 </div>
 <div>
 
-    <table class="table table-striped">
+    <table class="table table-striped display" id="farms" style="width:100%">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -42,8 +45,10 @@
             <td>{{$farm->nextinspection}}</td>
             <td>{{$farm->farmstate}}</td>
             <td>
+              @if ($user->roles=='ADMINISTRATOR')
               <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-               data-bs-target="#exampleModal" data-bs-whatever="{{$farm->farmcode}}">Schedule Inspection</button>            
+              data-bs-target="#exampleModal" data-bs-whatever="{{$farm->farmcode}}">Schedule Inspection</button>    
+              @endif
               <a href="/farm/view?id={{$farm->farmcode}}" type="button" class="btn btn-success" style="margin:5px">View Farm</a></td>
           </tr>
             
@@ -100,6 +105,9 @@ exampleModal.addEventListener('show.bs.modal', function (event) {
   modalTitle.textContent = 'Schedule Inspection for  ' + recipient
   modalBodyInput.value = recipient
 })
+</script>
+<script>
+  new DataTable('#farms');
 </script>
 </x-layouts.app>
 

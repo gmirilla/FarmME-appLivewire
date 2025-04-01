@@ -52,10 +52,10 @@ Route::middleware('auth')->group(function () {
     });
 
 Route::middleware('auth')->group(function () {
-    Route::get('report',[ReportsController::class, 'new'])->name('new');
+    Route::get('report',[ReportsController::class, 'new'])->name('viewreports');
     Route::get('report/new',[ReportsController::class, 'new_report'])->name('new_report');
     Route::post('report/new',[ReportsController::class, 'new_report'])->name('new_report');
-    Route::post('report/showsection',[ReportsectionController::class, 'showsection'])->name('showsection');
+    Route::post('report/showsection',[ReportsectionController::class, 'showsection'])->name('showsectionreport');
     Route::post('report/getsection',[ReportsectionController::class, 'getsection'])->name('getsection');
     Route::post('report/newsection',[ReportsectionController::class, 'newsection'])->name('newsection');
     Route::post('report/showquestion',[ReportquestionsController::class, 'showquestion'])->name('showquestion');
@@ -64,10 +64,15 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('inspection',[InternalinspectionController::class, 'index'])->name('index');
+    Route::get('inspection',[InternalinspectionController::class, 'index'])->name('inspection');
     Route::get('inspection/new',[InternalinspectionController::class, 'new'])->name('new');
     Route::post('inspection/start',[InternalinspectionController::class, 'start'])->name('start');
     Route::post('inspection/nextsection',[InternalinspectionController::class, 'nextsection'])->name('nextsection');
+    Route::post('inspection/continue',[InternalinspectionController::class, 'continue'])->name('continue');
+    Route::get('inspection_approval',[InternalinspectionController::class, 'iapproval'])->name('iapproval');
+    Route::post('iapprove',[InternalinspectionController::class, 'iapprove'])->name('iapprove');
+    Route::post('ireject',[InternalinspectionController::class, 'iapprove'])->name('ireject');
+
 });
 
 Route::middleware(['auth'])->group(function () {

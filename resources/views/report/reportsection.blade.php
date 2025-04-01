@@ -1,4 +1,9 @@
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 <x-layouts.app>
+  <div>
   <div>
       <div class="form-floating col-md">
         @forelse ($reports as $report)
@@ -39,8 +44,8 @@
   </div>
 
   <div>
-    <table class="table table-striped">
-      <tbody>
+    <table class="table table-striped display" id="reports" style="width:100%">
+      
         <thead>
           <th>#</th>
           <th>Section Name </th>
@@ -48,6 +53,7 @@
           <th>Active</th>
           <th>Action</th>
         </thead>
+        <tbody>
         @php
          $counter=0;       
         @endphp
@@ -56,6 +62,7 @@
             @php
             $counter+=1;       
            @endphp
+           
             <tr>
             <td>{{$counter}}</td> 
             <td>{{$section->sectionname}}</td>
@@ -76,4 +83,8 @@
       </tbody>
     </table>
   </div>
+  </div>
+  <script>
+    new DataTable('#reports');
+</script>
 </x-layouts.app>

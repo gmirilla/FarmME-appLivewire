@@ -45,6 +45,17 @@
                             </label>
                             <input type="number" hidden name='userid' value="{{$user->id}}">
                             </div>
+                            <div class="form-check">
+                                @if (str_contains($user->roles,'NONE'))
+                                <input class="form-check-input" type="radio"  name="userrole" checked value="NONE" id="flexCheckDefault">  
+                                @else
+                                <input class="form-check-input" type="radio" name="userrole"  value="NONE" id="flexCheckDefault">   
+                                @endif
+                                <label class="form-check-label" for="flexCheckDefault">
+                                  NONE
+                                </label>
+                                <input type="number" hidden name='userid' value="{{$user->id}}">
+                                </div>
                     </td>
                     <td>
                        <button class="btn btn-success" >GO</button>

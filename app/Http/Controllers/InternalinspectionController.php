@@ -12,6 +12,7 @@ use App\Models\reportquestions;
 use App\Models\reports;
 use App\Models\reportsection;
 use Illuminate\Http\Request;
+use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 
 class InternalinspectionController extends Controller
 {
@@ -29,7 +30,7 @@ class InternalinspectionController extends Controller
     ->join('farms', 'internalinspections.farmid', '=', 'farms.id')
     ->join('reports','internalinspections.reportid', '=', 'reports.id') // Join the 'insternalinspections' and 'farms' tables
     ->select('farmcode','farmname','inspectionstate', 'internalinspections.id as iid','farms.id','internalinspections.reportid as reportid','score','max_score',
-    'internalinspections.inspectorid as inspectorid' , 'internalinspections.updated_at')
+    'internalinspections.inspectorid as inspectorid' , 'internalinspections.updated_at', 'reportname')
     ->where('internalinspections.inspectorid', $user->id)            // Select specific columns
     ->get();
 
@@ -86,30 +87,6 @@ class InternalinspectionController extends Controller
             $newinspection->inspectionstate='ACTIVE';
             $newinspection->save();
         } 
-        /** 
-        else {
-         #retrieve previously filled inspection sheet and answers
-         $newinspection= internalinspection::where('id',$request->internalinspectionid)->first();
-        // dd($newinspection);
-         $reportquestions= DB::table('reportquestions')
-         ->leftJoin('inspectionanswers','reportquestions.id' , '=', 'inspectionanswers.questionid') // Join the 'reportquestions' and 'answers' tables
-         ->select(
-            'reportquestions.id as id',
-            'reportquestions.reportid  as reportid',
-            'reportquestions.reportsectionid as reportsectionid',
-            'reportquestions.question_seq as question_seq',
-            'reportquestions.question as question',
-            'reportquestions.questiontype as questiontype',
-            'reportquestions.questionstate as questionstate',
-            'answer','sectionidcomments'
-         )
-         ->where('reportquestions.reportid',$request->reportid)->where('reportquestions.questionstate', 'ACTIVE')->where('internalinspectionid',$request->inspectionreportid)
-         ->get();        // Select specific columns
-        } 
-     */
-
-
-
         $sectioncounter=$request->sectioncounter;
 
         if ($sectioncounter == null) {
@@ -139,7 +116,7 @@ class InternalinspectionController extends Controller
         Auth::check();
         $user = Auth::user();
 
-       // dd($request);
+   // dd($request);
 //
         
 
@@ -147,8 +124,10 @@ class InternalinspectionController extends Controller
 
         $farm=farm::where('id',$request->farmid)->first();
         $report=reports::where('reportstate', 'ACTIVE')->where('id', $inspection->reportid)->first();
-        $reportsections=reportsection::where('reportid',$inspection->reportid)->where('sectionstate', 'ACTIVE')->get();
+        $reportsections=reportsection::where('reportid',$inspection->reportid)->where('sectionstate', 'ACTIVE')->orderBy('section_seq', 'asc')->get();
         $reportquestions=reportquestions::where('reportid',$inspection->reportid)->where('questionstate', 'ACTIVE')->orderBy('question_seq', 'asc')->get();
+        
+        
         #Get the number of questions in the section
         $question=$request->question;
         $answers=$request->answers;
@@ -157,46 +136,59 @@ class InternalinspectionController extends Controller
 
 
         #loop thru array 
-        #TO DO create a validation check to limit double posting
+        # a validation check to limit double posting
         $score=$inspection->score;
+        $updatescore=0;
         for ($i=0; $i < count($answers); $i++) { 
-            $newanswer= new inspectionanswers();
-            $newanswer->questionid=$question[$i];
-            $newanswer->answer=$answers[$i];
-            $newanswer->sectionidcomments=$comments[$i];
-            $newanswer->reportid=$report->id;
-            $newanswer->internalinspectionid=$request->inspectionreportid;
-            $newanswer->save();
+            $checkanswer=inspectionanswers::where('internalinspectionid', $request->inspectionreportid)->where('questionid',$question[$i])->first();
+            $checkcount=inspectionanswers::where('internalinspectionid', $request->inspectionreportid)->where('questionid',$question[$i])->count();
+            if ($checkcount==0) {
+                # This question has not been answered for this report before, save answer as new record
+                $newanswer= new inspectionanswers();
+                $newanswer->questionid=$question[$i];
+                $newanswer->answer=$answers[$i];
+                $newanswer->sectionidcomments=$comments[$i];
+                $newanswer->reportid=$report->id;
+                $newanswer->internalinspectionid=$request->inspectionreportid;
+                $newanswer->sectionid=$request->sectionid[$i];
+                $newanswer->save();
+
+            } else {
+                # this question has been answered previously double posting update record
+                $updatescore=$updatescore+$checkanswer->answer;
+                $checkanswer->questionid=$question[$i];
+                $checkanswer->answer=$answers[$i];
+                $checkanswer->sectionidcomments=$comments[$i];
+                $checkanswer->reportid=$report->id;
+                $checkanswer->sectionid=$request->sectionid[$i];
+                $checkanswer->internalinspectionid=$request->inspectionreportid;
+                $checkanswer->save();
+            }
+            
+   
             $score=$score+$answers[$i];
         }
         #Update Inspection REport score
-        $inspection->score=$score;
+        $inspection->score=$score -$updatescore;
         $inspection->save();
-
-/*
-        # TODO previous answers
-         #retrieve previously filled inspection sheet and answers
-         $newinspection= internalinspection::where('id',$request->internalinspectionid)->first();
-        // dd($newinspection);
-         $reportquestions= DB::table('reportquestions')
-         ->leftJoin('inspectionanswers','reportquestions.id' , '=', 'inspectionanswers.questionid') // Join the 'reportquestions' and 'answers' tables
-         ->select(
-            'reportquestions.id as id',
-            'reportquestions.reportid  as reportid',
-            'reportquestions.reportsectionid as reportsectionid',
-            'reportquestions.question_seq as question_seq',
-            'reportquestions.question as question',
-            'reportquestions.questiontype as questiontype',
-            'reportquestions.questionstate as questionstate',
-            'answer','sectionidcomments'
-         )
-         ->where('reportquestions.reportid',$request->reportid)->where('reportquestions.questionstate', 'ACTIVE')->where('internalinspectionid',$request->inspectionreportid)
-         ->get();   
-
-*/
-
-
-
+               #Get Previous Answers
+               $reportquestions= DB::table('reportquestions')
+               ->leftJoin('inspectionanswers','reportquestions.id' , '=', 'inspectionanswers.questionid') // Join the 'reportquestions' and 'answers' tables
+               ->select(
+                  'reportquestions.id as id',
+                  'reportquestions.reportid  as reportid',
+                  'reportquestions.reportsectionid as reportsectionid',
+                  'reportquestions.question_seq as question_seq',
+                  'reportquestions.question as question',
+                  'reportquestions.questiontype as questiontype',
+                  'reportquestions.questionstate as questionstate',
+                  'answer','sectionidcomments'
+               )
+               ->where('reportquestions.reportid',$inspection->reportid)->where('reportquestions.questionstate', 'ACTIVE')
+              ->where('internalinspectionid',$inspection->id)->orderBy('question_seq', 'asc')
+               ->get(); 
+               
+          
         $sectioncounter=$request->sectioncounter;
 
         #check if at the last section 
@@ -206,16 +198,23 @@ class InternalinspectionController extends Controller
             $inspection->inspectionstate='SUBMITTED';
             $inspection->save();
 
-            #Return  to Inspections view 
-            $inspections = DB::table('internalinspections')
-            ->join('farms', 'internalinspections.farmid', '=', 'farms.id') // Join the 'insternalinspections' and 'farms' tables
-            ->select('farmcode','farmname','inspectionstate', 'internalinspections.id','farms.id','score',
-            'internalinspections.inspectorid', 'internalinspections.updated_at')
-            ->where('internalinspections.inspectorid', $user->id)            // Select specific columns
-            ->get();
+            #Return  to Dashboard view 
         
         
-                return view('dashboard');
+                return redirect()->route('inspection');
+        }
+
+        #block of code to populate unanswered questions stack 
+        $currentsection= $reportsections[$request->sectioncounter]->id;
+        $test=inspectionanswers::where('sectionid',$currentsection)->where('internalinspectionid',$inspection->id) ->get();
+        echo $currentsection;
+        if ($test->count()>1) {
+            # "More questions answered"; Do nothing
+
+        } else {
+            # " No More questions answered" repopulate all questions on report
+
+            $reportquestions=reportquestions::where('reportid',$inspection->reportid)->where('questionstate', 'ACTIVE')->orderBy('question_seq', 'asc')->get();
         }
         
 
@@ -229,5 +228,143 @@ class InternalinspectionController extends Controller
 
 
     }
+
+
+
+    public function continue(Request $request)
+    {
+                //Check if user is authorized to view resource
+                Auth::check();
+                $user = Auth::user();
+
+                #first determine how many sections does the report have
+                $sectioncount=reportsection::where('reportid', $request->id)->count();
+
+                #GET previously completed inspection sheet
+               $inspection=internalinspection::where('id', $request->inspectionid)->first();
+
+               #Get Previous Answers
+               $reportquestions= DB::table('reportquestions')
+               ->leftJoin('inspectionanswers','reportquestions.id' , '=', 'inspectionanswers.questionid') // Join the 'reportquestions' and 'answers' tables
+               ->select(
+                  'reportquestions.id as id',
+                  'reportquestions.reportid  as reportid',
+                  'reportquestions.reportsectionid as reportsectionid',
+                  'reportquestions.question_seq as question_seq',
+                  'reportquestions.question as question',
+                  'reportquestions.questiontype as questiontype',
+                  'reportquestions.questionstate as questionstate',
+                  'answer','sectionidcomments'
+               )
+               ->where('reportquestions.reportid',$inspection->reportid)->where('reportquestions.questionstate', 'ACTIVE')
+               ->where('internalinspectionid',$inspection->id)->orderBy('question_seq', 'asc')
+               ->get(); 
+
+
+
+    $farm=farm::where('id',$request->farmid)->first();
+    $report=reports::where('reportstate', 'ACTIVE')->where('id', $inspection->reportid)->first();
+    $reportsections=reportsection::where('reportid',$inspection->reportid)->where('sectionstate', 'ACTIVE')->get();
+    $sectioncounter=0;
+
+###
+###
+        #block of code to populate unanswered questions stack 
+        $reportsections=reportsection::where('reportid',$inspection->reportid)->where('sectionstate', 'ACTIVE')->orderBy('section_seq', 'asc')->get();
+        $test=inspectionanswers::where('internalinspectionid',$inspection->id) ->get();
+
+        if ($test->count()>1) {
+            # "More questions answered"; Do nothing
+
+        } else {
+            # " No More questions answered" repopulate all questions on report
+
+            $reportquestions=reportquestions::where('reportid',$inspection->reportid)->where('questionstate', 'ACTIVE')->orderBy('question_seq', 'asc')->get();
+        }
+        
+
+        //return view('inspection.inspection_review')->with('reportquestion',$reportquestions);
+        return view('inspection.inspection_start')
+        ->with('farm',$farm)
+        ->with('report', $report)
+        ->with('reportsections',$reportsections)
+        ->with('reportquestions',$reportquestions)
+        ->with('sectioncounter', $sectioncounter)
+        ->with('inspection',$inspection);
+
+
+
+    }
+
+    
+    public function iapproval()
+    {
+                  //Check if user is authorized to view resource
+                  Auth::check();
+                  $user = Auth::user();
+
+                  if (str_contains($user->roles,'ADMINISTRATOR')) {
+                    # only viewable by administrators
+                    $inspections= DB::table('internalinspections')
+                    ->leftJoin('reports', 'internalinspections.reportid', '=','reports.id')
+                    ->leftJoin('farms', 'internalinspections.farmid','=', 'farms.id')
+                    ->select('reportname','max_score','score','internalinspections.id as iid', 'farmname','inspectionstate', 'internalinspections.created_at as cdate')
+                    ->get();
+
+                    return view('inspection.inspection_review')->with('reportquestions',$inspections);
+                  }
+
+
+
+                  return redirect()->route('unauthorized');
+
+
+    }
+    public function iapprove(Request $request)
+    {
+                  //Check if user is authorized to view resource
+                  Auth::check();
+                  $user = Auth::user();
+                  $inspection=internalinspection::where('id',$request->iid)->first();
+
+                  if (str_contains($user->roles,'ADMINISTRATOR')) {
+
+                    # approve inspection
+                    if ($request->has('approvebtn')) {
+                        # code...
+                        dd($request);
+                        $inspection->inspectionstate='APPROVED';
+
+                    }
+                    if ($request->has('rejectbtn')) {
+                        # code...
+                        dd($request);
+                        $inspection->inspectionstate='REJECTED';
+
+                    }
+                    $inspection->save();
+
+                    return redirect()->route('iapproval');
+                  }
+
+
+
+                  return redirect()->route('unauthorized');
+
+
+    }
+
+    public function ireject(Request $request)
+    {
+                  //Check if user is authorized to view resource
+                  Auth::check();
+                  $user = Auth::user();
+
+                  return redirect()->route('unauthorized');
+
+
+    }
+
+
 
 }

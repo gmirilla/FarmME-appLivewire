@@ -7,6 +7,7 @@ use App\Models\farm;
 use App\Models\internalinspection;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FarmController extends Controller
 {
@@ -16,10 +17,30 @@ class FarmController extends Controller
     public function index()
     {
         //
+                        //Check if user is authorized to view resource
+                        Auth::check();
+                        $user = Auth::user();
+        
+                switch ($user->roles) {
+                    case 'ADMINISTRATOR':
+                        # code...
+                        $farmlist=farm::all();
+                        break;
+                    case 'INSPECTOR':
+                        # code...
+                        $farmlist=farm::where('inspectorid',$user->id)->get(); 
+                        break;
+                                
+                    default:
+                        # code...
+                        return redirect()->route('unauthorized');
+                        break;
+                }  
+  
 
-        $farmlist=farm::latest()->paginate(25);
+        
 
-        return view('farm')->with('farmlist', $farmlist);
+        return view('farm')->with('farmlist', $farmlist)->with('user',$user);
     }
 
         /**
@@ -44,6 +65,23 @@ class FarmController extends Controller
     public function create()
     {
         //
+        Auth::check();
+        $user = Auth::user();
+
+switch ($user->roles) {
+    case 'ADMINISTRATOR':
+        # code...
+        break;
+    case 'INSPECTOR':
+        # code...
+        return redirect()->route('unauthorized');
+        break;
+                
+    default:
+        # code...
+        return redirect()->route('unauthorized');
+        break;
+}  
 
         return view('newfarm');
 
@@ -139,35 +177,4 @@ class FarmController extends Controller
     }
 
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(farm $farm)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(farm $farm)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, farm $farm)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(farm $farm)
-    {
-        //
-    }
 }

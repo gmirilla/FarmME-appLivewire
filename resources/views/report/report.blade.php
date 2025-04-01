@@ -1,4 +1,9 @@
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 <x-layouts.app>
+
   <div>
     <form method="post" action='/report/showsection' >
       @csrf
@@ -19,7 +24,7 @@
   </div>
 
   <div>
-    <table class="table table-striped">
+    <table class="table table-striped" id="reportdt">
       <tbody>
         <thead>
           <th>#</th>
@@ -57,4 +62,7 @@
     </div>
   </div>
 </div>
+<script>
+  new DataTable('#reportdt');
+</script>
 </x-layouts.app>

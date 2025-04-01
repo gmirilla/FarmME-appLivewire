@@ -19,7 +19,7 @@
                     <flux:navlist.item icon="users" href='/user_admin' style="margin-top:8px;">User Admin</flux:navlist.item>
                     <flux:navlist.item icon="photo" href='/inspection' style="margin-top:8px;">Farm Onboarding</flux:navlist.item>
                     <flux:navlist.item icon="photo" href='/inspection' style="margin-top:8px;">Farm Inspections</flux:navlist.item>
-                    
+                    <flux:navlist.item icon="clipboard-document-check" href='/inspection_approval' style="margin-top:8px;">Inspection Reviews</flux:navlist.item>
 
                 </flux:navlist.group>
             </flux:navlist>

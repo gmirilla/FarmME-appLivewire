@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use function Ramsey\Uuid\v1;
 
@@ -15,6 +16,28 @@ class userController extends Controller
     public function index()
     {
         //
+           //Check if user is authorized to view resource
+           Auth::check();
+           $user = Auth::user();
+
+   switch ($user->roles) {
+       case 'ADMINISTRATOR':
+           # code...
+           $users=User::all();
+    
+           break;
+       case 'INSPECTOR':
+           # code...
+           return redirect()->route('unauthorized');
+           break;
+                   
+       default:
+           # code...
+           return redirect()->route('unauthorized');
+           break;
+   }     
+
+        
         $users=User::all();
     
 
