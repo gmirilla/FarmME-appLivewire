@@ -332,13 +332,13 @@ class InternalinspectionController extends Controller
                     # approve inspection
                     if ($request->has('approvebtn')) {
                         # code...
-                        dd($request);
+    
                         $inspection->inspectionstate='APPROVED';
 
                     }
                     if ($request->has('rejectbtn')) {
                         # code...
-                        dd($request);
+  
                         $inspection->inspectionstate='REJECTED';
 
                     }
