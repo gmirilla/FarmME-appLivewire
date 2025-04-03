@@ -75,10 +75,20 @@
             <input type="text"  readonly class="form-control fcode" id="farmcode" name="farmcode">
           </div>
           <div class="mb-3">
+            <label for="message-dropdown" class="col-form-label">Inspection Type</label>
+            <select  class="form-control" id="scheduletype" name="inspectiontype" style="background-color:cornflowerblue">
+              @forelse ($reports as $report )
+              <option value="{{$report->id}}"> {{$report->reportname}}</option>
+              @empty
+                <option value="0" > No Reports Available</option>
+              @endforelse
+            </select>
+          </div>  
+          <div class="mb-3">
             <label for="message-text" class="col-form-label">Date</label>
             <input type="date" class="form-control" id="scheduledate" name="newinspectiondate" style="background-color:cornflowerblue">
           </div>       
-      </div>
+      </div>     
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <input  type="submit" class="btn btn-primary" value="Save">

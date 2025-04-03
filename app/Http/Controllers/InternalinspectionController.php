@@ -195,8 +195,12 @@ class InternalinspectionController extends Controller
         if ($sectioncounter==$reportsections->count()) {
             
             #UPDATE internal inspection state to submitted
+            #update farm records to show last inspection date 
             $inspection->inspectionstate='SUBMITTED';
             $inspection->save();
+
+            $farm->lastinspection=date('Y-m-d');
+            $farm->save();
 
             #Return  to Dashboard view 
         
@@ -207,7 +211,6 @@ class InternalinspectionController extends Controller
         #block of code to populate unanswered questions stack 
         $currentsection= $reportsections[$request->sectioncounter]->id;
         $test=inspectionanswers::where('sectionid',$currentsection)->where('internalinspectionid',$inspection->id) ->get();
-        echo $currentsection;
         if ($test->count()>1) {
             # "More questions answered"; Do nothing
 
@@ -308,7 +311,8 @@ class InternalinspectionController extends Controller
                     $inspections= DB::table('internalinspections')
                     ->leftJoin('reports', 'internalinspections.reportid', '=','reports.id')
                     ->leftJoin('farms', 'internalinspections.farmid','=', 'farms.id')
-                    ->select('reportname','max_score','score','internalinspections.id as iid', 'farmname','inspectionstate', 'internalinspections.created_at as cdate')
+                    ->leftJoin('users', 'internalinspections.inspectorid','=', 'users.id' )
+                    ->select('reportname','max_score','score','internalinspections.id as iid', 'farmname','inspectionstate', 'internalinspections.created_at as cdate', 'users.name as iname')
                     ->get();
 
                     return view('inspection.inspection_review')->with('reportquestions',$inspections);

@@ -1,3 +1,9 @@
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+<link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <x-layouts.app>
 <div>  
 <div>
@@ -28,11 +34,11 @@
                     @if ($farm->name ==null)
                     <input type="text" class="form-control" disabled value="No Staff Assigned">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#staffModal" data-bs-whatever="">EDIT</button>
+                    data-bs-target="#staffModal" data-bs-whatever=""><i class="fa fa-pencil-square-o"></i></button>
                     @else
                         <input type="text" class="form-control" disabled value="{{$farm->name}}">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#staffModal" data-bs-whatever="">EDIT</button>
+                        data-bs-target="#staffModal" data-bs-whatever=""><i class="fa fa-pencil-square-o"></i></button>
                     @endif
 
                 </div>
@@ -61,7 +67,7 @@
           </div>
           <div class="row">
             <h4 class="h4" style="text-align: center; background-color:green; color: white">INSPECTION RECORDS</h4>
-            <table class="table table-striped table-hover">
+            <table class="table table-striped table-hover" id="farms">
                 <thead>
                     <tr>
                     <th>Report Name</th>
@@ -78,7 +84,7 @@
              <td>{{number_format(($farmreport->score / $farmreport->max_score *100),2)}}%</td> 
              <td>{{$farmreport->created_at}}</td>
              <td>{{$farmreport->inspectionstate}}</td>
-             <td><textarea name="" id="" cols="20" rows="3">Comments **To Do</textarea></td>
+             <td><textarea class="form-control" name="comments" id="" cols="20" rows="3">Comments **To Do</textarea></td>
              </tr>
                  @empty
                 <tr> <td>NO INSPECTIONS CARRIED OUT</td></tr>
@@ -124,4 +130,7 @@
 </div>
     </div>
 </div>
+<script>
+    new DataTable('#farms');
+</script>
 </x-layouts.app>

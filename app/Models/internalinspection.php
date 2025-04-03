@@ -13,10 +13,11 @@ class internalinspection extends Model
         'longitude',
         'inspectorid',
         'inspectiondate',
-        'inspectiontype',
         'reportid',
         'inspectionstate',
-        'score'
+        'score',
+        'updated_uid',
+        'comments'
     ];
 
     public function farm() {

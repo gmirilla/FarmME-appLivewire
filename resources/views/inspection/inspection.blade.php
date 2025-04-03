@@ -35,18 +35,29 @@
     <td>{{number_format(($inspection->score/$inspection->max_score *100),2) }} % ({{$inspection->score}} /{{$inspection->max_score }} )    
     </td>
     <td><div>
-        @if ($inspection->inspectionstate!='ACTIVE')
+        @switch($inspection->inspectionstate)
+            @case('PENDING')
+            <form action="inspection/continue" method="POST">
+                @csrf
+                <input type="text" value="{{$inspection->id}}" name="farmid" hidden>
+                <input type="text" value="{{$inspection->iid}}" name="inspectionid" hidden>
+                <input type="text" value="{{$inspection->reportid}}" name="reportid" hidden>
+                <input type="submit"  class="btn btn-success" value="Continue">
+            </form>
+                @break
+                @case('ACTIVE')
+                <form action="inspection/continue" method="POST">
+                    @csrf
+                    <input type="text" value="{{$inspection->id}}" name="farmid" hidden>
+                    <input type="text" value="{{$inspection->iid}}" name="inspectionid" hidden>
+                    <input type="text" value="{{$inspection->reportid}}" name="reportid" hidden>
+                    <input type="submit"  class="btn btn-success" value="Continue">
+                </form>
+                    @break
         
-        @else
-
-        <form action="inspection/continue" method="POST">
-            @csrf
-            <input type="text" value="{{$inspection->id}}" name="farmid" hidden>
-            <input type="text" value="{{$inspection->iid}}" name="inspectionid" hidden>
-            <input type="text" value="{{$inspection->reportid}}" name="reportid" hidden>
-            <input type="submit"  class="btn btn-success" value="Continue">
-        </form>
-        @endif
+            @default
+                
+        @endswitch
         <button disabled class="btn btn-primary"> Print</button>
     </div>
     </td>

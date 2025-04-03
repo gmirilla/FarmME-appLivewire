@@ -26,7 +26,7 @@
                     <tr>
                         <td>{{$inspection->iid}}</td>
                         <td>{{$inspection->reportname}}</td>
-                        <td>TO DO**</td>
+                        <td>{{$inspection->iname}}</td>
                         <td>{{$inspection->farmname}}</td>
                         <td>
                             @if ($inspection->max_score==0)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\farm;
+use App\Models\reports;
 use App\Models\internalinspection;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,6 +21,8 @@ class FarmController extends Controller
                         //Check if user is authorized to view resource
                         Auth::check();
                         $user = Auth::user();
+
+                        $reports=reports::where('reportstate', 'ACTIVE')->get();
         
                 switch ($user->roles) {
                     case 'ADMINISTRATOR':
@@ -40,7 +43,7 @@ class FarmController extends Controller
 
         
 
-        return view('farm')->with('farmlist', $farmlist)->with('user',$user);
+        return view('farm')->with('farmlist', $farmlist)->with('user',$user)->with('reports', $reports);
     }
 
         /**
@@ -122,7 +125,6 @@ switch ($user->roles) {
     public function newinspectiondate(Request $request)
     {
         //
-
         $farms=farm::all();
         $id=farm::where('farmcode', $request->farmcode)->first()->id;
         $farm=$farms->find($id);
@@ -130,10 +132,19 @@ switch ($user->roles) {
        // dd($farm);
         $farm->save();
 
-        $farmlist=farm::latest()->paginate(25);
+        $farmlist=farm::all();
 
-        return view('farm')->with('farmlist', $farmlist);
+        #Create a Pending inspection request
+        $newinspection= new internalinspection();
+        $newinspection->farmid=$id;
+        $newinspection->inspectorid=$farm->inspectorid;
+        $newinspection->reportid=$request->inspectiontype;
+        $newinspection->inspectionstate="PENDING";
+        $newinspection->save();
+
+       return redirect()->route('index');
     }
+
         /**
      * Schedule a new inspection date
      */
