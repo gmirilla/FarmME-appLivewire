@@ -45,9 +45,10 @@
             <td>{{$farm->nextinspection}}</td>
             <td>{{$farm->farmstate}}</td>
             <td>
-              @if ($user->roles=='ADMINISTRATOR')
+          
+              @if ($user->roles=='ADMINISTRATOR' && $farm->inspectorid!=null) 
               <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-              data-bs-target="#exampleModal" data-bs-whatever="{{$farm->farmcode}}">Schedule Inspection</button>    
+              data-bs-target="#exampleModal" data-bs-whatever="{{$farm->farmcode}}">Schedule Inspection</button>  
               @endif
               <a href="/farm/view?id={{$farm->farmcode}}" type="button" class="btn btn-success" style="margin:5px">View Farm</a></td>
           </tr>

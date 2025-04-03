@@ -48,6 +48,8 @@
                 <div class="mb-3">
                     <label>STATUS</label>
                     <input type="text" readonly class="form-control" value="{{$farm->farmstate}}">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#farmModal" data-bs-whatever=""><i class="fa fa-pencil-square-o"></i></button>
                 </div>
                 <div class="mb-3">
                     <label>LAST INSPECTION</label>
@@ -123,11 +125,41 @@
                     @endforelse
                 </select>
             </div>
-            <button class="btn btn-primary" >Submit</button>
+            <button class="btn btn-primary" name="assignstaff" >Submit</button>
         </form>
 
           </div>
 </div>
+    </div>
+</div>
+
+<div class="modal fade" id="farmModal" tabindex="-1" aria-labelledby="farmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            UPDATE FARM STATUS
+          </div>
+          <div class="modal-body">
+          <form action="/farm/assignstaff" method="post">
+            @csrf
+            <div class="row">
+                <label>FARM NAME</label>
+                <input disabled type="text" readonly class="form-control" value="{{$farm->farmname}}">
+                <input hidden type="text" name="id" class="form-control" value="{{$farm->farmcode}}">
+            </div>
+            <div class="row">
+                <label>FARM STATUS</label>
+                <select name="farmid" id="" class="form-control">
+                      <option value="PENDING">PENDING</option> 
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="REMEDIAL">REMEDIAL</option>
+                        <option value="DISABLED">DISABLED</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" name="farmstatus" style="margin-top: 8px" >Submit</button>
+          </form>
+        </div>
+        </div>
     </div>
 </div>
 <script>

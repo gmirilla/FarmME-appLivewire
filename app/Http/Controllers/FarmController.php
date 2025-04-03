@@ -47,14 +47,29 @@ class FarmController extends Controller
     }
 
         /**
-     * Assign Staff to farm and retun to Farm page
+     * Assign Staff to farm  and update farm recordsand retun to Farm page
      */
     public function assignstaff(Request $request)
     {
         //
         $farm=farm::where('farmcode', $request->id)->first();
-        $farm->inspectorid=$request->staffid;
-        $farm->save();
+
+        if ($request->has('assignstaff')) {
+            # Assign staff button clicked. Update new staff
+
+
+            $farm->inspectorid=$request->staffid;
+            $farm->save();
+
+        }
+        if ($request->has('assignstaff')) {
+            # Assign staff button clicked. Update new staff
+
+            $farm->inspectorid=$request->staffid;
+            $farm->save();
+
+        }
+
 
     return $this->displayfarm($request);
 
@@ -113,9 +128,9 @@ switch ($user->roles) {
         
         $newfarm->save();
 
-        $farmlist=farm::latest()->paginate(25);
+        $farmlist=farm::all();
 
-        return view('farm')->with('farmlist', $farmlist);
+        return redirect()->route('index');
 
 
     }
@@ -131,8 +146,6 @@ switch ($user->roles) {
         $farm->nextinspection=$request->newinspectiondate;
        // dd($farm);
         $farm->save();
-
-        $farmlist=farm::all();
 
         #Create a Pending inspection request
         $newinspection= new internalinspection();
