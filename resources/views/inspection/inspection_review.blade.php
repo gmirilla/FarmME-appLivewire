@@ -38,22 +38,27 @@
                         <td>{{$inspection->cdate}}</td>
                         <td><form action="iapprove" method="POST">
                             @csrf
-                            <textarea class="form-control" name="comments" id="comments" ></textarea>
+                            <textarea class="form-control" name="comments" id="comments" >{{$inspection->comments}}</textarea>
                         </td>
                         <td>
                             <div style="margin-top: 5px">
                                     <input type="text" hidden name="iid" value={{$inspection->iid}}>
-                                    <button type="submit" id="viewbtn" class="btn btn-primary"><i class="fa fa-eye"></i></button>
+                                    <button name="viewsheet" type="submit" id="viewbtn" class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="View inspection Sheet"><i class="fa fa-eye"></i></button>
 
                             </div>
                             @if ($inspection->inspectionstate=='SUBMITTED')
                             <div style="margin-top: 5px">
                                    
-                                    <button type="submit" name="approvebtn" class="btn btn-success"><i class="fa fa-check-square-o"></i></button>
+                                    <button type="submit" name="approvebtn" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="Approve Inspection"><i class="fa fa-check-square-o"></i></button>
                             </div>
+
+                            <div style="margin-top: 5px">
+                                   
+                                <button type="submit" name="approvewithconditionbtn" class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="Approve with Condition"><i class="fa fa-check-square-o"></i></button>
+                        </div>
                             <div style="margin-top: 5px">
                                     
-                                    <button type="submit" name="rejectbtn" class="btn btn-danger"><i class="fa fa-times-circle"></i></button>
+                                    <button type="submit" name="rejectbtn" class="btn btn-danger"><i class="fa fa-times-circle" data-toggle="tooltip" data-placement="right" title="Do not Approve"></i></button>
                             </div>
                                 
                             @endif

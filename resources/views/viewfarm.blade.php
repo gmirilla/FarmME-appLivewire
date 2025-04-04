@@ -46,14 +46,32 @@
             <div class="col">
                 <h4 class="h4" style="text-align: center; background-color:green;  color: white">INSPECTION SUMMARY</h4>
                 <div class="mb-3">
-                    <label>STATUS</label>
+                    <label>FARM STATUS</label>
                     <input type="text" readonly class="form-control" value="{{$farm->farmstate}}">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                     data-bs-target="#farmModal" data-bs-whatever=""><i class="fa fa-pencil-square-o"></i></button>
                 </div>
                 <div class="mb-3">
                     <label>LAST INSPECTION</label>
-                    <input type="text" readonly class="form-control" value="DATE: {{$farm->lastinspection}} | Score : N/A'">
+                    <table class="table">
+                        <thead>
+                            <th>Date</th>
+                            <th>InspectionID</th>
+                            <th>Score</th>
+                            <th>State</th>
+                            <th>Comment</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{$farm->lastinspection}} </td>
+                                <td>{{$lastreport->id}}</td>
+                                <td>{{$lastreport->score}}</td>
+                                <td>{{$lastreport->inspectionstate}}</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <input type="text" readonly class="form-control" value="DATE: | Score : N/A'">
                 </div>
                 <div class="mb-3">
                     <label>NEXT INSPECTION</label>

@@ -312,7 +312,8 @@ class InternalinspectionController extends Controller
                     ->leftJoin('reports', 'internalinspections.reportid', '=','reports.id')
                     ->leftJoin('farms', 'internalinspections.farmid','=', 'farms.id')
                     ->leftJoin('users', 'internalinspections.inspectorid','=', 'users.id' )
-                    ->select('reportname','max_score','score','internalinspections.id as iid', 'farmname','inspectionstate', 'internalinspections.created_at as cdate', 'users.name as iname')
+                    ->select('reportname','max_score','score','internalinspections.id as iid', 'farmname','inspectionstate', 
+                    'internalinspections.created_at as cdate', 'users.name as iname','internalinspections.comments as comments')
                     ->get();
 
                     return view('inspection.inspection_review')->with('reportquestions',$inspections);
@@ -327,9 +328,11 @@ class InternalinspectionController extends Controller
     public function iapprove(Request $request)
     {
                   //Check if user is authorized to view resource
+
                   Auth::check();
                   $user = Auth::user();
                   $inspection=internalinspection::where('id',$request->iid)->first();
+                  $inspection->comments=$request->comments;
 
                   if (str_contains($user->roles,'ADMINISTRATOR')) {
 
@@ -344,6 +347,33 @@ class InternalinspectionController extends Controller
                         # code...
   
                         $inspection->inspectionstate='REJECTED';
+
+                    }
+                    if ($request->has('viewsheet')) {
+                        # code...
+
+                        $reportquestions= DB::table('reportquestions')
+                        ->leftJoin('inspectionanswers','reportquestions.id' , '=', 'inspectionanswers.questionid') 
+                        ->leftJoin('reportsections', 'reportquestions.reportsectionid', '=', 'reportsections.id')// Join the 'reportquestions' and 'answers' tables
+                        ->select(
+                           'reportquestions.id as id',
+                           'reportquestions.reportid  as reportid',
+                           'reportquestions.reportsectionid as reportsectionid',
+                           'reportquestions.question_seq as question_seq',
+                           'reportquestions.question as question',
+                           'reportquestions.questiontype as questiontype',
+                           'reportquestions.questionstate as questionstate',
+                           'answer','sectionidcomments', 'section_seq'
+                        )
+                        ->where('reportquestions.reportid',$inspection->reportid)->where('reportquestions.questionstate', 'ACTIVE')
+                        ->where('internalinspectionid',$inspection->id)->orderBy('section_seq', 'asc')->orderBy('question_seq', 'asc')
+                        ->get(); 
+  
+                        $reportname=reports::where('id', $inspection->reportid)->first();
+
+
+                        return view('inspection.inspection_view_sheet')
+                        ->with('reportname',$reportname)->with('reportquestions',$reportquestions);
 
                     }
                     $inspection->save();
@@ -369,6 +399,12 @@ class InternalinspectionController extends Controller
 
     }
 
+    public function viewsheet(Request $request){
 
+        return view('inspection.inspection_view_sheet');
+
+    }
+    
 
 }
+

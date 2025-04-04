@@ -5,9 +5,14 @@
 <x-layouts.app>
 
   <div>
+    
     <form method="post" action='/report/showsection' >
       @csrf
-      <div class="form-floating col-md">
+      <div class="d-flex flex-row">
+      <div class="form-floating sm-3"> 
+        <div class="input-group">
+            <label for="floatingSelect" class="visually-hidden">REPORT NAME</label>
+            <div class="input-group-text">Report</div>
           <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="reportid">
               @forelse ($reports as $report)
               <option value="{{$report->id}}">{{$report->reportname}}</option>   
@@ -15,13 +20,22 @@
               <option disabled selected>NO REPORTS CONFIGURED ON SYTSTEM</option>
               @endforelse
           </select>
-          <label for="floatingSelect">Report Name</label>            
-          <button type="submit" class="btn btn-primary">GO</button>
+      
+        </div> 
+      </div>   
+        <div style="margin-left: 10px; margin-right:10px">         
+          <button type="submit" class="btn btn-success">GO</button>
+        </div>
+        <div>
           <button type="button" class="btn btn-primary" data-bs-toggle="modal"
           data-bs-target="#exampleModal" data-bs-whatever="">New report</button>  
-      </div> 
+        </div>
+        </div>
+
   </form>
   </div>
+
+
 
   <div>
     <table class="table table-striped" id="reportdt">

@@ -4,44 +4,55 @@
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 <x-layouts.app>
   <div>
-  <div>
-      <div class="form-floating col-md">
+  <div class="d-flex flex-row" style="margin-bottom:20px">
+    <div class="form-floating sm-3">
+      <div class="input-group">
         @forelse ($reports as $report)
-        <label for="floatingSelect">Report Name</label> 
-        <input type="text" disabled class="form-select" aria-label="Floating label select example" id="floatingSelect" value="{{$report->reportname}}">  
+        <div class="input-group-text">Report</div>
+        <label class="visually-hidden" for="floatingSelect">Report Name</label> 
+        
+        <input type="text" disabled class="form-control"  id="floatingSelect" value="{{$report->reportname}}">  
         @empty
         <h1>NO SECTIONS CONFIGURED ON SYTSTEM</h1>
-        @endforelse              
-          <a href="/report" disabled class="btn btn-danger">Go Back</a>
+        @endforelse           
       </div> 
+
+    </div>
+
+      <div><a href="/report"  class="btn btn-danger" style="margin-left: 10px; margin-right:10px">Go Back</a></div> 
   </div>
-  <div>
-    <form id="newsection" method="POST" action="newsection">
-      @csrf
-      <div class="row">
-          <div class="form-floating col-7" >
-              <textarea class="form-control" type="textarea" id="sectionname" placeholder="Enter Section Name" name="sectionname">
-              </textarea>
-              <label for="sectionname">Section Name</label>  
+
+  <div style="margin-bottom:20px">
+    <div>
+      <form id="newsection" method="POST" action="newsection">
+        @csrf
+        <div class="row">
+            <div class="form-floating col-7" >
+                <textarea class="form-control" type="textarea" id="sectionname" placeholder="Enter Section Name" name="sectionname">
+                </textarea>
+                <label for="sectionname">Section Name</label>  
+            </div>
+            <div class="form-floating col-1" >
+                <input class="form-control" type="number" id="section_seq" placeholder="Seq" name="section_seq">
+                <label for="section_seq">Sequence</label>  
+            </div>
+            <div class="form-floating col-1" >
+              <select name="sectionstate" class="form-control" id="sectionstate">
+                <option value="ACTIVE">ACTIVE</option>
+                <option value="DISABLED">DISABLED</option>
+              </select>
+              <label for="sectionstate">Status</label>  
           </div>
-          <div class="form-floating col-1" >
-              <input class="form-control" type="number" id="section_seq" placeholder="Seq" name="section_seq">
-              <label for="section_seq">Sequence</label>  
-          </div>
-          <div class="form-floating col-1" >
-            <select name="sectionstate" class="form-control" id="sectionstate">
-              <option value="ACTIVE">ACTIVE</option>
-              <option value="DISABLED">DISABLED</option>
-            </select>
-            <label for="sectionstate">Status</label>  
+            <div class="form-floating col-2" >
+              <input class="form-control" type="number" id="reportid" value="{{$report->id}}" name="reportid" hidden>
+                <button type="submit" class="btn btn-primary">+ </button>
+            </div>
         </div>
-          <div class="form-floating col-2" >
-            <input class="form-control" type="number" id="reportid" value="{{$report->id}}" name="reportid" hidden>
-              <button type="submit" class="btn btn-primary">+ </button>
-          </div>
-      </div>
-      </form>
+        </form>
+    </div>
+
   </div>
+
 
   <div>
     <table class="table table-striped display" id="reports" style="width:100%">

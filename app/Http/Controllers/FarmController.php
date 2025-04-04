@@ -23,6 +23,7 @@ class FarmController extends Controller
                         $user = Auth::user();
 
                         $reports=reports::where('reportstate', 'ACTIVE')->get();
+
         
                 switch ($user->roles) {
                     case 'ADMINISTRATOR':
@@ -62,10 +63,10 @@ class FarmController extends Controller
             $farm->save();
 
         }
-        if ($request->has('assignstaff')) {
-            # Assign staff button clicked. Update new staff
+        if ($request->has('farmstatus')) {
+            # Farm Status. Update new Farm status
 
-            $farm->inspectorid=$request->staffid;
+            $farm->farmstate=$request->farmid;
             $farm->save();
 
         }
@@ -159,7 +160,7 @@ switch ($user->roles) {
     }
 
         /**
-     * Schedule a new inspection date
+     * Show farm details
      */
     public function displayfarm(Request $request)
     {
@@ -168,6 +169,10 @@ switch ($user->roles) {
         //Display Details of Farm
         $farms=farm::all();
         $id=farm::where('farmcode', $request->id)->first()->id;
+        $report=internalinspection::where('farmid', $id)->latest('updated_at')->first();
+
+ 
+        
 
         $farm=DB::table('farms')
         ->leftJoin('users', 'farms.inspectorid', '=','users.id')
@@ -197,7 +202,7 @@ switch ($user->roles) {
 
 
         return view('viewfarm')->with('farm', $farm)
-        ->with('farmreports', $farmreports)->with('users',$users);
+        ->with('farmreports', $farmreports)->with('users',$users)->with('lastreport', $report);
     }
 
 

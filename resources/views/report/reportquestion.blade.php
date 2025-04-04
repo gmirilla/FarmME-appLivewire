@@ -5,17 +5,24 @@
 <x-layouts.app>
     <div>
         <div class="form-floating col-md">
-            <label for="floatingSelect">Report Name</label> 
+            <div class="input-group" style="margin-bottom: 20px">
+                <div class="input-group-text">Report</div>
+            <label class="visually-hidden" for="floatingSelect">Report</label> 
         <input type="text" disabled class="form-control" aria-label="Floating label select example" id="floatingSelect" value="{{$report->reportname}}"> 
+            </div>
         </div>
         <div class="form-floating col-md">
+            <div class="input-group"  style="margin-bottom: 20px">
+                <div class="input-group-text">Report</div>
             <textarea class="form-control" type="text" id="sectionname" disabled name="sectionid">{{$section->sectionname}}
             </textarea>
-            <label for="sectionname">Section Name</label>  
+            <label class="visually-hidden" for="sectionname">Section Name</label> 
+            </div> 
         </div>
-        <a href="/report" disabled class="btn btn-danger">Go Back</a>
+        <div  style="margin-bottom: 20px"> <a href="/report" disabled class="btn btn-danger">Go Back</a>  </div>
+        
     </div>
-    <div>
+    <div style="text-align: center; background-color:#228B22 ; padding:10px; color:white; margin-bottom:20px">
         <h4> NEW QUESTION</h4>
     </div>
     <div>
@@ -28,13 +35,13 @@
                 <input type="number" hidden id="reportsectionid" name="reportsectionid" value="{{$section->id}}">
                 <input type="number" hidden id="reportid" name="reportid" value="{{$report->id}}">
             </div>
-            <div class="form-floating col-7">
+            <div class="form-floating col-6">
                 <label for="floatingQuestion">Question</label> 
                 <input type="text" class="form-control" id="floatingQuestion" name="question" aria-label="Floating label select example" >
             </div>
             <div class="form-floating col-3">
                 <label for="floatingQuestiontype">Question Type</label> 
-                <select id="floatingQuestiontype" name="questiontype">
+                <select class="form-control form-select" id="floatingQuestiontype" name="questiontype">
                     <option value="TYPEA">YES/NO</option>
                     <option value="TYPEB">POOR/FAIR/GOOD/V.GOOD</option>
                     <option value="TYPEC">COMMENTS ONLY</option>
