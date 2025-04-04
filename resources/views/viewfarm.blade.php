@@ -53,7 +53,7 @@
                 </div>
                 <div class="mb-3">
                     <label>LAST INSPECTION</label>
-                    <table class="table">
+                    <table class="table table-bordered" style="border:3px">
                         <thead>
                             <th>Date</th>
                             <th>InspectionID</th>
@@ -66,17 +66,19 @@
                                 <td>{{$farm->lastinspection}} </td>
                                 @if ($lastreport !=null)
                                 <td>{{$lastreport->id}}</td>
-                                @else
-                                <td>No Reports done</td>
-                                @endif
-                                
                                 <td>{{$lastreport->score}}</td>
                                 <td>{{$lastreport->inspectionstate}}</td>
+                                @else
+                                <td>No Reports done</td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                                @endif
+                                
+
                                 <td></td>
                             </tr>
                         </tbody>
                     </table>
-                    <input type="text" readonly class="form-control" value="DATE: | Score : N/A'">
                 </div>
                 <div class="mb-3">
                     <label>NEXT INSPECTION</label>
