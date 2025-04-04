@@ -64,7 +64,12 @@
                         <tbody>
                             <tr>
                                 <td>{{$farm->lastinspection}} </td>
+                                @if ($lastreport !=null)
                                 <td>{{$lastreport->id}}</td>
+                                @else
+                                <td>No Reports done</td>
+                                @endif
+                                
                                 <td>{{$lastreport->score}}</td>
                                 <td>{{$lastreport->inspectionstate}}</td>
                                 <td></td>
