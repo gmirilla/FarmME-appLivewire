@@ -66,8 +66,24 @@
                                 <td>{{$farm->lastinspection}} </td>
                                 @if ($lastreport !=null)
                                 <td>{{$lastreport->id}}</td>
-                                <td>{{$lastreport->score}}</td>
-                                <td>{{$lastreport->inspectionstate}}</td>
+                                <td>
+                                    @php
+                                        $farmscore=number_format((($lastreport->score/$farmreports[0]->max_score)*100),2)
+                                    @endphp
+                                    @switch($farmscore)
+                                        @case($farmscore<=49.99)
+                                            <b style="color: red">{{$farmscore}} %</b>
+                                            @break
+                                        @case($farmscore>49.99 && $farmscore<=69.99)
+                                            <b style="color: orange">{{$farmscore}} %</b>
+                                            @break
+                                        @case($farmscore>69.99)
+                                            <b style="color: green">{{$farmscore}} %</b>
+                                            @break
+                                            
+                                    @endswitch
+                                </td>
+                                <td>{{$lastreport->inspectionstate }}</td>
                                 @else
                                 <td>No Reports done</td>
                                 <td>N/A</td>
@@ -102,16 +118,25 @@
                     <th>Date</th>
                     <th>Status</th>
                     <th>Comment</th>
+                    <th></th>
                     </tr>
                 </thead>  
                 <tbody> 
              @forelse ($farmreports as $farmreport)
              <tr>
              <td>{{$farmreport->reportname}}</td>
+
              <td>{{number_format(($farmreport->score / $farmreport->max_score *100),2)}}%</td> 
              <td>{{$farmreport->created_at}}</td>
              <td>{{$farmreport->inspectionstate}}</td>
              <td><textarea class="form-control" name="comments" id="" cols="20" rows="3">Comments **To Do</textarea></td>
+             <td>
+                <form action="/iapprove" method="post">
+                    @csrf
+                    <input type="hidden" name="iid" value="{{$farmreport->iid}}">
+                    <button name="viewsheet" type="submit" class="btn btn-primary"><i class="fa fa-eye"></i></button>
+                </form>
+                </td>
              </tr>
                  @empty
                 <tr> <td>NO INSPECTIONS CARRIED OUT</td></tr>

@@ -12,7 +12,8 @@ use App\Models\reportquestions;
 use App\Models\reports;
 use App\Models\reportsection;
 use Illuminate\Http\Request;
-use SebastianBergmann\CodeCoverage\Report\Xml\Report;
+use Illuminate\Support\Facades\Http;
+
 
 class InternalinspectionController extends Controller
 {
@@ -246,6 +247,12 @@ class InternalinspectionController extends Controller
                 #GET previously completed inspection sheet
                $inspection=internalinspection::where('id', $request->inspectionid)->first();
 
+               if ($request->has('viewsheet')) {
+                # code...
+
+                return redirect()->route('iapprove',$request);
+               }
+
                #Get Previous Answers
                $reportquestions= DB::table('reportquestions')
                ->leftJoin('inspectionanswers','reportquestions.id' , '=', 'inspectionanswers.questionid') // Join the 'reportquestions' and 'answers' tables
@@ -314,6 +321,7 @@ class InternalinspectionController extends Controller
                     ->leftJoin('users', 'internalinspections.inspectorid','=', 'users.id' )
                     ->select('reportname','max_score','score','internalinspections.id as iid', 'farmname','inspectionstate', 
                     'internalinspections.created_at as cdate', 'users.name as iname','internalinspections.comments as comments')
+                    ->orderBy('internalinspections.created_at', 'desc')
                     ->get();
 
                     return view('inspection.inspection_review')->with('reportquestions',$inspections);
@@ -331,51 +339,66 @@ class InternalinspectionController extends Controller
 
                   Auth::check();
                   $user = Auth::user();
-                  $inspection=internalinspection::where('id',$request->iid)->first();
-                  $inspection->comments=$request->comments;
+
+                  if ($request->method()=='GET') {
+                    # code...
+                    $inspection=internalinspection::where('id',$request->inspectionid)->first();
+                  } else {
+                    # code...
+                    $inspection=internalinspection::where('id',$request->iid)->first();
+                  }
+                  
 
                   if (str_contains($user->roles,'ADMINISTRATOR')) {
 
-                    # approve inspection
-                    if ($request->has('approvebtn')) {
-                        # code...
+                    switch ($request) {
+                        case $request->has('approvewithcondition'):
+                            $inspection->conditions=$request->apprconditions;
+                            $inspection->inspectionstate='CONDITIONAL';                          
+                            break;
+
+                        case $request->has('approvebtn'):
+                            # Approve the inspection sheet...
+                            $inspection->inspectionstate='APPROVED';
+
+                            break;
+
+                        case $request->has('rejectbtn'):
+                            # Reject the Inspection.
+                            $inspection->inspectionstate='REJECTED';
+                            break;
+
+                        case $request->has('viewsheet'):
+
+                           
+                            # Display Result Sheet
+                            $reportquestions= DB::table('reportquestions')
+                            ->leftJoin('inspectionanswers','reportquestions.id' , '=', 'inspectionanswers.questionid') 
+                            ->leftJoin('reportsections', 'reportquestions.reportsectionid', '=', 'reportsections.id')// Join the 'reportquestions' and 'answers' tables
+                            ->select(
+                               'reportquestions.id as id',
+                               'reportquestions.reportid  as reportid',
+                               'reportquestions.reportsectionid as reportsectionid',
+                               'reportquestions.question_seq as question_seq',
+                               'reportquestions.question as question',
+                               'reportquestions.questiontype as questiontype',
+                               'reportquestions.questionstate as questionstate',
+                               'answer','sectionidcomments', 'section_seq'
+                            )
+                            ->where('reportquestions.reportid',$inspection->reportid)->where('reportquestions.questionstate', 'ACTIVE')
+                            ->where('internalinspectionid',$inspection->id)->orderBy('section_seq', 'asc')->orderBy('question_seq', 'asc')
+                            ->get(); 
+      
+                            $reportname=reports::where('id', $inspection->reportid)->first();
     
-                        $inspection->inspectionstate='APPROVED';
+    
+                            return view('inspection.inspection_view_sheet', compact('reportname','reportquestions', 'user', 'inspection'));
+                            //->with('reportname',$reportname)->with('reportquestions',$reportquestions);
+
+                            break;                      
 
                     }
-                    if ($request->has('rejectbtn')) {
-                        # code...
-  
-                        $inspection->inspectionstate='REJECTED';
-
-                    }
-                    if ($request->has('viewsheet')) {
-                        # code...
-
-                        $reportquestions= DB::table('reportquestions')
-                        ->leftJoin('inspectionanswers','reportquestions.id' , '=', 'inspectionanswers.questionid') 
-                        ->leftJoin('reportsections', 'reportquestions.reportsectionid', '=', 'reportsections.id')// Join the 'reportquestions' and 'answers' tables
-                        ->select(
-                           'reportquestions.id as id',
-                           'reportquestions.reportid  as reportid',
-                           'reportquestions.reportsectionid as reportsectionid',
-                           'reportquestions.question_seq as question_seq',
-                           'reportquestions.question as question',
-                           'reportquestions.questiontype as questiontype',
-                           'reportquestions.questionstate as questionstate',
-                           'answer','sectionidcomments', 'section_seq'
-                        )
-                        ->where('reportquestions.reportid',$inspection->reportid)->where('reportquestions.questionstate', 'ACTIVE')
-                        ->where('internalinspectionid',$inspection->id)->orderBy('section_seq', 'asc')->orderBy('question_seq', 'asc')
-                        ->get(); 
-  
-                        $reportname=reports::where('id', $inspection->reportid)->first();
-
-
-                        return view('inspection.inspection_view_sheet')
-                        ->with('reportname',$reportname)->with('reportquestions',$reportquestions);
-
-                    }
+                    $inspection->comments=$request->comments;
                     $inspection->save();
 
                     return redirect()->route('iapproval');

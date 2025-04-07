@@ -32,9 +32,23 @@
                             @if ($inspection->max_score==0)
                             Check Report
                             @else
-                            {{number_format(($inspection->score / $inspection->max_score * 100),2)}}%</td>
+                           <b> {{number_format(($inspection->score / $inspection->max_score * 100),2)}}% </b></td>
                             @endif
-                        <td>{{$inspection->inspectionstate}}</td>
+                        <td>
+                            @switch($inspection->inspectionstate)
+                                @case('APPROVED')
+                               <b style="color:green"> {{$inspection->inspectionstate}}</b>
+                                    @break
+                                @case('CONDITIONAL')
+                                    <b style="color: orange"> {{$inspection->inspectionstate}}</b>
+                                         @break
+                                @case('REJECTED')
+                                         <b style="color: red"> {{$inspection->inspectionstate}}</b>
+                                              @break
+                                @default
+                                {{$inspection->inspectionstate}}
+                            @endswitch
+                            </td>
                         <td>{{$inspection->cdate}}</td>
                         <td><form action="iapprove" method="POST">
                             @csrf
@@ -54,7 +68,9 @@
 
                             <div style="margin-top: 5px">
                                    
-                                <button type="submit" name="approvewithconditionbtn" class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="Approve with Condition"><i class="fa fa-check-square-o"></i></button>
+                                <button  type="button" name="approvewithconditionmodal" class="btn btn-warning" 
+                                data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="{{$inspection->iid}}"
+                                data-toggle="tooltip" data-placement="right" title="Approve with Condition"><i class="fa fa-check-square-o"></i></button>
                         </div>
                             <div style="margin-top: 5px">
                                     
@@ -75,6 +91,53 @@
             </tbody>
         </table>
     </div>
+    <!-- MODAL approve with condition -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Conditions for Approval</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="farmschedule" method="post" action='iapprove'>
+          @csrf
+        <div class="modal-body">
+          
+            <div class="mb-3">
+              <label for="iid" class="col-form-label">Inspection Report ID:</label>
+              <input type="text"  readonly class="form-control fcode" id="iid" name="iid">
+            </div>  
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Conditions</label>
+              <textarea class="form form-control" name="apprconditions" id="approveconditions" cols="20" rows="15"></textarea>
+            </div>       
+        </div>     
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <input  type="submit" class="btn btn-success" value="Save" name="approvewithcondition">
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+  <script>
+    var exampleModal = document.getElementById('exampleModal')
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = event.relatedTarget
+      // Extract info from data-bs-* attributes
+      var recipient = button.getAttribute('data-bs-whatever')
+      // If necessary, you could initiate an AJAX request here
+      // and then do the updating in a callback.
+      //
+      // Update the modal's content.
+      var modalTitle = exampleModal.querySelector('.modal-title')
+      var modalBodyInput = exampleModal.querySelector('.modal-body input')
+    
+      modalTitle.textContent = 'Approval Conditions for Farm  ' 
+      modalBodyInput.value = recipient
+    })
+    </script>
     <script>
             new DataTable('#reports');
     </script>

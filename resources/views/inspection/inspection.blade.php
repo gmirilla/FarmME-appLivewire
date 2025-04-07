@@ -31,7 +31,21 @@
     <td>{{$inspection->reportname}}</td>
     <td>{{$inspection->farmcode}} | {{$inspection->farmname}}</td>
     <td>{{$inspection->updated_at}}</td>
-    <td>{{$inspection->inspectionstate}}</td>
+    <td>
+        @switch($inspection->inspectionstate)
+        @case('APPROVED')
+       <b style="color:green"> {{$inspection->inspectionstate}}</b>
+            @break
+        @case('CONDITIONAL')
+            <b style="color: orange"> {{$inspection->inspectionstate}}</b>
+                 @break
+        @case('REJECTED')
+                 <b style="color: red"> {{$inspection->inspectionstate}}</b>
+                      @break
+        @default
+        {{$inspection->inspectionstate}}
+    @endswitch
+    </td>
     <td>{{number_format(($inspection->score/$inspection->max_score *100),2) }} % ({{$inspection->score}} /{{$inspection->max_score }} )    
     </td>
     <td><div>
@@ -58,7 +72,16 @@
             @default
                 
         @endswitch
-        <button disabled class="btn btn-primary"> Print</button>
+        <form action="inspection/continue" method="POST">
+            @csrf
+            <input type="text" value="{{$inspection->id}}" name="farmid" hidden>
+            <input type="text" value="{{$inspection->iid}}" name="inspectionid" hidden>
+            <input type="text" value="{{$inspection->reportid}}" name="reportid" hidden>
+
+            <button class="btn btn-primary" name='viewsheet'> View TO DO</button>
+
+        </form>
+        
     </div>
     </td>
     </tr>  

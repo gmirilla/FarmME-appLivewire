@@ -15,8 +15,8 @@
     <table class="table table-bordered">
         <tbody>
             <tr>
-                <td> <b>FIELD OPERATOR:</b></td>
-                <td> TO DO</td>
+                <td> <b>FIELD OPERATOR: </b></td>
+                <td>TO DO </td>
                 <td><b>CODE NUMBER:</b></td>
                 <td> TO DO</td>
             </tr>
@@ -28,16 +28,16 @@
                 <td></td>
             </tr>
             <tr>
-                <td col=2>NAME OF INTERNAL INSPECTOR:</td>
-                <td col=3></td>
-            </tr>
-            <tr>
-                <td col=2>
-                    <b>Date of Inspection:</b> 
+                <td><b>NAME OF INTERNAL INSPECTOR: </b> </td>
+                <td colspan="2">{{$user->name}}</td>
+                <td>
+                    <b>DATE OF INSPECTION:</b> 
                 </td>
-                <td col=3></td>
-                
+                <td>
+                    {{$inspection->created_at}}
+                </td>
             </tr>
+
         </tbody>
     </table>
 
@@ -166,20 +166,72 @@
                 <td colspan="2">
                     Compliance this Year 
                     <div  class="d-flex flex-row"> 
+                        @switch($inspection->inspectionstate)
+                        @case('APPROVED')
                         <div class="p-2">
-                    <input  class="form-check-input" type="checkbox" disabled name="" id="approved">
-                    <label class="form-check-label" for="approved">Approved</label>
-                </div>
-                <div class="p-2">
-                    
-                    <input class="form-check-input"  type="checkbox" disabled name="" id="approvedwithcondition">
-                    <label class="form-check-label" for="approvedwithcondition">Approved with Condition</label>
-                </div>
-                <div class="p-2">
-                   
-                    <input class="form-check-input"  type="checkbox" disabled name="" id="Notapproved">
-                    <label class="form-check-label" for="Notapproved">Not Approved</label>
-                </div>
+                            <input  class="form-check-input" checked type="checkbox" disabled name="" id="approved">
+                            <label class="form-check-label" for="approved">Approved</label>
+                        </div>
+                        <div class="p-2">
+                            
+                            <input class="form-check-input"  type="checkbox" disabled name="" id="approvedwithcondition">
+                            <label class="form-check-label" for="approvedwithcondition">Approved with Condition</label>
+                        </div>
+                        <div class="p-2">
+                           
+                            <input class="form-check-input"  type="checkbox" disabled name="" id="Notapproved">
+                            <label class="form-check-label" for="Notapproved">Not Approved</label>
+                        </div>
+                            @break
+                        @case('CONDITIONAL')
+                        <div class="p-2">
+                            <input  class="form-check-input" type="checkbox" disabled name="" id="approved">
+                            <label class="form-check-label" for="approved">Approved</label>
+                        </div>
+                        <div class="p-2">
+                            
+                            <input class="form-check-input" checked  type="checkbox" disabled name="" id="approvedwithcondition">
+                            <label class="form-check-label" for="approvedwithcondition">Approved with Condition</label>
+                        </div>
+                        <div class="p-2">
+                           
+                            <input class="form-check-input"  type="checkbox" disabled name="" id="Notapproved">
+                            <label class="form-check-label" for="Notapproved">Not Approved</label>
+                        </div>
+                            @break
+                        @case('REJECTED')
+                        <div class="p-2">
+                            <input  class="form-check-input" type="checkbox" disabled name="" id="approved">
+                            <label class="form-check-label" for="approved">Approved</label>
+                        </div>
+                        <div class="p-2">
+                            
+                            <input class="form-check-input"  type="checkbox" disabled name="" id="approvedwithcondition">
+                            <label class="form-check-label" for="approvedwithcondition">Approved with Condition</label>
+                        </div>
+                        <div class="p-2">
+                           
+                            <input class="form-check-input" checked type="checkbox" disabled name="" id="Notapproved">
+                            <label class="form-check-label" for="Notapproved">Not Approved</label>
+                        </div>
+                            @break
+                        @default
+                        <div class="p-2">
+                            <input  class="form-check-input" type="checkbox" disabled name="" id="approved">
+                            <label class="form-check-label" for="approved">Approved</label>
+                        </div>
+                        <div class="p-2">
+                            
+                            <input class="form-check-input"  type="checkbox" disabled name="" id="approvedwithcondition">
+                            <label class="form-check-label" for="approvedwithcondition">Approved with Condition</label>
+                        </div>
+                        <div class="p-2">
+                           
+                            <input class="form-check-input"  type="checkbox" disabled name="" id="Notapproved">
+                            <label class="form-check-label" for="Notapproved">Not Approved</label>
+                        </div>   
+                    @endswitch
+
                     </div>
                 </td>
             </tr>
@@ -191,7 +243,8 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    Comments of Evaluation and Sanction committee:
+                    Comments of Evaluation and Sanction committee: {{$inspection->comments}} || {{$inspection->conditions}}
+
                 </td>
             </tr>
             <tr>
