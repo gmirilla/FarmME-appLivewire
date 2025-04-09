@@ -57,7 +57,7 @@
                         <td>
                             <div style="margin-top: 5px">
                                     <input type="text" hidden name="iid" value={{$inspection->iid}}>
-                                    <button name="viewsheet" type="submit" id="viewbtn" class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="View inspection Sheet"><i class="fa fa-eye"></i></button>
+                                    <button name="viewsheet" type="submit" id="viewbtn" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="View inspection Sheet"><i class="fa fa-eye"></i></button>
 
                             </div>
                             @if ($inspection->inspectionstate=='SUBMITTED')

@@ -2,6 +2,8 @@
 <script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+<link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <x-layouts.app>
 <div>
 <!--
@@ -48,9 +50,9 @@
           
               @if ($user->roles=='ADMINISTRATOR' && $farm->inspectorid!=null) 
               <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-              data-bs-target="#exampleModal" data-bs-whatever="{{$farm->farmcode}}">Schedule Inspection</button>  
+              data-bs-target="#exampleModal" data-bs-whatever="{{$farm->farmcode}}" data-toggle="tooltip" data-placement="right" title="Schedule Inspection"><i class="fa fa-calendar" aria-hidden="true"></i></button>  
               @endif
-              <a href="/farm/view?id={{$farm->farmcode}}" type="button" class="btn btn-success" style="margin:5px">View Farm</a></td>
+              <a href="/farm/view?id={{$farm->farmcode}}" type="button" class="btn btn-success" style="margin:3px" data-toggle="tooltip" data-placement="right" title="View Farm"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
           </tr>
             
           @empty

@@ -21,6 +21,7 @@ Route::view('dashboard', 'dashboard2')
 */
 Route::middleware('auth')->group(function () {
     Route::get('user_admin',[userController::class, 'index'])->name('user_admin'); 
+    Route::get('new_user',[userController::class, 'newuser'])->name('newuser');
     Route::post('user_update',[userController::class, 'user_update'])->name('user_update'); 
 
 });

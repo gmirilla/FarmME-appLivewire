@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
+use Illuminate\Auth\Events\Registered;
 
 use function Ramsey\Uuid\v1;
 
@@ -52,6 +55,7 @@ class userController extends Controller
     public function user_update(Request $request)
     {
         //
+        
         $user=User::where('id', $request->userid)->first();
         $user->roles=$request->userrole;
         $user->save();      
@@ -61,6 +65,52 @@ class userController extends Controller
         return view('user.user_admin')->with('users',$users );
 
     }
+
+
+    public function newuser(Request $request){
+
+               //
+           //Check if user is authorized to view resource
+           Auth::check();
+           $user = Auth::user();
+           $users=User::all();
+          
+
+   switch ($user->roles) {
+       case 'ADMINISTRATOR':
+           # code...
+           $newuser=$request->query;
+          
+
+           $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'password' => ['required', 'string', Rules\Password::defaults()],
+        ]);
+
+         
+
+        $validated['password'] = Hash::make($validated['password']);
+
+        event(new Registered(($user = User::create($validated))));
+    
+           break;
+       case 'INSPECTOR':
+           # code...
+           return redirect()->route('unauthorized');
+           break;
+                   
+       default:
+           # code...
+           return redirect()->route('unauthorized');
+           break;
+
+
+    }
+    return view('user.user_admin')->with('users',$users );
+
+
+}
 
 
     /**

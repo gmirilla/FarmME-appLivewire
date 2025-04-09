@@ -3,6 +3,8 @@
 <script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+<link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <div>
         <div>
             <!-- 
@@ -46,7 +48,7 @@
         {{$inspection->inspectionstate}}
     @endswitch
     </td>
-    <td>{{number_format(($inspection->score/$inspection->max_score *100),2) }} % ({{$inspection->score}} /{{$inspection->max_score }} )    
+    <td><b style="font-size: 0.9em">{{number_format(($inspection->score/$inspection->max_score *100),2) }} % ({{$inspection->score}} /{{$inspection->max_score }} ) </b>   
     </td>
     <td><div>
         @switch($inspection->inspectionstate)
@@ -56,7 +58,7 @@
                 <input type="text" value="{{$inspection->id}}" name="farmid" hidden>
                 <input type="text" value="{{$inspection->iid}}" name="inspectionid" hidden>
                 <input type="text" value="{{$inspection->reportid}}" name="reportid" hidden>
-                <input type="submit"  class="btn btn-success" value="Continue">
+                <button type="submit"  class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="Continue Inspection"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
             </form>
                 @break
                 @case('ACTIVE')
@@ -65,7 +67,7 @@
                     <input type="text" value="{{$inspection->id}}" name="farmid" hidden>
                     <input type="text" value="{{$inspection->iid}}" name="inspectionid" hidden>
                     <input type="text" value="{{$inspection->reportid}}" name="reportid" hidden>
-                    <input type="submit"  class="btn btn-success" value="Continue">
+                    <button type="submit"  class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="Continue Inspection"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
                 </form>
                     @break
         
@@ -78,7 +80,7 @@
             <input type="text" value="{{$inspection->iid}}" name="inspectionid" hidden>
             <input type="text" value="{{$inspection->reportid}}" name="reportid" hidden>
 
-            <button class="btn btn-primary" name='viewsheet'> View TO DO</button>
+            <button class="btn btn-success" name='viewsheet' data-toggle="tooltip" data-placement="right" title="View Inspection Sheet" style="margin: 3px"><i class="fa fa-eye" aria-hidden="true"></i></button>
 
         </form>
         
