@@ -79,7 +79,7 @@
           </div>
           <div class="mb-3">
             <label for="message-dropdown" class="col-form-label">Inspection Type</label>
-            <select  class="form-control" id="scheduletype" name="inspectiontype" style="background-color:cornflowerblue">
+            <select  class="form-select" id="scheduletype" name="inspectiontype" style="background-color:cornflowerblue">
               @forelse ($reports as $report )
               <option value="{{$report->id}}"> {{$report->reportname}}</option>
               @empty

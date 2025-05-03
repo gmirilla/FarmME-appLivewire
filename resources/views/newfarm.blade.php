@@ -1,4 +1,13 @@
 <x-layouts.app>
+    @if ($errors->any())
+  <div class="alert alert-danger">
+      <ul>
+          @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+          @endforeach
+      </ul>
+  </div>
+@endif
     <div>
         
         <form method="post" action='/newfarm/Createfarm'>
@@ -10,7 +19,7 @@
                     </div>
                     <div class="mb-3" style="margin-right: 10px">
                         <label for="surname" class="form-label">Surname</label>
-                        <input type="text" placeholder="Surname of Farm Owner" id="fname"  name="fname" required class="form-control">
+                        <input type="text" placeholder="Surname of Farm Owner" id="surname"  name="surname" required class="form-control">
                         </div>
                         <div class="mb-3" style="margin-right: 10px">
                             <label for="phone" class="form-label">Phone Number</label>
@@ -29,10 +38,6 @@
                                     </div>
             </div>
             <div class="mb-3">
-            <label for="farmowner" class="form-label">Name of Farm Owner</label>
-            <input type="text" placeholder="Name of Farm Owner" id="farmowner"  name="farmowner" required class="form-control">
-            </div>
-            <div class="mb-3">
                 <label for="community" class="form-label">Community/Village</label>
                 <input type="text" placeholder="Name of Village/Community" id="community" name="community"  required class="form-control">
             </div>
@@ -42,8 +47,7 @@
             </div>
             <div class="mb-3">
                 <label for="state" class="form-label">State</label>
-                <select required class="form-control" name="state" id="state">
-                    <option value="FCT">FCT</option>
+                <select required class="form-select" name="state" id="state">
                     <option value="Kaduna">Kaduna</option>
                 </select>
             </div>

@@ -75,11 +75,16 @@
                                 <td>Farm Size (Ha)</td>
                                 <td> ######</td>
                                 <td> Certified Crop</td>
-                                <td> ###Ginger## </td>
+                                <td> @if (!empty($farm->crop))
+                                    {{ $farm->crop}}            
+                                @endif
+                            </td>
                             </tr>
                             <tr>   
                                 <td>Name of Variety </td>
-                                <td> ######</td>
+                                <td> @if (!empty($farm->cropvariety))
+                                    {{ $farm->cropvariety}}            
+                                @endif</td>
                                 <td> Source of Planting Material</td>
                                 <td> ###Ginger## </td>                               
                             </tr>
@@ -127,7 +132,12 @@
                                 @endif
                                 
 
-                                <td>{{$lastreport->comments}}</td>
+                                <td>
+                                    @if(!empty($lastreport->comments))
+                                    {{$lastreport->comments}}
+    
+                                    @endif
+                                    </td>
                             </tr>
                         </tbody>
                     </table>
@@ -203,7 +213,7 @@
             </div>
             <div class="row">
                 <label>STAFF</label>
-                <select name="staffid" id="" class="form-control">
+                <select class="form-select" name="staffid" id="" class="form-control">
                     @forelse ($users as $user)
                       <option value="{{$user->id}}">{{$user->name}}</option>  
                     @empty
@@ -235,7 +245,7 @@
             </div>
             <div class="row">
                 <label>FARM STATUS</label>
-                <select name="farmid" id="" class="form-control">
+                <select class="form-select" name="farmid" id="" class="form-control">
                       <option value="PENDING">PENDING</option> 
                         <option value="ACTIVE">ACTIVE</option>
                         <option value="REMEDIAL">REMEDIAL</option>

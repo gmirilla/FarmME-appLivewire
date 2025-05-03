@@ -21,7 +21,7 @@
         <div>
             <form>
               <div id="test">
-                <select name="test2" id="test2">
+                <select class="	form-select" name="test2" id="test2">
                   <option value="3">ANGRY</option>
                 </select>
               </div>
@@ -132,7 +132,7 @@
             <div class="mb-3">
                 <label for="farmcode" class="col-form-label">Report Name</label>
 
-                <select class="form-control fcode" id="reportid" name="reportid">
+                <select class="form-select fcode" id="reportid" name="reportid">
                     @forelse ($reports as $report)
                     <option value="{{$report->id}}">{{$report->reportname}}</option>   
                     @empty

@@ -115,18 +115,38 @@ switch ($user->roles) {
     
         $newfarm= new farm();
         //Validate data 
-        
+
         $validate=$request->validate([
-            'farmowner'=>'required',
             'community'=>'required',
-            'farmcode'=>'unique:farms,farmcode'
+            'farmcode'=>'unique:farms,farmcode',
+            'fname'=>'required|string',
+            'phone'=>'required',
+            'idno'=>'required',
+            'city'=>'required',
+            'state'=>'required',
+
         ]);
-        $newfarm->farmname=$request->farmowner;
+        
+        $farmowner=$request->fname." ".$request->surname;
+        $newfarm->farmname=$farmowner;
         $newfarm->community=$request->community;
         $newfarm->farmcode=$request->farmcode;
+        $newfarm->yearofcertification=$request->yearofcert;
+        $newfarm->fname=$request->fname;
+        $newfarm->surname=$request->surname;
+        $newfarm->phonenumber=$request->phone;
+        $newfarm->gender=$request->gender;
+        $newfarm->nationalidnumber=$request->idno;
+        $newfarm->crop=$request->crop;
+        $newfarm->cropvariety=$request->cropvariety;
+        $newfarm->region=$request->region;
+        $newfarm->state=$request->state;
+        $newfarm->noofpermworkers=$request->nopworkers;
+        $newfarm->nooftempworkers=$request->notworkers;
+
+
         $newfarm->farmstate='PENDING';
-        
-        
+    
         $newfarm->save();
 
         $farmlist=farm::all();
@@ -189,6 +209,8 @@ switch ($user->roles) {
             'farmarea',
             'inspectorid',
             'measurement',
+            'crop',
+            'cropvariety',
             'name', 'users.roles as uroles', 'users.id as uid'
         )->where('farmcode', $request->id)->first(); 
         $farmreports=DB::table('internalinspections')
