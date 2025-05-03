@@ -9,7 +9,7 @@
     @endphp
 <div>
     <div style="text-align: center">
-    <h3>FARM NAME</h3>
+    <h3>{{strtoupper($farm->farmname)}}</h3>
     <h4>{{$reportname->reportname}}</h4>
     </div>
     <table class="table table-bordered">
@@ -18,7 +18,7 @@
                 <td> <b>FIELD OPERATOR: </b></td>
                 <td>TO DO </td>
                 <td><b>CODE NUMBER:</b></td>
-                <td> TO DO</td>
+                <td> {{$farm->farmcode}}</td>
             </tr>
             <tr>
                 <td><b> HOUSE COORDINATE: </b></td>

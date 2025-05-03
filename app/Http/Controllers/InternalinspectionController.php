@@ -390,9 +390,10 @@ class InternalinspectionController extends Controller
                             ->get(); 
       
                             $reportname=reports::where('id', $inspection->reportid)->first();
+                            $farm=farm::where('id',$inspection->farmid)->first();
     
     
-                            return view('inspection.inspection_view_sheet', compact('reportname','reportquestions', 'user', 'inspection'));
+                            return view('inspection.inspection_view_sheet', compact('reportname','reportquestions', 'user', 'inspection','farm'));
                             //->with('reportname',$reportname)->with('reportquestions',$reportquestions);
 
                             break;                      

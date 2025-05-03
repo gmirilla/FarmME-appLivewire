@@ -18,7 +18,22 @@ class farm extends Model
         'longitude',
         'farmarea',
         'inspectorid',
-        'measurement'
+        'measurement', 
+        'nooffarmunits',
+        'yearofcertification',
+        'fname',
+        'surname',
+        'phonenumber',
+        'nationalidnumber',
+        'gender',
+        'noofpermworkers',
+        'nooftempworkers',
+        'village',
+        'state',
+        'region',
+        'crop',
+        'cropvariety'
+
 
     ];
 }

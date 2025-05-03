@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\FarmController;
 use App\Http\Controllers\InternalinspectionController;
+use App\Http\Controllers\MapsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ReportsectionController;
 use App\Http\Controllers\ReportquestionsController;
@@ -23,6 +24,12 @@ Route::middleware('auth')->group(function () {
     Route::get('user_admin',[userController::class, 'index'])->name('user_admin'); 
     Route::get('new_user',[userController::class, 'newuser'])->name('newuser');
     Route::post('user_update',[userController::class, 'user_update'])->name('user_update'); 
+
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('maptest',[MapsController::class, 'index'])->name('user_admin'); 
+
 
 });
 

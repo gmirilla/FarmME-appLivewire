@@ -43,13 +43,49 @@
 
                 </div>
             </div>
-            <div class="col">
+            <div class="col-6">
                 <h4 class="h4" style="text-align: center; background-color:green;  color: white">INSPECTION SUMMARY</h4>
+                <label>FARM STATUS</label>
+                <div class="d-flex">
+                    <div class="col-5">
+                        
+                        <input type="text" readonly class="form-control" value="{{$farm->farmstate}}"></div>
+
+
+                    <div>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#farmModal" data-bs-whatever=""><i class="fa fa-pencil-square-o"></i></button> 
+
+                    </div>
+                        
+   
+
+                </div>
                 <div class="mb-3">
-                    <label>FARM STATUS</label>
-                    <input type="text" readonly class="form-control" value="{{$farm->farmstate}}">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#farmModal" data-bs-whatever=""><i class="fa fa-pencil-square-o"></i></button>
+                    <div>
+                        FARM MEASURMENTS:
+                        <table class="table table-bordered table-striped">
+                            <tr>
+                                <td>House Latidude</td>
+                                <td>   ####### </td>
+                                <td>House Longitude</td>
+                                <td>########</td>
+                            </tr>
+                            <tr>
+                                <td>Farm Size (Ha)</td>
+                                <td> ######</td>
+                                <td> Certified Crop</td>
+                                <td> ###Ginger## </td>
+                            </tr>
+                            <tr>   
+                                <td>Name of Variety </td>
+                                <td> ######</td>
+                                <td> Source of Planting Material</td>
+                                <td> ###Ginger## </td>                               
+                            </tr>
+                        </table>
+                        <button type="button" class="btn btn-primary"> EDIT FARM MEASUREMENTS</button>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label>LAST INSPECTION</label>
@@ -91,7 +127,7 @@
                                 @endif
                                 
 
-                                <td></td>
+                                <td>{{$lastreport->comments}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -129,7 +165,7 @@
              <td>{{number_format(($farmreport->score / $farmreport->max_score *100),2)}}%</td> 
              <td>{{$farmreport->created_at}}</td>
              <td>{{$farmreport->inspectionstate}}</td>
-             <td><textarea class="form-control" name="comments" id="" cols="20" rows="3">Comments **To Do</textarea></td>
+             <td><textarea class="form-control" name="comments" id="" cols="20" rows="3">{{$farmreport->comments}}</textarea></td>
              <td>
                 <form action="/iapprove" method="post">
                     @csrf
