@@ -4,6 +4,7 @@ use App\Http\Controllers\dashboardController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\FarmController;
+use App\Http\Controllers\FarmunitsController;
 use App\Http\Controllers\InternalinspectionController;
 use App\Http\Controllers\MapsController;
 use App\Http\Controllers\ReportsController;
@@ -29,8 +30,6 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('maptest',[MapsController::class, 'index'])->name('user_admin'); 
-
-
 });
 
     Route::middleware(['auth','verified'])->group(function () {
@@ -58,6 +57,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/farm/assignstaff', [FarmController::class, 'assignstaff']);
         Route::get('/farm/view', [FarmController::class, 'displayfarm']);
     });
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/fu/edit',[FarmunitsController::class, 'edit'])->name('edit_farmunit'); 
+    });
+    
 
 Route::middleware('auth')->group(function () {
     Route::get('report',[ReportsController::class, 'new'])->name('viewreports');

@@ -1,7 +1,7 @@
 <x-layouts.app>
     <div class="d-flex flex-row-reverse bd-highlight">
-        <div class="p-2 bd-highlight" style="margin-right: 5px"><button  disabled class="btn btn-primary"> Certified Crop Details </button> </div>
-        <div class="p-2 bd-highlight" style="margin-right: 5px"><button disabled class="btn btn-primary">Farm Plot(s) Details </button></div>
+        <div class="p-2 bd-highlight" style="margin-right: 5px"><button  class="btn btn-primary"> Certified Crop Details </button> </div>
+        <div class="p-2 bd-highlight" style="margin-right: 5px"><button class="btn btn-primary">Farm Plot(s) Details </button></div>
         <div class="p-2 bd-highlight" style="margin-right: 5px"><button disabled class="btn btn-primary"> Farm Details </button></div>
     </div>
     @if ($errors->any())
@@ -89,7 +89,7 @@
                 <input type="number" placeholder="Enter year of Certification" id="yearofcert" name="yearofcert" required  class="form-control">
                 </div>
             <div>
-                <button type="submit" class="btn btn-primary">Register Farm</button>
+                <button type="submit" class="btn btn-primary">Update Details</button>
             </div>
         </form>
     </div>

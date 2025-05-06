@@ -10,7 +10,7 @@
     <div class="container-sm" >
         <div class="row">
             <div class="col">
-                <h4 class="h4" style="text-align: center; background-color:green ; color:white">FARM DETAIL</h4>
+                <h4 class="h4" style="text-align: center; background-color:green ; color:white">FARM DETAILS</h4>
                 <div class="mb-3">
                 <label>FARM NAME</label>
 
@@ -89,7 +89,11 @@
                                 <td> ###Ginger## </td>                               
                             </tr>
                         </table>
-                        <button type="button" class="btn btn-primary"> EDIT FARM MEASUREMENTS</button>
+                        <form action="/fu/edit" method="get">
+                            <input hidden type="text" name="farmid" value="{{$farm->id}}">
+                        <button type="submit" class="btn btn-primary" name="editfunits"> Edit Farm Details</button>
+                        </form>
+                        
                     </div>
                 </div>
                 <div class="mb-3">
