@@ -155,6 +155,49 @@ switch ($user->roles) {
 
 
     }
+    public function updatefarm(Request $request)
+    {
+
+        $newfarm= farm::where('id',$request->fid)->first();
+        //Validate data 
+
+        $validate=$request->validate([
+            'community'=>'required',
+            'fname'=>'required|string',
+            'phone'=>'required',
+            'idno'=>'required',
+
+        ]);
+
+        
+
+        $farmowner=$request->fname." ".$request->surname;
+        $newfarm->farmname=$farmowner;
+        $newfarm->community=$request->community;
+        $newfarm->yearofcertification=$request->yearofcert;
+        $newfarm->fname=$request->fname;
+        $newfarm->surname=$request->surname;
+        $newfarm->phonenumber=$request->phone;
+        $newfarm->gender=$request->gender;
+        $newfarm->nationalidnumber=$request->idno;
+        $newfarm->crop=$request->crop;
+        $newfarm->cropvariety=$request->cropvariety;
+        $newfarm->region=$request->region;
+        $newfarm->state=$request->state;
+        $newfarm->noofpermworkers=$request->nopworkers;
+        $newfarm->nooftempworkers=$request->notworkers;
+
+
+        $newfarm->farmstate='PENDING';
+    
+        $newfarm->save();
+
+        $farmlist=farm::all();
+
+        return redirect()->route('index');
+
+
+    }
     /**
      * Schedule a new inspection date
      */
@@ -226,6 +269,8 @@ switch ($user->roles) {
         return view('viewfarm')->with('farm', $farm)
         ->with('farmreports', $farmreports)->with('users',$users)->with('lastreport', $report);
     }
+
+    
 
 
 }

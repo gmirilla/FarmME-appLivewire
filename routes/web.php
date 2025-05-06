@@ -56,10 +56,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/farm/schedule', [FarmController::class, 'newinspectiondate']);
         Route::post('/farm/assignstaff', [FarmController::class, 'assignstaff']);
         Route::get('/farm/view', [FarmController::class, 'displayfarm']);
+        Route::post('/farm/updatefarm', [FarmController::class, 'updatefarm']);
     });
 
     Route::middleware('auth')->group(function () {
         Route::get('/fu/edit',[FarmunitsController::class, 'edit'])->name('edit_farmunit'); 
+        Route::get('/fu/list',[FarmunitsController::class, 'listfunits'])->name('listfunits'); 
     });
     
 

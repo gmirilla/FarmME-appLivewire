@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\farmunits;
+use App\Models\farm;
 use Illuminate\Http\Request;
 
 class FarmunitsController extends Controller
@@ -45,7 +46,21 @@ class FarmunitsController extends Controller
     public function edit(Request $request)
     {
         //
-        dd($request);
+        $farm=farm::where('id',$request->farmid)->first();
+        $farmunits=farmunits::where('farmid',$request->farmid)->get();
+        //dd($request);
+
+        return view("editfarmdetails", compact('farm','farmunits'));
+    }
+
+    public function listfunits(Request $request)
+    {
+        //
+        $farm=farm::where('id',$request->fid)->first();
+        $farmunits=farmunits::where('farmid',$request->farmid)->get();
+        //dd($request);
+
+        return view("editfunitdetails", compact('farm','farmunits'));
     }
 
     /**
