@@ -38,13 +38,24 @@
     <div>
         <h4 class="text-center">Calculate Area</h4>
         <div class="flex">
-            <div class="card" style="height: 500px; width: 60%;">
+            <div class="card" style="height: 500px; width: 70%;">
                 <div id="map" style="height: 500px; width: 100%;"></div>
             </div>
             <div>
+                <div>
                 <p>Latitude: <span id="latitude"></span></p>
                 <p>Longitude: <span id="longitude"></span></p>
-            </div>
+                <button class="btn btn-primary" onclick="getLocation()">Get Cordinates</button>
+                <button class="btn btn-success" onclick="setFarmLocation()">Set as Farm Coordinates</button>
+                <button class="btn btn-success" onclick="calcPoly()">Calculate Area</button>
+                <button class="btn btn-danger" onclick="resetPoly()">Reset</button>
+                </div>
+                <div class="card" style="margin: 10px">
+                    <h3>Plotted Coordinates</h3>
+                    <p><span id="polycoord"></span></p>
+
+                </div>
+            </div>            
 
         </div>
 
@@ -67,6 +78,35 @@
             });
         }
 
+        function savePoly()
+            {   
+            var polycoord=document.getElementById("polycoord").textContent;
+            var latitude=document.getElementById("latitude").textContent;
+            var longitude=document.getElementById("longitude").textContent;
+
+            if (polycoord.length == 0 ) {
+                var result=polycoord.concat('{ "lat":  ', latitude ,', "lng": ', longitude,' }');
+                document.getElementById("polycoord").textContent=result;
+            } else {
+
+               var result=polycoord.concat(',','{ "lat":  ', latitude ,', "lng": ', longitude,' }');
+
+
+            }
+
+               // var result=polycoord.concat("{ lat: " , latitude ,", lng: ", longitude," }");
+                document.getElementById("polycoord").textContent=result;
+    
+            }
+            function resetPoly()
+            {   
+            document.getElementById("polycoord").textContent="";
+            //TO DO handle potential trailing ","
+            
+    
+            }    
+    
+
         function getLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
@@ -77,6 +117,9 @@
                     document.getElementById("longitude").textContent = longitude;
 
                     initMap(latitude, longitude);
+                    savePoly();
+
+
                 }, function(error) {
                     console.error("Error getting location: ", error);
                     alert("Geolocation failed. Please enable location services.");
@@ -89,5 +132,48 @@
         // Call the function to get the user's location
         getLocation();
 
+        function setFarmLocation()
+        {
+            document.getElementById("fulatitude").value=document.getElementById("latitude").textContent;
+            document.getElementById("fulongitude").value=document.getElementById("longitude").textContent;
+
+        }
+        function calcPoly()
+        {
+            // Define the polygon coordinates
+            var polycoords=document.getElementById("polycoord").textContent;
+            var jsonPolyString="["+polycoords+"]";
+            //Convert coordinate strings into Array of Json Objects
+            const jsonArray = JSON.parse(jsonPolyString);
+
+            var polygonCoords = jsonArray;
+
+            // Create the polygon
+                var polygon = new google.maps.Polygon({
+                paths: polygonCoords,
+                strokeColor: "#008000",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: "#008000",
+                fillOpacity: 0.35
+            });
+
+            polygon.setMap(map);
+
+            // Calculate the area in square meters
+                var area = (google.maps.geometry.spherical.computeArea(polygon.getPath())/10000)                ;
+                alert("Polygon Area: " + area.toFixed(2) + " ha");               
+
+
+        }
+
+
     </script>
+        <script>
+
+        </script>
+
+        
+
+
 </x-layouts.app>
