@@ -63,6 +63,23 @@ class FarmunitsController extends Controller
         return view("editfunitdetails", compact('farm','farmunits'));
     }
 
+    public function newfunit(Request $request)
+    {
+        //
+        try {
+            //code...
+            $farm=farm::where('id',$request->farmid)->first();
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        
+        $farmunits=farmunits::where('farmid',$request->farmid)->get();
+        //dd($request);
+
+        return view("newfunit", compact('farm'));
+    }
+
     /**
      * Update the specified resource in storage.
      */

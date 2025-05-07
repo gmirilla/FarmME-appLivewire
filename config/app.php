@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'BANDR-FARMAPP'),
 
     /*
     |--------------------------------------------------------------------------
@@ -122,5 +122,17 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+     /*
+    |--------------------------------------------------------------------------
+    | MAP API KEYS
+    |--------------------------------------------------------------------------
+    |
+    |
+    |
+    */
+
+    'MAP_API_KEY' => env('GOOGLE_API_KEY'),
+
 
 ];

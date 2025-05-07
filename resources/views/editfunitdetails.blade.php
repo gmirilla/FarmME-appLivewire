@@ -3,7 +3,10 @@
         <div class="p-2 bd-highlight" style="margin-right: 5px"><button  class="btn btn-primary" name=> Certified Crop Details </button> </div>
         <div class="p-2 bd-highlight" style="margin-right: 5px"><button disabled class="btn btn-primary" name="gofunits">Farm Plot(s) Details </button>
             </div>
-            <div class="p-2 bd-highlight" style="margin-right: 5px"><button class="btn btn-primary"> Farm Details </button></div>
+            <div class="p-2 bd-highlight" style="margin-right: 5px"><form method="get" action="{{route('edit_farmunit')}}">
+                @csrf
+                <input type="text" name="farmid" id="farmid" hidden value="{{$farm->id}}">
+                <button class="btn btn-primary"> Farm Details </button></form></div>
         </div>
         
 
@@ -54,7 +57,14 @@
                         <td colspan=5 style="text-align: center"><b>NO FARM UNITS RECORDED !! </b></td>
                         @endforelse
                         <tr>
-                            <td><button class="btn btn-primary"> Add Farm Unit(to do LOAD MODAL***)</button></td>
+                            <td>
+                                <form action="{{route('newfunit')}}" method="get">
+
+                                    <input type="text" name="farmid" id="farmid2" hidden value="{{$farm->id}}">
+                                    <button class="btn btn-primary" name="newfunit"> Add Farm Unit</button>
+
+                                </form>
+                                </td>
                         </tr>
                     </tbody>
                 </table>
