@@ -19,11 +19,11 @@
                         <input type="text" value="{{$farm->fuarea}}" id="fuarea"  name="fuarea"  required class="form-control">
                         </div>
             <div class="mb-3" style="margin-right: 10px">
-                            <label for="fulatitude" class="form-label">Latitude (DD format)**</label>
+                            <label for="fulatitude" class="form-label">Latitude</label>
                             <input type="text" value="{{$farm->fulatitude}}" id="fulatitude"  name="fulatitude"   class="form-control">
                             </div>
             <div class="mb-3" style="margin-right: 10px">
-                                <label for="fulongitude" class="form-label">Longitude (DD format)**</label>
+                                <label for="fulongitude" class="form-label">Longitude</label>
                                 <input type="text" value="{{$farm->fulongitude}}" id="fulongitude"  name="fulongitude"   class="form-control">
                                 
             </div>
@@ -38,21 +38,28 @@
     <div>
         <h4 class="text-center">Calculate Area</h4>
         <div class="flex">
-            <div class="card" style="height: 500px; width: 70%;">
+            <div class="card" style="height: 500px; width: 68%;">
                 <div id="map" style="height: 500px; width: 100%;"></div>
             </div>
-            <div>
+            <div style="width: 30%;">
                 <div>
                 <p>Latitude: <span id="latitude"></span></p>
                 <p>Longitude: <span id="longitude"></span></p>
-                <button class="btn btn-primary" onclick="getLocation()">Get Cordinates</button>
-                <button class="btn btn-success" onclick="setFarmLocation()">Set as Farm Coordinates</button>
-                <button class="btn btn-success" onclick="calcPoly()">Calculate Area</button>
-                <button class="btn btn-danger" onclick="resetPoly()">Reset</button>
+                <button class="btn btn-primary" onclick="getLocation()" data-toggle="tooltip" data-placement="right" title="Get Current Coordinates">Get Cordinates</button>
+                <button class="btn btn-success" onclick="setFarmLocation()" data-toggle="tooltip" data-placement="right" title="Set as Farm Coordinates">Set as Farm Coordinates</button>
+                <button class="btn btn-warning" onclick="calcPoly()" data-toggle="tooltip" data-placement="right" title="Calculate Area">Calculate Area</button>
+                <button class="btn btn-danger" onclick="resetPoly()" data-toggle="tooltip" data-placement="right" title="Clear all previous Coordinates">Reset</button>   
                 </div>
                 <div class="card" style="margin: 10px">
                     <h3>Plotted Coordinates</h3>
                     <p><span id="polycoord"></span></p>
+
+                </div>
+                <div id="showArea" class="card" style="margin: 10px; display:none">
+                    <h3>Farm Area</h3>
+                    <p><b><span id="farmareaha"></span> ha </b></p>
+                    <p><b><span id="farmaream2"></span> m<sup>2</sup></b></p>
+                    <button class="btn btn-success" onclick="setFarmarea()">Set as Farm Area</button>
 
                 </div>
             </div>            
@@ -138,6 +145,12 @@
             document.getElementById("fulongitude").value=document.getElementById("longitude").textContent;
 
         }
+        function setFarmarea()
+        {
+            document.getElementById("fuarea").value=document.getElementById("farmareaha").textContent;
+
+        }
+
         function calcPoly()
         {
             // Define the polygon coordinates
@@ -160,10 +173,13 @@
 
             polygon.setMap(map);
 
-            // Calculate the area in square meters
+            // Calculate the area in square meters and ha
                 var area = (google.maps.geometry.spherical.computeArea(polygon.getPath())/10000)                ;
-                alert("Polygon Area: " + area.toFixed(2) + " ha");               
-
+                var showarea=document.getElementById("showArea");
+                
+                document.getElementById("farmaream2").textContent= area;
+                document.getElementById("farmareaha").textContent= (area*10000);
+                showarea.style.display='block';
 
         }
 
