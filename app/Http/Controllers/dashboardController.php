@@ -23,10 +23,13 @@ class dashboardController extends Controller
         switch ($user->roles) {
             case 'ADMINISTRATOR':
                 # code...
-                $usercount=User::where('roles','like', '%ACTIVE%' )->count();
+                $usercount=User::whereNotIn('roles',['NONE','DISABLED'] )->count();
                 $farmcount=farm::where('farmstate','like', '%ACTIVE%' )->count();
+                $farmarea=farm::where('farmstate','like', '%ACTIVE%' )->sum('farmarea');
                 $farmpendingcount=farm::where('farmstate','like', '%PENDING%' )->count();
                 $inspectioncount=internalinspection::where('inspectionstate','like', '%SUBMITTED%' )->count();
+                $inspectionapprovedcount=internalinspection::where('inspectionstate','like', '%APPROVED%' )->count();
+                $inspectionrejectedcount=internalinspection::where('inspectionstate','like', '%REJECTED%' )->count();
                 break;
             case 'INSPECTOR':
                 # code...
@@ -43,11 +46,9 @@ class dashboardController extends Controller
         }     
     
 
-        return view('dashboard')
-        ->with('usercount',$usercount)
-        ->with('farmcount',$farmcount)
-        ->with('inspectioncount',$inspectioncount)
-        ->with('farmpendingcount',$farmpendingcount);
+
+        return view('dashboard', 
+        compact('usercount','farmcount','inspectioncount','farmpendingcount', 'inspectionapprovedcount',  'inspectionrejectedcount','farmarea'));
     }
 
     /**

@@ -57,7 +57,7 @@ class FarmunitsController extends Controller
     {
         //
         $farm=farm::where('id',$request->fid)->first();
-        $farmunits=farmunits::where('farmid',$request->farmid)->get();
+        $farmunits=farmunits::where('farmid',$request->fid)->get();
         //dd($request);
 
         return view("editfunitdetails", compact('farm','farmunits'));
@@ -79,6 +79,49 @@ class FarmunitsController extends Controller
 
         return view("newfunit", compact('farm'));
     }
+
+    public function savefunit(Request $request)
+    {
+        //
+        try {
+            //code...
+            $farm=farm::where('id',$request->fid)->first();
+
+            
+            $farmunit= new farmunits();
+
+            //create new Farm unit
+
+
+            $farmunit->farmid=$request->fid;
+            $farmunit->fuarea=$request->fuarea;
+            $farmunit->fulatitude=$request->fulatitude;
+            $farmunit->fulongitude=$request->fulongitude;
+
+            $farmunit->save();
+
+            //Update total Farm Area and unit count
+
+            $totalfarmunitcount=$farmunit::where('farmid', $request->fid )->count();
+            $totalfarmunitarea=$farmunit::where('farmid', $request->fid )->sum('fuarea');
+            $farm->farmarea=$totalfarmunitarea;
+            $farm->nooffarmunits=$totalfarmunitcount;
+
+            $farm->save();
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        
+        $farmunits=farmunits::where('farmid',$request->fid)->get();
+        
+        return view("editfunitdetails", compact('farm','farmunits'));
+    }
+
+
+
+
+
 
     /**
      * Update the specified resource in storage.

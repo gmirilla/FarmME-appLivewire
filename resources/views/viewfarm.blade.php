@@ -73,10 +73,13 @@
                             </tr>
                             <tr>
                                 <td>Farm Size (Ha)</td>
-                                <td> ######</td>
-                                <td> Certified Crop</td>
-                                <td> @if (!empty($farm->crop))
-                                    {{ $farm->crop}}            
+                                <td>@if (!empty($farm->farmarea))
+                                    {{$farm->farmarea}} Ha
+                                @endif 
+                                    </td>
+                                <td> No of Plots</td>
+                                <td> @if (!empty($farm->nooffarmunits))
+                                    {{ $farm->nooffarmunits}}            
                                 @endif
                             </td>
                             </tr>
@@ -85,8 +88,11 @@
                                 <td> @if (!empty($farm->cropvariety))
                                     {{ $farm->cropvariety}}            
                                 @endif</td>
-                                <td> Source of Planting Material</td>
-                                <td> ###Ginger## </td>                               
+                                <td> Certified Crop</td>
+                                <td> @if (!empty($farm->crop))
+                                    {{ $farm->crop}}            
+                                @endif
+                            </td>                            
                             </tr>
                         </table>
                         <form action="/fu/edit" method="get">

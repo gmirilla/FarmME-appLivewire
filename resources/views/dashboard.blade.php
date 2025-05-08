@@ -7,7 +7,7 @@
                     <i class="fa-solid fa-user"></i> 
                     <div class="card-body">
                         <h3 class="card-title">{{$usercount}}</h3>
-                      <p class="card-title" style="padding: 16px 0px 16px 0px">Number of Users</p>
+                      <p class="card-title" style="padding: 16px 0px 16px 0px">Active Users</p>
                       <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
                       <div  class="card-footer" style="text-align: center; ">
                         <h5  style="color: white">More info</h5>
@@ -38,7 +38,7 @@
                     <i class="fa-solid fa-user"></i> 
                     <div class="card-body">
                         <h3 class="card-title">{{$farmcount}}</h3>
-                      <p class="card-title" style="padding: 16px 0px 16px 0px">Number of Farms</p>
+                      <p class="card-title" style="padding: 16px 0px 16px 0px">Active Farms</p>
                         <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
                       <div class="card-footer" style="text-align: center; opacity: 0.5;">
                         <h5 style="color: white">More info</h5>
@@ -67,7 +67,7 @@
           <div class="card" style="background-color:#dc3545; color:white">
             <i class="fa-solid fa-user"></i> 
             <div class="card-body">
-                <h5 class="card-title">10 Approved    5 Rejected</h5>
+                <h5 class="card-title">{{$inspectionapprovedcount}} Approved    {{$inspectionrejectedcount}} Rejected</h5>
               <p class="card-title" style="padding: 16px 0px 16px 0px">Inspections Completed</p>
                 <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
               <div class="card-footer" style="text-align: center; opacity: 0.5;">
@@ -81,7 +81,7 @@
           <div class="card" style="background-color:#dc3545; color:white">
             <i class="fa-solid fa-user"></i> 
             <div class="card-body">
-                <h3 class="card-title">400ha</h3>
+                <h3 class="card-title">{{$farmarea}}ha</h3>
               <p class="card-title" style="padding: 16px 0px 16px 0px">Total Acreage</p>
                 <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
               <div class="card-footer" style="text-align: center; opacity: 0.5;">

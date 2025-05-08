@@ -20,36 +20,51 @@
   </div>
 @endif
     <div>
+
             <div class="flex">
                 <div class="mb-3" style="margin-right: 10px">
                     <label for="farmcode" class="form-label">Farm Code</label>
                     <input type="text" value={{$farm->farmcode}} id="farmcode"  name="farmcode" disabled class="form-control">
                     <input type="text" value={{$farm->id}} id="fid"  name="fid" hidden class="form-control">
                     </div>
- 
-            </div>
-            <div class="mb-3">
+                    <div class="mb-3" style="margin-right: 10px">
+                        <label for="nooffarmunits" class="form-label">No of Units</label>
+                        <input type="text" value="{{$farm->nooffarmunits}}" id="nooffarmunits"  name="nooffarmunits" disabled class="form-control">
+                        </div>
+                    <div class="mb-3" style="margin-right: 10px">
+                            <label for="farmarea" class="form-label">Total Area (Ha)</label>
+                            <input type="text" value="{{$farm->farmarea}}" id="farmarea"  name="farmarea" disabled class="form-control">
+                            </div>
+        
+                </div>
 
+    
             </div>
+ 
             <div class="mb-3">
                 <table class="table table-striped">
                     <thead>
                         <th>Farm Unit ID</th>
-                        <th>Farm Unit Area (ha)</th>
+                        <th>Farm Unit Area(ha)</th>
                         <th>Latitude</th>
                         <th>Longitude</th>
                         <th>Action(s)</th>
                     </thead>
                     <tbody>
+
                         @forelse ($farmunits as $funit )
                         <form method="post" action='/farm/updatefunits'>
                             {{ csrf_field() }}
                         <tr>
-                            <td><input type="text" value={{$farm->id}} id="fid"  name="fid" hidden class="form-control"></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><button type="submit" class="btn btn-primary">Update Details</button></td>
+                            <td>
+                                {{$funit->id}}
+                                <input type="text" value={{$funit->id}} id="fid"  name="fid" hidden class="form-control">
+                                <input type="text" value={{$farm->id}} id="fid"  name="fid" hidden class="form-control"></td>
+                            <td>{{$funit->fuarea}}</td>
+                            <td>{{$funit->fulatitude}}</td>
+                            <td>{{$funit->fulongitude}}</td>
+                            <td><button type="submit" class="btn btn-primary">Update Details</button>
+                                <button type="submit" class="btn btn-danger">Delete Farm</button></td>
            
                         </tr> 
                         </form>

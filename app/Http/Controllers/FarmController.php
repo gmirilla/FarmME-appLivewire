@@ -254,6 +254,8 @@ switch ($user->roles) {
             'measurement',
             'crop',
             'cropvariety',
+            'nooffarmunits',
+            'yearofcertification',
             'name', 'users.roles as uroles', 'users.id as uid'
         )->where('farmcode', $request->id)->first(); 
         $farmreports=DB::table('internalinspections')

@@ -25,24 +25,24 @@
             <div class="flex">
                 <div class="mb-3" style="margin-right: 10px">
                     <label for="fname" class="form-label">First Name</label>
-                    <input type="text" value={{$farm->fname}} id="fname"  name="fname" required class="form-control">
+                    <input type="text" value="{{$farm->fname}}" id="fname"  name="fname" required class="form-control">
                     </div>
                     <div class="mb-3" style="margin-right: 10px">
                         <label for="surname" class="form-label">Surname</label>
-                        <input type="text" value={{$farm->surname}} id="surname"  name="surname" required class="form-control">
+                        <input type="text" value="{{$farm->surname}}" id="surname"  name="surname" required class="form-control">
                         </div>
                         <div class="mb-3" style="margin-right: 10px">
                             <label for="phone" class="form-label">Phone Number</label>
-                            <input type="tel"  id="phone"  name="phone" required class="form-control" value={{$farm->phonenumber}}>
+                            <input type="tel"  id="phone"  name="phone" required class="form-control" value="{{$farm->phonenumber}}">
                             </div>
                             <div class="mb-3" style="margin-right: 10px">
                                 <label for="idno" class="form-label">ID Number</label>
-                                <input type="text"  id="idno"  name="idno" class="form-control" value={{$farm->nationalidnumber}}>
+                                <input type="text"  id="idno"  name="idno" class="form-control" value="{{$farm->nationalidnumber}}">
                                 </div>
                                 <div class="mb-3" style="margin-right: 10px">
                                     <label for="gender" class="form-label">Gender</label>
                                     <select name="gender" id="gender" required class="form-select">
-                                        <option value={{$farm->gender}} selected>{{$farm->gender}}</option>
+                                        <option value="{{$farm->gender}}" selected>{{$farm->gender}}</option>
                                         <option value="MALE">MALE</option>
                                         <option value="FEMALE">FEMALE</option>
                                     </select>
