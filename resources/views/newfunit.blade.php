@@ -11,6 +11,7 @@
                 <label for="farmcode" class="form-label">Farm Code</label>
                 <input type="text" value="{{$farm->farmcode}}" id="farmcode"  name="farmcode" disabled class="form-control">
                 <input type="text" value="{{$farm->id}}" id="fid"  name="fid" hidden class="form-control">
+                <input type="text" value="{{$farmunit->id}}" id="farmunitid"  name="farmunitid" hidden class="form-control">
                 </div>
             <div class="col-auto">
                     <label for="fuid" class="form-label">Farm ID**</label>
@@ -18,15 +19,15 @@
                     </div>
             <div class="col-auto">
                         <label for="fuarea" class="form-label">Unit area (ha)*</label>
-                        <input type="text" value="{{$farm->fuarea}}" id="fuarea"  name="fuarea"  required class="form-control">
+                        <input type="text" value="{{$farmunit->fuarea}}" id="fuarea"  name="fuarea"  required class="form-control">
                         </div>
             <div class="col-auto">
                             <label for="fulatitude" class="form-label">Latitude</label>
-                            <input type="text" value="{{$farm->fulatitude}}" id="fulatitude"  name="fulatitude"   class="form-control">
+                            <input type="text" value="{{$farmunit->fulatitude}}" id="fulatitude"  name="fulatitude"   class="form-control">
                             </div>
             <div class="col-auto" >
                                 <label for="fulongitude" class="form-label">Longitude</label>
-                                <input type="text" value="{{$farm->fulongitude}}" id="fulongitude"  name="fulongitude"   class="form-control">
+                                <input type="text" value="{{$farmunit->fulongitude}}" id="fulongitude"  name="fulongitude"   class="form-control">
                                 
             </div>
             <div class="col-auto" >
@@ -66,7 +67,15 @@
                 <div class="card mb-3" >
                     <div class="card-title text-center"><b>PLOTTED COORDINATES</b></div>
                     <div class="card-body">
-                        <p><span id="polycoord"></span></p>
+                        <table class="table table-striped table-bordered fs-6">
+                            <thead>
+                                <th>Lat</th><th>Long</th>
+                            </thead>
+                            <tbody id="formartcoordinates">
+
+                            </tbody>
+                        </table>
+                            <div hidden><span id="polycoord"></span></div>
                     </div>
                 </div>
                 <div  id="showArea" class="card" style="display:none">
@@ -105,10 +114,26 @@
             var polycoord=document.getElementById("polycoord").textContent;
             var latitude=document.getElementById("latitude").textContent;
             var longitude=document.getElementById("longitude").textContent;
+            let tbody = document.getElementById("formartcoordinates");
+            let newRow = document.createElement("tr");
+            let newCelllat = document.createElement("td");
+            let newCelllong = document.createElement("td");
+            newCelllat.textContent = latitude;
+            newCelllong.textContent = longitude; // Add content to the cells
+            newRow.appendChild(newCelllat); 
+            newRow.appendChild(newCelllong); // Add cell to row
+
+            tbody.appendChild(newRow); // Add row to tbody
+
+
 
             if (polycoord.length == 0 ) {
                 var result=polycoord.concat('{ "lat":  ', latitude ,', "lng": ', longitude,' }');
+                let coordrow=document.getElementById("formartcoordinates").innerHTML+ "<tr><td></td></tr>";
                 document.getElementById("polycoord").textContent=result;
+                document.getElementById("formartcoordinates").innerHTML=coordrow;
+                console.log(coordrow);
+
             } else {
 
                var result=polycoord.concat(',','{ "lat":  ', latitude ,', "lng": ', longitude,' }');
@@ -123,6 +148,7 @@
             function resetPoly()
             {   
             document.getElementById("polycoord").textContent="";
+            document.getElementById("formartcoordinates").textContent="";
             //TO DO handle potential trailing ","
             
     
@@ -192,8 +218,8 @@
                 var area = (google.maps.geometry.spherical.computeArea(polygon.getPath())/10000)                ;
                 var showarea=document.getElementById("showArea");
                 
-                document.getElementById("farmaream2").textContent= area;
-                document.getElementById("farmareaha").textContent= (area*10000);
+                document.getElementById("farmaream2").textContent= area*10000;
+                document.getElementById("farmareaha").textContent= area;
                 showarea.style.display='block';
 
         }

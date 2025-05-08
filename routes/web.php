@@ -64,6 +64,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/fu/list',[FarmunitsController::class, 'listfunits'])->name('listfunits'); 
         Route::get('/fu/new',[FarmunitsController::class, 'newfunit'])->name('newfunit');
         Route::post('/fu/save', [FarmunitsController::class, 'savefunit'])->name('fusave');
+        Route::post('/fu/editfunit', [FarmunitsController::class, 'editfunit'])->name('editfu');
+        
     });
     
 

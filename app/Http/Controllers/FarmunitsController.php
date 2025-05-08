@@ -63,12 +63,60 @@ class FarmunitsController extends Controller
         return view("editfunitdetails", compact('farm','farmunits'));
     }
 
-    public function newfunit(Request $request)
+
+    public function editfunit(Request $request)
     {
         //
         try {
             //code...
+
+            
             $farm=farm::where('id',$request->farmid)->first();
+            $farmunit=farmunits::where('id', $request->fid)->first();
+
+            switch ($request) {
+                case $request->has('updatefu'):
+                    # code...
+
+                    return redirect()->route('newfunit',$request);
+ 
+                    break;
+
+                case $request->has('deletefu'):
+                        # code...
+                        $farmunit->delete();
+                    break;
+                    
+                default:
+                    # code...
+        
+                    break;
+            }
+
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        //dd($request);
+        $totalfarmunitcount=farmunits::where('farmid', $request->farmid)->count();
+        $totalfarmunitarea=farmunits::where('farmid', $request->farmid)->sum('fuarea');
+        $farm->farmarea=$totalfarmunitarea;
+        $farm->nooffarmunits=$totalfarmunitcount;
+
+        $farm->save();
+        
+        $farmunits=farmunits::where('farmid',$request->farmid)->get();
+
+        return view("editfunitdetails", compact('farm','farmunits'));
+    }
+
+    public function newfunit(Request $request)
+    {
+        //
+
+        try {
+            //code...
+            $farm=farm::where('id',$request->farmid)->first();
+            $farmunit=farmunits::find($request->fid);
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -77,7 +125,7 @@ class FarmunitsController extends Controller
         $farmunits=farmunits::where('farmid',$request->farmid)->get();
         //dd($request);
 
-        return view("newfunit", compact('farm'));
+        return view("newfunit", compact('farm','farmunit'));
     }
 
     public function savefunit(Request $request)
@@ -88,7 +136,7 @@ class FarmunitsController extends Controller
             $farm=farm::where('id',$request->fid)->first();
 
             
-            $farmunit= new farmunits();
+            $farmunit= farmunits::where('id',$request->farmunitid)->firstOrCreate();
 
             //create new Farm unit
 

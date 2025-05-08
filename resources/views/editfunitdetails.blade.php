@@ -53,18 +53,19 @@
                     <tbody>
 
                         @forelse ($farmunits as $funit )
-                        <form method="post" action='/farm/updatefunits'>
+                        <form method="post" action="{{route('editfu')}}">
                             {{ csrf_field() }}
                         <tr>
                             <td>
                                 {{$funit->id}}
                                 <input type="text" value={{$funit->id}} id="fid"  name="fid" hidden class="form-control">
-                                <input type="text" value={{$farm->id}} id="fid"  name="fid" hidden class="form-control"></td>
+                                <input type="text" value={{$farm->id}} id="farmid"  name="farmid" hidden class="form-control">
+                                <input type="text" value={{$farm->id}} id="farmcode"  name="farmid" hidden class="form-control"></td>
                             <td>{{$funit->fuarea}}</td>
                             <td>{{$funit->fulatitude}}</td>
                             <td>{{$funit->fulongitude}}</td>
-                            <td><button type="submit" class="btn btn-primary">Update Details</button>
-                                <button type="submit" class="btn btn-danger">Delete Farm</button></td>
+                            <td><button type="submit" class="btn btn-primary" name="updatefu">Update Details</button>
+                                <button type="submit" class="btn btn-danger" name="deletefu">Delete Farm</button></td>
            
                         </tr> 
                         </form>
