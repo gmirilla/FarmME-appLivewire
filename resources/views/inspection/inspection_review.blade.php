@@ -16,8 +16,9 @@
 @endif
 
 
-    <div>
-        <table class="table display table-striped table-hover table-success" id="reports">
+    <div class="card bg-transparent">
+      <div class="card-body">
+        <table class="table display table-striped table-hover" id="reports">
             <thead>
                 <th>ReportId</th>
                 <th>ReportType</th>
@@ -98,6 +99,7 @@
  
             </tbody>
         </table>
+      </div>
     </div>
     <!-- MODAL approve with condition -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

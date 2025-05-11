@@ -7,11 +7,12 @@
     @php
         $counter=0;
     @endphp
-<div>
-    <div style="text-align: center">
+<div class="card">
+    <div class="card-header" style="text-align: center">
     <h3>{{strtoupper($farm->farmname)}}</h3>
     <h4>{{$reportname->reportname}}</h4>
     </div>
+    <div class="card-body">
     <table class="table table-bordered">
         <tbody>
             <tr>
@@ -270,5 +271,6 @@
         </tbody>
     </table>
     </div>
+</div>
 </div>
 </x-layouts.app>

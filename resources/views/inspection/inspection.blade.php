@@ -6,7 +6,7 @@
 <link rel="stylesheet" href=
 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <div>
-        <div>
+        <div class="d-flex flex-row-reverse mb-3">
             <!-- 
     <form id='search' name='searchforfarm' method='get' action='farm'>
         <input type="text" placeholder="Search for Farm" name="farmsearch" style="border: solid 1px grey ; padding:3px">
@@ -14,10 +14,11 @@
       <form>
     -->
 
-<a class="btn btn-primary" href='inspection/new'>New Inspection</a>
+<a class="btn btn-primary mt-3" href='inspection/new'>New Inspection</a>
 </div>
-<td>
-<table class="table table-striped display table-success" id="inspectiondt" style="width: 100%">
+<div class="card  bg-transparent">
+<div class="card-body">    
+<table class="table table-striped display" id="inspectiondt" style="width: 100%">
 
     <thead>
 
@@ -93,6 +94,8 @@
     @endforelse
 </tbody>    
 </table>
+</div>
+</div>
 </div>
 <script>
     new DataTable('#inspectiondt');

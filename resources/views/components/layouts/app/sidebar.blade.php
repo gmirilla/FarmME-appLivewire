@@ -3,8 +3,8 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
+    <body class="min-h-screen bg-white dark:bg-zinc-800" style="background: url('assets/images/triangles.svg') repeat 0 100%, -webkit-gradient(linear, left top, right top, from(#f2eadc), to(#F5F0E6)) 0% 0% no-repeat padding-box">
+        <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900" style="background-color:#5D4037 ; color: #f5f0e6">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
             <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2" wire:navigate>
@@ -17,7 +17,7 @@
                     <flux:navlist.item icon="photo" href='/farm' style="margin-top:8px;">Farms</flux:navlist.item>
                     <flux:navlist.item icon="photo" href='/report' style="margin-top:8px;">Report Config</flux:navlist.item>
                     <flux:navlist.item icon="users" href='/user_admin' style="margin-top:8px;">User Admin</flux:navlist.item>
-                    <flux:navlist.item icon="photo" href='/inspection' style="margin-top:8px;">Farm Onboarding</flux:navlist.item>
+                    <flux:navlist.item icon="photo" href='#' style="margin-top:8px;">Farm Onboarding</flux:navlist.item>
                     <flux:navlist.item icon="photo" href='/inspection' style="margin-top:8px;">Farm Inspections</flux:navlist.item>
                     <flux:navlist.item icon="clipboard-document-check" href='/inspection_approval' style="margin-top:8px;">Inspection Reviews</flux:navlist.item>
                 </flux:navlist.group>

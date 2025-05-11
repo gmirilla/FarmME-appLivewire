@@ -1,111 +1,100 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 <x-layouts.app>
-    <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl">
-        <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-                <div class="card" style="background-color:green; color:white">
-                    <i class="fa-solid fa-user"></i> 
-                    <div class="card-body">
-                        <h3 class="card-title">{{$usercount}}</h3>
-                      <p class="card-title" style="padding: 16px 0px 16px 0px">Active Users</p>
-                      <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
-                      <div  class="card-footer" style="text-align: center; ">
-                        <h5  style="color: white">More info</h5>
-                      </div>
-                      </a>
-                    </div>
-                  </div>
+  <div class="bg-transparent col-sm-9 mb-3">
+    <div class="class-body"><h3 style="color: #388E3C"><b>Dashboard: Welcome {{$user->fname}}</b></h3> </div>
+  </div>
+  <div>
+  <div class="card  bg-transparent col-sm-9">
+    <div class="card-body">
+      <div class="row gy-2 gx-3 align-items-center mb-3" >
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
+          <div class="card-body">
+            <div style="font-size: 30px"><i class="fa fa-user fa-lg"></i> </div>
+            
+              <h3 class="card-title text-center">{{$usercount}}</h3>
+            <div  class="card-footer" style="text-align: center; ">
+              <h5  style="color: #388E3C">Active Users</h5>
             </div>
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-              <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-              <div class="card" style="background-color:green; color:white">
-                  <i class="fa-solid fa-user"></i> 
-                  <div class="card-body">
-                      <h3 class="card-title">{{$farmpendingcount}} farm(s)</h3>
-                    <p class="card-title" style="padding: 16px 0px 16px 0px">Onboarding Pending</p>
-                    <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
-                    <div  class="card-footer" style="text-align: center; ">
-                      <h5  style="color: white">More info</h5>
-                    </div>
-                    </a>
-                  </div>
-                </div>
           </div>
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-                
-                <div class="card" style="background-color:#17a2b8; color:white">
-                    <i class="fa-solid fa-user"></i> 
-                    <div class="card-body">
-                        <h3 class="card-title">{{$farmcount}}</h3>
-                      <p class="card-title" style="padding: 16px 0px 16px 0px">Active Farms</p>
-                        <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
-                      <div class="card-footer" style="text-align: center; opacity: 0.5;">
-                        <h5 style="color: white">More info</h5>
-                      </div>
-                      </a>
-                    </div>
-                  </div>
-            </div>
-            <div class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
-                
-                <div class="card" style="background-color:#dc3545; color:white">
-                    <i class="fa-solid fa-user"></i> 
-                    <div class="card-body">
-                        <h3 class="card-title">{{$inspectioncount}}</h3>
-                      <p class="card-title" style="padding: 16px 0px 16px 0px">Inspections Awaiting Approval</p>
-                        <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
-                      <div class="card-footer" style="text-align: center; opacity: 0.5;">
-                        <h5 style="color: white">More info</h5>
-                      </div>
-                      </a>
-                    </div>
-                  </div>
         </div>
-        <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-          <div class="card" style="background-color:#dc3545; color:white">
-            <i class="fa-solid fa-user"></i> 
-            <div class="card-body">
-                <h5 class="card-title">{{$inspectionapprovedcount}} Approved    {{$inspectionrejectedcount}} Rejected</h5>
-              <p class="card-title" style="padding: 16px 0px 16px 0px">Inspections Completed</p>
-                <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
-              <div class="card-footer" style="text-align: center; opacity: 0.5;">
-                <h5 style="color: white">More info</h5>
-              </div>
-              </a>
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
+          <div class="card-body">
+            <div style="font-size: 30px"><i class="fa fa-leaf" aria-hidden="true"></i></div>
+              <h3 class="card-title text-center">{{$farmpendingcount}}</h3>
+            <div  class="card-footer" style="text-align: center; ">
+              <h5  style="color: #388E3C">Pending Onboarding</h5>
             </div>
           </div>
-    </div>
-        <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-          <div class="card" style="background-color:#dc3545; color:white">
-            <i class="fa-solid fa-user"></i> 
-            <div class="card-body">
-                <h3 class="card-title">{{$farmarea}}ha</h3>
-              <p class="card-title" style="padding: 16px 0px 16px 0px">Total Acreage</p>
-                <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
-              <div class="card-footer" style="text-align: center; opacity: 0.5;">
-                <h5 style="color: white">More info</h5>
-              </div>
-              </a>
+        </div>
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
+          <div class="card-body">
+            <div style="font-size: 30px"><i class="fa fa-pagelines" aria-hidden="true"></i></div>
+              <h3 class="card-title text-center">{{$farmcount}}</h3>
+            <div  class="card-footer" style="text-align: center; ">
+              <h5  style="color: #388E3C">Active Farms</h5>
             </div>
           </div>
-    </div>
-    <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-      <div class="card" style="background-color:#dc3545; color:white">
-        <i class="fa-solid fa-user"></i> 
-        <div class="card-body">
-            <h3 class="card-title">45000Kg</h3>
-          <p class="card-title" style="padding: 16px 0px 16px 0px">Estimated Total Yeild</p>
-            <a href="#" style="background-color:rgba(0,0,0,.1); padding:0px 0px 0px 0px">
-          <div class="card-footer" style="text-align: center; opacity: 0.5;">
-            <h5 style="color: white">More info</h5>
-          </div>
-          </a>
         </div>
       </div>
-</div>
-            <x-placeholder-pattern class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20" />
+      <div class="row gy-2 gx-3 align-items-center mb-3">
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem">
+          <div class="card-body">
+            <div style="font-size: 30px"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i></div>
+              <h3 class="card-title text-center">{{$inspectioncount}}</h3>
+            <div  class="card-footer" style="text-align: center; ">
+              <h5  style="color: #388E3C">Submitted</h5>
+            </div>
+          </div>
         </div>
-    </div>
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
+          <div class="card-body">
+            <div style="font-size: 30px"><i class="fa fa-check" aria-hidden="true"></i></div>
+              <h3 class="card-title text-center">{{$inspectionapprovedcount}}</h3>
+            <div  class="card-footer" style="text-align: center; ">
+              <h5  style="color: #388E3C">APPROVED</h5>
+            </div>
+          </div>
+        </div>
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
+          <div class="card-body"><div style="font-size: 30px">
+            <i class="fa fa-times" aria-hidden="true"></i></div>
+              <h3 class="card-title text-center">{{$inspectionrejectedcount}}</h3>
+            <div  class="card-footer" style="text-align: center; ">
+              <h5  style="color: #388E3C">REJECTED</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row gy-2 gx-3 align-items-center mb-3">
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem">
+          <div class="card-body"><div style="font-size: 30px">
+            <i class="fa fa-check-circle" aria-hidden="true"></i></div>
+              <h3 class="card-title text-center">{{$farmcount}}</h3>
+            <div  class="card-footer" style="text-align: center; ">
+              <h5  style="color: #388E3C">Active Farms</h5>
+            </div>
+          </div>
+        </div>
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem">
+          <div class="card-body"><div style="font-size: 30px">
+            <i class="fa fa-briefcase" aria-hidden="true"></i></div>
+              <h3 class="card-title text-center">{{$farmarea}}  ha</h3>
+            <div  class="card-footer" style="text-align: center; ">
+              <h5  style="color: #388E3C">Total Acreage</h5>
+            </div>
+          </div>
+        </div>
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
+          <div class="card-body"><div style="font-size: 30px">
+            <i class="fa fa-balance-scale" aria-hidden="true"></i></div>
+              <h3 class="card-title text-center">{{$farmarea}}  Kgs</h3>
+            <div  class="card-footer" style="text-align: center; ">
+              <h5  style="color: #388E3C">Est. Yeild</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  </div>
 </x-layouts.app>

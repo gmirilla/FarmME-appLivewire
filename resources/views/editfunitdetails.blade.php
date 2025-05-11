@@ -19,7 +19,8 @@
       </ul>
   </div>
 @endif
-    <div>
+<div class="card">
+        <div class="card-header">
 
             <div class="flex">
                 <div class="mb-3" style="margin-right: 10px">
@@ -41,7 +42,7 @@
     
             </div>
  
-            <div class="mb-3">
+            <div class="mb-3 card-body">
                 <table class="table table-striped">
                     <thead>
                         <th>Farm Unit ID</th>
@@ -89,4 +90,5 @@
             <div>
             </div>
     </div>
+    
 </x-layouts.app>

@@ -4,7 +4,7 @@
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 <x-layouts.app>
-<div>
+<div class="d-flex flex-row-reverse">
 <!--
 <form method='get' action='dashboard'>
   <input type="text" placeholder="Search for Farm" name="farmsearch" style="border: solid 1px grey ; padding:3px">
@@ -13,7 +13,9 @@
 -->
   <a href='/newfarm' class="btn btn-primary" style="margin:5px"> Register New Farm</a>   
 </div>
-<div>
+<div class="card">
+
+  <div class="card-body">
 
     <table class="table table-striped display" id="farms" style="width:100%">
         <thead>
@@ -98,6 +100,7 @@
     </form>
     </div>
   </div>
+</div>
 </div>
 </div>
 <script>

@@ -10,7 +10,7 @@
     <div class="container-sm" >
         <div class="row">
             <div class="col">
-                <h4 class="h4" style="text-align: center; background-color:green ; color:white">FARM DETAILS</h4>
+                <h4 class="h4" style="text-align: center; background-color:#5D4037; color:white">FARM DETAILS</h4>
                 <div class="mb-3">
                 <label>FARM NAME</label>
 
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="col-6">
-                <h4 class="h4" style="text-align: center; background-color:green;  color: white">INSPECTION SUMMARY</h4>
+                <h4 class="h4" style="text-align: center; background-color:#5D4037;  color: white">INSPECTION SUMMARY</h4>
                 <label>FARM STATUS</label>
                 <div class="d-flex">
                     <div class="col-5">
@@ -157,7 +157,7 @@
                     <input type="text" readonly class="form-control" value="{{$farm->nextinspection}}">
                     <form action="" method="POST">
                         <input type="number" name="farmid" hidden value="{{$farm->id}}">
-                        <button class="btn btn-primary"> >> </button>
+                
 
                     </form>
                 </div>
@@ -165,7 +165,7 @@
             </div>
           </div>
           <div class="row">
-            <h4 class="h4" style="text-align: center; background-color:green; color: white">INSPECTION RECORDS</h4>
+            <h4 class="h4" style="text-align: center; background-color:#5D4037; color: white">INSPECTION RECORDS</h4>
             <table class="table table-striped table-hover" id="farms">
                 <thead>
                     <tr>

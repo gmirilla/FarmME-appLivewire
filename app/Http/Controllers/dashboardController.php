@@ -48,7 +48,7 @@ class dashboardController extends Controller
 
 
         return view('dashboard', 
-        compact('usercount','farmcount','inspectioncount','farmpendingcount', 'inspectionapprovedcount',  'inspectionrejectedcount','farmarea'));
+        compact('usercount','farmcount','inspectioncount','farmpendingcount', 'inspectionapprovedcount',  'inspectionrejectedcount','farmarea','user'));
     }
 
     /**

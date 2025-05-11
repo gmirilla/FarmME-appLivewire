@@ -11,7 +11,9 @@
                 <label for="farmcode" class="form-label">Farm Code</label>
                 <input type="text" value="{{$farm->farmcode}}" id="farmcode"  name="farmcode" disabled class="form-control">
                 <input type="text" value="{{$farm->id}}" id="fid"  name="fid" hidden class="form-control">
+                @if (!empty($farmunit->id))
                 <input type="text" value="{{$farmunit->id}}" id="farmunitid"  name="farmunitid" hidden class="form-control">
+                @endif
                 </div>
             <div class="col-auto">
                     <label for="fuid" class="form-label">Farm ID**</label>
@@ -19,15 +21,30 @@
                     </div>
             <div class="col-auto">
                         <label for="fuarea" class="form-label">Unit area (ha)*</label>
+                        @if (empty($farmunit))
+                        <input type="text" value="" id="fuarea"  name="fuarea"  required class="form-control"> 
+                        @else
                         <input type="text" value="{{$farmunit->fuarea}}" id="fuarea"  name="fuarea"  required class="form-control">
+                        @endif
+                        
                         </div>
             <div class="col-auto">
                             <label for="fulatitude" class="form-label">Latitude</label>
+                            @if (empty($farmunit))
+                            <input type="text" value="" id="fulatitude"  name="fulatitude"   class="form-control">
+                            @else
                             <input type="text" value="{{$farmunit->fulatitude}}" id="fulatitude"  name="fulatitude"   class="form-control">
+                            @endif
+                            
                             </div>
             <div class="col-auto" >
                                 <label for="fulongitude" class="form-label">Longitude</label>
+                                @if (empty($farmunit))
+                                <input type="text" value="" id="fulongitude"  name="fulongitude"   class="form-control">
+                                @else
                                 <input type="text" value="{{$farmunit->fulongitude}}" id="fulongitude"  name="fulongitude"   class="form-control">
+                                @endif
+                                
                                 
             </div>
             <div class="col-auto" >
