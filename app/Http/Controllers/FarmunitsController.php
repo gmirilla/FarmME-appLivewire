@@ -46,6 +46,7 @@ class FarmunitsController extends Controller
     public function edit(Request $request)
     {
         //
+
         $farm=farm::where('id',$request->farmid)->first();
         $farmunits=farmunits::where('farmid',$request->farmid)->get();
         //dd($request);
@@ -121,7 +122,6 @@ class FarmunitsController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
         }
-        
         $farmunits=farmunits::where('farmid',$request->farmid)->get();
         //dd($request);
 
@@ -135,17 +135,21 @@ class FarmunitsController extends Controller
             //code...
             $farm=farm::where('id',$request->fid)->first();
 
-            
-            $farmunit= farmunits::where('id',$request->farmunitid)->firstOrCreate();
 
-            //create new Farm unit
+            if ( $request->has('farmunitid')) {
+                # code...
+                $farmunit= farmunits::where('id',$request->farmunitid)->firstOrCreate();
+            }
 
+            if ( !($request->has('farmunitid'))) {
+                # code...
+                $farmunit= new farmunits();
+            }
 
             $farmunit->farmid=$request->fid;
             $farmunit->fuarea=$request->fuarea;
             $farmunit->fulatitude=$request->fulatitude;
             $farmunit->fulongitude=$request->fulongitude;
-
             $farmunit->save();
 
             //Update total Farm Area and unit count

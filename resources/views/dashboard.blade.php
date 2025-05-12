@@ -4,7 +4,7 @@
     <div class="class-body"><h3 style="color: #388E3C"><b>Dashboard: Welcome {{$user->fname}}</b></h3> </div>
   </div>
   <div>
-  <div class="card  bg-transparent col-sm-9">
+  <div class="card  bg-transparent col-sm-10">
     <div class="card-body">
       <div class="row gy-2 gx-3 align-items-center mb-3" >
         <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
@@ -35,9 +35,7 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row gy-2 gx-3 align-items-center mb-3">
-        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem">
+                <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem">
           <div class="card-body">
             <div style="font-size: 30px"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$inspectioncount}}</h3>
@@ -64,9 +62,7 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="row gy-2 gx-3 align-items-center mb-3">
-        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem">
+                <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem">
           <div class="card-body"><div style="font-size: 30px">
             <i class="fa fa-check-circle" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$farmcount}}</h3>
@@ -93,7 +89,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>  <!-- CARD ROW-->
   </div>
 
   </div>

@@ -1,9 +1,12 @@
 <x-layouts.app>
     <div class="d-flex flex-row-reverse bd-highlight">
-        <div class="p-2 bd-highlight" style="margin-right: 5px"><form action="get" action="{{route('edit_farmunit')}}"><input type="text" name="farmid" id="farmid" hidden value="{{$farm->id}}">
-            <button  class="btn btn-primary"> Certified Crop Details </button> </form></div>
+        <div class="p-2 bd-highlight" style="margin-right: 5px"><form method="get" action="{{route('list_yield')}}">
+            @csrf
+            <input type="text" name="farmid" id="farmid" hidden value="{{$farm->id}}">
+            <button  class="btn btn-primary" name="getyield"> Yield Details </button> </form></div>
         <div class="p-2 bd-highlight" style="margin-right: 5px"> 
             <form action="{{route('listfunits')}}" method="get">
+                @csrf
                 <input type="text" name="fid" id="fid" hidden value="{{$farm->id}}">
                 <button class="btn btn-primary" name="gofunits">Farm Plot(s) Details </button>
         </form></div>   

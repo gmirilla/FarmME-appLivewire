@@ -11,7 +11,7 @@
                 <label for="farmcode" class="form-label">Farm Code</label>
                 <input type="text" value="{{$farm->farmcode}}" id="farmcode"  name="farmcode" disabled class="form-control">
                 <input type="text" value="{{$farm->id}}" id="fid"  name="fid" hidden class="form-control">
-                @if (!empty($farmunit->id))
+                @if (!empty($farmunit))
                 <input type="text" value="{{$farmunit->id}}" id="farmunitid"  name="farmunitid" hidden class="form-control">
                 @endif
                 </div>

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\FarmController;
 use App\Http\Controllers\FarmunitsController;
+use App\Http\Controllers\FarmunityieldController;
 use App\Http\Controllers\InternalinspectionController;
 use App\Http\Controllers\MapsController;
 use App\Http\Controllers\ReportsController;
@@ -65,6 +66,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/fu/new',[FarmunitsController::class, 'newfunit'])->name('newfunit');
         Route::post('/fu/save', [FarmunitsController::class, 'savefunit'])->name('fusave');
         Route::post('/fu/editfunit', [FarmunitsController::class, 'editfunit'])->name('editfu');
+        
+    });
+
+        Route::middleware('auth')->group(function () {
+        Route::get('/fy/list',[FarmunityieldController::class, 'list'])->name('list_yield'); 
+
         
     });
     

@@ -1,6 +1,6 @@
 <x-layouts.app>
     <div class="d-flex flex-row-reverse bd-highlight">
-        <div class="p-2 bd-highlight" style="margin-right: 5px"><button  disabled class="btn btn-primary"> Certified Crop Details </button> </div>
+        <div class="p-2 bd-highlight" style="margin-right: 5px"><button  disabled class="btn btn-primary"> Yield Details </button> </div>
         <div class="p-2 bd-highlight" style="margin-right: 5px"><button disabled class="btn btn-primary">Farm Plot(s) Details </button></div>
         <div class="p-2 bd-highlight" style="margin-right: 5px"><button disabled class="btn btn-primary"> Farm Details </button></div>
     </div>

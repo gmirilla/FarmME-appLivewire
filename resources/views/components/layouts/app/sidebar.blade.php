@@ -3,6 +3,24 @@
     <head>
         @include('partials.head')
     </head>
+    <style>
+        .c-sidebar a {
+            color:#F5F0E6;
+            border-color: #5D4037;
+            text-decoration:none
+
+        }
+        .c-navitem-selected {
+            background: #388E3C
+;
+
+        }
+                .c-sidebar a:hover {
+            background: #388E3C
+;
+
+        }
+    </style>
     <body class="min-h-screen bg-white dark:bg-zinc-800" style="background: url('assets/images/triangles.svg') repeat 0 100%, -webkit-gradient(linear, left top, right top, from(#f2eadc), to(#F5F0E6)) 0% 0% no-repeat padding-box">
         <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900" style="background-color:#5D4037 ; color: #f5f0e6">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
@@ -12,13 +30,13 @@
             </a>
 
             <flux:navlist variant="outline">
-                <flux:navlist.group heading="Platform" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate style="margin-top:8px;">{{ __('Dashboard') }}</flux:navlist.item>                 
-                    <flux:navlist.item icon="photo" href='/farm' style="margin-top:8px;">Farms</flux:navlist.item>
-                    <flux:navlist.item icon="photo" href='/report' style="margin-top:8px;">Report Config</flux:navlist.item>
-                    <flux:navlist.item icon="users" href='/user_admin' style="margin-top:8px;">User Admin</flux:navlist.item>
+                <flux:navlist.group heading="Platform" class="grid c-sidebar">
+                    <flux:navlist.item  class="c-sidebar" icon="chart-bar" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate style="margin-top:8px;">{{ __('Dashboard') }}</flux:navlist.item>                 
+                    <flux:navlist.item icon="users" href='/farm' style="margin-top:8px;">Farms</flux:navlist.item>
+                    <flux:navlist.item icon="wrench-screwdriver" href='/report' style="margin-top:8px;">Report Config</flux:navlist.item>
+                    <flux:navlist.item icon="user-circle" href='/user_admin' style="margin-top:8px;">User Admin</flux:navlist.item>
                     <flux:navlist.item icon="photo" href='#' style="margin-top:8px;">Farm Onboarding</flux:navlist.item>
-                    <flux:navlist.item icon="photo" href='/inspection' style="margin-top:8px;">Farm Inspections</flux:navlist.item>
+                    <flux:navlist.item icon="document-magnifying-glass" href='/inspection' style="margin-top:8px;">Farm Inspections</flux:navlist.item>
                     <flux:navlist.item icon="clipboard-document-check" href='/inspection_approval' style="margin-top:8px;">Inspection Reviews</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
