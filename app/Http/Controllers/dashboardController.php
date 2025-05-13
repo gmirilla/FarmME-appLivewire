@@ -42,7 +42,12 @@ class dashboardController extends Controller
                 $usercount=1;
                 $farmcount=farm::where('farmstate','like', '%ACTIVE%' )->where('inspectorid',$user->id)->count();
                 $farmpendingcount=farm::where('farmstate','like', '%PENDING%' )->where('inspectorid',$user->id)->count();
+                 $farmarea=farm::where('farmstate','like', '%ACTIVE%' )->where('inspectorid',$user->id)->sum('farmarea');
                 $inspectioncount=internalinspection::where('inspectionstate','like', '%SUBMITTED%' )->where('inspectorid',$user->id)->count(); 
+                $inspectionapprovedcount=internalinspection::where('inspectionstate','like', '%APPROVED%' )->where('inspectorid',$user->id)->count();
+                $inspectionrejectedcount=internalinspection::where('inspectionstate','like', '%REJECTED%' )->where('inspectorid',$user->id)->count();
+                $estyield="N/A";
+                $actualyield="N/A";
                 break;
                         
             default:

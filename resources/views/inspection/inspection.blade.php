@@ -16,9 +16,9 @@
 
 <a class="btn btn-primary mt-3" href='inspection/new'>New Inspection</a>
 </div>
-<div class="card  bg-transparent">
+<div class="card">
 <div class="card-body">    
-<table class="table table-striped display" id="inspectiondt" style="width: 100%">
+<table class="table table-striped display table-sm table-responsive" id="inspectiondt">
 
     <thead>
 

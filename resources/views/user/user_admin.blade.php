@@ -75,7 +75,8 @@ data-bs-target="#exampleModal" data-toggle="tooltip" data-placement="right" titl
                     </td>
                     <td>
                        <button class="btn btn-success" >GO</button>
-                       <button class="btn btn-primary"  type="button" data-toggle="tooltip" data-placement="right" title="Edit Password" name="editpwdbtn" id="Editpwd">
+                       <button class="btn btn-primary"  type="button" data-toggle="tooltip" data-placement="right" title="Edit Password" name="editpwdbtn" data-bs-toggle="modal" 
+                       data-bs-target="#passwordModal" data-bs-uname={{$user->name}}  data-bs-uid={{$user->id}}>
                         <i class="fa fa-key" aria-hidden="true"></i>
 
                        </button>
@@ -106,7 +107,7 @@ data-bs-target="#exampleModal" data-toggle="tooltip" data-placement="right" titl
           
             <div class="mb-3">
               <label for="farmcode" class="col-form-label">User Name</label>
-              <input type="text"  class="form-control uname" id="uname" name="name" required placeholder="Enter User name">
+              <input type="text"  class="form-control uname" id="uname" name="name"  value="{{$user->name}}">
             </div>
             
             <div class="mb-3">
@@ -134,9 +135,61 @@ data-bs-target="#exampleModal" data-toggle="tooltip" data-placement="right" titl
       </div>
     </div>
   </div>
-  <!-- end of modal -->
+  <!--Password change modal -->
+  <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="pwdchg" method="post" action='{{route('user_pwd')}}'>
+          @csrf
+        <div class="modal-body">
+          
+            <div class="mb-3">
+              <label for="farmcode" class="col-form-label">User Name</label>
+              <input type="text"  class="form-control uname" id="pwduname" name="name" disabled value="">
+              <input type="text"  class="form-control uname" id="pwduid" name="uid" hidden value="">
+            </div>
+            <div class="mb-3">
+                <label for="message-dropdown" class="col-form-label">New Password</label>
+                <input type="password"  class="form-control password" id="chgpassword" name="password" required>
+            </div>  
+        </div>     
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <input  type="submit" class="btn btn-primary" value="Save" name="chgpwdbtn">
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
 <script>
     new DataTable('#users');
-  </script>   
+  </script>  
+  <script>
+    var exampleModal = document.getElementById('passwordModal')
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = event.relatedTarget
+      // Extract info from data-bs-* attributes
+      var recipient = button.getAttribute('data-bs-uname')
+      var uid = button.getAttribute('data-bs-uid')
+      // If necessary, you could initiate an AJAX request here
+      // and then do the updating in a callback.
+      //
+      // Update the modal's content.
+      var modalTitle = exampleModal.querySelector('.modal-title')
+      var modalBodyName = exampleModal.querySelector('#pwduname')
+      var modalBodyUid = exampleModal.querySelector('#pwduid')
+    
+      modalTitle.textContent = 'CHANGE USER PASSWORD ' 
+      modalBodyName.value = recipient;
+      modalBodyUid.value = uid;
+
+    })
+
+    </script> 
 </x-layouts.app>
 

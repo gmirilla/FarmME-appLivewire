@@ -66,6 +66,23 @@ class userController extends Controller
 
     }
 
+        public function user_pwd(Request $request)
+    {
+        //
+        $validated = $request->validate([
+
+            'password' => ['required', 'string', Rules\Password::defaults()]]);
+        
+        $user=User::where('id', $request->uid)->first();
+        $user->password=Hash::make($validated['password']);
+        $user->save();      
+        $users=User::all();
+    
+
+        return view('user.user_admin')->with('users',$users );
+
+    }
+
 
     public function newuser(Request $request){
 
