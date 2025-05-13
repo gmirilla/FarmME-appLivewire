@@ -29,7 +29,7 @@
 
 <div class="card">
     <div class="card-body">
-        <form action="" method="post">
+        <form action="{{route('addyield')}}" method="post">
             @csrf
             <div class="row">
                 <div class="col-auto">
@@ -64,7 +64,7 @@
 
                 </div>
                 <div class="col-auto"><label for="actualyield" class="form-label">Actual Yield (Kgs)</label>
-                    <input class="form-control" type="number" placeholder="Actual Yield in Kgs"   required name="actualyield" id="actualyield">
+                    <input class="form-control" type="number" placeholder="Actual Yield in Kgs"   name="actualyield" id="actualyield">
                 </div>
             </div>
             <div class="col-auto mt-3">
@@ -73,8 +73,9 @@
             </div>
         </form>
     </div>
+    <div class="card-header"><h4 class="card-title text-center">Annual Yield Details for  {{$farm->farmcode}}</h4></div>
     <div class="card-body">
-        <table class="table table-striped">
+        <table class="table table-striped" id="plotyields">
             <thead>
                 <th>S/No</th>
                 <th>Farm Code</th>
@@ -82,6 +83,7 @@
                 <th>Year</th>
                 <th>Est Yield (Kgs)</th>
                 <th>Actual Yield (Kgs)</th>
+                <th>Action(s)</th>
             </thead>
             <tbody>
                 @php
@@ -89,16 +91,29 @@
                 @endphp
                 @forelse ($farmyields as $farmyield )
                     <tr>
+                        <form action="{{route('updyield')}}" method="post">
+                            @csrf
                         <td>@php
                             $counter=$counter+1;
                         @endphp
                        {{$counter}} 
                     </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{$farm->farmcode}}</td>
+                        <td>ID:  | Area: </td>
+                        <td>
+                            {{$farmyield->year}}
+                        </td>
+                        <td>{{$farmyield->estyield}}</td>
+                        
+                        <td><input class="form-control" type="number" value="{{$farmyield->actualyield}}" name="actualyield">
+                            <input type="number" value="{{$farmyield->id}}" hidden name="farmyieldid">
+                            <input type="number" value="{{$farm->id}}" hidden name="farmid">
+                            </td>
+                        <td>
+                            <button class="btn btn-success mr-2" name="updateyieldbtn"><i class="fa fa-check"></i></button>
+                            <button class="btn btn-danger mr-2" name="deleteyieldbtn"><i class="fa fa-trash-o"></i></button>
+                        </td>
+                        </form>
                     </tr>
                 @empty
                     <tr>
@@ -109,4 +124,7 @@
         </table>
     </div>
 </div>
+<script>
+  new DataTable('#plotyields');
+</script>
 </x-layouts.app>    

@@ -71,6 +71,8 @@ Route::middleware('auth')->group(function () {
 
         Route::middleware('auth')->group(function () {
         Route::get('/fy/list',[FarmunityieldController::class, 'list'])->name('list_yield'); 
+        Route::post('/fy/addyield',[FarmunityieldController::class, 'addyield'])->name('addyield'); 
+        Route::post('/fy/updyield',[FarmunityieldController::class, 'updyield'])->name('updyield'); 
 
         
     });

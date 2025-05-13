@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\farm;
+use App\Models\farmunityield;
 use App\Models\internalinspection;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -19,6 +20,7 @@ class dashboardController extends Controller
                 //Check if user is authorized to view resource
                 Auth::check();
                 $user = Auth::user();
+                $year = date("Y");
 
         switch ($user->roles) {
             case 'ADMINISTRATOR':
@@ -30,6 +32,10 @@ class dashboardController extends Controller
                 $inspectioncount=internalinspection::where('inspectionstate','like', '%SUBMITTED%' )->count();
                 $inspectionapprovedcount=internalinspection::where('inspectionstate','like', '%APPROVED%' )->count();
                 $inspectionrejectedcount=internalinspection::where('inspectionstate','like', '%REJECTED%' )->count();
+                $estyield=farmunityield::where('year', $year)->sum('estyield');
+                $actualyield=farmunityield::where('year', $year)->sum('actualyield');
+
+
                 break;
             case 'INSPECTOR':
                 # code...
@@ -48,7 +54,7 @@ class dashboardController extends Controller
 
 
         return view('dashboard', 
-        compact('usercount','farmcount','inspectioncount','farmpendingcount', 'inspectionapprovedcount',  'inspectionrejectedcount','farmarea','user'));
+        compact('usercount','farmcount','inspectioncount','farmpendingcount', 'inspectionapprovedcount',  'inspectionrejectedcount','farmarea','user','estyield','actualyield'));
     }
 
     /**

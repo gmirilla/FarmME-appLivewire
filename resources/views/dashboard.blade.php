@@ -1,4 +1,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+@php
+  $datayear=date('Y');
+@endphp
 <x-layouts.app>
   <div class="bg-transparent col-sm-9 mb-3">
     <div class="class-body"><h3 style="color: #388E3C"><b>Dashboard: Welcome {{$user->fname}}</b></h3> </div>
@@ -62,15 +65,6 @@
             </div>
           </div>
         </div>
-                <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem">
-          <div class="card-body"><div style="font-size: 30px">
-            <i class="fa fa-check-circle" aria-hidden="true"></i></div>
-              <h3 class="card-title text-center">{{$farmcount}}</h3>
-            <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">Active Farms</h5>
-            </div>
-          </div>
-        </div>
         <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem">
           <div class="card-body"><div style="font-size: 30px">
             <i class="fa fa-briefcase" aria-hidden="true"></i></div>
@@ -80,12 +74,22 @@
             </div>
           </div>
         </div>
+        
         <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
           <div class="card-body"><div style="font-size: 30px">
             <i class="fa fa-balance-scale" aria-hidden="true"></i></div>
-              <h3 class="card-title text-center">{{$farmarea}}  Kgs</h3>
+              <h3 class="card-title text-center">{{$estyield}}  Kgs</h3>
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">Est. Yeild</h5>
+              <h5  style="color: #388E3C">Est. Yield [ {{$datayear}}]</h5>
+            </div>
+          </div>
+        </div>
+          <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem">
+          <div class="card-body"><div style="font-size: 30px">
+            <i class="fa fa-check-circle" aria-hidden="true"></i></div>
+              <h3 class="card-title text-center">{{$actualyield}} Kgs</h3>
+            <div  class="card-footer" style="text-align: center; ">
+              <h5  style="color: #388E3C">Actual Yield [ {{$datayear}}]</h5>
             </div>
           </div>
         </div>
