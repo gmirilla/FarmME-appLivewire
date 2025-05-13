@@ -10,7 +10,7 @@
   <div class="card  bg-transparent col-sm-10">
     <div class="card-body">
       <div class="row gy-2 gx-3 align-items-center mb-3" >
-        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem ; margin-right:5px">
           <div class="card-body">
             <div style="font-size: 30px"><i class="fa fa-user fa-lg"></i> </div>
             
@@ -20,7 +20,7 @@
             </div>
           </div>
         </div>
-        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem; margin-right:5px">
           <div class="card-body">
             <div style="font-size: 30px"><i class="fa fa-leaf" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$farmpendingcount}}</h3>
@@ -29,7 +29,7 @@
             </div>
           </div>
         </div>
-        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem ; margin-right:5px">
           <div class="card-body">
             <div style="font-size: 30px"><i class="fa fa-pagelines" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$farmcount}}</h3>
@@ -38,7 +38,7 @@
             </div>
           </div>
         </div>
-                <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem">
+                <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem ; margin-right:5px">
           <div class="card-body">
             <div style="font-size: 30px"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$inspectioncount}}</h3>
@@ -47,7 +47,7 @@
             </div>
           </div>
         </div>
-        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem ; margin-right:5px">
           <div class="card-body">
             <div style="font-size: 30px"><i class="fa fa-check" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$inspectionapprovedcount}}</h3>
@@ -56,7 +56,7 @@
             </div>
           </div>
         </div>
-        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem ; margin-right:5px">
           <div class="card-body"><div style="font-size: 30px">
             <i class="fa fa-times" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$inspectionrejectedcount}}</h3>
@@ -65,7 +65,7 @@
             </div>
           </div>
         </div>
-        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem">
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem ; margin-right:5px">
           <div class="card-body"><div style="font-size: 30px">
             <i class="fa fa-briefcase" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$farmarea}}  ha</h3>
@@ -75,7 +75,7 @@
           </div>
         </div>
         
-        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem">
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem ; margin-right:5px">
           <div class="card-body"><div style="font-size: 30px">
             <i class="fa fa-balance-scale" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$estyield}}  Kgs</h3>
@@ -84,7 +84,7 @@
             </div>
           </div>
         </div>
-          <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem">
+          <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem ; margin-right:5px">
           <div class="card-body"><div style="font-size: 30px">
             <i class="fa fa-check-circle" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$actualyield}} Kgs</h3>
