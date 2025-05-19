@@ -4,17 +4,10 @@
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 <x-layouts.app>
-<div class="d-flex flex-row-reverse">
-<!--
-<form method='get' action='dashboard'>
-  <input type="text" placeholder="Search for Farm" name="farmsearch" style="border: solid 1px grey ; padding:3px">
-  <input type="submit" class="btn btn-success" value="Search **TO DO">
-<form>
--->
-  <a href='/newfarm' class="btn btn-success" style="margin:5px"> Register New Farm</a>   
-</div>
+
 <div class="card">
-  <div class="card-header"><h4>LIST OF FARMS</h4></div>
+
+  <div class="card-header"><h4>FARM ONBOARDING</h4></div>
 
   <div class="card-body">
 
@@ -24,9 +17,7 @@
             <th scope="col">#</th>
             <th scope="col">Community</th>
             <th scope="col">Farm Code</th>
-            <th scope="col">Farmer Name</th>
-            <th scope="col">Last Inspection Date</th>
-            <th scope="col">Next Inspection Date</th>
+            <th scope="col">Farm Name</th>
             <th scope="col">Status</th>
             <th scope="col">Actions</th>
           </tr>
@@ -45,15 +36,8 @@
             <td>{{$farm->community}}</td>
             <td>{{$farm->farmcode}}</td>
             <td>{{$farm->farmname}}</td>
-            <td>{{$farm->lastinspection}}</td>
-            <td>{{$farm->nextinspection}}</td>
             <td>{{$farm->farmstate}}</td>
             <td>
-          
-              @if ($user->roles=='ADMINISTRATOR' && $farm->inspectorid!=null) 
-              <button type="button" class="btn btn-success" data-bs-toggle="modal"
-              data-bs-target="#exampleModal" data-bs-whatever="{{$farm->farmcode}}" data-toggle="tooltip" data-placement="right" title="Schedule Inspection"><i class="fa fa-calendar" aria-hidden="true"></i></button>  
-              @endif
               <a href="/farm/view?id={{$farm->farmcode}}" type="button" class="btn btn-success" style="margin:3px" data-toggle="tooltip" data-placement="right" title="View Farm"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
           </tr>
             

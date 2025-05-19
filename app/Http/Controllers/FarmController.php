@@ -47,6 +47,39 @@ class FarmController extends Controller
         return view('farm')->with('farmlist', $farmlist)->with('user',$user)->with('reports', $reports);
     }
 
+
+    public function onboarding()
+    {
+        //
+                        //Check if user is authorized to view resource
+                        Auth::check();
+                        $user = Auth::user();
+
+                        $reports=reports::where('reportstate', 'ACTIVE')->get();
+
+
+        
+                switch ($user->roles) {
+                    case 'ADMINISTRATOR':
+                        # code...
+                        $farmlist=farm::where('farmstate', 'PENDING')->get()->sortByDesc('created_at');
+                        break;
+                    case 'INSPECTOR':
+                        # code...
+                        $farmlist=farm::where('inspectorid',$user->id)->where('farmstate', 'PENDING')->get(); 
+                        break;
+                                
+                    default:
+                        # code...
+                        return redirect()->route('unauthorized');
+                        break;
+                }  
+
+        return view('farmonboarding')->with('farmlist', $farmlist)->with('user',$user)->with('reports', $reports);
+    }
+
+
+
         /**
      * Assign Staff to farm  and update farm recordsand retun to Farm page
      */
@@ -204,6 +237,8 @@ switch ($user->roles) {
     public function newinspectiondate(Request $request)
     {
         //
+        Auth::check();
+        $user = Auth::user();
         $farms=farm::all();
         $id=farm::where('farmcode', $request->farmcode)->first()->id;
         $farm=$farms->find($id);
@@ -227,12 +262,13 @@ switch ($user->roles) {
      */
     public function displayfarm(Request $request)
     {
-        //dd($request);
+        Auth::check();
+        $authuser = Auth::user();
         
         //Display Details of Farm
         $farms=farm::all();
         $id=farm::where('farmcode', $request->id)->first()->id;
-        $report=internalinspection::where('farmid', $id)->latest('updated_at')->first();
+        $lastreport=internalinspection::where('farmid', $id)->latest('updated_at')->first();
 
  
         
@@ -268,8 +304,7 @@ switch ($user->roles) {
 
 
 
-        return view('viewfarm')->with('farm', $farm)
-        ->with('farmreports', $farmreports)->with('users',$users)->with('lastreport', $report);
+        return view('viewfarm', compact('farm','farmreports', 'users', 'lastreport','authuser'));
     }
 
     

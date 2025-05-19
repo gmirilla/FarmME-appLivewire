@@ -30,9 +30,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('maptest',[MapsController::class, 'index'])->name('user_admin'); 
-});
+
 
     Route::middleware(['auth','verified'])->group(function () {
         
@@ -59,6 +57,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/farm/assignstaff', [FarmController::class, 'assignstaff']);
         Route::get('/farm/view', [FarmController::class, 'displayfarm']);
         Route::post('/farm/updatefarm', [FarmController::class, 'updatefarm']);
+        Route::get('/farm/onboardinglist', [FarmController::class, 'onboarding'])->name('onboarding');
+        
     });
 
     Route::middleware('auth')->group(function () {

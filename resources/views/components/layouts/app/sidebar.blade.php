@@ -35,7 +35,7 @@
                     <flux:navlist.item icon="users" href='/farm' style="margin-top:8px;">Farms</flux:navlist.item>
                     <flux:navlist.item icon="wrench-screwdriver" href='/report' style="margin-top:8px;">Report Config</flux:navlist.item>
                     <flux:navlist.item icon="user-circle" href='/user_admin' style="margin-top:8px;">User Admin</flux:navlist.item>
-                    <flux:navlist.item icon="photo" href='#' style="margin-top:8px;">Farm Onboarding</flux:navlist.item>
+                    <flux:navlist.item icon="photo" :href="route('onboarding')" style="margin-top:8px;">Farm Onboarding</flux:navlist.item>
                     <flux:navlist.item icon="document-magnifying-glass" href='/inspection' style="margin-top:8px;">Farm Inspections</flux:navlist.item>
                     <flux:navlist.item icon="clipboard-document-check" href='/inspection_approval' style="margin-top:8px;">Inspection Reviews</flux:navlist.item>
                 </flux:navlist.group>

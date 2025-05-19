@@ -9,8 +9,11 @@
 <div>
     <div class="container-sm" >
         <div class="row">
-            <div class="col">
-                <h4 class="h4" style="text-align: center; background-color:#5D4037; color:white">FARM DETAILS</h4>
+            <div class="col card mb-3 mr-3">
+                <div class="card-header">
+                    <h4 class="text-center">FARM DETAILS</h4>
+                </div>
+                <div class="card-body">
                 <div class="mb-3">
                 <label>FARM NAME</label>
 
@@ -31,31 +34,41 @@
                 </div>
                 <div class="mb-3">
                     <label>ASSIGNED STAFF</label>
-                    @if ($farm->name ==null)
-                    <input type="text" class="form-control" disabled value="No Staff Assigned">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                    data-bs-target="#staffModal" data-bs-whatever=""><i class="fa fa-pencil-square-o"></i></button>
-                    @else
-                        <input type="text" class="form-control" disabled value="{{$farm->name}}">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#staffModal" data-bs-whatever=""><i class="fa fa-pencil-square-o"></i></button>
-                    @endif
+                   @if (!$farm->name)
+    <input type="text" class="form-control" disabled value="No Staff Assigned">
+    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+            data-bs-target="#staffModal" data-bs-whatever="">
+        <i class="fa fa-pencil-square-o"></i>
+    </button>
+@else
+    <input type="text" class="form-control" disabled value="{{ $farm->name }}">
+    @if ($authuser->roles=='ADMINISTRATOR')
+        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#staffModal" data-bs-whatever="">
+            <i class="fa fa-pencil-square-o"></i>
+        </button>
+    @endif
+@endif
 
                 </div>
+                </div>
             </div>
-            <div class="col-6">
-                <h4 class="h4" style="text-align: center; background-color:#5D4037;  color: white">INSPECTION SUMMARY</h4>
-                <label>FARM STATUS</label>
-                <div class="d-flex">
-                    <div class="col-5">
-                        
-                        <input type="text" readonly class="form-control" value="{{$farm->farmstate}}"></div>
-
-
-                    <div>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+            <div class="col-auto card mb-3">
+                <div class="card-header mb-3"> 
+                    <h4 class="text-center" >INSPECTION SUMMARY</h4>
+                </div>
+                
+                <div class="card-body mb-3">
+                <div class="row mb-3">
+                    
+                    <div class="col-auto">
+                        <label for="farmstate">FARM STATUS</label>
+                        <input type="text" readonly class="form-control" value="{{$farm->farmstate}}" id=farmstate>
+                    
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
                         data-bs-target="#farmModal" data-bs-whatever=""><i class="fa fa-pencil-square-o"></i></button> 
-
                     </div>
                         
    
@@ -97,10 +110,11 @@
                         </table>
                         <form action="/fu/edit" method="get">
                             <input hidden type="text" name="farmid" value="{{$farm->id}}">
-                        <button type="submit" class="btn btn-primary" name="editfunits"> Edit Farm Details</button>
+                        <button type="submit" class="btn btn-success" name="editfunits"> Edit Farm Details</button>
                         </form>
                         
                     </div>
+                </div>
                 </div>
                 <div class="mb-3">
                     <label>LAST INSPECTION</label>
@@ -190,7 +204,7 @@
                 <form action="/iapprove" method="post">
                     @csrf
                     <input type="hidden" name="iid" value="{{$farmreport->iid}}">
-                    <button name="viewsheet" type="submit" class="btn btn-primary"><i class="fa fa-eye"></i></button>
+                    <button name="viewsheet" type="submit" class="btn btn-success><i class="fa fa-eye"></i></button>
                 </form>
                 </td>
              </tr>
@@ -231,7 +245,7 @@
                     @endforelse
                 </select>
             </div>
-            <button class="btn btn-primary" name="assignstaff" >Submit</button>
+            <button class="btn btn-success" name="assignstaff" >Submit</button>
         </form>
 
           </div>
@@ -262,7 +276,7 @@
                         <option value="DISABLED">DISABLED</option>
                 </select>
             </div>
-            <button class="btn btn-primary" name="farmstatus" style="margin-top: 8px" >Submit</button>
+            <button class="btn btn-success" name="farmstatus" style="margin-top: 8px" >Submit</button>
           </form>
         </div>
         </div>

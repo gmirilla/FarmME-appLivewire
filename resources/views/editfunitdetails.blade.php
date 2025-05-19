@@ -1,6 +1,9 @@
 <x-layouts.app>
     <div class="d-flex flex-row-reverse bd-highlight">
-        <div class="p-2 bd-highlight" style="margin-right: 5px"><button  class="btn btn-primary" name=> Yield Details </button> </div>
+                <div class="p-2 bd-highlight" style="margin-right: 5px"><form method="get" action="{{route('list_yield')}}">
+            @csrf
+            <input type="text" name="farmid" id="farmid" hidden value="{{$farm->id}}">
+            <button  class="btn btn-primary" name="getyield"> Yield Details </button> </form></div>
         <div class="p-2 bd-highlight" style="margin-right: 5px"><button disabled class="btn btn-primary" name="gofunits">Farm Plot(s) Details </button>
             </div>
             <div class="p-2 bd-highlight" style="margin-right: 5px"><form method="get" action="{{route('edit_farmunit')}}">
@@ -65,9 +68,9 @@
                             <td>{{$funit->fuarea}}</td>
                             <td>{{$funit->fulatitude}}</td>
                             <td>{{$funit->fulongitude}}</td>
-                            <td><button type="submit" class="btn btn-primary" name="updatefu">Update Details</button>
+                            <td><button type="submit" class="btn btn-success" name="updatefu">Update Details</button>
                                 <button type="submit" class="btn btn-danger" name="deletefu">Delete Plot</button>
-                                <button type="submit" class="btn btn-success" name="pyield">Plot Yield</button>
+
                             
                             </td>
            
