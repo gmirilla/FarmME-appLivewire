@@ -8,6 +8,7 @@ use App\Http\Controllers\FarmunitsController;
 use App\Http\Controllers\FarmunityieldController;
 use App\Http\Controllers\InternalinspectionController;
 use App\Http\Controllers\MapsController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ReportsectionController;
 use App\Http\Controllers\ReportquestionsController;
@@ -60,6 +61,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/farm/onboardinglist', [FarmController::class, 'onboarding'])->name('onboarding');
         
     });
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/pdf/test', [PdfController::class, 'test'])->name('test');
+    Route::get('/pdf/generate', [PdfController::class, 'generatePDF'])->name('printsheet');
+});
 
     Route::middleware('auth')->group(function () {
         Route::get('/fu/edit',[FarmunitsController::class, 'edit'])->name('edit_farmunit'); 

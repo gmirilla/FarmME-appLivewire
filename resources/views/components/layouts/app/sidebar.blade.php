@@ -21,6 +21,10 @@
 
         }
     </style>
+    @php
+         Auth::check();
+        $user = Auth::user();
+    @endphp
     <body class="min-h-screen bg-white dark:bg-zinc-800" style="background: url('assets/images/triangles.svg') repeat 0 100%, -webkit-gradient(linear, left top, right top, from(#f2eadc), to(#F5F0E6)) 0% 0% no-repeat padding-box">
         <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900" style="background-color:#5D4037 ; color: #f5f0e6">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
@@ -28,16 +32,23 @@
             <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2" wire:navigate>
                 <x-app-logo />
             </a>
+            
 
             <flux:navlist variant="outline">
                 <flux:navlist.group heading="Platform" class="grid c-sidebar">
+                    @if (in_array($user->roles,['ADMINISTRATOR','INSPECTOR']) )
+            
                     <flux:navlist.item  class="c-sidebar" icon="chart-bar" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate style="margin-top:8px;">{{ __('Dashboard') }}</flux:navlist.item>                 
                     <flux:navlist.item icon="users" href='/farm' style="margin-top:8px;">Farms</flux:navlist.item>
-                    <flux:navlist.item icon="wrench-screwdriver" href='/report' style="margin-top:8px;">Report Config</flux:navlist.item>
-                    <flux:navlist.item icon="user-circle" href='/user_admin' style="margin-top:8px;">User Admin</flux:navlist.item>
                     <flux:navlist.item icon="photo" :href="route('onboarding')" style="margin-top:8px;">Farm Onboarding</flux:navlist.item>
                     <flux:navlist.item icon="document-magnifying-glass" href='/inspection' style="margin-top:8px;">Farm Inspections</flux:navlist.item>
+                    @if ($user->roles=='ADMINISTRATOR')
+                    <flux:navlist.item icon="wrench-screwdriver" href='/report' style="margin-top:8px;">Report Config</flux:navlist.item>
+                    <flux:navlist.item icon="user-circle" href='/user_admin' style="margin-top:8px;">User Admin</flux:navlist.item>                   
                     <flux:navlist.item icon="clipboard-document-check" href='/inspection_approval' style="margin-top:8px;">Inspection Reviews</flux:navlist.item>
+                    @endif
+                    
+                    @endif
                 </flux:navlist.group>
             </flux:navlist>
 

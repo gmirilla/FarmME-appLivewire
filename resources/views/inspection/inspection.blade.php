@@ -17,8 +17,8 @@
 <a class="btn btn-primary mt-3" href='inspection/new'>New Inspection</a>
 </div>
 <div class="card">
-<div class="card-body">    
-<table class="table table-striped display table-sm table-responsive" id="inspectiondt">
+<div class="card-body table-response">    
+<table class="table table-striped display table-sm table-sm" id="inspectiondt">
 
     <thead>
 
@@ -81,7 +81,12 @@
             <input type="text" value="{{$inspection->iid}}" name="inspectionid" hidden>
             <input type="text" value="{{$inspection->reportid}}" name="reportid" hidden>
 
-            <button class="btn btn-success" name='viewsheet' data-toggle="tooltip" data-placement="right" title="View Inspection Sheet" style="margin: 3px"><i class="fa fa-eye" aria-hidden="true"></i></button>
+            <button class="btn btn-success" name='viewsheet' data-toggle="tooltip" data-placement="right" 
+            title="View Inspection Sheet" style="margin: 3px"><i class="fa fa-eye" aria-hidden="true"></i></button>
+            <button class="btn btn-danger" name='printsheet' data-toggle="tooltip" data-placement="right" 
+            title="Download Inspection PDF" style="margin: 3px"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+           
+            
 
         </form>
         
@@ -91,6 +96,7 @@
         
     @empty
         <td>No inspections conducted yet</td>
+        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
     @endforelse
 </tbody>    
 </table>

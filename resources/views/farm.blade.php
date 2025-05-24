@@ -13,12 +13,13 @@
 -->
   <a href='/newfarm' class="btn btn-success" style="margin:5px"> Register New Farm</a>   
 </div>
+<div class="col-md col-xl col-sm py-md-3 pl-md-5t  fs-6, fs-md-5, fs-lg-5, fs-xl-1" style="font-size: 0.9rem">
 <div class="card">
   <div class="card-header"><h4>LIST OF FARMS</h4></div>
 
-  <div class="card-body">
+  <div class="card-body table-responsive">
 
-    <table class="table table-striped display" id="farms" style="width:100%">
+    <table class="table table-striped table-sm display" id="farms" style="width:100%">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -58,7 +59,10 @@
           </tr>
             
           @empty
-            <h1>No Farms Registered on System!!</h1>
+          <tr>
+            <td></td><td><h1>No Farms Registered on System!!</h1></td><td></td><td></td><td></td><td></td><td></td><td></td>
+          </tr>
+            
             {{$farmcode='None'}}
           @endforelse 
         </tbody>
@@ -101,6 +105,7 @@
     </form>
     </div>
   </div>
+</div>
 </div>
 </div>
 </div>

@@ -1,9 +1,25 @@
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
-<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<x-layouts.app>
+
+<style>
+    th, td {
+  border: 1px solid;
+}
+td{
+    padding: 5px;
+    textalign:justify;}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+input[type="radio"] {
+    
+    font-size: 0.75rem;
+}
+.form-check {
+    margin-bottom: 0.5rem;
+}
+</style>
+
     @php
         $counter=0;
     @endphp
@@ -13,7 +29,7 @@
     <h4>{{$reportname->reportname}}</h4>
     </div>
     <div class="card-body">
-    <table class="table table-bordered">
+    <table class="table table-bordered" style="border: 1px solid black">
         <tbody>
             <tr>
                 <td> <b>FIELD OPERATOR: </b></td>
@@ -46,13 +62,13 @@
     
 
 
-    <table class="table table-hover">
+    <table  style="border: 1px solid black">
         <tbody>
         <thead>
             <th>#</th>
-            <th>Question</th>
-            <th>Answer</th>
-            <th>Remarks</th>
+            <th style="width:50%">Question</th>
+            <th style="width:20%">Answer</th>
+            <th style="width:25%">Remarks</th>
         </thead>
     @forelse ($reportquestions as $reportquestion )
     <tr>
@@ -143,27 +159,27 @@
 
     <!-- Declaration page-->
     <div style="margin-top: 20px">
-    <table class="table table-bordered">
+    <table class="table table-bordered" style="border: 1px solid black">
         <tbody>
             <tr>
                 <td colspan="2"><b>DECLARATION</b></td>
             </tr>
-            <tr>
+            <tr style="border: 1px solid black">
                 <td colspan="2">The farmer herewith confirms that he/she has complied with the internal 
                     control system of the standard and has declared all used inputs/activities as stated in this form. The farmer has noted the set conditions.
                 </td>
             </tr>
-            <tr>
+            <tr >
                 <td>Signature/Thumbprint of the field operator:<br/>         
                </td>
                 <td> Signature of the internal inspector: <br/></td>
             </tr>
-            <tr>
+            <tr >
                 <td colspan="2">
                     Approval decision by the internal inspector
                 </td>
             </tr>
-            <tr>
+            <tr >
                 <td colspan="2">
                     Compliance this Year 
                     <div  class="d-flex flex-row"> 
@@ -273,4 +289,4 @@
     </div>
 </div>
 </div>
-</x-layouts.app>
+

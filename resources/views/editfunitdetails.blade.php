@@ -22,6 +22,7 @@
       </ul>
   </div>
 @endif
+<div class="col-md col-xl col-sm py-md-3 pl-md-5t  fs-6, fs-md-5, fs-lg-5, fs-xl-1" style="font-size: 0.9rem">
 <div class="card">
         <div class="card-header">
 
@@ -45,7 +46,7 @@
     
             </div>
  
-            <div class="mb-3 card-body">
+            <div class="mb-3 card-body table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <th>Farm Unit ID</th>
@@ -96,5 +97,6 @@
             <div>
             </div>
     </div>
+</div>
     
 </x-layouts.app>

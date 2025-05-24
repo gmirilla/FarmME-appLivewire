@@ -91,7 +91,7 @@ class InternalinspectionController extends Controller
         $sectioncounter=$request->sectioncounter;
 
         if ($sectioncounter == null) {
-            //dd($request);
+           
         }
 
         
@@ -117,7 +117,7 @@ class InternalinspectionController extends Controller
         Auth::check();
         $user = Auth::user();
 
-   // dd($request);
+// dd($request);
 //
         
 
@@ -252,6 +252,11 @@ class InternalinspectionController extends Controller
 
                 return redirect()->route('iapprove',$request);
                }
+               if ($request->has('printsheet')) {
+                # code...
+                
+                return redirect()->route('printsheet',$request);
+               }
 
                #Get Previous Answers
                $reportquestions= DB::table('reportquestions')
@@ -336,6 +341,7 @@ class InternalinspectionController extends Controller
     public function iapprove(Request $request)
     {
                   //Check if user is authorized to view resource
+                 
 
                   Auth::check();
                   $user = Auth::user();
@@ -396,8 +402,9 @@ class InternalinspectionController extends Controller
                             return view('inspection.inspection_view_sheet', compact('reportname','reportquestions', 'user', 'inspection','farm'));
                             //->with('reportname',$reportname)->with('reportquestions',$reportquestions);
 
-                            break;                      
-
+                            break; 
+                            
+                            
                     }
                     $inspection->comments=$request->comments;
                     $inspection->save();

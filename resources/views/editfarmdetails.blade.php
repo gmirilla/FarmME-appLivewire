@@ -21,7 +21,8 @@
       </ul>
   </div>
 @endif
-    <div class="col-sm-12 card">
+<div class="col-12 col-md col-xl col-sm py-md-3 pl-md-5t  fs-6, fs-md-5, fs-lg-5, fs-xl-1 card" style="font-size: 0.9rem">
+
         <div class="card-header mb-3">
            
            <h4>{{$farm->farmname}}</h4></div>
@@ -98,26 +99,30 @@
             </div>
             
         </div>
-            <div class="mb-3">
+         <div class="row gy-2 gx-3 align-items-center">
+            <div class="col-auto mb-3">
                 <label for="nopworkers" class="form-label">No of Permanent Workers</label>
                 <input type="number"  id="nopworkers" name="nopworkers"  class="form-control" value="{{$farm->noofpermworkers}}">
                 </div>
-                <div class="mb-3">
+                <div class="col-auto mb-3">
                     <label for="notworkers" class="form-label">No of Temporary Workers</label>
                     <input type="number"  id="notworkers" name="notworkers"  class="form-control" value="{{$farm->nooftempworkers}}">
                     </div>
-            <div class="mb-3">
+         </div>
+          <div class="row gy-2 gx-3 align-items-center">
+            <div class="col-auto mb-3">
             <label for="farmcode" class="form-label">Farm Code</label>
             <input type="text" placeholder="Farm Code" id="farmcode" name="farmcode" required  class="form-control" value="{{$farm->farmcode}}">
             <input type="text" value={{$farm->id}} id="fid"  name="fid" hidden>
             </div>
-            <div class="mb-3">
+            <div class="col-auto mb-3">
                 <label for="yearofcert" class="form-label">Year of RA Certification</label>
                 <input type="number" placeholder="Enter year of Certification" id="yearofcert" name="yearofcert" required  class="form-control" value="{{$farm->yearofcertification}}">
                 </div>
             <div>
                 <button type="submit" class="btn btn-primary">Update Details</button>
             </div>
+          </div>
         </form>
     </div>
     </div>

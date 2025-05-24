@@ -34,6 +34,7 @@
                 </div>
                 <div class="mb-3">
                     <label>ASSIGNED STAFF</label>
+                    <div class="d-flex">
                    @if (!$farm->name)
     <input type="text" class="form-control" disabled value="No Staff Assigned">
     <button type="button" class="btn btn-success" data-bs-toggle="modal"
@@ -49,6 +50,7 @@
         </button>
     @endif
 @endif
+</div>
 
                 </div>
                 </div>
@@ -63,14 +65,17 @@
                     
                     <div class="col-auto">
                         <label for="farmstate">FARM STATUS</label>
+                        </div>
+                        <div class="d-flex">
+                            <div class="col-auto">
                         <input type="text" readonly class="form-control" value="{{$farm->farmstate}}" id=farmstate>
-                    
                     </div>
-                    <div class="col-auto">
+                    
+                    
                         <button type="button" class="btn btn-success" data-bs-toggle="modal"
                         data-bs-target="#farmModal" data-bs-whatever=""><i class="fa fa-pencil-square-o"></i></button> 
-                    </div>
-                        
+                    
+                </div> 
    
 
                 </div>
@@ -209,7 +214,8 @@
                 </td>
              </tr>
                  @empty
-                <tr> <td>NO INSPECTIONS CARRIED OUT</td></tr>
+                <tr> <td>NO INSPECTIONS CARRIED OUT</td>
+                <td></td><td></td><td></td><td></td><td></td></tr>
                  @endforelse
             </tbody>
             </table>
