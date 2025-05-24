@@ -66,7 +66,7 @@ class PdfController extends Controller
                               $data=compact('reportname','reportquestions', 'user', 'inspection','farm');
 
                               $pdf=Pdf::loadView('pdf.inspectionpdf', $data);
-
+                              $pdfname=$reportname->reportname.'_'.$farm->farmname.'.pdf';
 /**
  * 
  * $data = [
@@ -81,7 +81,7 @@ class PdfController extends Controller
  */
         
 
-        return $pdf->download('itsolutionstuff.pdf');
+        return $pdf->download($pdfname);
     }
 
 
