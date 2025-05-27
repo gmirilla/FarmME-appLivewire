@@ -109,7 +109,7 @@
 
 
     </div>
-    <script async src="https://maps.googleapis.com/maps/api/js?key={{config('MAP_API_KEY')}}&libraries=geometry"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key={{config('MAP')}}&libraries=geometry"></script>
     <script>
                 function initMap(latitude, longitude) {
             var userLocation = { lat: latitude, lng: longitude };

@@ -132,7 +132,7 @@ return [
     |
     */
 
-    'MAP_API_KEY' => env('GOOGLE_API_KEY'),
+    'MAP' => "AIzaSyBcCHtvNf_c9u6JtkOHSr6nja94R9Hn0AE",
 
 
 
