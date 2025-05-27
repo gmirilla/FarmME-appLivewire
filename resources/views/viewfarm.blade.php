@@ -121,7 +121,7 @@
                     </div>
                 </div>
                 </div>
-                <div class="mb-3">
+                <div class="mb-3 table-responsive">
                     <label>LAST INSPECTION</label>
                     <table class="table table-bordered" style="border:3px">
                         <thead>
@@ -183,7 +183,7 @@
  
             </div>
           </div>
-          <div class="row">
+          <div class="row table-responsive">
             <h4 class="h4" style="text-align: center; background-color:#5D4037; color: white">INSPECTION RECORDS</h4>
             <table class="table table-striped table-hover" id="farms">
                 <thead>
