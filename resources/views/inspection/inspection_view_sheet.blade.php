@@ -24,9 +24,9 @@
             <tr>
                 <td><b> HOUSE COORDINATE: </b></td>
                 <td><b>LATITUDE:</b></td>
-                <td></td>
+                <td>{{$farm->latitude}}</td>
                 <td><b>LONGITUDE:</b></td>
-                <td></td>
+                <td>{{$farm->longitude}}</td>
             </tr>
             <tr>
                 <td><b>NAME OF INTERNAL INSPECTOR: </b> </td>

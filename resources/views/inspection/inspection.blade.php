@@ -14,10 +14,11 @@
       <form>
     -->
 
-<a class="btn btn-primary mt-3" href='inspection/new'>New Inspection</a>
+<a class="btn btn-success mt-3" href='inspection/new'>New Inspection</a>
 </div>
 <div class="card">
-<div class="card-body table-response">    
+    <div class="card-header"><h4>Assigned Inspections</h4></div>
+<div class="card-body table-responsive">    
 <table class="table table-striped display table-sm table-sm" id="inspectiondt">
 
     <thead>

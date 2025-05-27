@@ -84,18 +84,18 @@
                         FARM MEASURMENTS:
                         <table class="table table-bordered table-striped">
                             <tr>
-                                <td>House Latidude</td>
-                                <td>   ####### </td>
-                                <td>House Longitude</td>
-                                <td>########</td>
+                                <td><b>House Latidude</b></td>
+                                <td>{{$farm->latitude}} </td>
+                                <td><b>House Longitude</b></td>
+                                <td>{{$farm->longitude}}</td>
                             </tr>
                             <tr>
-                                <td>Farm Size (Ha)</td>
+                                <td><b>Farm Size (Ha)</b></td>
                                 <td>@if (!empty($farm->farmarea))
                                     {{$farm->farmarea}} Ha
                                 @endif 
                                     </td>
-                                <td> No of Plots</td>
+                                <td><b> No of Plots</b></td>
                                 <td> @if (!empty($farm->nooffarmunits))
                                     {{ $farm->nooffarmunits}}            
                                 @endif

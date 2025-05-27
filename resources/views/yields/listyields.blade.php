@@ -118,6 +118,12 @@
                 @empty
                     <tr>
                         <td>NO FARM YIELDS REGISTERED</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 @endforelse
             </tbody>

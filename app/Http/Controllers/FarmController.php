@@ -219,6 +219,8 @@ switch ($user->roles) {
         $newfarm->state=$request->state;
         $newfarm->noofpermworkers=$request->nopworkers;
         $newfarm->nooftempworkers=$request->notworkers;
+        $newfarm->latitude=$request->latitude;
+        $newfarm->longitude=$request->longitude;
 
 
         $newfarm->farmstate='PENDING';

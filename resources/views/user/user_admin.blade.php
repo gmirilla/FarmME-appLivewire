@@ -14,10 +14,17 @@
       </ul>
   </div>
 @endif
-<div>
-<button type="button" name="newuserbtn" id="newuserbtn" class="btn btn-primary" data-bs-toggle="modal"
-data-bs-target="#exampleModal" data-toggle="tooltip" data-placement="right" title="Add  New User"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
-    <table class="table table-striped" id="users">
+<div class="card-body table-responsive">
+    <div class="card-header mb-3">
+        <h4>Users</h4>
+    </div>
+    <p class="text-muted">Manage users and their roles in the system.</p>
+<button type="button" name="newuserbtn" id="newuserbtn" class="btn btn-success" data-bs-toggle="modal"
+data-bs-target="#exampleModal" data-toggle="tooltip" data-placement="right" title="Add  New User">
+<i class="fa fa-user-plus" aria-hidden="true"></i></button>
+<div class="card">
+  <div class="card-body table-responsive">
+    <table class="table table-striped table-sm" id="users">
         <thead>
             <th>#</th>
             <th>User Name</th>
@@ -91,8 +98,9 @@ data-bs-target="#exampleModal" data-toggle="tooltip" data-placement="right" titl
 
         </tbody>
     </table>
+  </div>
 </div>
-
+</div>
 <!-- MODAL FOR NEW USER CREATION -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">

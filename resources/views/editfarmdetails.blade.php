@@ -75,6 +75,14 @@
                 <label for="region" class="form-label">Region</label>
                 <input type="text" value="{{$farm->region}}" id="region" name="region"  required class="form-control">
             </div>
+             <div class="mb-3 col-auto" style="border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                <label for="region" class="form-label">Latitude</label>
+                <input type="text" value="{{$farm->latitude}}" id="latitude" name="latitude"  class="form-control">
+                <label for="region" class="form-label">Longitude</label>
+                <input type="text" value="{{$farm->longitude}}" id="longitude" name="longitude"  class="form-control">
+                <a class="btn btn-success mt-3" onclick="initMap()">Get Coordinates</a>
+            </div>
+
         </div>
         <div class="row gy-2 gx-3 align-items-center">
             <div class="mb-3 col-auto">
@@ -126,4 +134,31 @@
         </form>
     </div>
     </div>
+</div>
+<script async src="https://maps.googleapis.com/maps/api/js?key={{config('MAP_API_KEY')}}&libraries=geometry"></script>
+    <script>
+                function initMap(latitude, longitude) {
+if ("geolocation" in navigator) {
+  navigator.geolocation.getCurrentPosition(
+    function(position) {
+      var currentLatitude = position.coords.latitude;
+      var currentLongitude = position.coords.longitude;
+      document.getElementById("latitude").value = currentLatitude;
+      document.getElementById("longitude").value = currentLongitude;
+      console.log("Latitude: " + currentLatitude + ", Longitude: " + currentLongitude);
+      
+
+    },
+    function(error) {
+
+      alert("Unable to retrieve your location. Please enable location services and try again.");
+    }
+  );
+} else {
+
+  alert("Geolocation is not supported by this browser.");
+}
+
+                }
+    </script>
 </x-layouts.app>

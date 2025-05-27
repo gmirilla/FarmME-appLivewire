@@ -40,9 +40,9 @@ input[type="radio"] {
             <tr>
                 <td><b> HOUSE COORDINATE: </b></td>
                 <td><b>LATITUDE:</b></td>
-                <td></td>
+                <td>{{$farm->latitude}}</td>
                 <td><b>LONGITUDE:</b></td>
-                <td></td>
+                <td>{{$farm->longitude}}</td>
             </tr>
             <tr>
                 <td><b>NAME OF INTERNAL INSPECTOR: </b> </td>
@@ -182,7 +182,7 @@ input[type="radio"] {
             <tr >
                 <td colspan="2">
                     Compliance this Year 
-                    <div  class="d-flex flex-row"> 
+                    <div  class="d-flex flex-row" style="margin-top: 3px; margin-bottom: 3px"> 
                         @switch($inspection->inspectionstate)
                         @case('APPROVED')
                         <div class="p-2">
