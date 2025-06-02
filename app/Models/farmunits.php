@@ -13,5 +13,6 @@ class farmunits extends Model
         'fuarea',
         'fulatitude',
         'fulongitude',
+        'plot_coords',
      ];
 }

@@ -74,7 +74,7 @@
         </form>
     </div>
     <div class="card-header"><h4 class="card-title text-center">Annual Yield Details for  {{$farm->farmcode}}</h4></div>
-    <div class="card-body">
+    <div class="card-body table-responsive">
         <table class="table table-striped" id="plotyields">
             <thead>
                 <th>S/No</th>

@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+@php
+
+    use Illuminate\Support\Facades\Request;
+@endphp
+
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="">
     <head>
         @include('partials.head')
@@ -25,7 +30,7 @@
          Auth::check();
         $user = Auth::user();
     @endphp
-    <body class="min-h-screen bg-white dark:bg-zinc-800" style="background: url('assets/images/triangles.svg') repeat 0 100%, -webkit-gradient(linear, left top, right top, from(#f2eadc), to(#F5F0E6)) 0% 0% no-repeat padding-box">
+    <body class="min-h-screen bg-white dark:bg-zinc-800" style="background: url('{{Request::root()}}/assets/images/triangles.svg') repeat 0 100%, -webkit-gradient(linear, left top, right top, from(#f2eadc), to(#F5F0E6)) 0% 0% no-repeat padding-box">
         <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900" style="background-color:#5D4037 ; color: #f5f0e6">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 

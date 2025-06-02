@@ -36,4 +36,11 @@ class farm extends Model
 
 
     ];
+
+    public function getinspectorName()
+    {
+        $inspector = User::where('insid', $this->inspectorid)->first();
+        return $inspector ? $inspector->name : 'Inspector Not Assigned';
+
+    }
 }

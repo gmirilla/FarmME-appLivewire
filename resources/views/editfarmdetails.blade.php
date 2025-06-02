@@ -1,3 +1,8 @@
+@php
+    // This is block of code is used to set the no of years for RA certification
+    $currentYear = date('Y');
+    $minyear = $currentYear - 10; // Minimum year for RA certification is 10 years ago
+@endphp
 <x-layouts.app>
     <div class="d-flex flex-row-reverse bd-highlight">
         <div class="p-2 bd-highlight" style="margin-right: 5px"><form method="get" action="{{route('list_yield')}}">
@@ -125,16 +130,20 @@
             </div>
             <div class="col-auto mb-3">
                 <label for="yearofcert" class="form-label">Year of RA Certification</label>
-                <input type="number" placeholder="Enter year of Certification" id="yearofcert" name="yearofcert" required  class="form-control" value="{{$farm->yearofcertification}}">
-                </div>
+                <select name="yearofcert" id="yearofcert" required class="form-select">
+                    @foreach (range($minyear, $currentYear) as $year)
+                        <option value="{{ $year }}">{{ $year }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
             <div>
                 <button type="submit" class="btn btn-primary">Update Details</button>
             </div>
           </div>
         </form>
+         </div>
     </div>
-    </div>
-</div>
 <script async src="https://maps.googleapis.com/maps/api/js?key={{config('MAP_API_KEY')}}&libraries=geometry"></script>
     <script>
                 function initMap(latitude, longitude) {

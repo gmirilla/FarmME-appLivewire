@@ -33,7 +33,7 @@ input[type="radio"] {
         <tbody>
             <tr>
                 <td> <b>FIELD OPERATOR: </b></td>
-                <td></td>
+                <td>{{$farm->farmname}}</td>
                 <td><b>CODE NUMBER:</b></td>
                 <td> {{$farm->farmcode}}</td>
             </tr>

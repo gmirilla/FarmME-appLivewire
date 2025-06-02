@@ -83,7 +83,7 @@
 
                 <div class="card mb-3" >
                     <div class="card-title text-center"><b>PLOTTED COORDINATES</b></div>
-                    <div class="card-body">
+                    <div class="card-body table-responsive">
                         <table class="table table-striped table-bordered fs-6">
                             <thead>
                                 <th>Lat</th><th>Long</th>
@@ -108,13 +108,12 @@
         </div>
 
 
+
     </div>
-    <script async src="https://maps.googleapis.com/maps/api/js?key={{env('MAP')}}&libraries=geometry"></script>
-
-
-      
-
+    <script async src="https://maps.googleapis.com/maps/api/js?key&libraries=geometry,drawing"></script>
     <script>
+
+        let polygonsArray = [];
                 function initMap(latitude, longitude) {
             var userLocation = { lat: latitude, lng: longitude };
 
@@ -128,7 +127,48 @@
                 map: map,
                 title: "You are here!"
             });
+
+              const drawingManager = new google.maps.drawing.DrawingManager({
+    drawingMode: google.maps.drawing.OverlayType.POLYGON,
+    drawingControl: true,
+    drawingControlOptions: {
+      position: google.maps.ControlPosition.TOP_CENTER,
+      drawingModes: ["polygon"],
+    },
+        polygonOptions: {
+        fillColor: "#FF5733",
+        fillOpacity: 0.5,
+        strokeWeight: 2,
+        strokeColor: "#C70039",
+    },
+
+  });
+            drawingManager.setMap(map);
+
+            google.maps.event.addListener(drawingManager, 'polygoncomplete', function(event) {
+                const polygon = event;
+                const path = polygon.getPath();
+                let polycoord = [];
+
+                path.forEach(function(latLng) {
+                    polycoord.push({ lat: latLng.lat(), lng: latLng.lng() });
+
+                });
+
+                 // Store the new polygon in the global array
+        polygonsArray.push(polycoord);
+        localStorage.setItem("polygonsData", JSON.stringify(polygonsArray)); // Persist in localStorage
+
+
+                document.getElementById("polycoord").textContent = JSON.stringify(polycoord);
+                document.getElementById("latitude").textContent = latitude;
+                document.getElementById("longitude").textContent = longitude;
+            });
+
+
         }
+
+        
 
         function savePoly()
             {   
@@ -153,7 +193,7 @@
                 let coordrow=document.getElementById("formartcoordinates").innerHTML+ "<tr><td></td></tr>";
                 document.getElementById("polycoord").textContent=result;
                 document.getElementById("formartcoordinates").innerHTML=coordrow;
-                console.log(coordrow);
+                
 
             } else {
 
@@ -212,6 +252,16 @@
             document.getElementById("fuarea").value=document.getElementById("farmareaha").textContent;
 
         }
+        function saveFarmcoords()
+        {
+            document.getElementById("fuarea").value=document.getElementById("farmareaha").textContent;
+
+        }
+        function loadFarmcoords()
+        {
+            document.getElementById("fuarea").value=document.getElementById("farmareaha").textContent;
+
+        }
 
         function calcPoly()
         {
@@ -222,6 +272,8 @@
             const jsonArray = JSON.parse(jsonPolyString);
 
             var polygonCoords = jsonArray;
+
+            console.log(polygonCoords);
 
             // Create the polygon
                 var polygon = new google.maps.Polygon({
@@ -247,11 +299,8 @@
 
 
     </script>
-        <script>
 
-        </script>
 
-        
-
+  
 
 </x-layouts.app>

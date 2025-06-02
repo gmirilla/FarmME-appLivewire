@@ -9,9 +9,9 @@
 
   <div class="card-header"><h4>FARM ONBOARDING</h4></div>
 
-  <div class="card-body">
+  <div class="card-body table-responsive">
 
-    <table class="table table-striped display" id="farms" style="width:100%">
+    <table class="table table-striped display" id="farms">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -42,8 +42,13 @@
           </tr>
             
           @empty
-            <h1>No Farms Registered on System!!</h1>
-            {{$farmcode='None'}}
+          <td></td>
+            <td></td>
+            <td></td>
+            <td><h1>No Farms Registered on System!!</h1></td>
+            <td></td>
+            <td></td>
+                      
           @endforelse 
         </tbody>
       </table>
