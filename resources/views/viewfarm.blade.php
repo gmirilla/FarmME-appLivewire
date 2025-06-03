@@ -193,7 +193,7 @@
                     <th>Date</th>
                     <th>Status</th>
                     <th>Comment</th>
-                    <th></th>
+                    <th>Actions</th>
                     </tr>
                 </thead>  
                 <tbody> 
@@ -209,8 +209,19 @@
                 <form action="/iapprove" method="post">
                     @csrf
                     <input type="hidden" name="iid" value="{{$farmreport->iid}}">
-                    <button name="viewsheet" type="submit" class="btn btn-success><i class="fa fa-eye"></i></button>
+                    <button name="viewsheet" type="submit" class="btn btn-success"><i class="fa fa-eye"></i></button>
                 </form>
+            
+            <form action="{{route('continue')}}" method="POST">
+            @csrf
+            <input type="text" value="{{$farm->id}}" name="farmid" hidden>
+            <input type="text" value="{{$farmreport->iid}}" name="inspectionid" hidden>
+            <button class="btn btn-danger" name='printsheet' data-toggle="tooltip" data-placement="right" 
+            title="Download Inspection PDF" style="margin: 3px"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+           
+            
+
+        </form>
                 </td>
              </tr>
                  @empty
