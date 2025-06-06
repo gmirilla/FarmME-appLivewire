@@ -45,7 +45,7 @@
                                 <input type="text" value="{{$farmunit->fulongitude}}" id="fulongitude"  name="fulongitude"   class="form-control">
                                 @endif
                                 
-                                
+             <div><textarea hidden id="polycoords" name="polycoords" class="form-control">{{$farmunit->plot_coords}}</textarea></div>                   
             </div>
             <div class="col-auto" >
                 <button type="submit" class="btn btn-primary">Add</button>
@@ -55,11 +55,12 @@
 
     </form>
 
-    <body onload="initMap()">
+    <body onload="initMap(parseFloat({{$farmunit->fulatitude}}), parseFloat({{$farmunit->fulongitude}}))">
         
     </body>
     <div>
-        <h4 class="text-center">Calculate Area</h4>
+        
+        <h4 class="text-center">Calculate Area {{config('name')}}</h4>
         <div class="flex">
             <div class="card" style="height: 550px; width: 68%;">
                 <div class="card-body">
@@ -92,7 +93,7 @@
 
                             </tbody>
                         </table>
-                            <div hidden><span id="polycoord"></span></div>
+                            <div><textarea id="polycoord" name="polycoords" class="form-control">{{$farmunit->plot_coords}}</textarea></div>
                     </div>
                 </div>
                 <div  id="showArea" class="card" style="display:none">
@@ -101,6 +102,7 @@
                     <p><b><span id="farmareaha"></span> ha </b></p>
                     <p><b><span id="farmaream2"></span> m<sup>2</sup></b></p>
                     <button class="btn btn-success" onclick="setFarmarea()">Set as Farm Area</button>
+                    
                 </div>
 
             </div>            
@@ -110,12 +112,12 @@
 
 
     </div>
-    <script async src="https://maps.googleapis.com/maps/api/js?key&libraries=geometry,drawing"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key={{config('MAP')}}&libraries=geometry,drawing"></script>
     <script>
 
         let polygonsArray = [];
                 function initMap(latitude, longitude) {
-            var userLocation = { lat: latitude, lng: longitude };
+            var userLocation = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
 
             var map = new google.maps.Map(document.getElementById("map"), {
                 center: userLocation,
@@ -161,8 +163,11 @@
 
 
                 document.getElementById("polycoord").textContent = JSON.stringify(polycoord);
+                 document.getElementById("polycoords").textContent = JSON.stringify(polycoord);
                 document.getElementById("latitude").textContent = latitude;
                 document.getElementById("longitude").textContent = longitude;
+                console.log("Polygon coordinates:", polycoord);
+                console.log("Json: ", JSON.stringify(polycoord));
             });
 
 
