@@ -45,7 +45,7 @@
                                 <input type="text" value="{{$farmunit->fulongitude}}" id="fulongitude"  name="fulongitude"   class="form-control">
                                 @endif
                                 
-             <div><textarea  id="polycoords" name="polycoords" class="form-control">{{$farmunit->plot_coords}}</textarea></div>                   
+             <div><textarea hidden id="polycoords" name="polycoords" class="form-control">{{$farmunit->plot_coords}}</textarea></div>                   
             </div>
             <div class="col-auto" >
                 <button type="submit" class="btn btn-primary">Add</button>
