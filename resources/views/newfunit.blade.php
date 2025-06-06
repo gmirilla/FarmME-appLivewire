@@ -112,7 +112,7 @@
 
 
     </div>
-    <script async src="https://maps.googleapis.com/maps/api/js?key={{config('MAP')}}&libraries=geometry,drawing"></script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key={{env('MAP')}}&libraries=geometry,drawing"></script>
     <script>
 
         let polygonsArray = [];

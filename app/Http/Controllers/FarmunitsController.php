@@ -150,6 +150,7 @@ class FarmunitsController extends Controller
             $farmunit->fuarea=$request->fuarea;
             $farmunit->fulatitude=$request->fulatitude;
             $farmunit->fulongitude=$request->fulongitude;
+            $farmunit->plot_coords=$request->polycoords;
             $farmunit->save();
 
             //Update total Farm Area and unit count
