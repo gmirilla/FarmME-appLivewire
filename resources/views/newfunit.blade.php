@@ -45,7 +45,7 @@
                                 <input type="text" value="{{$farmunit->fulongitude}}" id="fulongitude"  name="fulongitude"   class="form-control">
                                 @endif
                                 
-             <div><textarea hidden id="polycoords" name="polycoords" class="form-control">{{$farmunit->plot_coords}}</textarea></div>                   
+             <div><textarea  id="polycoords" name="polycoords" class="form-control">{{$farmunit->plot_coords}}</textarea></div>                   
             </div>
             <div class="col-auto" >
                 <button type="submit" class="btn btn-primary">Add</button>
@@ -113,7 +113,7 @@
 
     </div>
     <script async src="https://maps.googleapis.com/maps/api/js?key={{env('MAP')}}&libraries=geometry,drawing"></script>
-    <script>
+   <script>
 
         let polygonsArray = [];
                 function initMap(latitude, longitude) {
@@ -130,7 +130,7 @@
                 title: "You are here!"
             });
 
-              const drawingManager = new google.maps.drawing.DrawingManager({
+    const drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: google.maps.drawing.OverlayType.POLYGON,
     drawingControl: true,
     drawingControlOptions: {
@@ -145,6 +145,35 @@
     },
 
   });
+
+    //Load previously saved polygons from localStorage
+const savedPolygons = document.getElementById("polycoords").value;
+if (savedPolygons) {
+    const data = JSON.parse(savedPolygons);
+    console.log("Array Polygons:", data);
+
+    var resultArray = JSON.parse(savedPolygons);
+    var polyCoords = [];
+
+    for (var i=0; i<resultArray.length; i++) {
+        polyCoords[i] = new google.maps.LatLng(resultArray[i].lat, resultArray[i].lng);
+    }
+
+    //use the array as coordinates
+ farmplot = new google.maps.Polygon({
+         paths: polyCoords,
+         strokeColor: '#ff0000',
+         strokeOpacity: 0.8,
+         strokeWeight: 1,
+         fillColor: '#ff0000',
+         fillOpacity: 0.30
+});
+farmplot.setMap(map);
+};
+
+
+  // Add the drawing manager to the map
+
             drawingManager.setMap(map);
 
             google.maps.event.addListener(drawingManager, 'polygoncomplete', function(event) {
@@ -255,30 +284,16 @@
         function setFarmarea()
         {
             document.getElementById("fuarea").value=document.getElementById("farmareaha").textContent;
-
         }
-        function saveFarmcoords()
-        {
-            document.getElementById("fuarea").value=document.getElementById("farmareaha").textContent;
-
-        }
-        function loadFarmcoords()
-        {
-            document.getElementById("fuarea").value=document.getElementById("farmareaha").textContent;
-
-        }
-
         function calcPoly()
         {
             // Define the polygon coordinates
-            var polycoords=document.getElementById("polycoord").textContent;
+            var polycoords=document.getElementById("polycoords").textContent;
             var jsonPolyString="["+polycoords+"]";
             //Convert coordinate strings into Array of Json Objects
             const jsonArray = JSON.parse(jsonPolyString);
 
             var polygonCoords = jsonArray;
-
-            console.log(polygonCoords);
 
             // Create the polygon
                 var polygon = new google.maps.Polygon({
@@ -305,7 +320,5 @@
 
     </script>
 
-
-  
 
 </x-layouts.app>
