@@ -44,8 +44,13 @@
                                 @else
                                 <input type="text" value="{{$farmunit->fulongitude}}" id="fulongitude"  name="fulongitude"   class="form-control">
                                 @endif
-                                
-             <div><textarea hidden id="polycoords" name="polycoords" class="form-control">{{$farmunit->plot_coords}}</textarea></div>                   
+             <div><textarea hidden id="polycoords" name="polycoords" class="form-control">
+                @if (empty($farmunit->plot_coords))
+                    // If no farm unit exists, provide default coordinates
+                    null
+                @else
+                   {{$farmunit->plot_coords}}
+                @endif</textarea></div>                   
             </div>
             <div class="col-auto" >
                 <button type="submit" class="btn btn-primary">Add</button>
@@ -55,8 +60,13 @@
 
     </form>
 
-    <body onload="initMap(parseFloat({{$farmunit->fulatitude}}), parseFloat({{$farmunit->fulongitude}}))">
-        
+    <body 
+    @if (!empty($farmunit) && !empty($farmunit->fulatitude) && !empty($farmunit->fulongitude))
+    onload="initMap(parseFloat({{$farmunit->fulatitude}}), parseFloat({{$farmunit->fulongitude}}))"> 
+    @else
+    onload="initMap(0, 0)">
+    @endif
+
     </body>
     <div>
         
@@ -93,7 +103,10 @@
 
                             </tbody>
                         </table>
-                            <div><textarea id="polycoord" name="polycoords" class="form-control">{{$farmunit->plot_coords}}</textarea></div>
+                        @if (!empty($farmunit))
+                        <div><textarea id="polycoord" name="polycoords" class="form-control">{{$farmunit->plot_coords}}</textarea></div>                         
+                        @endif
+                            
                     </div>
                 </div>
                 <div  id="showArea" class="card" style="display:none">
