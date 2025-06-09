@@ -30,7 +30,8 @@ class farmImport implements ToModel, WithHeadingRow
             'gender' => $row['gender'],
             'community' => $row['community'],
             'farmname'=>$row['farmname'],
-            'farmstate'=>$row['farmstatus']
+            'farmstate'=>$row['farmstatus'],
+            'measurement'=>$row['measurement']
 
             //
         ]);
