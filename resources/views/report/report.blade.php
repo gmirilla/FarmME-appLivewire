@@ -30,6 +30,10 @@
           <button type="button" class="btn btn-primary" data-bs-toggle="modal"
           data-bs-target="#exampleModal" data-bs-whatever="">New report</button>  
         </div>
+        <div class="ml-3">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+          data-bs-target="#copyModal" data-bs-whatever="">Copy report</button>  
+        </div>
         </div>
 
   </form>
@@ -71,6 +75,44 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+  <!--COPY  REPORT Modal -->
+<div class="modal fade" id="copyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="copyModalLabel">Copy Report</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="newreport" method="post" action='{{route('rcopy')}}'>
+        @csrf
+      <div class="modal-body">
+
+                <div class="input-group mb-3">
+            <label for="floatingSelect" class="visually-hidden">REPORT TO COPY</label>
+            <div class="input-group-text">Report</div>
+          <select class="form-select" id="orgreport" aria-label="Floating label select example" name="orgreportid">
+              @forelse ($reports as $report)
+              <option value="{{$report->id}}">{{$report->reportname}}</option>   
+              @empty
+              <option disabled selected>NO REPORTS CONFIGURED ON SYTSTEM</option>
+              @endforelse
+          </select>
+      
+        </div> 
+        
+          <div class="mb-3">
+            <label for="farmcode" class="col-form-label">New Report Name</label>
+            <input type="text" class="form-control fcode" id="newreportname"  required name="newreportname">
+          </div>      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Copy</button>
       </div>
     </form>
     </div>

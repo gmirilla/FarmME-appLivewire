@@ -93,7 +93,13 @@
                     </tr>    
                 @empty
                 <tr>
+                  <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>No Inspection Sheets on System </td>
+                    <td></td>
+                    <td></td>
                 </tr>   
                 @endforelse
  

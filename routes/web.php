@@ -92,11 +92,13 @@ Route::middleware('auth')->group(function () {
     Route::get('report',[ReportsController::class, 'new'])->name('viewreports');
     Route::get('report/new',[ReportsController::class, 'new_report'])->name('new_report');
     Route::post('report/new',[ReportsController::class, 'new_report'])->name('new_report');
+    Route::post('report/copy',[ReportsController::class, 'reportcopy'])->name('rcopy');
     Route::post('report/showsection',[ReportsectionController::class, 'showsection'])->name('showsectionreport');
     Route::post('report/getsection',[ReportsectionController::class, 'getsection'])->name('getsection');
     Route::post('report/newsection',[ReportsectionController::class, 'newsection'])->name('newsection');
     Route::post('report/showquestion',[ReportquestionsController::class, 'showquestion'])->name('showquestion');
     Route::post('report/newquestion',[ReportquestionsController::class, 'newquestion'])->name('newquestion');
+    
 });
 
 
