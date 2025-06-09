@@ -9,6 +9,8 @@ use App\Models\internalinspection;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Imports\farmImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class FarmController extends Controller
 {
@@ -308,6 +310,24 @@ switch ($user->roles) {
 
         return view('viewfarm', compact('farm','farmreports', 'users', 'lastreport','authuser'));
     }
+
+    public function importfarms(Request $request)
+{
+    $request->validate([
+        'file' => 'required|mimes:xlsx,csv'
+    ]);
+
+    Excel::import(new farmImport, $request->file('file'));
+
+    return redirect()->route('index');
+}
+    public function import_list(Request $request)
+{
+
+
+    return view('farmimport');
+}
+
 
     
 

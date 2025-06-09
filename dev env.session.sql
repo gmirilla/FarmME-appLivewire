@@ -1,1 +1,2 @@
-delete from reports
+delete from farms
+where farmname like '=_x%'

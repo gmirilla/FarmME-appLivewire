@@ -11,7 +11,14 @@
   <input type="submit" class="btn btn-success" value="Search **TO DO">
 <form>
 -->
-  <a href='/newfarm' class="btn btn-success" style="margin:5px"> Register New Farm</a>   
+@php
+  $user=auth()->user();
+@endphp
+@if ($user->roles=='ADMINISTRATOR')
+<a href='{{route('import_list')}}' class="btn btn-success" style="margin:5px"> Import Farms</a>  
+<a href='/newfarm' class="btn btn-success" style="margin:5px"> Register New Farm</a>   
+@endif
+
 </div>
 <div class="col-md col-xl col-sm py-md-3 pl-md-5t  fs-6, fs-md-5, fs-lg-5, fs-xl-1" style="font-size: 0.9rem">
 <div class="card">

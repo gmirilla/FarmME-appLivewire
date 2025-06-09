@@ -58,6 +58,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/farm/assignstaff', [FarmController::class, 'assignstaff']);
         Route::get('/farm/view', [FarmController::class, 'displayfarm']);
         Route::post('/farm/updatefarm', [FarmController::class, 'updatefarm']);
+        Route::post('/farm/import', [FarmController::class, 'importfarms'])->name('importfarm');
+        Route::get('/farm/importlist', [FarmController::class, 'import_list'])->name('import_list');
         Route::get('/farm/onboardinglist', [FarmController::class, 'onboarding'])->name('onboarding');
         
     });
