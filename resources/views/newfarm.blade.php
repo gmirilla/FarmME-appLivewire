@@ -23,6 +23,10 @@
         <form method="post" action='/newfarm/Createfarm'>
             {{ csrf_field() }}
             <div class="flex">
+                            <div class="mb-3">
+            <label for="farmcode" class="form-label">Farm Code</label>
+            <input type="text" placeholder="Farm Code" id="farmcode" name="farmcode" required  class="form-control">
+            </div>
                 <div class="mb-3" style="margin-right: 10px">
                     <label for="fname" class="form-label">First Name</label>
                     <input type="text" placeholder="First Name of Farm Owner" id="fname"  name="fname" required class="form-control">
@@ -85,10 +89,7 @@
                     <label for="notworkers" class="form-label">No of Temporary Workers</label>
                     <input type="number"  id="notworkers" name="notworkers"  class="form-control">
                     </div>
-            <div class="mb-3">
-            <label for="farmcode" class="form-label">Farm Code</label>
-            <input type="text" placeholder="Farm Code" id="farmcode" name="farmcode" required  class="form-control">
-            </div>
+
             <div class="mb-3">
                 <label for="yearofcert" class="form-label">Year of RA Certification</label>
                 <select name="yearofcert" id="yearofcert" required class="form-select">

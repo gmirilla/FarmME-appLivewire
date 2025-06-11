@@ -43,4 +43,11 @@ class farm extends Model
         return $inspector ? $inspector->name : 'Inspector Not Assigned';
 
     }
+
+        public function getfarmplots()
+    {
+        $farmplots = farmunits::where('farmid', $this->id)->get();
+        return $farmplots ? $farmplots->count() : 'No Farm Units';
+
+    }
 }

@@ -35,6 +35,11 @@
         <form method="post" action='/farm/updatefarm'>
             {{ csrf_field() }}
             <div class="row gy-2 gx-3 align-items-center">
+                            <div class="col-auto mb-3">
+            <label for="farmcode" class="form-label">Farm Code</label>
+            <input type="text" placeholder="Farm Code" id="farmcode" name="farmcode" required  class="form-control" value="{{$farm->farmcode}}">
+            <input type="text" value={{$farm->id}} id="fid"  name="fid" hidden>
+            </div>
                 <div class="mb-3 col-auto" style="margin-right: 10px">
                     <label for="fname" class="form-label">First Name</label>
                     <input type="text" value="{{$farm->fname}}" id="fname"  name="fname" required class="form-control">
@@ -123,11 +128,7 @@
                     </div>
          </div>
           <div class="row gy-2 gx-3 align-items-center">
-            <div class="col-auto mb-3">
-            <label for="farmcode" class="form-label">Farm Code</label>
-            <input type="text" placeholder="Farm Code" id="farmcode" name="farmcode" required  class="form-control" value="{{$farm->farmcode}}">
-            <input type="text" value={{$farm->id}} id="fid"  name="fid" hidden>
-            </div>
+
             <div class="col-auto mb-3">
                 <label for="yearofcert" class="form-label">Year of RA Certification</label>
                 <select name="yearofcert" id="yearofcert" required class="form-select">

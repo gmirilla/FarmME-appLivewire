@@ -75,17 +75,26 @@
                   $counter+=1;       
                  @endphp
                   <tr>
+                    <form action="{{route('editquestion')}}" method="POST">
                   <td>{{$counter}}</td> 
                   <td>{{$question->question}}</td>
-                  <td>{{$question->question_seq}}</td>
+                  <td><input type="number" class="form-control" value="{{$question->question_seq}}" name='questionseq'>
+                    </td>
                   <td>{{$question->questiontype}}</td>
-                  <td>{{$question->questionstate}}</td>
-                  <td>Edit  Disable 
-                    <div><form action="showquestion" method="POST">
+                  <td>
+                    @if ($question->questionstate=='ACTIVE')
+                        <input type="checkbox" checked name='questionstate' class="form-check-input">
+                    @else
+                        <input type="checkbox" name='questionstate' class="form-check-input">
+                    @endif
+                    </td>
+                  <td>
+                    <div>
                       @csrf
                     <input type="text" hidden value="{{$question->id}}" name="questionid">
-                    <button disabled type="submit" class="btn btn-primary">GO</button>
-                    </form></div></td>
+                    <button type="submit" class="btn btn-primary">GO</button>
+                    </div></td>
+                    </form>
                   </tr>   
                   @empty
                   <tr><td disabled selected>NO QUESTION CONFIGURED FOR SECTION</td></tr>

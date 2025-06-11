@@ -328,6 +328,14 @@ switch ($user->roles) {
     return view('farmimport');
 }
 
+    public function annualreport(Request $request)
+{
+    $farms=farm::where('farmstate', 'ACTIVE')->get();
+
+
+    return view('excel.annualreport',compact('farms'));
+}
+
 
     
 

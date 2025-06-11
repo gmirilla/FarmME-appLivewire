@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/farm/import', [FarmController::class, 'importfarms'])->name('importfarm');
         Route::get('/farm/importlist', [FarmController::class, 'import_list'])->name('import_list');
         Route::get('/farm/onboardinglist', [FarmController::class, 'onboarding'])->name('onboarding');
+        Route::get('/farm/annualreport', [FarmController::class, 'annualreport'])->name('annualreport');
         
     });
 
@@ -98,6 +99,7 @@ Route::middleware('auth')->group(function () {
     Route::post('report/newsection',[ReportsectionController::class, 'newsection'])->name('newsection');
     Route::post('report/showquestion',[ReportquestionsController::class, 'showquestion'])->name('showquestion');
     Route::post('report/newquestion',[ReportquestionsController::class, 'newquestion'])->name('newquestion');
+    Route::post('report/editquestion',[ReportquestionsController::class, 'editquestion'])->name('editquestion');
     
 });
 
