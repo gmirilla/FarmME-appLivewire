@@ -38,7 +38,9 @@
             <td>{{$farm->farmname}}</td>
             <td>{{$farm->farmstate}}</td>
             <td>
-              <a href="/farm/view?id={{$farm->farmcode}}" type="button" class="btn btn-success" style="margin:3px" data-toggle="tooltip" data-placement="right" title="View Farm"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+              <a href="/farm/view?id={{$farm->farmcode}}" type="button" class="btn btn-success" style="margin:3px" data-toggle="tooltip" data-placement="right" title="View Farm"><i class="fa fa-eye" aria-hidden="true"></i></a> 
+             <a href="{{route('begin')}}?fcode={{$farm->farmcode}}" type="button" class="btn btn-success" style="margin:3px" data-toggle="tooltip" data-placement="right" title="Begin Entrance exam"><i class="fa fa-print" aria-hidden="true"></i></a>
+            </td>
           </tr>
             
           @empty

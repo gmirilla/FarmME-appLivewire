@@ -1,0 +1,164 @@
+<x-layouts.app>
+@php
+    $year=date('Y');
+@endphp
+
+    <div class="card">
+        <div class="card-header"><h4>Annex 5:  Field Entrance Form (UEBT/RA/Mabagrown) {{$currentseason}} Season</h4></div>
+        <div class="card-body">
+            <h5>A. FIELD OPERATOR BIO-DATA</h5>
+            <div class="row my-3 gx-5">
+                <div class="col-3 p-3">
+                    <label for="surname" class="form-label">Surname</label>
+                    <input type="text" disabled class="form-control" value="{{$farmerdetail->surname}}">
+                </div>
+                <div class="col-3 p-3">
+                    <label for="fname" class="form-label">Other name</label>
+                    <input type="text" disabled class="form-control" value="{{$farmerdetail->fname}}">
+                </div>
+                <div class="col-3 p-3">
+                    <label for="gender" class="form-label">Gender</label>
+                    <input type="text" disabled class="form-control" value="{{$farmerdetail->gender}}">
+                </div>
+                <div class="col-3 p-3">
+                    <label for="farmercode" class="form-label">Farmer Code</label>
+                    <input type="text" disabled class="form-control" value="{{$farmerdetail->farmcode}}">
+                </div>
+                <div class="col-3 p-3">
+                    <label for="idnumber" class="form-label">ID Number</label>
+                    <input type="text" disabled class="form-control" value="{{$farmerdetail->nationalidnumber}}">
+                </div>
+
+                <div class="col-3 p-3">
+                    <label for="yearofbirth" class="form-label">Year of Birth</label>
+                    @if (empty($farmerdetail->yob))
+                    <input type="number" min="1900" max="2100" step="1" placeholder="Enter year"name="yearofbirth" id="yearofbirth" required class="form-control"/>
+                    @else
+                     <input type="number" value="{{$farmerdetail->yob}}" class="form-control" disabled/>  
+                    @endif
+                </div>
+                <div class="col-3 p-3">
+                    <label for="phoneno" class="form-label">Phone Number</label>
+                    <input type="text" name="phonenumber" id="phonenumber" value="{{$farmerdetail->phonenumber}}" disabled class="form-control" />
+                </div>
+                <div class="col-3 p-3">
+                    <label for="householdsize" class="form-label">Household Size</label>
+                    <input type="text" name="householdsize" id="householdsize" value="{{$farmerdetail->householdsize}}"  class="form-control" />
+                </div>
+                <div class="col-3 p-3">
+                    <label for="address" class="form-label">Address</label>
+                    <textarea name="address" id="address" class="form-control" >{{$farmerdetail->address}}</textarea>
+                </div>
+               
+                <div class="col-3 p-3">
+                    <label for="dateoflastinspection" class="form-label">Date of Last Inspection</label>
+                    @if (empty($lastreport))
+                        <input type="date" name="dateoflastinspection" id="dateoflastinspection" class="form-control" value="" placeholder="No report on System. Please enter report date"/>
+                    </div>
+                <div class="col-3 p-3">
+                    <label for="dateoflastinspection" class="form-label">Outcome of Last Inspection</label>
+                    <input type="text" name="outcomeoflastinspection" id="dateoflastinspection" class="form-control" value="No report on Record Please enter value"/>
+                </div>
+
+                    @else
+                        <input type="date" disabled name="dateoflastinspection" id="dateoflastinspection" class="form-control" value="{{$lastreport->updated_at}}"/>
+                        </div>
+                <div class="col-3 p-3">
+                    <label for="dateoflastinspection" class="form-label">Outcome of Last Inspection</label>
+                    <input type="text" disabled name="dateoflastinspection" id="dateoflastinspection" class="form-control" value="{{$lastreport->score}}% ({{$lastreport->inspectionstate}})"/>
+                </div>
+                    @endif
+                    
+                <div class="col-3 p-3">
+                    <label for="nameofcrop" class="form-label">Name of Crop</label>
+                    <input type="text"  disabled name="nameofcrop" id="crop" class="form-control" value="{{$farmerdetail->crop}}"/>
+                </div>
+                <div class="col-3 p-3">
+                    <label for="varietyofcrop" class="form-label">Variety of Crop</label>
+                    <input type="text"  disable name="varietyofcrop" id="varietycrop" class="form-control" value="{{$farmerdetail->cropvariety}}"/>
+                </div>          
+            </div>
+        </div>
+    </div>
+    <div class="card my-3">
+    <div class="card-body">
+            <h5>A. PRDOUCTION HISTORY</h5>
+            <table class="table">
+                <thead>
+                    <th>Ginger Plot Name</th>
+                    <th>Farm Size (Ha)</th>
+                    <th>Estimated Yield</th>
+                    <th>Lat. N</th>
+                    <th>Long. E</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    @forelse ($farmplots as $farmplot)
+                    <tr>
+                        <td></td>
+                        <td>{{$farmplot->fuarea}}</td>
+                        <td></td>
+                        <td>{{$farmplot->fulatitude}}</td>
+                        <td>{{$farmplot->fulongitude}}</td>
+                        <td></td>
+
+                    </tr>
+                    @empty
+                    <tr>
+                        <td>NO FARM PLOTS ON RECORD</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>   
+                    @endforelse
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><a href="#" class="btn btn-success">ADD</a></td>   
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+            <div class="card my-3">
+    <div class="card-body">
+            <h5>B. VOLUME OF CERTIFIED CROPS SOLD/DELIVERED TO THE GROUP IN PREVIOUS YEARS (KGS)</h5>
+    </div>
+    </div>
+<div class="card my-3">
+    <div class="card-body">
+            <h5>C. </h5>
+    </div>
+    </div>
+    <div class="card my-3">
+    <div class="card-body">
+            <h5>D. AGROCHEMICALS USED ON THE FARM LAND  </h5>
+            <table class="table">
+                <thead>
+                    <th>NAME  OF HERBICIDE & FERTILIZERS USED</th>
+                    <th>QUANTITY APPLIED (LITER'S/BAGS)</th>
+                    <th>NAME OF PERSON WHO APPLIED</th>
+                    <th>Ha OF GINGER APPLIED ON</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="herbicide" class="form-control"></td>
+                        <td><input type="text" name="herbicideqty" class="form-control"></td>
+                        <td><input type="text" name="herbicideapplier" class="form-control"></td>
+                        <td><input type="number" name="hectareapplied" class="form-control"></td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+    </div>
+
+
+
+</x-layouts.app>

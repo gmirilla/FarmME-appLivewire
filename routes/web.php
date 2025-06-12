@@ -4,6 +4,7 @@ use App\Http\Controllers\dashboardController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Http\Controllers\FarmController;
+use App\Http\Controllers\FarmentranceController;
 use App\Http\Controllers\FarmunitsController;
 use App\Http\Controllers\FarmunityieldController;
 use App\Http\Controllers\InternalinspectionController;
@@ -64,6 +65,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/farm/annualreport', [FarmController::class, 'annualreport'])->name('annualreport');
         
     });
+    Route::middleware('auth')->group(function () {
+        Route::get('/beginfe', [FarmentranceController::class, 'begin'])->name('begin');
+        });
 
 
 Route::middleware('auth')->group(function () {
