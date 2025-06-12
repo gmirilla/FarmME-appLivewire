@@ -33,10 +33,10 @@
                     <input type="text" readonly class="form-control" value="{{$farm->farmarea }}">
                 </div>
                 <div class="mb-3">
-                    <label>ASSIGNED STAFF</label>
+                    <label>FIELD OPERATOR</label>
                     <div class="d-flex">
                    @if (!$farm->name)
-    <input type="text" class="form-control" disabled value="No Staff Assigned">
+    <input type="text" class="form-control" disabled value="No Field Operator Assigned">
     <button type="button" class="btn btn-success" data-bs-toggle="modal"
             data-bs-target="#staffModal" data-bs-whatever="">
         <i class="fa fa-pencil-square-o"></i>

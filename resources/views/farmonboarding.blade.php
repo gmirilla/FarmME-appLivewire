@@ -7,7 +7,7 @@
 
 <div class="card">
 
-  <div class="card-header"><h4>FARM ONBOARDING</h4></div>
+  <div class="card-header"><h4>FARM ENTRANTS  ASSIGNED</h4></div>
 
   <div class="card-body table-responsive">
 
