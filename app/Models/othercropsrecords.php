@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class farmentrance extends Model
+class othercropsrecords extends Model
 {
     //
     protected $fillable=[
-        'farm_period','farmid','internalinspectionid','inspectorid'
+        'season','plotname','crop', 'area', 'location','active','farmid'
     ];
 }

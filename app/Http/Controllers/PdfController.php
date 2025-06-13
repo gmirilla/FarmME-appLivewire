@@ -66,7 +66,9 @@ class PdfController extends Controller
                               $data=compact('reportname','reportquestions', 'user', 'inspection','farm');
 
                               $pdf=Pdf::loadView('pdf.inspectionpdf', $data);
-                              $pdfname=$reportname->reportname.'_'.$farm->farmname.'.pdf';
+                              $unsanitizedpdfname=$reportname->reportname.'_'.$farm->farmname.'.pdf';
+                               $pdfname=preg_replace("/\//", "_", $unsanitizedpdfname);
+
 /**
  * 
  * $data = [

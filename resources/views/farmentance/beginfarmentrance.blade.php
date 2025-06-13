@@ -120,7 +120,12 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><a href="#" class="btn btn-success">ADD</a></td>   
+                        <td>                                <form action="{{route('newfunit')}}" method="get">
+
+                                    <input type="text" name="farmid" id="farmid2" hidden value="{{$farmerdetail->id}}">
+                                    <button class="btn btn-primary" name="newfunit"> Add Farm Unit</button>
+
+                                </form></td>   
 
                     </tr>
                 </tbody>
@@ -146,18 +151,105 @@
                     <th>QUANTITY APPLIED (LITER'S/BAGS)</th>
                     <th>NAME OF PERSON WHO APPLIED</th>
                     <th>Ha OF GINGER APPLIED ON</th>
+                    <th></th>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="text" name="herbicide" class="form-control"></td>
-                        <td><input type="text" name="herbicideqty" class="form-control"></td>
-                        <td><input type="text" name="herbicideapplier" class="form-control"></td>
-                        <td><input type="number" name="hectareapplied" class="form-control"></td>
+                <tbody>'
+                    @forelse ($agrochems as $agrochem )
+                                           <tr>
+                        <td><input type="text" disabled name="herbicide" class="form-control" value="{{$agrochem->herbicidename}}"></td>
+                        <td><input type="text"  disabled name="herbicideqty" class="form-control" value="{{$agrochem->quantity}}"></td>
+                        <td><input type="text" disabled name="herbicideapplier" class="form-control" value="{{$agrochem->nameofperson}}"></td>
+                        <td><input type="number" disabled name="hectareapplied" class="form-control" value="{{$agrochem->hectaresapplied}}"></td>
+                        <td><a href="{{ route('disablechems', ['farmcode' => $farmerdetail->farmcode, 'aid' => $agrochem->id]) }}" class="btn btn-danger">Disable</a></td>
+                    </tr> 
+                    @empty
+                        
+                    @endforelse
+                    <tr><form action="{{route('addchems')}}" method="post">
+                        @csrf
+                        <td><input type="text" required name="herbicide" class="form-control" placeholder="Enter name of Chemical.."></td>
+                        <td><input type="text" required name="herbicideqty" class="form-control"></td>
+                        <td><input type="text" required name="herbicideapplier" class="form-control"></td>
+                        <td><input type="number" required step=any name="hectareapplied" class="form-control"></td>
+                        <td>
+                            <input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
+                            <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
+                            <input type="text" name="season" hidden class="form-control" value="{{$currentseason}}">
+                            <button type="submit" name="addherbicide" class="btn btn-primary">ADD</a></td>
+                            </form>
                     </tr>
                 </tbody>
             </table>
     </div>
     </div>
+    <div class="card my-3">
+    <div class="card-body">
+            <h5>E. OTHER CULTIVATED CROPS  </h5>
+            <table class="table">
+                <thead>
+                    <th>PLOT NAME</th>
+                    <th>CROP CULTIVATED</th>
+                    <th>ESTIMATED HECTARES</th>
+                    <th>LOCATION</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    @forelse ($otherplots as $othercrop )
+                    <tr>
+                        <td><input type="text" name="otherplotname"  class="form-control" value="{{$othercrop->plotname}}"></td>
+                        <td><input type="text" name="otherplotcrop" class="form-control" value="{{$othercrop->crop}}"></td>
+                        <td><input type="text" name="otherplotarea" class="form-control" value="{{$othercrop->area}}"></td>
+                        <td><input type="text" name="otherplotlocation" class="form-control" value="{{$othercrop->location}}"></td>
+                        <td><a href="{{ route('disableoplots', ['farmcode' => $farmerdetail->farmcode, 'oid' => $othercrop->id]) }}" class="btn btn-danger">Disable</a></td>
+                    </tr> 
+                    @empty
+                        
+                    @endforelse
+                    <tr>
+                        <form action="{{route('addoplots')}}" method="post">
+                            @csrf
+
+                        <td><input type="text" name="otherplotname" class="form-control"></td>
+                        <td><input type="text" name="otherplotcrop" class="form-control"></td>
+                        <td><input type="text" name="otherplotarea" class="form-control"></td>
+                        <td><input type="text" name="otherplotlocation" class="form-control"></td>
+                        <td><input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
+                            <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
+                            <input type="text" name="season" hidden class="form-control" value="{{$currentseason}}">
+                            <button type="submit" name="addotherplot" class="btn btn-primary">ADD</a></td>
+                                </form>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+    </div>
+
+    @if (empty($farmentrance->internalinspectionid))
+            <div class="d-flex">
+        <form action="{{route('start')}}" method="post">
+            @csrf
+        <input type="text" name="farmentrance" hidden class="form-control" value="{{$farmentrance->id}}">
+        <input type="text" name="internalinspectionid" hidden class="form-control" value="{{$farmentrance->internalinspectionid}}">
+        <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
+        <input type="text" name="reportid" hidden class="form-control" value="{{$report->id}}">
+        <button type="submt" class="btn btn-success">PROCEED</button>
+        </form>
+    </div>
+
+    @else
+                <div class="d-flex">
+        <form action="{{route('continue')}}" method="post">
+            @csrf
+        <input type="text" name="farmentrance" hidden class="form-control" value="{{$farmentrance->id}}">
+        <input type="text" name="internalinspectionid" hidden class="form-control" value="{{$farmentrance->internalinspectionid}}">
+        <input type="text" name="inspectionid" hidden class="form-control" value="{{$farmentrance->internalinspectionid}}">
+        <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
+        <input type="text" name="id" hidden class="form-control" value="{{$report->id}}">
+        <button type="submt" class="btn btn-success">PROCEED2</button>
+        </form>
+    </div>
+        
+    @endif
 
 
 

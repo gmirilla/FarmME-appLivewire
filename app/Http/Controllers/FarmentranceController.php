@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use App\Models\agrochemicalrecords;
 use App\Models\farmentrance;
 use App\Models\farm;
 use App\Models\farmunits;
 use App\Models\internalinspection;
+use App\Models\othercropsrecords;
+use App\Models\reports;
 use Illuminate\Http\Request;
 
 class FarmentranceController extends Controller
@@ -18,19 +22,52 @@ class FarmentranceController extends Controller
         //
     }
 
+        public function getfeq(Request $request)
+    {
+        //FInd the active report with Entrance in name 
+        //$report=reports::where('reportstate', 'ACTIVE')->where('reportname','like', '%Entrance%')->first();
+        //$farmid=$request->farmid;
+        
+        //TO DO Handle resumtion
+
+        
+    }
+
         public function begin(Request $request)
     {
         //
+
+        Auth::check();
+        $user=Auth::user();
         $farmerdetail=farm::where('farmcode', $request->fcode)->first();
         $year0=date('Y');
         $year1=$year0+1;
         $currentseason=$year0."/".$year1;
         $lastreport=internalinspection::where('farmid', $farmerdetail->id)->latest('updated_at')->first();
         $farmplots=farmunits::where('farmid', $farmerdetail->id)->get();
+        $otherplots=othercropsrecords::where('farmid',$farmerdetail->id)->where('active',true)->get();
+        $agrochems=agrochemicalrecords::where('farmid',$farmerdetail->id)->where('active',true)->get();
 
-     
+         //FInd the active report with Entrance in name 
+        $report=reports::where('reportstate', 'ACTIVE')->where('reportname','like', '%Entrance%')->first();
+        $farmentrance=farmentrance::where('farmid', $farmerdetail->id)->where('farm_period',$currentseason)->first();
+       //dd($farmentrance);
 
-        return view('farmentance.beginfarmentrance', compact('farmerdetail','currentseason','lastreport','farmplots'));
+        if (empty($farmentrance)) {
+            # code...
+
+            $farmentrance= new farmentrance();
+            $farmentrance->farm_period=$currentseason;
+            $farmentrance->farmid=$farmerdetail->id;
+            $farmentrance->inspectorid=$user->id;
+            
+
+            $farmentrance->save();
+            
+        }
+
+        return view('farmentance.beginfarmentrance', 
+        compact('farmerdetail','currentseason','lastreport','farmplots','otherplots','agrochems', 'report','farmentrance'));
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AgrochemicalrecordsController;
 use App\Http\Controllers\dashboardController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -9,6 +10,7 @@ use App\Http\Controllers\FarmunitsController;
 use App\Http\Controllers\FarmunityieldController;
 use App\Http\Controllers\InternalinspectionController;
 use App\Http\Controllers\MapsController;
+use App\Http\Controllers\OthercropsrecordsController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ReportsectionController;
@@ -67,6 +69,11 @@ Route::middleware('auth')->group(function () {
     });
     Route::middleware('auth')->group(function () {
         Route::get('/beginfe', [FarmentranceController::class, 'begin'])->name('begin');
+        Route::post('/addagchems',[AgrochemicalrecordsController::class, 'add'])->name('addchems');
+        Route::get('/disablechems',[AgrochemicalrecordsController::class, 'disable'])->name('disablechems');
+        Route::post('/addoplots',[OthercropsrecordsController::class, 'add'])->name('addoplots');
+        Route::get('/disableoplots',[OthercropsrecordsController::class, 'disable'])->name('disableoplots');
+        Route::post('/fequestionnaire', [FarmentranceController::class, 'getfeq'])->name('getfeq');
         });
 
 

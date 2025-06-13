@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 
 use App\Models\farm;
+use App\Models\farmentrance;
 use App\Models\inspectionanswers;
 use App\Models\internalinspection;
 use App\Models\reportquestions;
@@ -75,7 +76,7 @@ class InternalinspectionController extends Controller
         $reportsections=reportsection::where('reportid',$request->reportid)->where('sectionstate', 'ACTIVE')->get();
         $reportquestions=reportquestions::where('reportid',$request->reportid)->where('questionstate', 'ACTIVE')->orderBy('question_seq', 'asc')->get();
         
-
+        
 
         #Create and save a new inspection record if a new inspection process start
         if ($request->internalinspectionid==null) {
@@ -92,6 +93,12 @@ class InternalinspectionController extends Controller
 
         if ($sectioncounter == null) {
            
+        }
+
+        if (strpos($report->reportname,'Entrance')){
+            $farmentrance=farmentrance::where('id',$request->farmentrance)->first();
+            $farmentrance->internalinspectionid=$newinspection->id;
+            $farmentrance->save();
         }
 
         
@@ -200,10 +207,30 @@ class InternalinspectionController extends Controller
             $inspection->inspectionstate='SUBMITTED';
             $inspection->save();
 
-            $farm->lastinspection=date('Y-m-d');
-            $farm->save();
+            
 
+            #Conditional logic to handle Entrance Reports
+            switch (true) {
+                case strpos($report->reportname,'Entrance'):
+                    # code...
+                    $fcode='fcode='.$farm->farmcode;
+                    $farm->farmstate='ACTIVE';
+                    $farm->save();
+                
+                    return redirect()->route('begin',$fcode);
+                    break;
+                
+                default:
+                    # code...
+                    $farm->lastinspection=date('Y-m-d');
+                    $farm->save();
+                    break;
+            }
+
+            
+            
             #Return  to Dashboard view 
+
         
         
                 return redirect()->route('inspection');

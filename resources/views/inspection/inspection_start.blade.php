@@ -16,7 +16,7 @@
         <div>
             <h4>Section {{$current+1}} of {{$nosections}} </h4>
             <h5>{{$reportsections[$current]->sectionname}} </h5>
-            <form action="nextsection" method="POST">
+            <form action="{{route('nextsection')}}" method="POST">
                 @csrf
             <table class="table table-striped table-info table-hover">
                 <tbody>
