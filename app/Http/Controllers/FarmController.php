@@ -229,7 +229,6 @@ switch ($user->roles) {
         $newfarm->longitude=$request->longitude;
 
 
-        $newfarm->farmstate='PENDING';
     
         $newfarm->save();
 

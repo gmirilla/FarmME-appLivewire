@@ -61,11 +61,23 @@ class PdfController extends Controller
           
                                 $reportname=reports::where('id', $inspection->reportid)->first();
                                 $farm=farm::where('id',$inspection->farmid)->first();
-        
-    
-                              $data=compact('reportname','reportquestions', 'user', 'inspection','farm');
+
+                                if (strpos($reportname,'Entrance')) {
+                                    # code...
+                                     $data=compact('reportname','reportquestions', 'user', 'inspection','farm');
+
+                                    $pdf=Pdf::loadView('pdf.entrancepdf', $data);
+
+                                } else {
+                                    # code...
+                                     $data=compact('reportname','reportquestions', 'user', 'inspection','farm');
 
                               $pdf=Pdf::loadView('pdf.inspectionpdf', $data);
+                                }
+                                
+        
+    
+                             
                               $unsanitizedpdfname=$reportname->reportname.'_'.$farm->farmname.'.pdf';
                                $pdfname=preg_replace("/\//", "_", $unsanitizedpdfname);
 

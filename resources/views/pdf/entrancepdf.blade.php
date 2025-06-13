@@ -1,0 +1,270 @@
+
+<style>
+    th, td {
+  border: 1px solid;
+}
+td{
+    padding: 5px;
+    textalign:justify;}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+input[type="radio"] {
+    
+    font-size: 0.75rem;
+}
+.form-check {
+    margin-bottom: 0.5rem;
+}
+</style>
+
+    @php
+        $counter=0;
+    @endphp
+<div class="card">
+    <div class="card-header" style="text-align: center">
+    <h3>{{strtoupper($farm->farmname)}}</h3>
+    <h4>TO DO SEASON {{$reportname->reportname}}</h4>
+    </div>
+    <div class="card-body">
+    <table class="table table-bordered" style="border: 1px solid black">
+        <tbody>
+            <tr>
+                <td style="width: 20%"><b>SURNAME:</b><br/>
+                {{$farm->surname}}
+                </td>
+                <td style="width: 20%"><b>OTHER NAME(s):</b><br/>
+                {{$farm->fname}}
+                </td>
+                <td style="width: 20%"><b>GENDER:</b><br/>
+                {{$farm->gender}}
+                </td>
+                <td style="width: 20%"><b>FARMER'S CODE:</b><br/>
+                {{$farm->farmcode}}
+                </td>
+                <td style="width: 20%"><b>NATIONAL ID:</b><br/>
+                {{$farm->nationalidnumber}}
+                </td>
+            </tr>
+            <tr>
+            <td><b>YEAR OF BIRTH:</b><br/>
+                {{$farm->yob}}
+                </td>
+                                <td><b>PHONE NUMBER:</b><br/>
+                {{$farm->phonenumber}}
+                </td>
+                <td><b>HOUSEHOLD SIZE:</b><br/>
+                {{$farm->householdsize}}
+                </td>
+                <td><b>ADDRESS:</b><br/>
+                {{$farm->address}}
+                </td><td></td>
+            </tr>
+            <tr>
+                <td colspan="2"> <b>DATE OF LAST INSPECTION: </b><br/>
+                {{$farm->lastinspection}}</td>
+                <td colspan="3"><b>OUTCOME OF LAST INSPECTION:</b><br>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"><b>NAME OF CROP: </b><br>{{$farm->crop}}</td>
+                <td colspan="2"><b>VARIETY:</b><br/>{{$farm->cropvariety}}</td>
+                <td><b>REG DATE: </b>{{$farm->yearofcertification}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h4>A. PRODUCTION HISTORY</h4>
+    <table>
+        <thead><th>Ginger Plot Name</th><th>Farm Size (Ha)</th><th>Estimated Yield Kg</th><th>Lat N.</th><th>Long E.</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                 <td></td>
+                  <td></td>
+                   <td></td>
+                    <td></td>
+            
+            </tr>
+        </tbody>
+    </table>
+    <h4>B. VOLUME OF CERTIFIED CROPS SOLD/DELIVERED TO THE GROUP IN PREVIOUS YEARS (KGS)</h4>
+    <table>
+        <thead><th>Ginger Plot Name</th><th>Farm Size (Ha)</th><th>Estimated Yield Kg</th><th>Lat N.</th><th>Long E.</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                 <td></td>
+                  <td></td>
+                   <td></td>
+                    <td></td>
+            
+            </tr>
+        </tbody>
+    </table>
+     <h4>C.</h4>
+    <table>
+        <thead><th>Ginger Plot Name</th><th>Farm Size (Ha)</th><th>Estimated Yield Kg</th><th>Lat N.</th><th>Long E.</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                 <td></td>
+                  <td></td>
+                   <td></td>
+                    <td></td>
+        </tr>
+        </tbody>
+    </table>
+
+     <h4>D. AGROCHEMICALS USED ON THE FARM LAND</h4>
+    <table>
+        <thead><th>Ginger Plot Name</th><th>Farm Size (Ha)</th><th>Estimated Yield Kg</th><th>Lat N.</th><th>Long E.</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                 <td></td>
+                  <td></td>
+                   <td></td>
+                    <td></td>
+        </tr>
+        </tbody>
+    </table>
+
+     <h4>E. OTHER CULTIVATED CROPS</h4>
+    <table>
+        <thead><th>Ginger Plot Name</th><th>Farm Size (Ha)</th><th>Estimated Yield Kg</th><th>Lat N.</th><th>Long E.</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                 <td></td>
+                  <td></td>
+                   <td></td>
+                    <td></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table  style="border: 1px solid black">
+        <tbody>
+        <thead>
+            <th>#</th>
+            <th style="width:50%">Question</th>
+            <th style="width:20%">Answer</th>
+            <th style="width:25%">Remarks</th>
+        </thead>
+    @forelse ($reportquestions as $reportquestion )
+    <tr>
+        <td>{{$counter+1}}</td>
+        <td>{{$reportquestion->question }}</td>
+        <td class="col-2">
+
+            @switch($reportquestion->questiontype)
+                @case("TYPEA")
+                <!-- Html to handle TypeB questions (Yes/NO)-->
+                <div class="form-check">
+                    @if ($reportquestion->answer==1)
+                    <input class="form-check-input"   disabled checked type="radio" id="yes" name="answers[{{$counter}}]" value="1" >
+                    @else
+                    <input class="form-check-input" disabled type="radio" id="yes" name="answers[{{$counter}}]" value="1" >
+                    @endif
+                    <label class="form-check-label" for="yes">YES</label>
+                </div>
+                <div class="form-check">
+                    @if ($reportquestion->answer==2)
+                    <input class="form-check-input" disabled  checked type="radio" id="no" name="answers[{{$counter}}]" value="2">
+                    @else
+                    <input class="form-check-input" disabled type="radio" id="no" name="answers[{{$counter}}]" value="2">
+                    @endif
+                    <label class="form-check-label" for="no">NO</label>
+                </div>
+                    
+                    @break
+                @case("TYPEB")
+         <!-- Html to handle TypeB questions (Poor/fair/good/v.good)-->
+            <div class="form-check">
+                @if ($reportquestion->answer==1)
+                <input class="form-check-input"    disabled checked type="radio" id="poor" name="answers[{{$counter}}]" value="1" >
+                @else
+                <input class="form-check-input" disabled type="radio" id="poor" name="answers[{{$counter}}]" value="1" required>
+                @endif
+                <label class="form-check-label" for="poor">Poor</label>
+            </div>
+            <div class="form-check">
+                @if ($reportquestion->answer==2)
+                <input class="form-check-input"   disabled checked type="radio" id="fair" name="answers[{{$counter}}]" value="2">
+                @else
+                <input class="form-check-input"   disabled type="radio" id="fair" name="answers[{{$counter}}]" value="2">
+                @endif
+                <label class="form-check-label" for="fair">Fair</label>
+            </div>
+            <div class="form-check">
+                @if ($reportquestion->answer==3)
+                <input class="form-check-input"   disabled checked type="radio" id="good" name="answers[{{$counter}}]" value="3">
+                @else
+                <input class="form-check-input"  disabled type="radio" id="good" name="answers[{{$counter}}]" value="3">
+                @endif
+                <label class="form-check-label" for="good">Good</label>
+            </div>
+            <div class="form-check">
+                @if ($reportquestion->answer==4)
+                <input class="form-check-input"   disabled checked type="radio" id="vgood" name="answers[{{$counter}}]" value="4">
+                @else
+                <input class="form-check-input"   disabled type="radio" id="vgood" name="answers[{{$counter}}]" value="4">
+                @endif
+                <label class="form-check-label" for="vgood">Very Good</label>
+            </div> 
+                @break
+
+                @case("TYPEC") 
+                <!-- Html to handle TypeB questions (comments only)-->
+                <div class="form-check">
+                    <input class="form-check-input"   disabled checked type="radio" id="commentonly" name="answers[{{$counter}}]" value="1" >
+                    <label class="form-check-label" for="commentsonly">Comment Only</label>
+                </div>   
+                @break
+            
+                @default
+                    
+            @endswitch
+        </td>
+        <td>{{$reportquestion->sectionidcomments}}</td>
+    </tr>
+    @php
+    $counter+=1;
+    @endphp
+    @empty
+        
+    @endforelse
+        
+        </tbody>
+    </table>
+
+    <!-- Declaration page-->
+    <div style="margin-top: 20px">
+    <table class="table table-bordered" style="border: 1px solid black">
+        <tbody>
+            <tr>
+                <td colspan="2"><b>DECLARATION</b></td>
+            </tr>
+           <tr><td style="width: 50%" class="text-justify">
+            I, <b><u>{{$farm->farmname}}</u></b>, the farm owner, declare that, this information is correct, and on this day pledge to adhere
+             at all times to the conditions for the UEBT/RA/MABA certification process and sustainable agriculture production
+        </td><td>
+        I, the field officer, confirm that the above information is correct. 
+        <br>
+           <b><u>{{'TO DO INSPECTOR NAME'}}</u></b><br>
+           (NAME OF FIELD OFFICER) 
+        </td></tr>
+        </tbody>
+    </table>
+    </div>
+</div>
+</div>
+

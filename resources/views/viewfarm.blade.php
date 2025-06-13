@@ -4,6 +4,11 @@
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 <link rel="stylesheet" href=
 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+@php
+    Auth::check();
+    $user=Auth::user();
+@endphp
 <x-layouts.app>
 <div>  
 <div>
@@ -37,19 +42,15 @@
                     <div class="d-flex">
                    @if (!$farm->name)
     <input type="text" class="form-control" disabled value="No Field Operator Assigned">
-    <button type="button" class="btn btn-success" data-bs-toggle="modal"
-            data-bs-target="#staffModal" data-bs-whatever="">
-        <i class="fa fa-pencil-square-o"></i>
-    </button>
 @else
     <input type="text" class="form-control" disabled value="{{ $farm->name }}">
+@endif
     @if ($authuser->roles=='ADMINISTRATOR')
         <button type="button" class="btn btn-success" data-bs-toggle="modal"
                 data-bs-target="#staffModal" data-bs-whatever="">
             <i class="fa fa-pencil-square-o"></i>
         </button>
     @endif
-@endif
 </div>
 
                 </div>
@@ -71,10 +72,10 @@
                         <input type="text" readonly class="form-control" value="{{$farm->farmstate}}" id=farmstate>
                     </div>
                     
-                    
+                     @if ($authuser->roles=='ADMINISTRATOR')
                         <button type="button" class="btn btn-success" data-bs-toggle="modal"
                         data-bs-target="#farmModal" data-bs-whatever=""><i class="fa fa-pencil-square-o"></i></button> 
-                    
+                    @endif
                 </div> 
    
 
