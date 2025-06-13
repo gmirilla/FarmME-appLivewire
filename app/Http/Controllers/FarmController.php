@@ -77,7 +77,11 @@ class FarmController extends Controller
                         break;
                 }  
 
-        return view('farmonboarding')->with('farmlist', $farmlist)->with('user',$user)->with('reports', $reports);
+                        $year0=date('Y');
+        $year1=$year0+1;
+        $currentseason=$year0."/".$year1;
+
+        return view('farmonboarding')->with('farmlist', $farmlist)->with('user',$user)->with('reports', $reports)->with('currentseason',$currentseason);
     }
 
 

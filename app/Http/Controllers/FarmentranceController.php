@@ -8,6 +8,7 @@ use App\Models\farmentrance;
 use App\Models\farm;
 use App\Models\farmunits;
 use App\Models\internalinspection;
+use App\Models\misccodes;
 use App\Models\othercropsrecords;
 use App\Models\reports;
 use Illuminate\Http\Request;
@@ -21,6 +22,97 @@ class FarmentranceController extends Controller
     {
         //
     }
+        public function disablefu(Request $request)
+    {
+        //
+       
+        $farmplot=farmunits::where('id',$request->fuid)->first();
+        $farmplot->active=false;
+        $farmplot->save();
+
+        $fcode='fcode='.$request->farmcode;
+
+        return redirect()->route('begin',$fcode);       
+    }
+
+       public function cropdelivered(Request $request)
+    {
+        //
+
+        $misccode=misccodes::where('farmid', $request->farmid)->where('season', $request->prevseason)->where('parameter','cropdel')->first();
+
+        if (empty($misccode)) {
+            # code...
+            $misccode= new misccodes();
+        }
+
+        $misccode->parameter='cropdel';
+        $misccode->season=$request->prevseason;
+        $misccode->value=$request->cropdelivered;
+        $misccode->farmid=$request->farmid;
+
+        $misccode->save();
+
+        $fcode='fcode='.$request->farmcode;
+
+        return redirect()->route('begin',$fcode);
+    }
+
+       public function cropproduced(Request $request)
+    {
+        //
+         $misccode=misccodes::where('farmid', $request->farmid)->where('season', $request->prevseason)->where('parameter','cropprod')->first();
+
+        if (empty($misccode)) {
+            # code...
+            $misccode= new misccodes();
+        }
+
+        $misccode->parameter='cropprod';
+        $misccode->season=$request->prevseason;
+        $misccode->value=$request->cropproduced;
+        $misccode->farmid=$request->farmid;
+
+        $misccode->save();
+
+
+        $fcode='fcode='.$request->farmcode;
+
+        return redirect()->route('begin',$fcode);
+    }
+
+            public function disablevolsold(Request $request)
+    {
+        //
+       
+        $misccode=misccodes::where('id',$request->vsid)->first();
+        $misccode->active=false;
+        $misccode->save();
+
+        $fcode='fcode='.$request->farmcode;
+
+        return redirect()->route('begin',$fcode);
+
+        
+    }
+    
+    public function addvolsold(Request $request)
+    {
+        //
+       
+        $misccode= new misccodes();
+        $misccode->parameter='vol';
+        $misccode->season=$request->volseason;
+        $misccode->value=$request->volsold;
+        $misccode->farmid=$request->farmid;
+        $misccode->save();
+        $fcode='fcode='.$request->farmcode;
+
+        return redirect()->route('begin',$fcode);
+
+        
+    }
+
 
         public function getfeq(Request $request)
     {
@@ -43,14 +135,26 @@ class FarmentranceController extends Controller
         $year0=date('Y');
         $year1=$year0+1;
         $currentseason=$year0."/".$year1;
+        $seasonrange=[];
+
+        for ($i=0; $i < 10; $i++) { 
+            # code...
+            $year=$year0-$i;
+            $prevyear=$year-1;
+            $season=$prevyear."/".$year;
+            $seasonrange[$i]=$season;
+
+        }
+
         $lastreport=internalinspection::where('farmid', $farmerdetail->id)->latest('updated_at')->first();
-        $farmplots=farmunits::where('farmid', $farmerdetail->id)->get();
+        $farmplots=farmunits::where('farmid', $farmerdetail->id)->where('active',true)->get();
         $otherplots=othercropsrecords::where('farmid',$farmerdetail->id)->where('active',true)->get();
         $agrochems=agrochemicalrecords::where('farmid',$farmerdetail->id)->where('active',true)->get();
 
          //FInd the active report with Entrance in name 
         $report=reports::where('reportstate', 'ACTIVE')->where('reportname','like', '%Entrance%')->first();
         $farmentrance=farmentrance::where('farmid', $farmerdetail->id)->where('farm_period',$currentseason)->first();
+        
        //dd($farmentrance);
 
         if (empty($farmentrance)) {
@@ -62,12 +166,16 @@ class FarmentranceController extends Controller
             $farmentrance->inspectorid=$user->id;
             
 
-            $farmentrance->save();
-            
+            $farmentrance->save();   
         }
 
+       
+
+
+
+
         return view('farmentance.beginfarmentrance', 
-        compact('farmerdetail','currentseason','lastreport','farmplots','otherplots','agrochems', 'report','farmentrance'));
+        compact('farmerdetail','currentseason','lastreport','farmplots','otherplots','agrochems', 'report','farmentrance', 'seasonrange'));
     }
 
     /**

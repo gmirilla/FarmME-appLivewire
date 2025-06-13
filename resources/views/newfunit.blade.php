@@ -19,6 +19,14 @@
                     <label for="fuid" class="form-label">Farm ID**</label>
                     <input type="text" value="{{$farm->id}}" id="fuid"  name="fuid" disabled class="form-control">
                     </div>
+                     <div class="col-auto">
+                    <label for="fuid" class="form-label">Plot Name</label>
+                      @if (empty($farmunit))
+                        <input type="text" value="" id="fuplotname"  name="fuplotname"  required class="form-control"> 
+                        @else
+                        <input type="text" value="{{$farmunit->fuplotname}}" id="fuplotname"  name="fuplotname"   required class="form-control">
+                        @endif
+                    </div>
             <div class="col-auto">
                         <label for="fuarea" class="form-label">Unit area (ha)*</label>
                         @if (empty($farmunit))

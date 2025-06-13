@@ -14,5 +14,9 @@ class farmunits extends Model
         'fulatitude',
         'fulongitude',
         'plot_coords',
+        'plotname',
+        'estimatedyield',
+        'actualyeild',
+        'active'
      ];
 }

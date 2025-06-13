@@ -74,6 +74,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/addoplots',[OthercropsrecordsController::class, 'add'])->name('addoplots');
         Route::get('/disableoplots',[OthercropsrecordsController::class, 'disable'])->name('disableoplots');
         Route::post('/fequestionnaire', [FarmentranceController::class, 'getfeq'])->name('getfeq');
+        Route::get('/disableplot',[FarmentranceController::class, 'disablefu'])->name('disablefarm');
+        Route::post('/addvolsold', [FarmentranceController::class, 'addvolsold'])->name('addvolsold');
+        Route::get('/disablevolsold',[FarmentranceController::class, 'disablevolsold'])->name('disablevolsold');
+        Route::get('/cropdelivered',[FarmentranceController::class, 'cropdelivered'])->name('cropdelivered');
+        Route::get('/cropproduced',[FarmentranceController::class, 'cropproduced'])->name('cropproduced');
         });
 
 

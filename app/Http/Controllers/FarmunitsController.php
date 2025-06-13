@@ -16,6 +16,8 @@ class FarmunitsController extends Controller
         //
     }
 
+
+
     /**
      * Show the form for creating a new resource.
      */
@@ -85,7 +87,8 @@ class FarmunitsController extends Controller
 
                 case $request->has('deletefu'):
                         # code...
-                        $farmunit->delete();
+                        $farmunit->active=false;
+                        $farmunit->save();
                     break;
                     
                 default:
@@ -151,6 +154,8 @@ class FarmunitsController extends Controller
             $farmunit->fulatitude=$request->fulatitude;
             $farmunit->fulongitude=$request->fulongitude;
             $farmunit->plot_coords=$request->polycoords;
+            $farmunit->plotname=$request->fuplotname;
+            $farmunit->estimatedyield=$farmunit->fuarea*6000;
             $farmunit->save();
 
             //Update total Farm Area and unit count

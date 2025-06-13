@@ -1,6 +1,26 @@
 <x-layouts.app>
 @php
     $year=date('Y');
+    if (empty($farmentrance->getcropdeliver())) {
+        # code...
+        $prevseason=$seasonrange[0];
+        $prevcropdelivered=null;
+    } else {
+        # code...
+        $prevseason=$farmentrance->getcropdeliver()->season;
+        $prevcropdelivered=$farmentrance->getcropdeliver()->value;
+    }
+        if (empty($farmentrance->getcropproduced())) {
+        # code...
+        $prevcropproduced=null;
+    } else {
+        # code...
+        $prevcropproduced=$farmentrance->getcropproduced()->value;
+    }
+    
+
+    
+    
 @endphp
 
     <div class="card">
@@ -87,7 +107,7 @@
                 <thead>
                     <th>Ginger Plot Name</th>
                     <th>Farm Size (Ha)</th>
-                    <th>Estimated Yield</th>
+                    <th>Estimated Yield (Kg)</th>
                     <th>Lat. N</th>
                     <th>Long. E</th>
                     <th></th>
@@ -95,12 +115,12 @@
                 <tbody>
                     @forelse ($farmplots as $farmplot)
                     <tr>
-                        <td></td>
+                        <td>{{$farmplot->plotname}}</td>
                         <td>{{$farmplot->fuarea}}</td>
-                        <td></td>
+                        <td>{{$farmplot->estimatedyield}}</td>
                         <td>{{$farmplot->fulatitude}}</td>
                         <td>{{$farmplot->fulongitude}}</td>
-                        <td></td>
+                        <td><a href="{{ route('disablefarm', ['farmcode' => $farmerdetail->farmcode, 'fuid' => $farmplot->id]) }}" class="btn btn-danger">Disable</a></td>
 
                     </tr>
                     @empty
@@ -120,7 +140,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td>                                <form action="{{route('newfunit')}}" method="get">
+                        <td><form action="{{route('newfunit')}}" method="get">
 
                                     <input type="text" name="farmid" id="farmid2" hidden value="{{$farmerdetail->id}}">
                                     <button class="btn btn-primary" name="newfunit"> Add Farm Unit</button>
@@ -132,14 +152,96 @@
             </table>
         </div>
         </div>
+        ()
             <div class="card my-3">
     <div class="card-body">
             <h5>B. VOLUME OF CERTIFIED CROPS SOLD/DELIVERED TO THE GROUP IN PREVIOUS YEARS (KGS)</h5>
+            <table class="table">
+                <thead>
+                    <th>SEASON</th>
+                    <th>VOLUME SOLD/DELIVERED (KGS)</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    @forelse ($farmentrance->getvolumesold() as $volsold)
+                     <tr>
+                        <td>{{$volsold->season}}</td>
+                        <td>{{$volsold->value}}</td>
+                        <td><a href="{{ route('disablevolsold', ['farmcode' => $farmerdetail->farmcode, 'vsid' => $volsold->id]) }}" class="btn btn-danger">Disable</a></td>
+                     </tr>   
+                    @empty
+                        
+                    @endforelse
+                    <tr>
+                        <form action="{{route('addvolsold')}}" method="post">
+                            @csrf
+                        <td><select name="volseason" id="seasonrange" class="form-select">
+                            @foreach ($seasonrange as $srange)
+                                <option value="{{$srange}}">{{$srange}}</option>
+                            @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" step=any name="volsold" class="form-control">
+                        </td>
+                        <td>
+                            <input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
+                            <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
+                            
+                        <button type="submit" class="btn btn-primary" >ADD</button></td>
+                        </form>
+                    </tr> 
+
+                </tbody>
+            </table>
     </div>
     </div>
 <div class="card my-3">
     <div class="card-body">
             <h5>C. </h5>
+            <table class="table">
+                <thead>
+                    <th>SEASON</th>
+                    <th>DESCRIPTION</th>
+                    <th>QUANTITY IN KGS</th>
+                    <th></th>
+                </thead>
+                <tbody>
+
+                    <tr><form action="{{route('cropdelivered')}}" method="get">
+                        @csrf
+                        <td>{{$prevseason}}</td>
+                            <td>Previous year’s <b> ({{$prevseason}})</b> harvest of certified crop delivered to the group</td>
+                            <td><input type="number" step=any name="cropdelivered" id="cropdelivered" class="form-control" value="{{$prevcropdelivered}}"></td>
+                            <td>
+                                <input type="text" hidden name='prevseason' value='{{$seasonrange[0]}}'>
+                                <input type="text" hidden name='farmid' value='{{$farmerdetail->id}}'>
+                                <input type="text" hidden name='farmcode' value='{{$farmerdetail->farmcode}}'>
+                                <button type="submit" class="btn btn-primary">UPDATE</button>
+                            </td>
+                            </form>
+
+                    </tr>
+                    <tr>
+                        <form action="{{route('cropproduced')}}" method="get">
+                            @csrf
+                        <td>{{$prevseason}}</td>
+                            <td>Previous year’s <b> ({{$prevseason}})</b> estimated total production </td>
+                            <td><input type="number" step=any name="cropproduced" class="form-control" value="{{$prevcropproduced}}"></td>
+                                  <td>
+                                <input type="text" hidden name='prevseason' value='{{$prevseason}}'>
+                                <input type="text" hidden name='farmid' value='{{$farmerdetail->id}}'>
+                                <input type="text" hidden name='farmcode' value='{{$farmerdetail->farmcode}}'>
+                                <button type="submit" class="btn btn-primary">UPDATE</button>
+                            </td>
+                            </form>
+
+
+
+                    </tr>
+
+                </tbody>
+            </table>
     </div>
     </div>
     <div class="card my-3">
@@ -245,7 +347,7 @@
         <input type="text" name="inspectionid" hidden class="form-control" value="{{$farmentrance->internalinspectionid}}">
         <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
         <input type="text" name="id" hidden class="form-control" value="{{$report->id}}">
-        <button type="submt" class="btn btn-success">PROCEED2</button>
+        <button type="submt" class="btn btn-success">PROCEED</button>
         </form>
     </div>
         

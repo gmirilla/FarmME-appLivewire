@@ -216,6 +216,8 @@ class InternalinspectionController extends Controller
                     $fcode='fcode='.$farm->farmcode;
                     $farm->farmstate='ACTIVE';
                     $farm->save();
+                     $inspection->inspectionstate='APPROVED';
+            $inspection->save();
                 
                     return redirect()->route('begin',$fcode);
                     break;
