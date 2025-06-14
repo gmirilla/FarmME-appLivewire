@@ -21,7 +21,110 @@ class FarmentranceController extends Controller
     public function index()
     {
         //
+
+        
     }
+
+        public function feprofile_update(Request $request)
+    {
+        //'farm_period','farmid','internalinspectionid','inspectorid', 
+
+
+
+        Auth::check();
+        $user=Auth::user();
+        $farmerdetail=farm::where('farmcode', $request->fcode)->first();
+        $farmentrance=farmentrance::where('id',$request->farmentranceid)->first();
+        
+        //update farmer details
+        $farmerdetail->cropvariety=$request->varietyofcrop;
+        $farmerdetail->lastinspection=$request->dateoflastinspection;
+        $farmerdetail->address=$request->address;
+        $farmerdetail->householdsize=$request->householdsize;
+        $farmerdetail->yob=$request->yearofbirth;
+        $farmerdetail->save();
+
+        //update Farm Entrance
+        // 'surname','fname','farmcode','nationalidno',
+       // 'yob','phoneno', 'householdsize','address', 'lastinspection','inspectionresult', 'crop','variety','regdate'
+
+
+
+
+        $farmentrance->surname=$farmerdetail->surname;
+        $farmentrance->fname=$farmerdetail->fname;
+        $farmentrance->farmcode=$farmerdetail->farmcode;
+        $farmentrance->nationalidno=$farmerdetail->nationalidnumber;
+        $farmentrance->yob=$farmerdetail->yob;
+        $farmentrance->phoneno=$farmerdetail->phonenumber;
+        $farmentrance->householdsize=$farmerdetail->householdsize;
+        $farmentrance->address=$farmerdetail->address;
+        $farmentrance->lastinspection=$farmerdetail->lastinspection;
+        $farmentrance->inpsectionresult=$request->outcomeoflastinspection;
+        $farmentrance->crop=$farmerdetail->crop;
+        $farmentrance->cropvariety=$farmerdetail->cropvariety;
+        $farmentrance->regdate=$request->regdate;
+        $farmentrance->save();
+
+
+
+
+
+
+                $fcode='fcode='.$farmerdetail->farmcode;
+
+        return redirect()->route('begin',$fcode);      
+
+        
+    }
+    
+    public function feprofile(Request $request)
+    {
+        //
+        Auth::check();
+        $user=Auth::user();
+        $farmerdetail=farm::where('farmcode', $request->fcode)->first();
+        $year0=date('Y');
+        $year1=$year0+1;
+        $currentseason=$year0."/".$year1;
+        $seasonrange=[];
+
+        for ($i=0; $i < 10; $i++) { 
+            # code...
+            $year=$year0-$i;
+            $prevyear=$year-1;
+            $season=$prevyear."/".$year;
+            $seasonrange[$i]=$season;
+
+        }
+
+        $lastreport=internalinspection::where('farmid', $farmerdetail->id)->latest('updated_at')->first();
+
+         //FInd the active report with Entrance in name 
+        $report=reports::where('reportstate', 'ACTIVE')->where('reportname','like', '%Entrance%')->first();
+        $farmentrance=farmentrance::where('farmid', $farmerdetail->id)->where('farm_period',$currentseason)->first();
+        
+       //dd($farmentrance);
+
+        if (empty($farmentrance)) {
+            # code...
+
+            $farmentrance= new farmentrance();
+            $farmentrance->farm_period=$currentseason;
+            $farmentrance->farmid=$farmerdetail->id;
+            $farmentrance->inspectorid=$user->id;
+            $farmentrance->fieldofficer=$user->id;
+            
+
+            $farmentrance->save();   
+        }
+
+       
+
+
+        return view('farmentance.farmentrance',compact('farmerdetail','currentseason','lastreport', 'report','farmentrance', 'seasonrange'));
+    }
+
         public function disablefu(Request $request)
     {
         //
@@ -131,6 +234,7 @@ class FarmentranceController extends Controller
 
         Auth::check();
         $user=Auth::user();
+
         $farmerdetail=farm::where('farmcode', $request->fcode)->first();
         $year0=date('Y');
         $year1=$year0+1;

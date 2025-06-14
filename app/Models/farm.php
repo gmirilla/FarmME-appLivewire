@@ -32,7 +32,8 @@ class farm extends Model
         'state',
         'region',
         'crop',
-        'cropvariety'
+        'cropvariety',
+        'yob'
 
 
     ];

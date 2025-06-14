@@ -30,7 +30,7 @@ class FarmController extends Controller
                 switch ($user->roles) {
                     case 'ADMINISTRATOR':
                         # code...
-                        $farmlist=farm::all()->sortByDesc('created_at');
+                        $farmlist=farm::all()->sortBy('farmcode');
                         break;
                     case 'INSPECTOR':
                         # code...

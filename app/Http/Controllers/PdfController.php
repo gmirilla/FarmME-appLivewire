@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\farm;
+use App\Models\farmentrance;
 use App\Models\inspectionanswers;
 use App\Models\internalinspection;
 use App\Models\reportquestions;
@@ -64,7 +65,11 @@ class PdfController extends Controller
 
                                 if (strpos($reportname,'Entrance')) {
                                     # code...
-                                     $data=compact('reportname','reportquestions', 'user', 'inspection','farm');
+
+                                    $farmentrance=farmentrance::where('internalinspectionid',$request->inspectionid)->first();
+
+
+                                     $data=compact('reportname','reportquestions', 'user', 'inspection','farm','farmentrance');
 
                                     $pdf=Pdf::loadView('pdf.entrancepdf', $data);
 

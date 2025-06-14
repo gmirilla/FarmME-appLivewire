@@ -51,11 +51,7 @@
 
                 <div class="col-3 p-3">
                     <label for="yearofbirth" class="form-label">Year of Birth</label>
-                    @if (empty($farmerdetail->yob))
-                    <input type="number" min="1900" max="2100" step="1" placeholder="Enter year"name="yearofbirth" id="yearofbirth" required class="form-control"/>
-                    @else
                      <input type="number" value="{{$farmerdetail->yob}}" class="form-control" disabled/>  
-                    @endif
                 </div>
                 <div class="col-3 p-3">
                     <label for="phoneno" class="form-label">Phone Number</label>
@@ -63,31 +59,21 @@
                 </div>
                 <div class="col-3 p-3">
                     <label for="householdsize" class="form-label">Household Size</label>
-                    <input type="text" name="householdsize" id="householdsize" value="{{$farmerdetail->householdsize}}"  class="form-control" />
+                    <input type="text" disabled name="householdsize" id="householdsize" value="{{$farmerdetail->householdsize}}"  class="form-control" />
                 </div>
                 <div class="col-3 p-3">
                     <label for="address" class="form-label">Address</label>
-                    <textarea name="address" id="address" class="form-control" >{{$farmerdetail->address}}</textarea>
+                    <textarea name="address"  disabled id="address" class="form-control" >{{$farmerdetail->address}}</textarea>
                 </div>
                
                 <div class="col-3 p-3">
                     <label for="dateoflastinspection" class="form-label">Date of Last Inspection</label>
-                    @if (empty($lastreport))
-                        <input type="date" name="dateoflastinspection" id="dateoflastinspection" class="form-control" value="" placeholder="No report on System. Please enter report date"/>
-                    </div>
-                <div class="col-3 p-3">
-                    <label for="dateoflastinspection" class="form-label">Outcome of Last Inspection</label>
-                    <input type="text" name="outcomeoflastinspection" id="dateoflastinspection" class="form-control" value="No report on Record Please enter value"/>
-                </div>
-
-                    @else
-                        <input type="date" disabled name="dateoflastinspection" id="dateoflastinspection" class="form-control" value="{{$lastreport->updated_at}}"/>
+                        <input type="text" disabled name="dateoflastinspection" id="dateoflastinspection" class="form-control" value="{{$farmentrance->lastinspection}}"/>
                         </div>
                 <div class="col-3 p-3">
                     <label for="dateoflastinspection" class="form-label">Outcome of Last Inspection</label>
-                    <input type="text" disabled name="dateoflastinspection" id="dateoflastinspection" class="form-control" value="{{$lastreport->score}}% ({{$lastreport->inspectionstate}})"/>
+                    <input type="text" disabled name="outcomeoflastinspection" id="dateoflastinspection" class="form-control" value="{{$farmentrance->inspectionresult}})"/>
                 </div>
-                    @endif
                     
                 <div class="col-3 p-3">
                     <label for="nameofcrop" class="form-label">Name of Crop</label>
@@ -95,7 +81,7 @@
                 </div>
                 <div class="col-3 p-3">
                     <label for="varietyofcrop" class="form-label">Variety of Crop</label>
-                    <input type="text"  disable name="varietyofcrop" id="varietycrop" class="form-control" value="{{$farmerdetail->cropvariety}}"/>
+                    <input type="text"  disabled name="varietyofcrop" id="varietycrop" class="form-control" value="{{$farmerdetail->cropvariety}}"/>
                 </div>          
             </div>
         </div>
@@ -152,7 +138,6 @@
             </table>
         </div>
         </div>
-        ()
             <div class="card my-3">
     <div class="card-body">
             <h5>B. VOLUME OF CERTIFIED CROPS SOLD/DELIVERED TO THE GROUP IN PREVIOUS YEARS (KGS)</h5>
@@ -276,6 +261,7 @@
                         <td>
                             <input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
                             <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
+                            <input type="text" name="farmentrance" hidden class="form-control" value="{{$farmentrance->id}}">
                             <input type="text" name="season" hidden class="form-control" value="{{$currentseason}}">
                             <button type="submit" name="addherbicide" class="btn btn-primary">ADD</a></td>
                             </form>
@@ -317,6 +303,7 @@
                         <td><input type="text" name="otherplotlocation" class="form-control"></td>
                         <td><input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
                             <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
+                            <input type="text" name="farmentranceid" hidden class="form-control" value="{{$farmentrance->id}}">
                             <input type="text" name="season" hidden class="form-control" value="{{$currentseason}}">
                             <button type="submit" name="addotherplot" class="btn btn-primary">ADD</a></td>
                                 </form>

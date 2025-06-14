@@ -8,7 +8,8 @@ class farmentrance extends Model
 {
     //
     protected $fillable=[
-        'farm_period','farmid','internalinspectionid','inspectorid'
+        'farm_period','farmid','internalinspectionid','inspectorid', 'surname','fname','farmcode','nationalidno',
+        'yob','phoneno', 'householdsize','address', 'lastinspection','inpsectionresult', 'crop','cropvariety','regdate','fieldofficer'
     ];
 
     public function getvolumesold()
@@ -39,5 +40,37 @@ class farmentrance extends Model
         return $prevcropprod;
 
     }
+
+        public function reportprodhistory()
+    {
+         $prodhistory=farmunits::where('farmid',$this->farmid)->where('active', true)->get();
+        return $prodhistory;
+
+    }
+            public function reportvolcropdel()
+    {
+         $reportvolsold=misccodes::where('parameter','vol')->where('farmid', $this->farmid)->where('active', true)->get();
+        return $reportvolsold;
+
+    }
+    public function reportagrochems()
+    {
+         $reportagrochems=agrochemicalrecords::where('entranceid', $this->id)->where('active', true)->get();
+        return $reportagrochems;
+
+    }
+        public function reportothercrops()
+    {
+         $reportothercrops=othercropsrecords::where('farmentranceid', $this->id)->where('active', true)->get();
+        return $reportothercrops;
+
+    }
+            public function reportinspectorname()
+    {
+         $reportinspectorname=User::where('id', $this->inspectorid)->first();
+        return $reportinspectorname;
+
+    }
+
 
 }

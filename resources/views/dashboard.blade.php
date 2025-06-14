@@ -68,7 +68,7 @@
         <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem ; margin-right:5px">
           <div class="card-body"><div style="font-size: 30px">
             <i class="fa fa-briefcase" aria-hidden="true"></i></div>
-              <h3 class="card-title text-center">{{$farmarea}}  ha</h3>
+              <h3 class="card-title text-center">{{number_format($farmarea,2)}}  ha</h3>
             <div  class="card-footer" style="text-align: center; ">
               <h5  style="color: #388E3C">Total Acreage</h5>
             </div>

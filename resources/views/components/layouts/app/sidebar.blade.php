@@ -44,8 +44,8 @@
                     @if (in_array($user->roles,['ADMINISTRATOR','INSPECTOR']) )
             
                     <flux:navlist.item  class="c-sidebar" icon="chart-bar" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate style="margin-top:8px;">{{ __('Dashboard') }}</flux:navlist.item>                 
-                    <flux:navlist.item icon="users" href='/farm' style="margin-top:8px;">Farms</flux:navlist.item>
-                    <flux:navlist.item icon="photo" :href="route('onboarding')" style="margin-top:8px;">Farm Entrants</flux:navlist.item>
+                    <flux:navlist.item icon="users" href='/farm' style="margin-top:8px;">Farmers</flux:navlist.item>
+                    <flux:navlist.item icon="photo" :href="route('onboarding')" style="margin-top:8px;">Farm Entrance</flux:navlist.item>
                     <flux:navlist.item icon="document-magnifying-glass" href='/inspection' style="margin-top:8px;">Farm Inspections</flux:navlist.item>
                     @if ($user->roles=='ADMINISTRATOR')
                     <flux:navlist.item icon="wrench-screwdriver" href='/report' style="margin-top:8px;">Report Config</flux:navlist.item>

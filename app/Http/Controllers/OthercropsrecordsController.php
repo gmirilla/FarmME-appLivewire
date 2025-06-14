@@ -14,6 +14,22 @@ class OthercropsrecordsController extends Controller
     {
         //
     }
+            public function disable(Request $request)
+    {
+        //
+
+        $fcode='fcode='.$request->farmcode;
+
+        $othercrop=othercropsrecords::where('id', $request->oid)->first();
+        $othercrop->active=false;
+        $othercrop->save();
+
+                
+        $fcode='fcode='.$request->farmcode;
+
+        return redirect()->route('begin',$fcode);
+
+    }
 
         public function add(Request $request)
     {
@@ -26,6 +42,7 @@ class OthercropsrecordsController extends Controller
         $newotherplot->area=$request->otherplotarea;
         $newotherplot->location=$request->otherplotlocation;
         $newotherplot->farmid=$request->farmid;
+        $newotherplot->farmentranceid=$request->farmentranceid;
         $newotherplot->save();
 
         $fcode='fcode='.$request->farmcode;

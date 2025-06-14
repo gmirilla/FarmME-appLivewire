@@ -4,7 +4,7 @@
   border: 1px solid;
 }
 td{
-    padding: 5px;
+    padding: 2px;
     textalign:justify;}
 table {
   width: 100%;
@@ -33,19 +33,19 @@ input[type="radio"] {
         <tbody>
             <tr>
                 <td style="width: 20%"><b>SURNAME:</b><br/>
-                {{$farm->surname}}
+                {{$farmentrance->surname}}
                 </td>
                 <td style="width: 20%"><b>OTHER NAME(s):</b><br/>
-                {{$farm->fname}}
+                {{$farmentrance->fname}}
                 </td>
                 <td style="width: 20%"><b>GENDER:</b><br/>
                 {{$farm->gender}}
                 </td>
                 <td style="width: 20%"><b>FARMER'S CODE:</b><br/>
-                {{$farm->farmcode}}
+                {{$farmentrance->farmcode}}
                 </td>
                 <td style="width: 20%"><b>NATIONAL ID:</b><br/>
-                {{$farm->nationalidnumber}}
+                {{$farmentrance->nationalidnumber}}
                 </td>
             </tr>
             <tr>
@@ -53,24 +53,24 @@ input[type="radio"] {
                 {{$farm->yob}}
                 </td>
                                 <td><b>PHONE NUMBER:</b><br/>
-                {{$farm->phonenumber}}
+                {{$farmentrance->phonenumber}}
                 </td>
                 <td><b>HOUSEHOLD SIZE:</b><br/>
-                {{$farm->householdsize}}
+                {{$farmentrance->householdsize}}
                 </td>
-                <td><b>ADDRESS:</b><br/>
-                {{$farm->address}}
-                </td><td></td>
+                <td colspan="2"><b>ADDRESS:</b><br/>
+                {{$farmentrance->address}}
+                </td>
             </tr>
             <tr>
                 <td colspan="2"> <b>DATE OF LAST INSPECTION: </b><br/>
-                {{$farm->lastinspection}}</td>
-                <td colspan="3"><b>OUTCOME OF LAST INSPECTION:</b><br>
+                {{$farmentrance->lastinspection}}</td>
+                <td colspan="3"><b>OUTCOME OF LAST INSPECTION:</b><br>{{$farmentrance->inpsectionresult}}
                 </td>
             </tr>
             <tr>
-                <td colspan="2"><b>NAME OF CROP: </b><br>{{$farm->crop}}</td>
-                <td colspan="2"><b>VARIETY:</b><br/>{{$farm->cropvariety}}</td>
+                <td colspan="2"><b>NAME OF CROP: </b><br>{{$farmentrance->crop}}</td>
+                <td colspan="2"><b>VARIETY:</b><br/>{{$farmentrance->cropvariety}}</td>
                 <td><b>REG DATE: </b>{{$farm->yearofcertification}}</td>
             </tr>
         </tbody>
@@ -81,77 +81,95 @@ input[type="radio"] {
         <thead><th>Ginger Plot Name</th><th>Farm Size (Ha)</th><th>Estimated Yield Kg</th><th>Lat N.</th><th>Long E.</th>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                 <td></td>
-                  <td></td>
-                   <td></td>
-                    <td></td>
+            @forelse ($farmentrance->reportprodhistory() as $prodhistory )
+                        <tr>
+                <td>{{$prodhistory->plotname}}</td>
+                 <td>{{$prodhistory->fuarea}}</td>
+                  <td>{{number_format($prodhistory->estimatedyield,2)}}</td>
+                   <td>{{$prodhistory->fulatitude}}</td>
+                    <td>{{$prodhistory->fulongitude}}</td>
             
             </tr>
+                
+            @empty
+                
+            @endforelse
+
         </tbody>
     </table>
     <h4>B. VOLUME OF CERTIFIED CROPS SOLD/DELIVERED TO THE GROUP IN PREVIOUS YEARS (KGS)</h4>
     <table>
-        <thead><th>Ginger Plot Name</th><th>Farm Size (Ha)</th><th>Estimated Yield Kg</th><th>Lat N.</th><th>Long E.</th>
+        <thead><th>Season</th><th>Volume Sold (Kg)</th>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                 <td></td>
-                  <td></td>
-                   <td></td>
-                    <td></td>
+            @forelse ( $farmentrance->reportvolcropdel() as $volcropdel )
+                            <tr>
+                <td>{{$volcropdel->season}}</td>
+                 <td>{{$volcropdel->value}}</td>
+
             
             </tr>
+            @empty
+                
+            @endforelse
+
         </tbody>
     </table>
      <h4>C.</h4>
     <table>
-        <thead><th>Ginger Plot Name</th><th>Farm Size (Ha)</th><th>Estimated Yield Kg</th><th>Lat N.</th><th>Long E.</th>
-        </thead>
         <tbody>
             <tr>
-                <td></td>
-                 <td></td>
-                  <td></td>
-                   <td></td>
-                    <td></td>
+                <td style="width: 50%">Previous year’s ({{$farmentrance->farm_period}}) harvest of certified crop delivered to the group</td>
+                 <td>{{$farmentrance->getcropdeliver()->value}}</td>
+        </tr>
+                    <tr>
+                <td>Previous year’s  ({{$farmentrance->farm_period}}) estimated total production </td>
+                 <td>{{$farmentrance->getcropproduced()->value}}</td>
         </tr>
         </tbody>
     </table>
 
      <h4>D. AGROCHEMICALS USED ON THE FARM LAND</h4>
     <table>
-        <thead><th>Ginger Plot Name</th><th>Farm Size (Ha)</th><th>Estimated Yield Kg</th><th>Lat N.</th><th>Long E.</th>
+        <thead><th>Name of  Herbicide and Fertilizers<br> Used on the Farm</th><th>Quantity applied <br>(Liter’s/Bags)</th><th>Name of person who applied</th><th>Ha of Ginger applied on</th>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                 <td></td>
-                  <td></td>
-                   <td></td>
-                    <td></td>
+            @forelse ($farmentrance->reportagrochems() as $agrochem)
+                            <tr>
+                <td>{{$agrochem->herbicidename}}</td>
+                 <td>{{$agrochem->quantity}}</td>
+                  <td>{{$agrochem->nameofperson}}</td>
+                   <td>{{$agrochem->hectaresapplied}}</td>
+    
         </tr>
+            @empty
+                
+            @endforelse
+
         </tbody>
     </table>
 
      <h4>E. OTHER CULTIVATED CROPS</h4>
     <table>
-        <thead><th>Ginger Plot Name</th><th>Farm Size (Ha)</th><th>Estimated Yield Kg</th><th>Lat N.</th><th>Long E.</th>
+        <thead><th>Plot Name</th><th>Crops Culivated</th><th>Estimated Hectares</th><th>Location</th>
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                 <td></td>
-                  <td></td>
-                   <td></td>
-                    <td></td>
+            @forelse ($farmentrance->reportothercrops() as $othercrop )
+                        <tr>
+                <td>{{$othercrop->plotname}}</td>
+                 <td>{{$othercrop->crop}}<</td>
+                  <td>{{$othercrop->area}}<</td>
+                   <td>{{$othercrop->location}}<</td>
         </tr>
+                
+            @empty
+                
+            @endforelse
+
         </tbody>
     </table>
 
-    <table  style="border: 1px solid black">
+    <table  style="border: 1px solid black; margin-top:5px;">
         <tbody>
         <thead>
             <th>#</th>
@@ -254,13 +272,26 @@ input[type="radio"] {
                 <td colspan="2"><b>DECLARATION</b></td>
             </tr>
            <tr><td style="width: 50%" class="text-justify">
-            I, <b><u>{{$farm->farmname}}</u></b>, the farm owner, declare that, this information is correct, and on this day pledge to adhere
-             at all times to the conditions for the UEBT/RA/MABA certification process and sustainable agriculture production
+            <p>I, <b><u>{{$farm->farmname}}</u></b>, the farm owner, declare that, this information is correct, and on this day pledge to adhere
+             at all times to the conditions for the UEBT/RA/MABA certification process and sustainable agriculture production </p><br><br><br>
+            
+         <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint</span><br><br>
+
+            <span style="border-top: 1px dashed rgb(86, 84, 84)">Date:</span>
         </td><td>
-        I, the field officer, confirm that the above information is correct. 
+        <p>I, the field officer, confirm that the above information is correct.</p> 
         <br>
-           <b><u>{{'TO DO INSPECTOR NAME'}}</u></b><br>
+           <b><u>{{$farmentrance->reportinspectorname()->name}}</u></b><br>
            (NAME OF FIELD OFFICER) 
+
+           <br><br><br>
+            
+            <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint</span><br><br>
+
+            <span style="border-top: 1px dashed rgb(86, 84, 84)">Date:</span>
+
+
+
         </td></tr>
         </tbody>
     </table>

@@ -68,6 +68,8 @@ Route::middleware('auth')->group(function () {
         
     });
     Route::middleware('auth')->group(function () {
+        Route::get('/feprofile', [FarmentranceController::class, 'feprofile'])->name('feprofile');
+        Route::post('/feprofile/update', [FarmentranceController::class, 'feprofile_update'])->name('feprofile_update');
         Route::get('/beginfe', [FarmentranceController::class, 'begin'])->name('begin');
         Route::post('/addagchems',[AgrochemicalrecordsController::class, 'add'])->name('addchems');
         Route::get('/disablechems',[AgrochemicalrecordsController::class, 'disable'])->name('disablechems');

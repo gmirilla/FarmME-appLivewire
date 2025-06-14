@@ -19,6 +19,7 @@ class AgrochemicalrecordsController extends Controller
         //
 
         $fcode='fcode='.$request->farmcode;
+
         $chem=agrochemicalrecords::where('id', $request->aid)->first();
         $chem->active=false;
         $chem->save();
@@ -41,7 +42,7 @@ class AgrochemicalrecordsController extends Controller
       $newherbicide->season=$request->season;
       $newherbicide->herbicidename=$request->herbicide;
       $newherbicide->hectaresapplied=$request->hectareapplied;
-      $newherbicide->entranceid="0"; //temp solution
+      $newherbicide->entranceid=$request->farmentrance; //temp solution
 
       $newherbicide->save();
 

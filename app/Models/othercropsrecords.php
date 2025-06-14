@@ -8,6 +8,6 @@ class othercropsrecords extends Model
 {
     //
     protected $fillable=[
-        'season','plotname','crop', 'area', 'location','active','farmid'
+        'season','plotname','crop', 'area', 'location','active','farmid','farmentranceid'
     ];
 }
