@@ -52,9 +52,9 @@
                                 @else
                                 <input type="text" value="{{$farmunit->fulongitude}}" id="fulongitude"  name="fulongitude"   class="form-control">
                                 @endif
-             <div><textarea hidden id="polycoords" name="polycoords" class="form-control">
+             <div><textarea id="polycoords" name="polycoords" class="form-control">
                 @if (empty($farmunit->plot_coords))
-                    // If no farm unit exists, provide default coordinates
+                   
                     null
                 @else
                    {{$farmunit->plot_coords}}
@@ -99,7 +99,10 @@
                         <button class="btn btn-primary" onclick="getLocation()" data-toggle="tooltip" data-placement="right" title="Get Current Coordinates"><i class="fa fa-map-marker" aria-hidden="true"></i></button>
                         <button class="btn btn-success" onclick="setFarmLocation()" data-toggle="tooltip" data-placement="right" title="Set as Farm Coordinates"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                         <button class="btn btn-warning" onclick="calcPoly()" data-toggle="tooltip" data-placement="right" title="Calculate Area"><i class="fa fa-calculator" aria-hidden="true"></i></button>
-                        <button class="btn btn-danger" onclick="resetPoly()" data-toggle="tooltip" data-placement="right" title="Clear all previous Coordinates"><i class="fa fa-eraser" aria-hidden="true"></i></button>   
+                        <button class="btn btn-danger" onclick="resetPoly()" data-toggle="tooltip" data-placement="right" title="Clear all previous Coordinates"><i class="fa fa-eraser" aria-hidden="true"></i></button>  
+                        <button class="btn btn-primary" onclick="startTracking()">Start Tracking</button>
+                        <button class="btn btn-danger" onclick="stopTracking()">Stop Tracking</button>
+ 
                         </div>
 
                 </div>
@@ -138,15 +141,17 @@
 
     </div>
     <script async src="https://maps.googleapis.com/maps/api/js?key={{env('MAP')}}&libraries=geometry,drawing"></script>
-     <script>
-        var map;
-        var pathCoordinates = [];
-        var polyline;
+    <script>
+        var map; // Store the map instance
+        var pathCoordinates = []; // Array to store GPS coordinates
+        var polyline; // Polyline for the walking path
+        var trackingActive = false; // Flag to control tracking
+        var watchID = null; // Stores the geolocation watch ID
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 20,
-                center: { lat: 12.0022, lng: 8.5919 } // Example starting point (Kano, Nigeria)
+                center: { lat: 12.0022, lng: 8.5919 } // Starting location (Kano, Nigeria)
             });
 
             polyline = new google.maps.Polyline({
@@ -154,34 +159,59 @@
                 geodesic: true,
                 strokeColor: "#FF0000",
                 strokeOpacity: 1.0,
-                strokeWeight: 3
+                strokeWeight: 1
             });
 
             polyline.setMap(map);
-
-            trackLocation();
         }
 
-        function trackLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.watchPosition(function(position) {
-                    var newPoint = {
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude
-                    };
+        function startTracking() {
+            if (!trackingActive) {
+                trackingActive = true;
 
-                    pathCoordinates.push(newPoint);
-                    polyline.setPath(pathCoordinates);
+                if (navigator.geolocation) {
+                    watchID = navigator.geolocation.watchPosition(
+                        function(position) {
+                            var newPoint = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
 
-                    map.setCenter(newPoint);
-                }, function(error) {
-                    console.log("Error getting location: ", error);
-                });
-            } else {
-                alert("Geolocation is not supported by your browser");
+                            pathCoordinates.push(newPoint);
+                            polyline.setPath(pathCoordinates);
+                            document.getElementById('polycoords').textContent=JSON.stringify(pathCoordinates);
+                            console.log(pathCoordinates);
+
+                            map.setCenter(newPoint);
+                        },
+                        function(error) {
+                            console.log("Error getting location: ", error);
+                        },
+                        {
+                            enableHighAccuracy: true,
+                            timeout: 5000,
+                            maximumAge: 0
+                        }
+                    );
+                } else {
+                    alert("Geolocation is not supported by your browser.");
+                }
             }
         }
+
+        function stopTracking() {
+            if (trackingActive) {
+                trackingActive = false;
+
+                if (watchID !== null) {
+                    navigator.geolocation.clearWatch(watchID); // Stop tracking
+                    watchID = null;
+                }
+            }
+
+        }
     </script>
+
 
 
 </x-layouts.app>
