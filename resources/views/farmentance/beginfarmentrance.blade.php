@@ -129,6 +129,7 @@
                         <td><form action="{{route('newfunit')}}" method="get">
 
                                     <input type="text" name="farmid" id="farmid2" hidden value="{{$farmerdetail->id}}">
+                                    <input type="text" name="farmentranceid" id="farmentranceid" hidden value="{{$farmentrance->id}}">
                                     <button class="btn btn-primary" name="newfunit"> Add Farm Unit</button>
 
                                 </form></td>   
@@ -152,7 +153,7 @@
                      <tr>
                         <td>{{$volsold->season}}</td>
                         <td>{{$volsold->value}}</td>
-                        <td><a href="{{ route('disablevolsold', ['farmcode' => $farmerdetail->farmcode, 'vsid' => $volsold->id]) }}" class="btn btn-danger">Disable</a></td>
+                        <td><a href="{{ route('disablevolsold', ['farmcode' => $farmerdetail->farmcode, 'vsid' => $volsold->id]) }}"  required class="btn btn-danger">Disable</a></td>
                      </tr>   
                     @empty
                         

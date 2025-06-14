@@ -61,6 +61,10 @@
                 @endif</textarea></div>                   
             </div>
             <div class="col-auto" >
+
+                @if (!empty($farmentrance))
+                <input type="text" name="farmentranceid" hidden  value="{{$farmentrance->id}}">
+                @endif
                 <button type="submit" class="btn btn-primary">Add</button>
             </div>
         </div>
@@ -134,211 +138,49 @@
 
     </div>
     <script async src="https://maps.googleapis.com/maps/api/js?key={{env('MAP')}}&libraries=geometry,drawing"></script>
-   <script>
+     <script>
+        var map;
+        var pathCoordinates = [];
+        var polyline;
 
-        let polygonsArray = [];
-                function initMap(latitude, longitude) {
-            var userLocation = { lat: parseFloat(latitude), lng: parseFloat(longitude) };
-
-            var map = new google.maps.Map(document.getElementById("map"), {
-                center: userLocation,
-                zoom: 17
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 20,
+                center: { lat: 12.0022, lng: 8.5919 } // Example starting point (Kano, Nigeria)
             });
 
-            new google.maps.Marker({
-                position: userLocation,
-                map: map,
-                title: "You are here!"
+            polyline = new google.maps.Polyline({
+                path: pathCoordinates,
+                geodesic: true,
+                strokeColor: "#FF0000",
+                strokeOpacity: 1.0,
+                strokeWeight: 3
             });
 
-    const drawingManager = new google.maps.drawing.DrawingManager({
-    drawingMode: google.maps.drawing.OverlayType.POLYGON,
-    drawingControl: true,
-    drawingControlOptions: {
-      position: google.maps.ControlPosition.TOP_CENTER,
-      drawingModes: ["polygon"],
-    },
-        polygonOptions: {
-        fillColor: "#FF5733",
-        fillOpacity: 0.5,
-        strokeWeight: 2,
-        strokeColor: "#C70039",
-    },
+            polyline.setMap(map);
 
-  });
-
-    //Load previously saved polygons from localStorage
-const savedPolygons = document.getElementById("polycoords").value;
-if (savedPolygons) {
-    const data = JSON.parse(savedPolygons);
-    console.log("Array Polygons:", data);
-
-    var resultArray = JSON.parse(savedPolygons);
-    var polyCoords = [];
-
-    for (var i=0; i<resultArray.length; i++) {
-        polyCoords[i] = new google.maps.LatLng(resultArray[i].lat, resultArray[i].lng);
-    }
-
-    //use the array as coordinates
- farmplot = new google.maps.Polygon({
-         paths: polyCoords,
-         strokeColor: '#ff0000',
-         strokeOpacity: 0.8,
-         strokeWeight: 1,
-         fillColor: '#ff0000',
-         fillOpacity: 0.30
-});
-farmplot.setMap(map);
-};
-
-
-  // Add the drawing manager to the map
-
-            drawingManager.setMap(map);
-
-            google.maps.event.addListener(drawingManager, 'polygoncomplete', function(event) {
-                const polygon = event;
-                const path = polygon.getPath();
-                let polycoord = [];
-
-                path.forEach(function(latLng) {
-                    polycoord.push({ lat: latLng.lat(), lng: latLng.lng() });
-
-                });
-
-                 // Store the new polygon in the global array
-        polygonsArray.push(polycoord);
-        localStorage.setItem("polygonsData", JSON.stringify(polygonsArray)); // Persist in localStorage
-
-
-                document.getElementById("polycoord").textContent = JSON.stringify(polycoord);
-                 document.getElementById("polycoords").textContent = JSON.stringify(polycoord);
-                document.getElementById("latitude").textContent = latitude;
-                document.getElementById("longitude").textContent = longitude;
-                console.log("Polygon coordinates:", polycoord);
-                console.log("Json: ", JSON.stringify(polycoord));
-            });
-
-
+            trackLocation();
         }
 
-        
-
-        function savePoly()
-            {   
-            var polycoord=document.getElementById("polycoord").textContent;
-            var latitude=document.getElementById("latitude").textContent;
-            var longitude=document.getElementById("longitude").textContent;
-            let tbody = document.getElementById("formartcoordinates");
-            let newRow = document.createElement("tr");
-            let newCelllat = document.createElement("td");
-            let newCelllong = document.createElement("td");
-            newCelllat.textContent = latitude;
-            newCelllong.textContent = longitude; // Add content to the cells
-            newRow.appendChild(newCelllat); 
-            newRow.appendChild(newCelllong); // Add cell to row
-
-            tbody.appendChild(newRow); // Add row to tbody
-
-
-
-            if (polycoord.length == 0 ) {
-                var result=polycoord.concat('{ "lat":  ', latitude ,', "lng": ', longitude,' }');
-                let coordrow=document.getElementById("formartcoordinates").innerHTML+ "<tr><td></td></tr>";
-                document.getElementById("polycoord").textContent=result;
-                document.getElementById("formartcoordinates").innerHTML=coordrow;
-                
-
-            } else {
-
-               var result=polycoord.concat(',','{ "lat":  ', latitude ,', "lng": ', longitude,' }');
-
-
-            }
-
-               // var result=polycoord.concat("{ lat: " , latitude ,", lng: ", longitude," }");
-                document.getElementById("polycoord").textContent=result;
-    
-            }
-            function resetPoly()
-            {   
-            document.getElementById("polycoord").textContent="";
-            document.getElementById("formartcoordinates").textContent="";
-            //TO DO handle potential trailing ","
-            
-    
-            }    
-    
-
-        function getLocation() {
+        function trackLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    var latitude = position.coords.latitude;
-                    var longitude = position.coords.longitude;
+                navigator.geolocation.watchPosition(function(position) {
+                    var newPoint = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
 
-                    document.getElementById("latitude").textContent = latitude;
-                    document.getElementById("longitude").textContent = longitude;
+                    pathCoordinates.push(newPoint);
+                    polyline.setPath(pathCoordinates);
 
-                    initMap(latitude, longitude);
-                    savePoly();
-
-
+                    map.setCenter(newPoint);
                 }, function(error) {
-                    console.error("Error getting location: ", error);
-                    alert("Geolocation failed. Please enable location services.");
+                    console.log("Error getting location: ", error);
                 });
             } else {
-                alert("Geolocation is not supported by this browser.");
+                alert("Geolocation is not supported by your browser");
             }
         }
-
-        // Call the function to get the user's location
-        getLocation();
-
-        function setFarmLocation()
-        {
-            document.getElementById("fulatitude").value=document.getElementById("latitude").textContent;
-            document.getElementById("fulongitude").value=document.getElementById("longitude").textContent;
-
-        }
-        function setFarmarea()
-        {
-            document.getElementById("fuarea").value=document.getElementById("farmareaha").textContent;
-        }
-        function calcPoly()
-        {
-            // Define the polygon coordinates
-            var polycoords=document.getElementById("polycoords").textContent;
-            var jsonPolyString="["+polycoords+"]";
-            //Convert coordinate strings into Array of Json Objects
-            const jsonArray = JSON.parse(jsonPolyString);
-
-            var polygonCoords = jsonArray;
-
-            // Create the polygon
-                var polygon = new google.maps.Polygon({
-                paths: polygonCoords,
-                strokeColor: "#008000",
-                strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: "#008000",
-                fillOpacity: 0.35
-            });
-
-            polygon.setMap(map);
-
-            // Calculate the area in square meters and ha
-                var area = (google.maps.geometry.spherical.computeArea(polygon.getPath())/10000)                ;
-                var showarea=document.getElementById("showArea");
-                
-                document.getElementById("farmaream2").textContent= area*10000;
-                document.getElementById("farmareaha").textContent= area;
-                showarea.style.display='block';
-
-        }
-
-
     </script>
 
 

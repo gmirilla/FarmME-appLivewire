@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\farmunits;
 use App\Models\farm;
+use App\Models\farmentrance;
 use Illuminate\Http\Request;
 
 class FarmunitsController extends Controller
@@ -121,6 +122,7 @@ class FarmunitsController extends Controller
             //code...
             $farm=farm::where('id',$request->farmid)->first();
             $farmunit=farmunits::find($request->fid);
+            $farmentrance=farmentrance::where('id', $request->farmentranceid)->first();
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -128,7 +130,7 @@ class FarmunitsController extends Controller
         $farmunits=farmunits::where('farmid',$request->farmid)->get();
         //dd($request);
 
-        return view("newfunit", compact('farm','farmunit'));
+        return view("newfunit", compact('farm','farmunit','farmentrance'));
     }
 
     public function savefunit(Request $request)
@@ -156,6 +158,7 @@ class FarmunitsController extends Controller
             $farmunit->plot_coords=$request->polycoords;
             $farmunit->plotname=$request->fuplotname;
             $farmunit->estimatedyield=$farmunit->fuarea*6000;
+            $farmunit->farmentranceid=$request->farmentranceid;
             $farmunit->save();
 
             //Update total Farm Area and unit count
@@ -172,6 +175,14 @@ class FarmunitsController extends Controller
         }
         
         $farmunits=farmunits::where('farmid',$request->fid)->get();
+
+        if ($request->has('farmentranceid')) {
+            # return to the Entrance ID sheet...
+        
+            $fcode='fcode='.$farm->farmcode;
+
+        return redirect()->route('begin',$fcode);
+        }
         
         return view("editfunitdetails", compact('farm','farmunits'));
     }
