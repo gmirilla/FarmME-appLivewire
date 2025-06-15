@@ -9,6 +9,8 @@ use App\Http\Controllers\FarmentranceController;
 use App\Http\Controllers\FarmunitsController;
 use App\Http\Controllers\FarmunityieldController;
 use App\Http\Controllers\InternalinspectionController;
+use App\Http\Controllers\MapImage;
+use App\Http\Controllers\MapImageController;
 use App\Http\Controllers\MapsController;
 use App\Http\Controllers\OthercropsrecordsController;
 use App\Http\Controllers\PdfController;
@@ -34,6 +36,8 @@ Route::middleware('auth')->group(function () {
 
 });
 
+Route::post('/save-map-image', [MapImageController::class, 'store'])->name('saveimage');
+Route::get('/testsaveimage', [MapImageController::class, 'test'])->name('testimage');
 
 
     Route::middleware(['auth','verified'])->group(function () {

@@ -7,6 +7,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="">
     <head>
         @include('partials.head')
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
     </head>
     <style>
         .c-sidebar a {
