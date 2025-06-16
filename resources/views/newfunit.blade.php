@@ -164,12 +164,12 @@
                     <div class="card-body">
                         <p><b>Latitude: </b><span id="latitude"></span></p>
                         <p><b>Longitude: </b><span id="longitude"></span></p>
-                        <button class="btn btn-primary" onclick="getLocation()" data-toggle="tooltip" data-placement="right" title="Get Current Coordinates"><i class="fa fa-map-marker" aria-hidden="true"></i></button>
+                        <button class="btn btn-primary" onclick="addWaypoint()" data-toggle="tooltip" data-placement="right" title="Get Current Coordinates"><i class="fa fa-map-marker" aria-hidden="true"></i></button>
                         <button class="btn btn-success" onclick="setFarmLocation()" data-toggle="tooltip" data-placement="right" title="Set as Farm Coordinates"><i class="fa fa-pencil" aria-hidden="true"></i></button>
                         <button class="btn btn-warning" onclick="showPolygonArea()" data-toggle="tooltip" data-placement="right" title="Calculate Area"><i class="fa fa-calculator" aria-hidden="true"></i></button>
                         <button class="btn btn-danger" onclick="resetPoly()" data-toggle="tooltip" data-placement="right" title="Clear all previous Coordinates"><i class="fa fa-eraser" aria-hidden="true"></i></button>  
-                        <button class="btn btn-primary" onclick="startTracking()">Start Tracking</button>
-                        <button class="btn btn-danger" onclick="stopTracking()">Stop Tracking</button>
+                        <button class="btn btn-primary" id='startTrackingbtn' onclick="startTracking()">Start Tracking</button>
+                        <button class="btn btn-danger" id='stopTrackingbtn' onclick="stopTracking()">Stop Tracking</button>
                         <button class="btn btn-primary" onclick="saveMap()">Save Map</button>
  
                         </div>
@@ -287,6 +287,10 @@ function getPolygonCenter(path) {
         function startTracking() {
             if (!trackingActive) {
                 trackingActive = true;
+                let startTrackingbtn= document.getElementById('startTrackingbtn');
+                let stopTrackingbtn= document.getElementById('stopTrackingbtn');
+                startTrackingbtn.disabled=true;
+                stopTrackingbtn.disabled=false;
 
                 if (navigator.geolocation) {
                     watchID = navigator.geolocation.watchPosition(
@@ -318,17 +322,59 @@ function getPolygonCenter(path) {
             }
         }
 
-        function stopTracking() {
-            if (trackingActive) {
-                trackingActive = false;
+   function stopTracking() {
+    if (trackingActive) {
+        trackingActive = false;
 
-                if (watchID !== null) {
-                    navigator.geolocation.clearWatch(watchID); // Stop tracking
-                    watchID = null;
-                }
-            }
+        let startTrackingbtn = document.getElementById('startTrackingbtn');
+        let stopTrackingbtn = document.getElementById('stopTrackingbtn');
+        
+        startTrackingbtn.disabled = false;
+        stopTrackingbtn.disabled = true;
 
+        if (watchID !== null) {
+            navigator.geolocation.clearWatch(watchID); // Stop tracking
+            watchID = null;
         }
+
+        // Generate polygon from the tracked path
+        if (pathCoordinates.length > 2) {  // Ensure there are enough points to form a polygon
+            generatePolygon(pathCoordinates);
+        } else {
+            alert("Not enough data points to create a polygon.");
+        }
+    }
+}
+function addWaypoint() {
+    if (pathCoordinates.length > 0) {
+        let lastPoint = pathCoordinates[pathCoordinates.length - 1]; // Get last tracked position
+        waypointCoordinates.push(lastPoint); // Save as waypoint
+        console.log("Waypoint added: ", lastPoint);
+    } else {
+        alert("No GPS position available yet.");
+    }
+}
+
+
+function generatePolygon(coordinates) {
+    if (polygon) {
+        polygon.setMap(null); // Remove previous polygon
+    }
+
+    polygon = new google.maps.Polygon({
+        paths: coordinates,
+        strokeColor: "#90EE90",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "#90EE90",
+        fillOpacity: 0.35
+    });
+
+    polygon.setMap(map);
+
+    // Display area of the polygon
+    showPolygonArea();
+}
 
     </script>
 <script>
@@ -374,65 +420,7 @@ function saveMap() {
     });
 }
 </script>
-<script>
-  let currentMarker = null;
 
-  function initMap(lat, lng) {
-    const position = { lat, lng };
-    map = new google.maps.Map(document.getElementById("map"), {
-      center: position,
-      zoom: 15
-    });
-
-    // Drop a pin at the current location
-    currentMarker = new google.maps.Marker({
-      position,
-      map,
-      title: "You are here!"
-    });
-  }
-
-  function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const lat = position.coords.latitude;
-          const lng = position.coords.longitude;
-
-          if (!map) {
-            initMap(lat, lng);
-          } else {
-            const newPosition = { lat, lng };
-
-            // Move the map and drop/update the pin
-            map.setCenter(newPosition);
-
-            if (currentMarker) {
-              currentMarker.setPosition(newPosition);
-            } else {
-              currentMarker = new google.maps.Marker({
-                position: newPosition,
-                map,
-                title: "You are here!"
-              });
-            }
-          }
-        },
-        (error) => {
-          console.error("Geolocation error:", error);
-          alert("Unable to retrieve your location.");
-        },
-        {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        }
-      );
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  }
-</script>
 
 
 
