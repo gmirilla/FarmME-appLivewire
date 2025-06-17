@@ -149,36 +149,23 @@
   <div class="loader-text">Saving map...</div>
   <div class="loader-circle"></div>
 </div>
-
-
-        <div class="flex">
-            <div class="card" style="height: 550px; width: 68%;">
-                <div class="card-body">
-                    <div id="map" style="height: 500px; width: 100%;"></div>
-
-                </div>
-                
-            </div>
-            <div style="width: 30%; margin: 10px">
+            <div class="row" style="margin: 10px">
                 <div class="card mb-3">
                     <div class="card-body">
                         <p><b>Latitude: </b><span id="latitude"></span></p>
                         <p><b>Longitude: </b><span id="longitude"></span></p>
                         <button class="btn btn-primary" onclick="addWaypoint()" data-toggle="tooltip" data-placement="right" title="Get Current Coordinates"><i class="fa fa-map-marker" aria-hidden="true"></i></button>
                         <button class="btn btn-success" onclick="setFarmLocation()" data-toggle="tooltip" data-placement="right" title="Set as Farm Coordinates"><i class="fa fa-pencil" aria-hidden="true"></i></button>
-                        <button class="btn btn-warning" onclick="showPolygonArea()" data-toggle="tooltip" data-placement="right" title="Calculate Area"><i class="fa fa-calculator" aria-hidden="true"></i></button>
-                        <button class="btn btn-danger" onclick="resetPoly()" data-toggle="tooltip" data-placement="right" title="Clear all previous Coordinates"><i class="fa fa-eraser" aria-hidden="true"></i></button>  
+                        <button class="btn btn-warning" onclick="showPolygonArea()" data-toggle="tooltip" data-placement="right" title="Calculate Area"><i class="fa fa-calculator" aria-hidden="true"></i>Calc</button>
+                        <button class="btn btn-danger" onclick="resetPoly()" data-toggle="tooltip" data-placement="right" title="Clear all previous Coordinates"><i class="fa fa-eraser" aria-hidden="true"></i>Reset</button>  
                         <button class="btn btn-primary" id='startTrackingbtn' onclick="startTracking()">Start Tracking</button>
                         <button class="btn btn-danger" id='stopTrackingbtn' onclick="stopTracking()">Stop Tracking</button>
                         <button class="btn btn-primary" onclick="saveMap()">Save Map</button>
  
                         </div>
-
-                </div>
-
-                <div class="card mb-3" >
-                    <div class="card-title text-center"><b>PLOTTED COORDINATES</b></div>
-                    <div class="card-body table-responsive">
+                                        <div class="card mb-3" >
+                    <div class="card-title text-center" style="display: none;"><b>PLOTTED COORDINATES</b></div>
+                    <div class="card-body table-responsive" style="display: none;">
                         <table class="table table-striped table-bordered fs-6">
                             <thead>
                                 <th>Lat</th><th>Long</th>
@@ -193,6 +180,10 @@
                             
                     </div>
                 </div>
+
+                </div>
+
+
                 <div  id="showArea" class="card" style="display:none">
                     <div class="card-title text-center"><b>FARM AREA</b></div>
                     <div class="card-body"></div>
@@ -202,7 +193,18 @@
                     
                 </div>
 
-            </div>            
+            </div>
+
+
+        <div class="flex">
+            <div class="card" style="height: 550px; width: 90%;">
+                <div class="card-body">
+                    <div id="map" style="height: 500px; width: 100%;"></div>
+
+                </div>
+                
+            </div>
+            
 
         </div>
 
@@ -219,6 +221,9 @@
         var watchID = null; // Stores the geolocation watch ID
         var polygon;
         var polygonCoordinates = []; // Stores clicked points
+        var waypointCoordinates = [];
+        var infoWindow=null;
+
 
 
         function initMap() {
@@ -248,6 +253,8 @@
 
             polygon.setMap(map);
 
+
+
             // Listen for clicks on the map to add points
             map.addListener("click", function(event) {
                 addPoint(event.latLng);
@@ -256,17 +263,21 @@
         
              function addPoint(location) {
             polygonCoordinates.push(location); // Add new coordinate
-            polygon.setPath(polygonCoordinates); // Update polygon shape
+            polygon.setPaths(polygonCoordinates);// Update polygon shape
         }
 
 function showPolygonArea() {
     if (!polygon) return console.warn("Polygon not ready.");
 
-    const area = google.maps.geometry.spherical.computeArea(polygon.getPath());
+    const area = google.maps.geometry.spherical.computeArea(polygon.getPath().getArray());
     const areaha=area/10000;
     const center = getPolygonCenter(polygon.getPath());
+
+        if (infoWindow) {
+        infoWindow.close();
+    }
     
-    const infoWindow = new google.maps.InfoWindow({
+    infoWindow = new google.maps.InfoWindow({
         content: `<div class="custom-info">Area: ${areaha.toFixed(2)} Ha</div>`,
         position: center
     });
@@ -351,15 +362,38 @@ function addWaypoint() {
         waypointCoordinates.push(lastPoint); // Save as waypoint
         console.log("Waypoint added: ", lastPoint);
     } else {
-        alert("No GPS position available yet.");
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+        let lastPoint=pathCoordinates[0]; 
+        waypointCoordinates.push(lastPoint); // save as waypoint
+        console.log("New Poly Waypoint added: ", lastPoint);
+        //alert("No GPS position available yet.");
     }
 }
 
+    function successCallback(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      let spanlatitude=document.getElementById('latitude'); 
+      let spanlongitude=document.getElementById('longitude'); 
+      console.log("Console Log: ", latitude, longitude);
+      spanlongitude.textContent=longitude;
+      spanlatitude.textContent=latitude;
+      // Use latitude and longitude
+    }
+
+    function errorCallback(error) {
+      // Handle errors, e.g., user denied location access
+    }
 
 function generatePolygon(coordinates) {
     if (polygon) {
         polygon.setMap(null); // Remove previous polygon
     }
+        if (coordinates.length < 3) {
+        alert("Not enough points to form a polygon.");
+        return;
+    }
+
 
     polygon = new google.maps.Polygon({
         paths: coordinates,
@@ -375,6 +409,47 @@ function generatePolygon(coordinates) {
     // Display area of the polygon
     showPolygonArea();
 }
+
+function resetPoly() {
+    // Remove the polygon if it exists
+    if (polygon) {
+        polygon.setMap(null);
+    }
+
+    // Close the InfoWindow if it's open
+    if (infoWindow) {
+        infoWindow.close();
+    }
+
+    // Reset coordinate arrays
+    polygonCoordinates = [];
+    pathCoordinates = [];
+
+    // Reinitialize the polygon properly
+    polygon = new google.maps.Polygon({
+        paths: polygonCoordinates, // Use the correct variable
+        strokeColor: "#90EE90",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "#90EE90",
+        fillOpacity: 0.35
+    });
+
+    // Ensure the polygon is added back to the map
+    polygon.setMap(map);
+}
+
+    function setFarmLocation(){
+        let fulatitude=document.getElementById('fulatitude'); 
+        let fulongitude=document.getElementById('fulongitude'); 
+        let spanlatitude=document.getElementById('latitude'); 
+      let spanlongitude=document.getElementById('longitude'); 
+
+        fulatitude.value=spanlatitude.textContent;
+        fulongitude.value=spanlongitude.textContent;
+    
+
+    }
 
     </script>
 <script>
