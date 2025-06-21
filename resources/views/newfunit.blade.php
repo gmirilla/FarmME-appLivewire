@@ -38,7 +38,7 @@
 .custom-info {
   font-size: 14px;
   font-weight: bold;
-  color: #ef250b;
+  color: #ffffff;
   padding: 8px;
   background-color: transparent;
 
@@ -255,8 +255,8 @@
                 strokeColor: "#90EE90",
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
-                fillColor: "#90EE90",
-                fillOpacity: 0.35
+                fillColor: "#0b6623",
+                fillOpacity: 0.8
             });
 
             polygon.setMap(map);
@@ -410,8 +410,8 @@ function generatePolygon(coordinates) {
         strokeColor: "#90EE90",
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        fillColor: "#90EE90",
-        fillOpacity: 0.35
+        fillColor: "#0b6623",
+        fillOpacity: 0.8
     });
 
     polygon.setMap(map);
@@ -441,8 +441,8 @@ function resetPoly() {
         strokeColor: "#90EE90",
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        fillColor: "#90EE90",
-        fillOpacity: 0.35
+        fillColor: "#0b6623",
+        fillOpacity: 0.8
     });
 
     // Ensure the polygon is added back to the map
