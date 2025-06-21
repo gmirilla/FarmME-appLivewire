@@ -80,6 +80,9 @@ class InternalinspectionController extends Controller
 
         #Create and save a new inspection record if a new inspection process start
         if ($request->internalinspectionid==null) {
+            $year0=date('Y');
+            $year1=$year0+1;
+            $currentseason=$year0."/".$year1;
             $newinspection= new internalinspection();
             $newinspection->farmid=$farm->id;
             $newinspection->latitude=$farm->latitude;
@@ -87,6 +90,7 @@ class InternalinspectionController extends Controller
             $newinspection->inspectorid=$user->id;
             $newinspection->reportid=$request->reportid;
             $newinspection->inspectionstate='ACTIVE';
+            $newinspection->season=$currentseason;
             $newinspection->save();
         } 
         $sectioncounter=$request->sectioncounter;

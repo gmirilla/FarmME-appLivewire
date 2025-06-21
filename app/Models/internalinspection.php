@@ -18,7 +18,8 @@ class internalinspection extends Model
         'score',
         'updated_uid',
         'comments',
-        'conditions'
+        'conditions',
+        'season'
     ];
 
     public function farm() {

@@ -189,6 +189,7 @@
             <table class="table table-striped table-hover" id="farms">
                 <thead>
                     <tr>
+                    <th>Season</th>
                     <th>Report Name</th>
                     <th>Score</th>
                     <th>Date</th>
@@ -200,6 +201,7 @@
                 <tbody> 
              @forelse ($farmreports as $farmreport)
              <tr>
+              <td>{{$farmreport->season}}</td>  
              <td>{{$farmreport->reportname}}</td>
 
              <td>{{number_format(($farmreport->score / $farmreport->max_score *100),2)}}%</td> 
