@@ -328,7 +328,7 @@ input[type="radio"] {
             <tr>
                 <td colspan="4" style="padding: 5px;">
                     @if (!empty($farmplot->imagefilepath))
-                        <img src="{{url($farmplot->imagefilepath)}}" alt="">
+                        <img src="{{public_path($farmplot->imagefilepath)}}" alt="" width="100%;">
                     @endif           
                 </td>
             </tr>
