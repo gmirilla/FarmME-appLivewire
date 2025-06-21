@@ -26,7 +26,7 @@ input[type="radio"] {
 <div class="card">
     <div class="card-header" style="text-align: center">
     <h3>{{strtoupper($farm->farmname)}}</h3>
-    <h4>TO DO SEASON {{$reportname->reportname}}</h4>
+    <h4>{{$farmentrance->farm_period}} Season | {{$reportname->reportname}}</h4>
     </div>
     <div class="card-body">
     <table class="table table-bordered" style="border: 1px solid black">
@@ -328,7 +328,7 @@ input[type="radio"] {
             <tr>
                 <td colspan="4" style="padding: 5px;">
                     @if (!empty($farmplot->imagefilepath))
-                        <img src="{{public_path($farmplot->imagefilepath)}}" alt="" width="100%;">
+                        <img src="{{public_path($farmplot->imagefilepath)}}" alt="" width="100%;" height="1000px;">
                     @endif           
                 </td>
             </tr>
