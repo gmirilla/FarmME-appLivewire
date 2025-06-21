@@ -332,6 +332,13 @@ input[type="radio"] {
                     @endif           
                 </td>
             </tr>
+                        <tr>
+                <td colspan="4">
+                    @if (!empty($farmplot->imagefilepath))
+                        {{url($farmplot->imagefilepath)}}
+                    @endif           
+                </td>
+            </tr>
         </table>
     
 @empty
