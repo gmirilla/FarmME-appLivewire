@@ -296,6 +296,51 @@ input[type="radio"] {
         </tbody>
     </table>
     </div>
+@forelse ($farmentrance->reportprodhistory() as $farmplot )
+
+    <div style="page-break-before: always;">
+        <h4>FARM SKETCH</h4>
+        <table>
+            <tr>
+                <td style="width: 25%"><b>NAME OF FARMER: </b></td>
+                <td style="width: 25%">{{strtoupper($farm->farmname)}}</td>
+                <td style="width: 25%"><b>FARM CODE:</b> </td>
+                <td style="width: 25%">{{$farm->farmcode}}</td>
+            </tr>
+            <tr>
+                <td style="width: 25%"><b>NAME OF FARM: </b></td>
+                <td style="width: 25%">{{$farmplot->plotname}}</td>
+                <td style="width: 25%"><b>FARM SIZE:</b> </td>
+                <td style="width: 25%">{{$farmplot->fuarea}} Ha</td>
+            </tr>
+                        <tr>
+                <td style="width: 25%"><b>LOCATION OF FARM:</b> </td>
+                <td style="width: 25%">{{$farm->address}}</td>
+                <td style="width: 25%"><b>NAME OF CROP: </b></td>
+                <td style="width: 25%">{{$farm->crop}}</td>
+            </tr>
+                                    <tr>
+                <td style="width: 25%"><b>LATITUDE:</b> </td>
+                <td style="width: 25%">{{$farmplot->fulongitude}}</td>
+                <td style="width: 25%"><b>LONGITUDE: </b></td>
+                <td style="width: 25%">{{$farmplot->fulongitude}}</td>
+            </tr>
+            <tr>
+                <td colspan="4" style="padding: 5px;">
+                    @if (!empty($farmplot->imagefilepath))
+                        <img src="{{url($farmplot->imagefilepath)}}" alt="">
+                    @endif           
+                </td>
+            </tr>
+        </table>
+    
+@empty
+    
+@endforelse
+
+
+
+    </div>
 </div>
 </div>
 

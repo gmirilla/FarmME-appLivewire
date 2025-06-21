@@ -17,6 +17,6 @@ class farmunits extends Model
         'plotname',
         'estimatedyield',
         'actualyeild',
-        'active', 'farmentranceid'
+        'active', 'farmentranceid', 'imagefilepath', 'season'
      ];
 }

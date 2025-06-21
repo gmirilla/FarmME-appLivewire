@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/save-map-image', [MapImageController::class, 'store'])->name('saveimage');
 Route::get('/testsaveimage', [MapImageController::class, 'test'])->name('testimage');
+Route::get('/mapping/updatesavemap', [MapImageController::class,'updatesavedmap'])->name('updatefarmmap');
 
 
     Route::middleware(['auth','verified'])->group(function () {

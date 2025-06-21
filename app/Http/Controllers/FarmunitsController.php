@@ -150,7 +150,6 @@ class FarmunitsController extends Controller
                 # code...
                 $farmunit= new farmunits();
             }
-
             $farmunit->farmid=$request->fid;
             $farmunit->fuarea=$request->fuarea;
             $farmunit->fulatitude=$request->fulatitude;
@@ -159,6 +158,7 @@ class FarmunitsController extends Controller
             $farmunit->plotname=$request->fuplotname;
             $farmunit->estimatedyield=$farmunit->fuarea*6000;
             $farmunit->farmentranceid=$request->farmentranceid;
+            $farmunit->imagefilepath=$request->imagefilePath;
             $farmunit->save();
 
             //Update total Farm Area and unit count

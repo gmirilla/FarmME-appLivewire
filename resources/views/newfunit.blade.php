@@ -86,7 +86,7 @@
                       @if (empty($farmunit))
                         <input type="text" value="" id="fuplotname"  name="fuplotname"  required class="form-control"> 
                         @else
-                        <input type="text" value="{{$farmunit->fuplotname}}" id="fuplotname"  name="fuplotname"   required class="form-control">
+                        <input type="text" value="{{$farmunit->plotname}}" id="fuplotname"  name="fuplotname"   required class="form-control">
                         @endif
                     </div>
             <div class="col-auto">
@@ -113,19 +113,26 @@
                                 <input type="text" value="" id="fulongitude"  name="fulongitude"   class="form-control">
                                 @else
                                 <input type="text" value="{{$farmunit->fulongitude}}" id="fulongitude"  name="fulongitude"   class="form-control">
-                                @endif
-             <div><textarea id="polycoords" name="polycoords" class="form-control">
-                @if (empty($farmunit->plot_coords))
-                   
-                    null
+                                @endif                 
+            </div>
+            <div class="col-auto">
+                <label for="mapfilepath" class="form-label">Saved Map</label>
+                @if (empty($farmunit->imagefilepath))
+                    <input type="text" disabled id="mapfilePath" name="mapfilePath" value="No Map saved" class="form-control">
                 @else
-                   {{$farmunit->plot_coords}}
-                @endif</textarea></div>                   
+
+                     <input type="text" disabled id="mapfilePath" name="mapfilePath" value="{{$farmunit->imagefilepath}}" class="form-control">
+                @endif              
             </div>
             <div class="col-auto" >
 
                 @if (!empty($farmentrance))
                 <input type="text" name="farmentranceid" hidden  value="{{$farmentrance->id}}">
+                @endif
+                @if (empty($farmunit->imagefilepath))
+                     <input type="text"  hidden id="imagefilePath" name="imagefilePath" class="form-control" >
+                @else
+                     <input type="text"  hidden id="imagefilePath" name="imagefilePath" class="form-control" value="{{$farmunit->imagefilepath}}">
                 @endif
                 <button type="submit" class="btn btn-primary">Add</button>
             </div>
@@ -223,6 +230,7 @@
         var polygonCoordinates = []; // Stores clicked points
         var waypointCoordinates = [];
         var infoWindow=null;
+        var maparea;  //stores the value of the polygon area area
 
 
 
@@ -278,9 +286,11 @@ function showPolygonArea() {
     }
     
     infoWindow = new google.maps.InfoWindow({
-        content: `<div class="custom-info">Area: ${areaha.toFixed(2)} Ha</div>`,
+        content: `<div class="custom-info">Area: ${areaha.toFixed(3)} Ha</div>`,
         position: center
     });
+
+    maparea=areaha.toFixed(3);
 
     infoWindow.open(map);
 }
@@ -444,9 +454,12 @@ function resetPoly() {
         let fulongitude=document.getElementById('fulongitude'); 
         let spanlatitude=document.getElementById('latitude'); 
       let spanlongitude=document.getElementById('longitude'); 
+      let fuarea=document.getElementById('fuarea');
+
 
         fulatitude.value=spanlatitude.textContent;
         fulongitude.value=spanlongitude.textContent;
+        fuarea.value=maparea;
     
 
     }
@@ -457,6 +470,8 @@ function saveMap() {
   const mapElement = document.getElementById('map');
   const overlay = document.getElementById('overlay');
   const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    let imagePath=document.getElementById('imagefilePath');
+    let mapFilePath=document.getElementById('mapfilePath');
 
   if (!mapElement) {
     console.error('Map element not found!');
@@ -483,8 +498,12 @@ function saveMap() {
       return response.json();
     })
     .then((data) => {
-      console.log('✅ Backend Response:', data);
-      alert('Map saved successfully!');
+        console.log('✅ Backend Response:', data);
+
+        imagePath.value=data.path;
+        mapFilePath.value=data.filename;
+
+        alert('Map saved successfully!')
     })
     .catch((err) => {
       console.error('❌ Failed to save map image:', err);

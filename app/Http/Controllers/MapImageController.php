@@ -58,13 +58,15 @@ public function store(Request $request)
     // Generate a unique filename
     $filename = 'map_' . Str::uuid() . '.png';
 
+
     // Save the file to storage (no compression)
     Storage::disk('public')->put("maps/{$filename}", $binary);
 
     return response()->json([
         'message' => 'PNG image saved successfully',
         'filename' => $filename,
-        'path' => Storage::url("maps/{$filename}")
+        'path' => Storage::url("maps/{$filename}"),
+
     ]);
 
 }
