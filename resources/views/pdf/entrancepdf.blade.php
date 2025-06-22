@@ -125,11 +125,18 @@ input[type="radio"] {
         <tbody>
             <tr>
                 <td style="width: 50%">Previous year’s ({{$farmentrance->farm_period}}) harvest of certified crop delivered to the group</td>
-                 <td>{{$farmentrance->getcropdeliver()->value}}</td>
+                 <td>@if (!empty($farmentrance->getcropdeliver()->value))
+                     {{$farmentrance->getcropdeliver()->value}}
+                 @endif
+                    </td>
         </tr>
                     <tr>
                 <td>Previous year’s  ({{$farmentrance->farm_period}}) estimated total production </td>
-                 <td>{{$farmentrance->getcropproduced()->value}}</td>
+                 <td>
+                    @if (!empty($farmentrance->getcropproduced()->value))
+                     {{$farmentrance->getcropproduced()->value}}
+                 @endif
+                    </td>
         </tr>
         </tbody>
     </table>
