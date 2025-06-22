@@ -36,7 +36,7 @@
 }
 
 .custom-info {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   color: #ffffff;
   padding: 8px;
