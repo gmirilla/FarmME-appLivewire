@@ -26,7 +26,10 @@ input[type="radio"] {
 <div class="card">
     <div class="card-header" style="text-align: center">
     <h3>{{strtoupper($farm->farmname)}}</h3>
-    <h4>{{$farmentrance->farm_period}} Season | {{$reportname->reportname}}</h4>
+    <h4>@if (!empty($farmentrance->farm_period))
+         {{$farmentrance->farm_period}} Season | 
+    @endif
+        {{$reportname->reportname}}</h4>
     </div>
     <div class="card-body">
     <table class="table table-bordered" style="border: 1px solid black">
