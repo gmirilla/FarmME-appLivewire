@@ -23,6 +23,8 @@ input[type="radio"] {
     @php
         $counter=0;
     @endphp
+
+    @dd($farmentrance)
 <div class="card">
     <div class="card-header" style="text-align: center">
     <h3>{{strtoupper($farm->farmname)}}</h3>
