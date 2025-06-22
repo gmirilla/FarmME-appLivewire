@@ -45,7 +45,7 @@ input[type="radio"] {
                 {{$farmentrance->farmcode}}
                 </td>
                 <td style="width: 20%"><b>NATIONAL ID:</b><br/>
-                {{$farmentrance->nationalidnumber}}
+                {{$farmentrance->nationalidno}}
                 </td>
             </tr>
             <tr>
@@ -53,7 +53,7 @@ input[type="radio"] {
                 {{$farm->yob}}
                 </td>
                                 <td><b>PHONE NUMBER:</b><br/>
-                {{$farmentrance->phonenumber}}
+                {{$farmentrance->phoneno}}
                 </td>
                 <td><b>HOUSEHOLD SIZE:</b><br/>
                 {{$farmentrance->householdsize}}
@@ -71,7 +71,7 @@ input[type="radio"] {
             <tr>
                 <td colspan="2"><b>NAME OF CROP: </b><br>{{$farmentrance->crop}}</td>
                 <td colspan="2"><b>VARIETY:</b><br/>{{$farmentrance->cropvariety}}</td>
-                <td><b>REG DATE: </b>{{$farm->yearofcertification}}</td>
+                <td><b>REG DATE: </b>{{$farm->regdate}}</td>
             </tr>
         </tbody>
     </table>
