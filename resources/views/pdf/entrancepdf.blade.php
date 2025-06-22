@@ -288,13 +288,16 @@ input[type="radio"] {
         <p>I, the field officer, confirm that the above information is correct.</p> 
         <br>
            <b><u>{{$farmentrance->reportinspectorname()->name}}</u></b><br>
-           (NAME OF FIELD OFFICER) 
+           (Name of Field Officer) 
 
            <br>
             
            <div class="text-center">
             @if (!empty($farmentrance->reportinspectorname()->signaturepath))
                 <img src="{{public_path('/storage/'.$farmentrance->reportinspectorname()->signaturepath)}}" alt="" width="70px"><br>
+
+            @else
+            <br><br>    
             @endif
             
             <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint</span><br><br>
