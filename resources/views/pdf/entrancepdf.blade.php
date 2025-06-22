@@ -276,7 +276,10 @@ input[type="radio"] {
              at all times to the conditions for the UEBT/RA/MABA certification process and sustainable agriculture production </p><br>
             
             <div class="text-center">
-            <img src="{{public_path('/storage/'.$farm->signaturepath)}}" alt="" width="70px"><br>
+                @if (!empty($farm->signaturepath))
+                     <img src="{{public_path('/storage/'.$farm->signaturepath)}}" alt="" width="70px"><br>
+                @endif
+           
             <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint</span><br><br>
            </div><br><br>
 
@@ -290,7 +293,10 @@ input[type="radio"] {
            <br>
             
            <div class="text-center">
-            <img src="{{public_path('/storage/'.$farmentrance->reportinspectorname()->signaturepath)}}" alt="" width="70px"><br>
+            @if (!empty($farmentrance->reportinspectorname()->signaturepath))
+                <img src="{{public_path('/storage/'.$farmentrance->reportinspectorname()->signaturepath)}}" alt="" width="70px"><br>
+            @endif
+            
             <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint</span><br><br>
            </div>
  
