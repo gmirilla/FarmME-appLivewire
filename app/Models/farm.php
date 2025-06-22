@@ -33,7 +33,7 @@ class farm extends Model
         'region',
         'crop',
         'cropvariety',
-        'yob'
+        'yob', 'signaturepath'
 
 
     ];

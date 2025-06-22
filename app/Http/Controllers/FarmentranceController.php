@@ -30,7 +30,6 @@ class FarmentranceController extends Controller
         //'farm_period','farmid','internalinspectionid','inspectorid', 
 
 
-
         Auth::check();
         $user=Auth::user();
         $farmerdetail=farm::where('farmcode', $request->fcode)->first();
@@ -42,11 +41,24 @@ class FarmentranceController extends Controller
         $farmerdetail->address=$request->address;
         $farmerdetail->householdsize=$request->householdsize;
         $farmerdetail->yob=$request->yearofbirth;
+//signature_path do not override if empty
+       if (!empty($request->signature)) {
+        # code...
+    $request->validate([
+    'signature' => 'required|image|max:2048',
+]);
+$path=$request->file('signature')->store('public/signatures','public');
+        $farmerdetail->signaturepath=$path;
+       }
+
         $farmerdetail->save();
 
         //update Farm Entrance
         // 'surname','fname','farmcode','nationalidno',
        // 'yob','phoneno', 'householdsize','address', 'lastinspection','inspectionresult', 'crop','variety','regdate'
+       
+
+
 
 
 

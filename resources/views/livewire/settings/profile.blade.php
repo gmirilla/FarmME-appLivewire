@@ -5,10 +5,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
+
+
 
 new class extends Component {
+
+    use WithFileUploads;
+
     public string $name = '';
     public string $email = '';
+    public $signature;
+
+
+
 
     /**
      * Mount the component.
@@ -39,7 +49,17 @@ new class extends Component {
             ],
         ]);
 
+
+
         $user->fill($validated);
+
+        $signature = $this->validate([
+    'signature' => 'required|image|max:2048',
+]);
+
+        $path = $this->signature->store('/images','public');
+
+        $user->signaturepath=$path;
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
@@ -96,6 +116,28 @@ new class extends Component {
                         @endif
                     </div>
                 @endif
+            </div>
+            <div class="items-center gap-4">
+                <div>
+                @php
+                    $userprofile=Auth::user()
+                @endphp
+                @if (!empty($userprofile->signaturepath))
+                    <img src="{{asset(Storage::url($userprofile->signaturepath))}}" alt="" width="100px" height="100px">
+                @else
+                  <h4>No  Signature on File</h4>
+                @endif
+                </div>
+                <div class=" items-center justify-end">
+                    <label for="signature" class="form-label">Signature</label>
+                    <input type="file" wire:model="signature" accept="image/*" capture="environment" class="form-control">
+                    @if ($signature)
+    <img src="{{ $signature->temporaryUrl() }}" alt="Preview" width="100">
+  
+@endif
+
+                </div>
+
             </div>
 
             <div class="flex items-center gap-4">

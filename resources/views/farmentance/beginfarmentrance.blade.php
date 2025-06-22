@@ -1,4 +1,13 @@
 <x-layouts.app>
+            @if ($errors->any())
+  <div class="alert alert-danger">
+      <ul>
+          @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+          @endforeach
+      </ul>
+  </div>
+@endif
 @php
     $year=date('Y');
     if (empty($farmentrance->getcropdeliver())) {
@@ -82,6 +91,12 @@
                 <div class="col-3 p-3">
                     <label for="varietyofcrop" class="form-label">Variety of Crop</label>
                     <input type="text"  disabled name="varietyofcrop" id="varietycrop" class="form-control" value="{{$farmerdetail->cropvariety}}"/>
+                </div> 
+                                <div class="col-3 p-3">
+                    @if (!empty($farmerdetail->signaturepath))
+                    <img src="{{url('/storage/'.$farmerdetail->signaturepath)}}" alt="" width="70px"><br> 
+                    @endif
+                    <label for="signature" class="form-label">Farmers Signature</label>
                 </div>          
             </div>
         </div>

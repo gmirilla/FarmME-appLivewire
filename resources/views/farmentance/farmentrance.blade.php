@@ -1,4 +1,13 @@
 <x-layouts.app>
+            @if ($errors->any())
+  <div class="alert alert-danger">
+      <ul>
+          @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+          @endforeach
+      </ul>
+  </div>
+@endif
 @php
     $year=date('Y');
     if (empty($farmentrance->getcropdeliver())) {
@@ -25,7 +34,7 @@
         <div class="card-header"><h4>Annex 5:  Field Entrance Form (UEBT/RA/Mabagrown) {{$currentseason}} Season</h4></div>
         <div class="card-body">
             <h5>A. FIELD OPERATOR BIO-DATA</h5>
-            <form action="{{route('feprofile_update')}}" method="post">
+            <form action="{{route('feprofile_update')}}" method="post" enctype="multipart/form-data">
                 @csrf
             <div class="row my-3 gx-5">
                 <div class="col-3 p-3">
@@ -100,6 +109,13 @@
                                 <div class="col-3 p-3">
                     <label for="regdate" class="form-label">Reg Date</label>
                     <input type="date" name="regdate" id="regdate" class="form-control" value=""/>
+                </div>  
+                <div class="col-3 p-3">
+                    @if (!empty($farmerdetail->signaturepath))
+                    <img src="{{url('/storage/'.$farmerdetail->signaturepath)}}" alt="" width="70px"><br> 
+                    @endif
+                    <label for="signature" class="form-label">Signature</label>
+                    <input type="file" name="signature" accept="image/*" capture="environment" class="form-control">
                 </div> 
                 <div class="d-flex"> 
                     <input type="text" hidden name="fcode" value="{{$farmerdetail->farmcode}}">

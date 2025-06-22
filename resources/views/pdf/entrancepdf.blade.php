@@ -273,9 +273,12 @@ input[type="radio"] {
             </tr>
            <tr><td style="width: 50%" class="text-justify">
             <p>I, <b><u>{{$farm->farmname}}</u></b>, the farm owner, declare that, this information is correct, and on this day pledge to adhere
-             at all times to the conditions for the UEBT/RA/MABA certification process and sustainable agriculture production </p><br><br><br>
+             at all times to the conditions for the UEBT/RA/MABA certification process and sustainable agriculture production </p><br>
             
-         <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint</span><br><br>
+            <div class="text-center">
+            <img src="{{public_path('/storage/'.$farm->signaturepath)}}" alt="" width="70px"><br>
+            <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint</span><br><br>
+           </div><br><br>
 
             <span style="border-top: 1px dashed rgb(86, 84, 84)">Date:</span>
         </td><td>
@@ -284,9 +287,14 @@ input[type="radio"] {
            <b><u>{{$farmentrance->reportinspectorname()->name}}</u></b><br>
            (NAME OF FIELD OFFICER) 
 
-           <br><br><br>
+           <br>
             
+           <div class="text-center">
+            <img src="{{public_path('/storage/'.$farmentrance->reportinspectorname()->signaturepath)}}" alt="" width="70px"><br>
             <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint</span><br><br>
+           </div>
+ 
+            
 
             <span style="border-top: 1px dashed rgb(86, 84, 84)">Date:</span>
 
