@@ -35,7 +35,7 @@ class dashboardController extends Controller
                 $inspectioncount=internalinspection::where('inspectionstate','like', '%SUBMITTED%' )->count();
                 $inspectionapprovedcount=internalinspection::where('inspectionstate','like', '%APPROVED%' )->count();
                 $inspectionrejectedcount=internalinspection::where('inspectionstate','like', '%REJECTED%' )->count();
-                $estyield=farmunits::where('season', $currentseason)->sum('estimatedyield');
+                $estyield=farmunits::where('season', $currentseason)->where('active', true)->sum('estimatedyield');
                 $actualyield=farmunityield::where('year', $year)->sum('actualyield');
 
 

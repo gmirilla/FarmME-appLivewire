@@ -76,7 +76,7 @@ input[type="radio"] {
             <tr>
                 <td colspan="2"><b>NAME OF CROP: </b><br>{{$farmentrance->crop}}</td>
                 <td colspan="2"><b>VARIETY:</b><br/>{{$farmentrance->cropvariety}}</td>
-                <td><b>REG DATE: </b>{{$farm->regdate}}</td>
+                <td><b>REG DATE: </b>{{$farmentrance->regdate}}</td>
             </tr>
         </tbody>
     </table>
