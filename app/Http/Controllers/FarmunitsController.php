@@ -150,6 +150,9 @@ class FarmunitsController extends Controller
                 # code...
                 $farmunit= new farmunits();
             }
+                    $year0=date('Y');
+        $year1=$year0+1;
+        $currentseason=$year0."/".$year1;
             $farmunit->farmid=$request->fid;
             $farmunit->fuarea=$request->fuarea;
             $farmunit->fulatitude=$request->fulatitude;
@@ -159,6 +162,7 @@ class FarmunitsController extends Controller
             $farmunit->estimatedyield=$farmunit->fuarea*6000;
             $farmunit->farmentranceid=$request->farmentranceid;
             $farmunit->imagefilepath=$request->imagefilePath;
+            $farmunit->season=$currentseason;
             $farmunit->save();
 
             //Update total Farm Area and unit count
