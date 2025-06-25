@@ -223,7 +223,7 @@ class InternalinspectionController extends Controller
                      $inspection->inspectionstate='APPROVED';
             $inspection->save();
                 
-                    return redirect()->route('begin',$fcode);
+                    return view('farmonboarding');
                     break;
                 
                 default:

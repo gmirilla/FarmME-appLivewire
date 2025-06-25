@@ -25,7 +25,7 @@
             <div style="font-size: 30px"><i class="fa fa-leaf" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$farmpendingcount}}</h3>
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">Pending Onboarding</h5>
+              <h5  style="color: #388E3C">Farm Entrance Pending</h5>
             </div>
           </div>
         </div>
@@ -34,7 +34,16 @@
             <div style="font-size: 30px"><i class="fa fa-pagelines" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$farmcount}}</h3>
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">Active Farms</h5>
+              <h5  style="color: #388E3C">Active Farmers</h5>
+            </div>
+          </div>
+        </div>
+                <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem ; margin-right:5px">
+          <div class="card-body">
+            <div style="font-size: 30px"><i class="fa fa-pagelines" aria-hidden="true"></i></div>
+              <h3 class="card-title text-center">{{$farmcount+$farmpendingcount}}</h3>
+            <div  class="card-footer" style="text-align: center; ">
+              <h5  style="color: #388E3C">Total Farmers Registered </h5>
             </div>
           </div>
         </div>

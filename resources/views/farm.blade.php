@@ -15,8 +15,8 @@
   $user=auth()->user();
 @endphp
 @if ($user->roles=='ADMINISTRATOR')
-<a href='{{route('import_list')}}' class="btn btn-success" style="margin:5px"> Import Farms</a>  
-<a href='/newfarm' class="btn btn-success" style="margin:5px"> Register New Farm</a>   
+<a href='{{route('import_list')}}' class="btn btn-success" style="margin:5px"> Import Farmers</a>  
+<a href='/newfarm' class="btn btn-success" style="margin:5px"> Register New Farmer</a>   
 @endif
 
 </div>

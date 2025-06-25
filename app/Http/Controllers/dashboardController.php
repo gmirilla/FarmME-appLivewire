@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\farm;
 use App\Models\farmunityield;
+use App\Models\farmunits;
 use App\Models\internalinspection;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -21,6 +22,8 @@ class dashboardController extends Controller
                 Auth::check();
                 $user = Auth::user();
                 $year = date("Y");
+                $next=$year+1;
+                $currentseason=$year."/".$next;
 
         switch ($user->roles) {
             case 'ADMINISTRATOR':
@@ -32,7 +35,7 @@ class dashboardController extends Controller
                 $inspectioncount=internalinspection::where('inspectionstate','like', '%SUBMITTED%' )->count();
                 $inspectionapprovedcount=internalinspection::where('inspectionstate','like', '%APPROVED%' )->count();
                 $inspectionrejectedcount=internalinspection::where('inspectionstate','like', '%REJECTED%' )->count();
-                $estyield=farmunityield::where('year', $year)->sum('estyield');
+                $estyield=farmunits::where('season', $currentseason)->sum('estyield');
                 $actualyield=farmunityield::where('year', $year)->sum('actualyield');
 
 
