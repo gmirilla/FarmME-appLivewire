@@ -262,7 +262,7 @@
                         <td><input type="text" disabled name="herbicide" class="form-control" value="{{$agrochem->herbicidename}}"></td>
                         <td><input type="text"  disabled name="herbicideqty" class="form-control" value="{{$agrochem->quantity}}"></td>
                         <td><input type="text" disabled name="herbicideapplier" class="form-control" value="{{$agrochem->nameofperson}}"></td>
-                        <td><input type="number" disabled name="hectareapplied" class="form-control" value="{{$agrochem->hectaresapplied}}"></td>
+                        <td><input type="number" disabled step=any name="hectareapplied" class="form-control" value="{{$agrochem->hectaresapplied}}"></td>
                         <td><a href="{{ route('disablechems', ['farmcode' => $farmerdetail->farmcode, 'aid' => $agrochem->id]) }}" class="btn btn-danger">Disable</a></td>
                     </tr> 
                     @empty
@@ -300,8 +300,8 @@
                 <tbody>
                     @forelse ($otherplots as $othercrop )
                     <tr>
-                        <td><input type="text" name="otherplotname"  class="form-control" value="{{$othercrop->plotname}}"></td>
-                        <td><input type="text" name="otherplotcrop" class="form-control" value="{{$othercrop->crop}}"></td>
+                        <td><input type="text" name="otherplotname"    class="form-control" value="{{$othercrop->plotname}}"></td>
+                        <td><input type="text" name="otherplotcrop"  class="form-control" value="{{$othercrop->crop}}"></td>
                         <td><input type="text" name="otherplotarea" class="form-control" value="{{$othercrop->area}}"></td>
                         <td><input type="text" name="otherplotlocation" class="form-control" value="{{$othercrop->location}}"></td>
                         <td><a href="{{ route('disableoplots', ['farmcode' => $farmerdetail->farmcode, 'oid' => $othercrop->id]) }}" class="btn btn-danger">Disable</a></td>
@@ -313,13 +313,13 @@
                         <form action="{{route('addoplots')}}" method="post">
                             @csrf
 
-                        <td><input type="text" name="otherplotname" class="form-control"></td>
-                        <td><input type="text" name="otherplotcrop" class="form-control"></td>
-                        <td><input type="text" name="otherplotarea" class="form-control"></td>
-                        <td><input type="text" name="otherplotlocation" class="form-control"></td>
+                        <td><input type="text" required name="otherplotname" class="form-control"></td>
+                        <td><input type="text" required name="otherplotcrop" class="form-control"></td>
+                        <td><input type="text" required name="otherplotarea" class="form-control"></td>
+                        <td><input type="text" required name="otherplotlocation" class="form-control"></td>
                         <td><input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
                             <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
-                            <input type="text" name="farmentranceid" hidden class="form-control" value="{{$farmentrance->id}}">
+                            <input type="text"name="farmentranceid" hidden class="form-control" value="{{$farmentrance->id}}">
                             <input type="text" name="season" hidden class="form-control" value="{{$currentseason}}">
                             <button type="submit" name="addotherplot" class="btn btn-primary">ADD</a></td>
                                 </form>

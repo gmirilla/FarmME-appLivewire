@@ -1,25 +1,6 @@
+<x-layouts.app>
 
-<style>
-    th, td {
-  border: 1px solid;
-}
-td{
-    padding: 2px;
-    textalign:justify;}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12px;
-}
-input[type="radio"] {
     
-    font-size: 0.75rem;
-}
-.form-check {
-    margin-bottom: 0.5rem;
-}
-</style>
-
     @php
         $counter=0;
     @endphp
@@ -83,7 +64,7 @@ input[type="radio"] {
     </table>
 
     <h4>A. PRODUCTION HISTORY</h4>
-    <table>
+    <table  class="table table-bordered" style="border: 1px solid black">
         <thead><th>Ginger Plot Name</th><th>Farm Size (Ha)</th><th>Estimated Yield Kg</th><th>Lat N.</th><th>Long E.</th>
         </thead>
         <tbody>
@@ -104,7 +85,7 @@ input[type="radio"] {
         </tbody>
     </table>
     <h4>B. VOLUME OF CERTIFIED CROPS SOLD/DELIVERED TO THE GROUP IN PREVIOUS YEARS (KGS)</h4>
-    <table>
+    <table  class="table table-bordered" style="border: 1px solid black">
         <thead><th>Season</th><th>Volume Sold (Kg)</th>
         </thead>
         <tbody>
@@ -122,7 +103,7 @@ input[type="radio"] {
         </tbody>
     </table>
      <h4>C.</h4>
-    <table>
+    <table  class="table table-bordered" style="border: 1px solid black">
         <tbody>
             <tr>
                 <td style="width: 50%">Previous year’s ({{$farmentrance->farm_period}}) harvest of certified crop delivered to the group</td>
@@ -143,7 +124,7 @@ input[type="radio"] {
     </table>
 
      <h4>D. AGROCHEMICALS USED ON THE FARM LAND</h4>
-    <table>
+    <table  class="table table-bordered" style="border: 1px solid black">
         <thead><th>Name of  Herbicide and Fertilizers<br> Used on the Farm</th><th>Quantity applied <br>(Liter’s/Bags)</th><th>Name of person who applied</th><th>Ha of Ginger applied on</th>
         </thead>
         <tbody>
@@ -163,7 +144,7 @@ input[type="radio"] {
     </table>
 
      <h4>E. OTHER CULTIVATED CROPS</h4>
-    <table>
+    <table  class="table table-bordered" style="border: 1px solid black">
         <thead><th>Plot Name</th><th>Crops Culivated</th><th>Estimated Hectares</th><th>Location</th>
         </thead>
         <tbody>
@@ -182,7 +163,7 @@ input[type="radio"] {
         </tbody>
     </table>
  <h4>F. FARM HISTORY</h4>
-    <table  style="border: 1px solid black; margin-top:5px;">
+    <table  class="table table-bordered" style="border: 1px solid black; margin-top:5px;">
         <tbody>
         <thead>
             <th>#</th>
@@ -288,13 +269,15 @@ input[type="radio"] {
             <p>I, <b><u>{{$farm->farmname}}</u></b>, the farm owner, declare that, this information is correct, and on this day pledge to adhere
              at all times to the conditions for the UEBT/RA/MABA certification process and sustainable agriculture production </p><br>
             
-            <div class="text-center">
+            <div class="text-center flex-column">
                 @if (!empty($farm->signaturepath))
-                     <img src="{{public_path('/storage/'.$farm->signaturepath)}}" alt="" width="70px"><br>
+                <div class="col-auto" style="margin-left:30%; margin-right:30%;">
+                     <img src="{{Request::root().('/storage/'.$farm->signaturepath)}}" alt="" width="70px"></div>
                 @endif
-           
-            <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint</span><br><br>
-           </div><br><br>
+           <div>
+            <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint</span><div>
+
+           </div>
 
             <span style="border-top: 1px dashed rgb(86, 84, 84)">Date: {{$farmentrance->regdate}}</span>
         </td><td>
@@ -307,7 +290,7 @@ input[type="radio"] {
             
            <div class="text-center">
             @if (!empty($farmentrance->reportinspectorname()->signaturepath))
-                <img src="{{public_path('/storage/'.$farmentrance->reportinspectorname()->signaturepath)}}" alt="" width="70px"><br>
+                <img src="{{Request::root().('/storage/'.$farmentrance->reportinspectorname()->signaturepath)}}" alt="" width="70px"><br>
 
             @else
             <br><br>    
@@ -329,8 +312,9 @@ input[type="radio"] {
 @forelse ($farmentrance->reportprodhistory() as $farmplot )
 
     <div style="page-break-before: always;">
+        <br>
         <h4>FARM SKETCH</h4>
-        <table>
+        <table  class="table table-bordered" style="border: 1px solid black">
             <tr>
                 <td style="width: 25%"><b>NAME OF FARMER: </b></td>
                 <td style="width: 25%">{{strtoupper($farm->farmname)}}</td>
@@ -357,8 +341,9 @@ input[type="radio"] {
             </tr>
             <tr>
                 <td colspan="4" style="padding: 5px;">
+                    {{$farmplot->id}}
                     @if (!empty($farmplot->imagefilepath))
-                        <img src="{{public_path($farmplot->imagefilepath)}}" alt="" style="max-height: 600px; max-width: 100%;">
+                        <img src="{{Request::root().($farmplot->imagefilepath)}}" alt="" width="100%;" height="1000px;">
                     @endif           
                 </td>
             </tr>
@@ -381,3 +366,5 @@ input[type="radio"] {
 </div>
 </div>
 
+
+</x-layouts.app>

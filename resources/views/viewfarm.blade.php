@@ -35,13 +35,13 @@
                 </div>
                 <div class="mb-3">
                     <label>FARM AREA {{$farm->measurement}}</label>
-                    <input type="text" readonly class="form-control" value="{{$farm->farmarea }}">
+                    <input type="text" readonly class="form-control" value="{{number_format($farm->farmarea,2) }}">
                 </div>
                 <div class="mb-3">
-                    <label>FIELD OPERATOR</label>
+                    <label>FIELD STAFF</label>
                     <div class="d-flex">
                    @if (!$farm->name)
-    <input type="text" class="form-control" disabled value="No Field Operator Assigned">
+    <input type="text" class="form-control" disabled value="No Field Staff Assigned">
 @else
     <input type="text" class="form-control" disabled value="{{ $farm->name }}">
 @endif
@@ -93,7 +93,7 @@
                             <tr>
                                 <td><b>Farm Size (Ha)</b></td>
                                 <td>@if (!empty($farm->farmarea))
-                                    {{$farm->farmarea}} Ha
+                                    {{number_format($farm->farmarea,2)}} Ha
                                 @endif 
                                     </td>
                                 <td><b> No of Plots</b></td>

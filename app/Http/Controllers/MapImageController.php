@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Facades\Validator;
+
 
 
 
@@ -68,6 +70,33 @@ public function store(Request $request)
         'path' => Storage::url("maps/{$filename}"),
 
     ]);
+
+}
+public function upload(Request $request)
+{
+ $validator = Validator::make($request->all(), [
+    'importimage' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+]);
+
+    if ($validator->fails()) {
+    return response()->json([
+        'status' => false,
+        'message' => 'Validation failed.',
+        'errors' => $validator->errors()
+    ], 422);
+}
+
+
+    $file = $request->file('importimage');
+    $filename = time() . '.' . $file->getClientOriginalExtension();
+   Storage::disk('public')->putFileAs('maps', $file, $filename);
+
+
+    return response()->json([
+    'message' => 'Map uploaded successfully!',
+    'filename' => $filename,
+    'path' => Storage::url("maps/{$filename}")
+]);
 
 }
 

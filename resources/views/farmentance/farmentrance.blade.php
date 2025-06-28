@@ -115,7 +115,7 @@
                     <img src="{{url('/storage/'.$farmerdetail->signaturepath)}}" alt="" width="70px"><br> 
                     @endif
                     <label for="signature" class="form-label">Signature</label>
-                    <input type="file" name="signature" accept="image/*" capture="environment" class="form-control">
+                    <input type="file" name="signature" accept="image/*" class="form-control">
                 </div> 
                 <div class="d-flex"> 
                     <input type="text" hidden name="fcode" value="{{$farmerdetail->farmcode}}">

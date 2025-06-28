@@ -170,6 +170,9 @@
                         <button class="btn btn-primary" onclick="saveMap()">Save Map</button>
  
                         </div>
+
+
+
                                         <div class="card mb-3" >
                     <div class="card-title text-center" style="display: none;"><b>PLOTTED COORDINATES</b></div>
                     <div class="card-body table-responsive" style="display: none;">
@@ -200,6 +203,23 @@
                     
                 </div>
 
+            </div>
+            <div class="card mb-3">
+                <div class="card-header"><b>IMPORT MAP</b></div>
+                <div class="card-body">
+                        <div class="col-auto">
+                        
+                        <p><i>Use the file input field below to manually upload a map image. <br>
+                            <b>Max File size:</b> 2MB, <b>Formats:</b> JPG,JPEG,PNG </i></p>
+                        <form id="uploadForm" enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="importimage" id="importimage" class="form-control">
+                        <button type="submit" class="btn btn-primary mt-2">Upload Map</button>
+                        </form>
+
+                        <div id="uploadStatus" class="alert alert-danger" style="margin-top: 10px;"></div>
+                    </div>
+                </div>
             </div>
 
 
@@ -514,7 +534,56 @@ function saveMap() {
     });
 }
 </script>
+<script>
+document.getElementById('uploadForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
+    const form = this;
+    const formData = new FormData(form);
+
+ fetch('/upload-map', {
+    method: 'POST',
+    headers: {
+        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+        'Accept': 'application/json'
+    },
+    body: formData
+})
+.then(async response => {
+    const data = await response.json();
+    if (!response.ok) throw data;
+    return data;
+})
+.then(data => {
+    document.getElementById('uploadStatus').innerText = data.message || 'Upload successful!';
+    if (data.filename) {
+        document.querySelector('input[name="mapfilePath"]').value = data.path;
+        document.querySelector('input[name="imagefilePath"]').value = data.path;
+    }
+})
+.catch(error => {
+    let message = 'Upload failed.';
+    if (error.errors) {
+        message = Object.values(error.errors).flat().join('\n');
+    } else if (error.message) {
+        message = error.message;
+    }
+    document.getElementById('uploadStatus').innerText = message;
+    console.error(error);
+});
+})
+</script>
+<script>
+  document.getElementById("importimage").addEventListener("change", function() {
+    const file = this.files[0];
+    const maxSize = 2 * 1024 * 1024; // 2MB in bytes
+
+    if (file && file.size > maxSize) {
+      alert("File is too large! Please select a file smaller than 2MB.");
+      this.value = ""; // Clear the input
+    }
+  });
+</script>
 
 
 

@@ -430,6 +430,13 @@ class InternalinspectionController extends Controller
       
                             $reportname=reports::where('id', $inspection->reportid)->first();
                             $farm=farm::where('id',$inspection->farmid)->first();
+                            //ADD Logic to redirect to Farm Entrance VIEW IF report is an entrance report
+                            if (strpos($reportname->reportname,'Entrance')) {
+                                # code...
+                                $farmentrance=farmentrance::where('internalinspectionid',$request->iid)->first();
+                                 $data=compact('reportname','reportquestions', 'user', 'inspection','farm','farmentrance');
+                                return view('inspection.viewfarmentrance', $data);
+                            }
     
     
                             return view('inspection.inspection_view_sheet', compact('reportname','reportquestions', 'user', 'inspection','farm'));

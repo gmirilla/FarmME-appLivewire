@@ -275,10 +275,14 @@ switch ($user->roles) {
         //Display Details of Farm
         $farms=farm::all();
         $id=farm::where('farmcode', $request->id)->first()->id;
-        $lastreport=internalinspection::where('farmid', $id)->latest('updated_at')->first();
+        $EntranceReports = reports::whereRaw('LOWER(reportname) LIKE ?', ['%entrance%'])->get();
+        $reportIds = $EntranceReports->pluck('id')->toArray();
 
- 
-        
+
+
+        $lastreport=internalinspection::where('farmid', $id)
+        ->whereNotIn('reportid', $reportIds)
+        ->latest('updated_at')->first();
 
         $farm=DB::table('farms')
         ->leftJoin('users', 'farms.inspectorid', '=','users.id')

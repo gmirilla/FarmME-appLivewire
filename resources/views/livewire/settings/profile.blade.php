@@ -130,7 +130,7 @@ new class extends Component {
                 </div>
                 <div class=" items-center justify-end">
                     <label for="signature" class="form-label">Signature</label>
-                    <input type="file" wire:model="signature" accept="image/*" capture="environment" class="form-control">
+                    <input type="file" wire:model="signature" accept="image/*" class="form-control">
                     @if ($signature)
     <img src="{{ $signature->temporaryUrl() }}" alt="Preview" width="100">
   

@@ -14,6 +14,13 @@
       </ul>
   </div>
 @endif
+  @if (!empty($message))
+  <div class="alert alert-success">
+      <ul>
+              <li>{{ $message }}</li>
+      </ul>
+  </div>
+@endif
 <div class="card-body table-responsive">
     <div class="card-header mb-3">
         <h4>Users</h4>

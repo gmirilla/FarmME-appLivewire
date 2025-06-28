@@ -33,12 +33,15 @@ Route::middleware('auth')->group(function () {
     Route::get('new_user',[userController::class, 'newuser'])->name('newuser');
     Route::post('user_update',[userController::class, 'user_update'])->name('user_update'); 
     Route::post('user_pwd',[userController::class, 'user_pwd'])->name('user_pwd'); 
+    Route::get('user_pwd',[userController::class, 'user_pwd'])->name('user_pwd'); 
 
 });
 
 Route::post('/save-map-image', [MapImageController::class, 'store'])->name('saveimage');
 Route::get('/testsaveimage', [MapImageController::class, 'test'])->name('testimage');
 Route::get('/mapping/updatesavemap', [MapImageController::class,'updatesavedmap'])->name('updatefarmmap');
+Route::post('/upload-map', [MapImageController::class, 'upload']);
+
 
 
     Route::middleware(['auth','verified'])->group(function () {

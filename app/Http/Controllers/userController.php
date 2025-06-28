@@ -77,9 +77,10 @@ class userController extends Controller
         $user->password=Hash::make($validated['password']);
         $user->save();      
         $users=User::all();
+        $message="Password sucessfullly updated for user ".$user->name;
     
 
-        return view('user.user_admin')->with('users',$users );
+        return view('user.user_admin')->with('users',$users )->with('message',$message);
 
     }
 
