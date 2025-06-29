@@ -86,7 +86,7 @@
                     </div>
                 <div class="col-3 p-3">
                     <label for="dateoflastinspection" class="form-label">Outcome of Last Inspection</label>
-                    <input type="text" name="outcomeoflastinspection" id="outcomeoflastinspection" class="form-control" value="No report on Record Please enter value"/>
+                    <input type="text" name="outcomeoflastinspection" id="outcomeoflastinspection" class="form-control" value="" placeholder="No report on Record Please enter value"/>
                 </div>
 
                     @else
@@ -116,6 +116,13 @@
                     @endif
                     <label for="signature" class="form-label">Signature</label>
                     <input type="file" name="signature" accept="image/*" class="form-control">
+                </div> 
+                <div class="col-3 p-3">
+                    @if (!empty($farmentrance->farmerpicture))
+                    <img src="{{url('/storage/'.$farmentrance->farmerpicture)}}" alt="" width="70px"><br> 
+                    @endif
+                    <label for="farmerpicture" class="form-label">Farmer Picture</label>
+                    <input type="file" name="farmerpicture" accept="image/*" class="form-control">
                 </div> 
                 <div class="d-flex"> 
                     <input type="text" hidden name="fcode" value="{{$farmerdetail->farmcode}}">

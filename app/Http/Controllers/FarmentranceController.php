@@ -76,6 +76,17 @@ $path=$request->file('signature')->store('public/signatures','public');
         $farmentrance->crop=$farmerdetail->crop;
         $farmentrance->cropvariety=$farmerdetail->cropvariety;
         $farmentrance->regdate=$request->regdate;
+
+//farmerpicture_path do not override if empty
+       if (!empty($request->farmerpicture)) {
+        # code...
+    $request->validate([
+    'farmerpicture' => 'required|image|max:2048',
+]);
+$fpath=$request->file('farmerpicture')->store('public/farmerpictures','public');
+        $farmentrance->farmerpicture=$fpath;
+       }
+
         $farmentrance->save();
 
 

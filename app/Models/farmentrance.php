@@ -9,7 +9,8 @@ class farmentrance extends Model
     //
     protected $fillable=[
         'farm_period','farmid','internalinspectionid','inspectorid', 'surname','fname','farmcode','nationalidno',
-        'yob','phoneno', 'householdsize','address', 'lastinspection','inpsectionresult', 'crop','cropvariety','regdate','fieldofficer'
+        'yob','phoneno', 'householdsize','address', 'lastinspection','inpsectionresult', 'crop','cropvariety',
+        'regdate','fieldofficer','farmerpicture', 'annex6id','annex6accepted'
     ];
 
     public function getvolumesold()
