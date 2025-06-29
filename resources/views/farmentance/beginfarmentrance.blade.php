@@ -273,7 +273,7 @@
                         <td><input type="text" required name="herbicide" class="form-control" placeholder="Enter name of Chemical.."></td>
                         <td><input type="text" required name="herbicideqty" class="form-control"></td>
                         <td><input type="text" required name="herbicideapplier" class="form-control"></td>
-                        <td><input type="number" required step=any name="hectareapplied" class="form-control"></td>
+                        <td><input type="text" required name="hectareapplied" class="form-control"></td>
                         <td>
                             <input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
                             <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
