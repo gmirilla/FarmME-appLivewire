@@ -335,7 +335,7 @@
             </tr>
                                     <tr>
                 <td style="width: 25%"><b>LATITUDE:</b> </td>
-                <td style="width: 25%">{{$farmplot->fulongitude}}</td>
+                <td style="width: 25%">{{$farmplot->fulatitude}}</td>
                 <td style="width: 25%"><b>LONGITUDE: </b></td>
                 <td style="width: 25%">{{$farmplot->fulongitude}}</td>
             </tr>
