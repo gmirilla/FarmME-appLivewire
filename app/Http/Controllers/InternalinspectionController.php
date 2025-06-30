@@ -220,7 +220,7 @@ class InternalinspectionController extends Controller
                     $fcode='fcode='.$farm->farmcode;
                     $farm->farmstate='ACTIVE';
                     $farm->save();
-                     $inspection->inspectionstate='APPROVED';
+                     $inspection->inspectionstate='SUBMITTED';
             $inspection->save();
                 
                     return redirect()->route('onboarding');
@@ -408,8 +408,7 @@ class InternalinspectionController extends Controller
                             break;
 
                         case $request->has('viewsheet'):
-
-                           
+                          
                             # Display Result Sheet
                             $reportquestions= DB::table('reportquestions')
                             ->leftJoin('inspectionanswers','reportquestions.id' , '=', 'inspectionanswers.questionid') 
