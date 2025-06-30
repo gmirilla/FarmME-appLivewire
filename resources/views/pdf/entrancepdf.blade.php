@@ -152,7 +152,7 @@ input[type="radio"] {
                 <td>{{$agrochem->herbicidename}}</td>
                  <td>{{$agrochem->quantity}}</td>
                   <td>{{$agrochem->nameofperson}}</td>
-                   <td>{{$agrochem->hectaresapplied}}</td>
+                   <td>{{number_format($agrochem->hectaresapplied,2)}}</td>
     
         </tr>
             @empty

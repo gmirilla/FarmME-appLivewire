@@ -262,7 +262,7 @@
                         <td><input type="text" disabled name="herbicide" class="form-control" value="{{$agrochem->herbicidename}}"></td>
                         <td><input type="text"  disabled name="herbicideqty" class="form-control" value="{{$agrochem->quantity}}"></td>
                         <td><input type="text" disabled name="herbicideapplier" class="form-control" value="{{$agrochem->nameofperson}}"></td>
-                        <td><input type="number" disabled step=any name="hectareapplied" class="form-control" value="{{$agrochem->hectaresapplied}}"></td>
+                        <td><input type="number" disabled step=any name="hectareapplied" class="form-control" value="{{number_format($agrochem->hectaresapplied,2)}}"></td>
                         <td><a href="{{ route('disablechems', ['farmcode' => $farmerdetail->farmcode, 'aid' => $agrochem->id]) }}" class="btn btn-danger">Disable</a></td>
                     </tr> 
                     @empty
