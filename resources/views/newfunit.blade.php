@@ -122,6 +122,7 @@
                 @else
 
                      <input type="text" disabled id="mapfilePath" name="mapfilePath" value="{{$farmunit->imagefilepath}}" class="form-control">
+                     
                 @endif              
             </div>
             <div class="col-auto" >
@@ -136,6 +137,13 @@
                 @endif
                 <button type="submit" class="btn btn-primary">Add</button>
             </div>
+        </div>
+        <div class="row">
+            @if (!empty($farmunit->imagefilepath))
+           <img src="{{Request::root().($farmunit->imagefilepath)}}" alt="" style="width: 80px; height: 80px;">
+           @else
+              <img id="uploadedImage" src="{{Request::root().('/storage/farmmap.png')}}" alt="No Map Uploaded" style="width: 80px; height: 80px;">
+           @endif
         </div>
         
 
@@ -559,6 +567,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
     if (data.filename) {
         document.querySelector('input[name="mapfilePath"]').value = data.path;
         document.querySelector('input[name="imagefilePath"]').value = data.path;
+        changeImage();
     }
 })
 .catch(error => {
@@ -583,6 +592,14 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
       this.value = ""; // Clear the input
     }
   });
+</script>
+<script>
+  // Function to change the image
+  function changeImage() {
+    const newImageUrl = document.getElementById("imagefilePath").value;
+    document.getElementById("uploadedImage").src = newImageUrl;
+  }
+
 </script>
 
 

@@ -90,11 +90,11 @@
                 </div>
 
                     @else
-                        <input type="text" disabled name="dateoflastinspection" id="dateoflastinspection" class="form-control" value="{{date_format($lastreport->updated_at, 'd/m/Y')}}"/>
+                        <input type="text"  name="dateoflastinspection" id="dateoflastinspection" class="form-control" value="{{date_format($lastreport->updated_at, 'd/m/Y')}}"/>
                         </div>
                 <div class="col-3 p-3">
                     <label for="dateoflastinspection" class="form-label">Outcome of Last Inspection</label>
-                    <input type="text" disabled name="outcomeflastinspection" id="outcomeoflastinspection" class="form-control" value="{{$lastreport->score}}% ({{$lastreport->inspectionstate}})"/>
+                    <input type="text" name="outcomeflastinspection" id="outcomeoflastinspection" class="form-control" value="{{$lastreport->score}}% ({{$lastreport->inspectionstate}})"/>
                 </div>
                     @endif
                     
@@ -108,7 +108,7 @@
                 </div> 
                                 <div class="col-3 p-3">
                     <label for="regdate" class="form-label">Reg Date</label>
-                    <input type="date" name="regdate" id="regdate" class="form-control" value=""/>
+                    <input type="date" name="regdate" id="regdate" class="form-control" value="{{$farmentrance->regdate}}"/>
                 </div>  
                 <div class="col-3 p-3">
                     @if (!empty($farmerdetail->signaturepath))

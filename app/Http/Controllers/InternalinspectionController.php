@@ -406,6 +406,11 @@ class InternalinspectionController extends Controller
                             # Reject the Inspection.
                             $inspection->inspectionstate='REJECTED';
                             break;
+                        case $request->has('deletetbtn'):
+                          
+                            $inspection->delete();
+                             return redirect()->route('iapproval');
+                            break;
 
                         case $request->has('viewsheet'):
                           

@@ -136,6 +136,7 @@ Route::middleware('auth')->group(function () {
     Route::post('inspection/start',[InternalinspectionController::class, 'start'])->name('start');
     Route::post('inspection/nextsection',[InternalinspectionController::class, 'nextsection'])->name('nextsection');
     Route::post('inspection/continue',[InternalinspectionController::class, 'continue'])->name('continue');
+    Route::post('inspection/delete',[InternalinspectionController::class, 'destroy'])->name('destroy');
     Route::get('inspection_approval',[InternalinspectionController::class, 'iapproval'])->name('iapproval');
     Route::post('iapprove',[InternalinspectionController::class, 'iapprove'])->name('iapprove');
     Route::get('iapprove',[InternalinspectionController::class, 'iapprove'])->name('iapprove');

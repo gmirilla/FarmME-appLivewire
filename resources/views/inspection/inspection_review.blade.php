@@ -75,17 +75,19 @@
                                     <button type="submit" name="approvebtn" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="Approve Inspection"><i class="fa fa-check-square-o"></i></button>
                             </div>
 
-                            <div style="margin-top: 5px">
-                                   
+                            <div style="display:none; margin-top: 5px">
                                 <button  type="button" name="approvewithconditionmodal" class="btn btn-warning" 
                                 data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="{{$inspection->iid}}"
                                 data-toggle="tooltip" data-placement="right" title="Approve with Condition"><i class="fa fa-check-square-o"></i></button>
                         </div>
                             <div style="margin-top: 5px">
                                     
-                                    <button type="submit" name="rejectbtn" class="btn btn-danger"><i class="fa fa-times-circle" data-toggle="tooltip" data-placement="right" title="Do not Approve"></i></button>
+                                    <button type="submit" name="rejectbtn" class="btn btn-danger"><i class="fa fa-times-circle" data-toggle="tooltip" data-placement="right" title="Inspection not Approved"></i></button>
                             </div>
-                                
+                            <div style="margin-top: 5px">
+                                    
+                                    <button type="submit" name="deletetbtn" class="btn btn-danger"><i class="fa fa-trash" data-toggle="tooltip" data-placement="right" title="Delete Inspection"></i></button>
+                            </div>
                             @endif
                         </form>
                             </td>
