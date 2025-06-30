@@ -68,7 +68,7 @@ class FarmController extends Controller
                         break;
                     case 'INSPECTOR':
                         # code...
-                        $farmlist=farm::where('inspectorid',$user->id)->where('farmstate', 'PENDING')->get(); 
+                        $farmlist=farm::where('inspectorid',$user->id)->where('farmstate','!=',  'APPROVED')->get(); 
                         break;
                                 
                     default:
