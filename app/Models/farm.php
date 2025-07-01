@@ -51,4 +51,14 @@ class farm extends Model
         return $farmplots ? $farmplots->count() : 'No Farm Units';
 
     }
+     public function getfarmerpicture()
+    {
+        $farmentrance = farmentrance::where('farmid', $this->id)
+                                  ->whereNotNull('farmerpicture')
+                                  ->latest()
+                                  ->first();
+
+        return $farmentrance->farmerpicture;
+
+    }
 }

@@ -45,8 +45,14 @@
                 <td><b>HOUSEHOLD SIZE:</b><br/>
                 {{$farmentrance->householdsize}}
                 </td>
-                <td colspan="2"><b>ADDRESS:</b><br/>
+               <td><b>ADDRESS:</b><br/>
                 {{$farmentrance->address}}
+                </td>
+                <td>
+                    @if (!empty($farmentrance->farmerpicture))
+                        <img src="{{public_path('/storage/'.$farmentrance->farmerpicture)}}" alt="" style="max-height: 100px; max-width: 100px;">
+                    @endif 
+
                 </td>
             </tr>
             <tr>
