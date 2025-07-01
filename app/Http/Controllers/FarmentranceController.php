@@ -41,7 +41,7 @@ class FarmentranceController extends Controller
         
         //update farmer details
         $farmerdetail->cropvariety=$request->varietyofcrop;
-        $farmerdetail->lastinspection=$dofl->format('Y-m-d');
+        $farmerdetail->lastinspection=$dofl->format('d-m-Y');
         $farmerdetail->address=$request->address;
         $farmerdetail->householdsize=$request->householdsize;
         $farmerdetail->yob=$request->yearofbirth;
