@@ -58,7 +58,7 @@ class farm extends Model
                                   ->latest()
                                   ->first();
 
-        return $farmentrance->farmerpicture;
+        return $farmentrance->farmerpicture ? $farmentrance->farmerpicture : NULL;
 
     }
 }
