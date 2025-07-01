@@ -58,7 +58,7 @@ class farm extends Model
                                   ->latest()
                                   ->first();
 
-        return $farmentrance->farmerpicture ? $farmentrance->farmerpicture : "No Picturea vailable";
+        return $farmentrance;
 
     }
 }
