@@ -159,7 +159,7 @@ class FarmunitsController extends Controller
             $farmunit->fulongitude=$request->fulongitude;
             $farmunit->plot_coords=$request->polycoords;
             $farmunit->plotname=$request->fuplotname;
-            $farmunit->estimatedyield=$farmunit->fuarea*6000;
+            $farmunit->estimatedyield=$farmunit->fuarea*8000; //TO DO: CREATE A FUNCTION TO ALLOW USER TO INPUT ESTIMATE YIELD MULTIPLIER FOR SEASON
             $farmunit->farmentranceid=$request->farmentranceid;
             $farmunit->imagefilepath=$request->imagefilePath;
             $farmunit->season=$currentseason;

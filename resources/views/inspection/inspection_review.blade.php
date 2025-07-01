@@ -69,7 +69,7 @@
                                     <button name="viewsheet" type="submit" id="viewbtn" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="View inspection Sheet"><i class="fa fa-eye"></i></button>
 
                             </div>
-                            @if ($inspection->inspectionstate=='SUBMITTED')
+                            @if (in_array($inspection->inspectionstate, ['SUBMITTED', 'PENDING','ACTIVE']))
                             <div style="margin-top: 5px">
                                    
                                     <button type="submit" name="approvebtn" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="Approve Inspection"><i class="fa fa-check-square-o"></i></button>

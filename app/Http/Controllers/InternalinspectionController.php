@@ -409,6 +409,7 @@ class InternalinspectionController extends Controller
                         case $request->has('deletetbtn'):
                           
                             $inspection->delete();
+                            $inspectionanswers=inspectionanswers::where('internalinspectionid',$inspection->id)->delete();
                              return redirect()->route('iapproval');
                             break;
 
