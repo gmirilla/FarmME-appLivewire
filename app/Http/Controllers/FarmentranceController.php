@@ -36,12 +36,12 @@ class FarmentranceController extends Controller
         $user=Auth::user();
         $farmerdetail=farm::where('farmcode', $request->fcode)->first();
         $farmentrance=farmentrance::where('id',$request->farmentranceid)->first();
-        $dofl=Carbon::parse($request->dateoflastinspection);
+       // $dofl=Carbon::parse($request->dateoflastinspection);
 
         
         //update farmer details
         $farmerdetail->cropvariety=$request->varietyofcrop;
-        $farmerdetail->lastinspection=$dofl->format('d-m-Y');
+        //$farmerdetail->lastinspection=$dofl->format('d-m-Y');
         $farmerdetail->address=$request->address;
         $farmerdetail->householdsize=$request->householdsize;
         $farmerdetail->yob=$request->yearofbirth;
