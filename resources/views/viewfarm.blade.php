@@ -80,7 +80,7 @@
             <div class="ml-2" style="border: #5D4037 solid 1px; padding: 5px; border-radius: 5px;">
     
             @if (!empty($farmerpicture))
-           <img src="{{Request::root().('/storage/'.$farmerpicture)}}" alt="" style="width: 100px; height: 100px;">
+           <img src="{{Request::root().('/storage/'.$farmerpicture->farmerpicture)}}" alt="" style="width: 100px; height: 100px;">
            @else
               <img id="uploadedImage" src="{{Request::root().('/storage/farmmap.png')}}" alt="No Photo Uploaded" style="width: 80px; height: 80px;">
            @endif

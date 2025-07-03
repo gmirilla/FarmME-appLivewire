@@ -410,7 +410,9 @@ class InternalinspectionController extends Controller
                           
                             $inspection->delete();
                             $inspectionanswers=inspectionanswers::where('internalinspectionid',$inspection->id)->delete();
+                            $farmentrance=farmentrance::where('internalinspectionid',$inspection->id)->delete();
                              return redirect()->route('iapproval');
+
                             break;
 
                         case $request->has('viewsheet'):
@@ -478,6 +480,12 @@ class InternalinspectionController extends Controller
     public function viewsheet(Request $request){
 
         return view('inspection.inspection_view_sheet');
+
+    }
+
+        public function summarypage(){
+
+        return view('inspection.inspection_summary');
 
     }
     

@@ -60,10 +60,11 @@
 
                 <div class="col-3 p-3">
                     <label for="yearofbirth" class="form-label">Year of Birth</label>
+                   
                     @if (empty($farmerdetail->yob))
-                    <input type="number" min="1900" max="2100" step="1" placeholder="Enter year"name="yearofbirth" id="yearofbirth" required class="form-control"/>
+                    <input type="number" min="1900" max="2100" step="1" placeholder="Enter year" name="yearofbirth" id="yearofbirth" required class="form-control"/>
                     @else
-                     <input type="number" value="{{$farmerdetail->yob}}" class="form-control"/>  
+                     <input type="number" value="{{$farmerdetail->yob}}" class="form-control" name="yearofbirth" id="yearofbirth"/>  
                     @endif
                 </div>
                 <div class="col-3 p-3">
@@ -127,12 +128,11 @@
                 <div class="d-flex"> 
                     <input type="text" hidden name="fcode" value="{{$farmerdetail->farmcode}}">
                      <input type="text" hidden name="farmentranceid" value="{{$farmentrance->id}}">
-                    <button type="submit" class="btn btn-success">PROCEED</button></div>  
+                    <button type="submit" class="btn btn-success">PROCEED</button>
+                    <button type="button" class="btn btn-danger mx-2" onclick="goback()">GO BACK</button>
+                </div>  
             </form>       
             </div>
         </div>
-
-
-
 
 </x-layouts.app>

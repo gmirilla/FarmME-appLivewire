@@ -17,6 +17,11 @@
 
 
     <div class="card bg-transparent">
+      <div class="card-header">
+        <h4>Inspection Review</h4>
+        <button class="btn btn-success" type="type">Generate Summary </button>
+
+      </div>
       <div class="card-body">
         <table class="table display table-striped table-hover" id="reports">
             <thead>
