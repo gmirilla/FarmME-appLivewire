@@ -38,7 +38,7 @@
             <tbody>
                 @forelse ($reportquestions as $inspection)
                     <tr>
-                        <td>{{$inspection->season}}</td>
+                        <td>2024/2025</td>
                         <td>{{$inspection->reportname}}</td>
                         <td>{{$inspection->iname}}</td>
                         <td>{{$inspection->farmname}}</td>
