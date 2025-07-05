@@ -25,7 +25,7 @@
       <div class="card-body">
         <table class="table display table-striped table-hover" id="reports">
             <thead>
-                <th>ReportId</th>
+                <th>Season</th>
                 <th>ReportType</th>
                 <th>FiledBy</th>
                 <th>FarmName</th>
@@ -38,7 +38,7 @@
             <tbody>
                 @forelse ($reportquestions as $inspection)
                     <tr>
-                        <td>{{$inspection->iid}}</td>
+                        <td>{{$inspection->season}}</td>
                         <td>{{$inspection->reportname}}</td>
                         <td>{{$inspection->iname}}</td>
                         <td>{{$inspection->farmname}}</td>
