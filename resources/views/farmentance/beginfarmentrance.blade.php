@@ -339,6 +339,7 @@
         <input type="text" name="reportid" hidden class="form-control" value="{{$report->id}}">
         <button type="submt" class="btn btn-success">PROCEED</button>
         </form>
+        <div class="ml-3"><a  href="{{route('feprofile', ['fcode' => $farmerdetail->farmcode])}}" class="btn btn-danger">Go Back</a></div>
     </div>
 
     @else
@@ -352,10 +353,11 @@
         <input type="text" name="id" hidden class="form-control" value="{{$report->id}}">
         <button type="submt" class="btn btn-success">PROCEED</button>
         </form>
+        <div class="ml-3"><a  href="{{route('feprofile', ['fcode' => $farmerdetail->farmcode])}}" class="btn btn-danger">Go Back</a></div>
     </div>
+    
         
     @endif
-
-
+    
 
 </x-layouts.app>

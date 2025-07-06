@@ -87,7 +87,7 @@
         <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem ; margin-right:5px">
           <div class="card-body"><div style="font-size: 30px">
             <i class="fa fa-balance-scale" aria-hidden="true"></i></div>
-              <h3 class="card-title text-center">{{$estyield}}  Kgs</h3>
+              <h3 class="card-title text-center">{{number_format($estyield,2)}}  Kgs</h3>
             <div  class="card-footer" style="text-align: center; ">
               <h5  style="color: #388E3C">Est. Yield [ {{$datayear}}]</h5>
             </div>
@@ -96,7 +96,7 @@
           <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem ; margin-right:5px">
           <div class="card-body"><div style="font-size: 30px">
             <i class="fa fa-check-circle" aria-hidden="true"></i></div>
-              <h3 class="card-title text-center">{{$actualyield}} Kgs</h3>
+              <h3 class="card-title text-center">{{number_format($actualyield,2)}} Kgs</h3>
             <div  class="card-footer" style="text-align: center; ">
               <h5  style="color: #388E3C">Actual Yield [ {{$datayear}}]</h5>
             </div>
