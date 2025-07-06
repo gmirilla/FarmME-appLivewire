@@ -15,7 +15,10 @@
             <div class="input-group-text">Report</div>
           <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="reportid">
               @forelse ($reports as $report)
-              <option value="{{$report->id}}">{{$report->reportname}}</option>   
+              @if ($report->reportstate=="ACTIVE")
+                <option value="{{$report->id}}">{{$report->reportname}}</option>  
+              @endif
+               
               @empty
               <option disabled selected>NO REPORTS CONFIGURED ON SYTSTEM</option>
               @endforelse
@@ -43,15 +46,43 @@
 
   <div>
     <table class="table table-striped" id="reportdt">
-      <tbody>
-        <thead>
+       <thead>
           <th>#</th>
-          <th>Section Name </th>
-          <th>Section Seq</th>
+          <th>Report Name </th>
+          <th>Max Score</th>
           <th>Active</th>
           <th>Action</th>
         </thead>
-
+      <tbody>
+        @forelse ($reports as $report )
+        <tr>
+          <form action="{{route('rtoggle')}}" method="post">
+            @csrf
+          <td></td>
+           <td>{{$report->reportname}}</td>
+            <td>{{$report->max_score}}</td>
+             <td>{{$report->reportstate}}</td>
+              <td>
+                @if ($report->reportstate=='ACTIVE')
+                <input type="text" name="reportid" value="{{$report->id}}" hidden>
+                  <button class="btn btn-danger" id="reporttoggle" name="reporttoggle" value="false">Deactivate</button>
+                @else
+                <input type="text" name="reportid" value="{{$report->id}}" hidden>
+                  <button class="btn btn-success" id="reporttoggle" name="reporttoggle" value="true">Activate</button>
+                @endif
+              </td>
+              </form>
+        </tr>
+        @empty
+        <tr>
+          <td></td>
+           <td></td>
+            <td></td>
+             <td></td>
+              <td></td>
+        </tr>
+        @endforelse
+       
       </tbody>
     </table>
   </div>

@@ -43,6 +43,40 @@ class ReportsController extends Controller
         ->with('selectedreport',$selectedreport);
 
     }
+
+    //Toggle report state
+        public function rtoggle(Request $request)
+    {
+        //Check if user is authorized to view resource
+        Auth::check();
+        $user = Auth::user();
+
+        if ($user->roles!='ADMINISTRATOR') {
+            return view('unauthorized');
+        }
+//dd($request);
+        $report=reports::where('id',$request->reportid)->first();
+        if ($request->reporttoggle=='true') {
+            $report->reportstate='ACTIVE';
+        } else {
+            $report->reportstate='INACTIVE';
+        }
+        $report->save();
+
+        
+         $allreports=reports::all();
+        $sections=reportsection::all();
+        $selectedreport=0;
+
+
+        return view('report.report')
+        ->with('reports', $allreports)
+        ->with('sections',$sections)
+        ->with('selectedreport',$selectedreport);
+
+    }
+
+
 //Create a new report and return to view
     public function new_report(Request $request)
     {

@@ -126,6 +126,8 @@ Route::middleware('auth')->group(function () {
     Route::post('report/showquestion',[ReportquestionsController::class, 'showquestion'])->name('showquestion');
     Route::post('report/newquestion',[ReportquestionsController::class, 'newquestion'])->name('newquestion');
     Route::post('report/editquestion',[ReportquestionsController::class, 'editquestion'])->name('editquestion');
+    Route::post('report/reporttoggle',[ReportsController::class, 'rtoggle'])->name('rtoggle');
+
     
 });
 
