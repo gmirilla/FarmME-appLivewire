@@ -6,11 +6,10 @@
   <div>
   <div class="d-flex flex-row" style="margin-bottom:20px">
     <div class="form-floating sm-3">
-      <div class="input-group">
+      <div class="input-group col-auto">
         @forelse ($reports as $report)
         <div class="input-group-text">Report</div>
         <label class="visually-hidden" for="floatingSelect">Report Name</label> 
-        
         <input type="text" disabled class="form-control"  id="floatingSelect" value="{{$report->reportname}}">  
         @empty
         <h1>NO SECTIONS CONFIGURED ON SYTSTEM</h1>

@@ -335,7 +335,7 @@
             </tr>
                         <tr>
                 <td style="width: 25%"><b>LOCATION OF FARM:</b> </td>
-                <td style="width: 25%">{{$farm->address}}</td>
+                <td style="width: 25%">{{$farm->community}}</td>
                 <td style="width: 25%"><b>NAME OF CROP: </b></td>
                 <td style="width: 25%">{{$farm->crop}}</td>
             </tr>

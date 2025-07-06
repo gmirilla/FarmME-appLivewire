@@ -19,48 +19,7 @@
     <div class="card bg-transparent">
       <div class="card-header">
         <h4>Inspection Review</h4>
-        <form action="" method="get">
-        <div class="d-flex flex-row">      
-          <div class="p-3">
-            <label for="" class="form-label">Season</label>
-            <select class="form-select" id="season" name="season">
-            @forelse ($seasons as $season)
-              <option value="{{$season->season}}" selected>{{$season->season}}</option>              
-            @empty
-              <option value="No seasons available" disabled>No Season Available</option>
-            @endforelse
-            </select>
-          </div>
-          <div class="p-3">
-            <label for="" class="form-label">Report</label>
-            <select class="form-select" id="report" name="report">
-              @forelse ($reports as $report)
-                <option value="{{$report->id}}" selected>{{$report->reportname}}</option>
-              @empty
-                <option value=null disabled>No Report Available</option>
-              @endforelse
-            </select>
-          </div>
-          <div class="p-3">
-            <label for="" class="form-label">Report State</label>
-            <select class="form-select" id="reportstate" name="reportstate">
-              <option value="ALL" selected>ALL</option>
-              <option value="APPROVED">APPROVED</option>
-              <option value="SUBMITTED">SUBMITTED</option>
-               <option value="REJECTED">REJECTED</option>
-            </select>
-          </div>
-          <div class="col-auto p-3">
-            <br>
-            <button class="btn btn-success" type="type">Generate Summary </button>
-          </div>
-           
-
-        
-
-        </div>
-        </form>
-       
+        <button class="btn btn-success" type="type">Generate Summary </button>
 
       </div>
       <div class="card-body">

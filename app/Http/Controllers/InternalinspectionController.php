@@ -147,10 +147,15 @@ class InternalinspectionController extends Controller
 
 
 
+        #Check if the request has answers
+        
+
         #loop thru array 
         # a validation check to limit double posting
+
         $score=$inspection->score;
         $updatescore=0;
+    if ($answers!==null) {
         for ($i=0; $i < count($answers); $i++) { 
             $checkanswer=inspectionanswers::where('internalinspectionid', $request->inspectionreportid)->where('questionid',$question[$i])->first();
             $checkcount=inspectionanswers::where('internalinspectionid', $request->inspectionreportid)->where('questionid',$question[$i])->count();
@@ -180,6 +185,7 @@ class InternalinspectionController extends Controller
    
             $score=$score+$answers[$i];
         }
+    };// Handle empty answers array
         #Update Inspection REport score
         $inspection->score=$score -$updatescore;
         $inspection->save();
@@ -362,7 +368,12 @@ class InternalinspectionController extends Controller
                     ->orderBy('internalinspections.created_at', 'desc')
                     ->get();
 
-                    return view('inspection.inspection_review')->with('reportquestions',$inspections);
+                    $seasons=internalinspection::select('season')->distinct()->get();
+                    $reports=reports::where('reportstate', 'ACTIVE')->get();
+
+                    return view('inspection.inspection_review')
+                    ->with('reportquestions',$inspections)
+                    ->with('seasons',$seasons)->with('reports',$reports);
                   }
 
 

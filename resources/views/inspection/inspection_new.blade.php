@@ -17,10 +17,10 @@
                     <option value="0">No Reports configured on the system</option>
                     @endforelse
                 </select>
-                @if (empty($farms))
-                    <button type="submit" disabled class="btn btn-primary">Next</button>
+
+                @if (count($farms)<1)
+                    <button type="submit" disabled class="btn btn-primary">No Farm Assigned to User</button>
                 @else
-                 
                 <button type="submit"  class="btn btn-primary">Next</button>
                 @endif 
                 
