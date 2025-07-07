@@ -67,9 +67,12 @@
                     </select>
                     <input type="text" name="farmid" hidden value="{{$farm->id}}">
                     @if (!empty($season))
-                        <button type="submit" class="btn btn-success">Generate Contract Agreement</button>
+                        <a href="{{route('viewcontract', ['farmid' => $farm->id, 'cdseason' => $season])}}" class="btn btn-success">View Contract Agreement</a>
+                        <button type="submit" class="btn btn-success">Download Contract Agreement</button>
                     @else
-                        <button type="submit" class="btn btn-success" disabled>Generate Contract Agreement</button>
+
+                    <a href="{{route('viewcontract', ['farmid' => $farm->id, 'cdseason' => $season])}}" disabled class="btn btn-success">View Contract Agreement</a>
+                        <button type="submit" class="btn btn-success" disabled>Download Contract Agreement</button>
                     @endif
                     </form>
                 </div>

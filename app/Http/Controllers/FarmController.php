@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Imports\farmImport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\farmentrance;
 
 class FarmController extends Controller
 {
@@ -345,8 +346,22 @@ switch ($user->roles) {
     return view('excel.annualreport',compact('farms'));
 }
 
+public function viewcontract(Request $request)
+{
+        $users = User::get();
 
-    
+        //dd($request);
+
+        $farmer=farm::where('id',$request->farmid)->first();
+        $farmentrance=farmentrance::where('farm_period',$request->cdseason)->where('farmid',$request->farmid)->first();
+        
 
 
+
+        $data =compact('farmer','users','farmentrance');
+
+    return view('farmercontract', $data);
+
+
+}
 }

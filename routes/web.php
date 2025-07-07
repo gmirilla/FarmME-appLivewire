@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/farm/importlist', [FarmController::class, 'import_list'])->name('import_list');
         Route::get('/farm/onboardinglist', [FarmController::class, 'onboarding'])->name('onboarding');
         Route::get('/farm/annualreport', [FarmController::class, 'annualreport'])->name('annualreport');
+        Route::get('/farm/viewcontract',[FarmController::class, 'viewcontract'])->name('viewcontract');
         
     });
     Route::middleware('auth')->group(function () {
