@@ -54,6 +54,25 @@
 </div>
 
                 </div>
+                <div class="mb-3">
+                    <form action="{{route('generatecontract')}}" method="get">
+                    <select name="cdseason" id=""  required class="form-select mb-2">
+                        @forelse ( $seasons as $season )
+                             @if (!empty($season))
+                                <option value="{{$season}}">{{$season}}</option>
+                             @endif     
+                        @empty
+                            <option value="">No Farm entrance conducted</option>
+                        @endforelse
+                    </select>
+                    <input type="text" name="farmid" hidden value="{{$farm->id}}">
+                    @if (!empty($season))
+                        <button type="submit" class="btn btn-success">Generate Contract Agreement</button>
+                    @else
+                        <button type="submit" class="btn btn-success" disabled>Generate Contract Agreement</button>
+                    @endif
+                    </form>
+                </div>
                 </div>
             </div>
             <div class="col-auto card mb-3">

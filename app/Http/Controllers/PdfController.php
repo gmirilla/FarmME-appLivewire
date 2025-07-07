@@ -32,6 +32,25 @@ class PdfController extends Controller
         return $pdf->download('itsolutionstuff.pdf');
     }
 
+
+        public function generateContractPDF(Request $request)
+    {
+        $users = User::get();
+
+        //dd($request);
+
+        $farmer=farm::where('id',$request->farmid)->first();
+        $farmentrance=farmentrance::where('farm_period',$request->cdseason)->where('farmid',$request->farmid)->first();
+
+
+
+        $data =compact('farmer','users','farmentrance');
+
+        $pdf = Pdf::loadView('pdf.annex6pdf', $data);
+
+        return $pdf->download('annex6_'.$farmer->farmcode.'.pdf');
+    }
+
         public function generatePDF(Request $request)
     {
 

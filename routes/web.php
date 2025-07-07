@@ -95,6 +95,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/pdf/test', [PdfController::class, 'test'])->name('test');
     Route::get('/pdf/generate', [PdfController::class, 'generatePDF'])->name('printsheet');
+    Route::get('/pdf/generatecontract', [PdfController::class, 'generateContractPDF'])->name('generatecontract');
 });
 
     Route::middleware('auth')->group(function () {
