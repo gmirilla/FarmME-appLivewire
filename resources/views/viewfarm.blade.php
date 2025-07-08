@@ -71,7 +71,7 @@
                         <button type="submit" class="btn btn-success">Download Contract Agreement</button>
                     @else
 
-                    <a href="{{route('viewcontract', ['farmid' => $farm->id, 'cdseason' => $season])}}" disabled class="btn btn-success">View Contract Agreement</a>
+                    <a href="#" disabled class="btn btn-success">View Contract Agreement</a>
                         <button type="submit" class="btn btn-success" disabled>Download Contract Agreement</button>
                     @endif
                     </form>
