@@ -132,10 +132,11 @@
                 @endif
                 @if (empty($farmunit->imagefilepath))
                      <input type="text"  hidden id="imagefilePath" name="imagefilePath" class="form-control" >
+                     <button type="submit" disabled class="btn btn-primary" id="addfarmunit">Add</button>
                 @else
                      <input type="text"  hidden id="imagefilePath" name="imagefilePath" class="form-control" value="{{$farmunit->imagefilepath}}">
+                     <button type="submit" class="btn btn-primary"  id="addfarmunit">Add</button>
                 @endif
-                <button type="submit" class="btn btn-primary">Add</button>
             </div>
         </div>
         <div class="row">
@@ -500,6 +501,7 @@ function saveMap() {
   const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     let imagePath=document.getElementById('imagefilePath');
     let mapFilePath=document.getElementById('mapfilePath');
+    let addfarmunit=document.getElementById('addfarmunit');
 
   if (!mapElement) {
     console.error('Map element not found!');
@@ -530,6 +532,7 @@ function saveMap() {
 
         imagePath.value=data.path;
         mapFilePath.value=data.filename;
+        addfarmunit.disabled=false; //enable the Add Farm unit button
 
         alert('Map saved successfully!')
     })
@@ -548,6 +551,8 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
 
     const form = this;
     const formData = new FormData(form);
+    let addfarmunit=document.getElementById('addfarmunit');
+    addfarmunit.disabled=true; //disable the Add Farm unit button while uploading
 
  fetch('/upload-map', {
     method: 'POST',
@@ -567,6 +572,7 @@ document.getElementById('uploadForm').addEventListener('submit', function(e) {
     if (data.filename) {
         document.querySelector('input[name="mapfilePath"]').value = data.path;
         document.querySelector('input[name="imagefilePath"]').value = data.path;
+        addfarmunit.disabled=false; //enable the Add farm Unit button after succesful upload
         changeImage();
     }
 })
