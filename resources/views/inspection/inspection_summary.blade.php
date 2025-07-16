@@ -103,7 +103,7 @@
 </div>
 <script>
     new DataTable('#inspectiondt',{
-    order: [[2, 'desc']], pageLength: 200
+    order: [[1, 'asc']], pageLength: 200
     });
 </script>
 </x-layouts.app>
