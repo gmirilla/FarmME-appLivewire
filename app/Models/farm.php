@@ -84,6 +84,26 @@ class farm extends Model
 
     }
 
+                 public function getreportfarmcount($season)
+    {
+
+                $currentseason=$season;
+                $farmcount=farmunits::where('season', $currentseason)->where('farmid', $this->id)->where('active', true)->count();
+
+        return $farmcount? $farmcount: 0;
+
+    }
+
+                     public function getreportfarmarea($season)
+    {
+
+                $currentseason=$season;
+               $farmareacurrent=farmunits::where('season', $currentseason)->where('farmid', $this->id)->where('active', true)->sum('fuarea');
+
+        return $farmareacurrent? $farmareacurrent: 0;
+
+    }
+
 
 
 }

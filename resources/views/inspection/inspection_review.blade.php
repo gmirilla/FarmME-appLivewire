@@ -19,7 +19,7 @@
     <div class="card bg-transparent">
       <div class="card-header">
         <h4>Inspection Review</h4>
-        <form action="" method="get">
+        <form action="{{route('summarypage')}}" method="get">
         <div class="d-flex flex-row">      
           <div class="p-3">
             <label for="" class="form-label">Season</label>
@@ -46,6 +46,8 @@
             <select class="form-select" id="reportstate" name="reportstate">
               <option value="ALL" selected>ALL</option>
               <option value="APPROVED">APPROVED</option>
+              <option value="CONDITIONAL">APPROVED WITH CONDITIONS</option>
+              <option value="PENDING">PENDING</option>
               <option value="SUBMITTED">SUBMITTED</option>
                <option value="REJECTED">REJECTED</option>
             </select>
@@ -79,7 +81,7 @@
             <tbody>
                 @forelse ($reportquestions as $inspection)
                     <tr>
-                        <td>2024/2025</td>
+                        <td>{{$inspection->season}}</td>
                         <td>{{$inspection->reportname}}</td>
                         <td>{{$inspection->iname}}</td>
                         <td>{{$inspection->farmname}}</td>

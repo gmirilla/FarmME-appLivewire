@@ -18,110 +18,75 @@
 <div class="card">
     <div class="card-header"><h4>INSPECTION SUMMARY REPORT</h4></div>
     <div class="card-header">
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-auto">
-                <label for="" class="form-control">SEASON</label>
-                <select name="season" id="season" class="form-control">
-                    @foreach ($seasons as $season)
-                    <option value="{{$season->id}}">{{$season->name}}</option>
-                    @endforeach
-                </select>
+                <b>SEASON :</b> {{$season}}
             </div>
             <div class="col-auto">
-                <label for="" class="form-control">REPORT NAME</label>
-                <select name="reportname" id="reportname" class="form-control">
-                    @foreach ($reports as $report)
-                    <option value="{{$report->id}}" >{{$report->name}}</option>
-                    @endforeach
-                </select>
+               <b> REPORT NAME :</b> {{$reportname->reportname}}
             </div>
-            <button class="btn btn-success">GO</button>
+              <div class="col-auto">
+               <b> REPORT STATE :</b> {{$state}}
+            </div>
         </div>
 
     </div>
-<div class="card-body table-responsive">    
+<div class="card-body table-responsive">   
+@php
+    if (strpos($reportname->reportname,'Entrance')) {
+        # code...
+        $reporttype='Entrance';
+    }
+@endphp
+@if ($reporttype=='Entrance')
 <table class="table table-striped display table-sm table-sm" id="inspectiondt">
 
     <thead>
 
-        <th>Type</th>
-        <th>Farm</th>
-        <th>Updated date</th>
-        <th>Status</th>
-        <th>Result</th>
-        <th>Action</th>
+        <th>Farmer Name</th>
+        <th>Farm Code</th>
+        <th>Gender</th>
+        <th>No of Plots</th>
+        <th>Total Farm Size (ha)</th>
+        <th>Estimated yield (kg)</th>
+        <th>Previous Year Del.</th>
+         <th>Previous 2 Years Del.</th>
+          <th>Previous 3 Years Del.</th>
     </thead>
     <tbody>
-    @forelse ($inspections as $inspection)
-    <td>{{$inspection->reportname}}</td>
-    <td>{{$inspection->farmcode}} | {{$inspection->farmname}}</td>
-    <td>{{$inspection->updated_at}}</td>
-    <td>
-        @switch($inspection->inspectionstate)
-        @case('APPROVED')
-       <b style="color:green"> {{$inspection->inspectionstate}}</b>
-            @break
-        @case('CONDITIONAL')
-            <b style="color: orange"> {{$inspection->inspectionstate}}</b>
-                 @break
-        @case('REJECTED')
-                 <b style="color: red"> {{$inspection->inspectionstate}}</b>
-                      @break
-        @default
-        {{$inspection->inspectionstate}}
-    @endswitch
-    </td>
-    <td><b style="font-size: 0.9em">{{number_format(($inspection->score/$inspection->max_score *100),2) }} % ({{$inspection->score}} /{{$inspection->max_score }} ) </b>   
-    </td>
-    <td><div>
-        @switch($inspection->inspectionstate)
-            @case('PENDING')
-            <form action="inspection/continue" method="POST">
-                @csrf
-                <input type="text" value="{{$inspection->id}}" name="farmid" hidden>
-                <input type="text" value="{{$inspection->iid}}" name="inspectionid" hidden>
-                <input type="text" value="{{$inspection->reportid}}" name="reportid" hidden>
-                <button type="submit"  class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="Continue Inspection"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-            </form>
-                @break
-                @case('ACTIVE')
-                <form action="inspection/continue" method="POST">
-                    @csrf
-                    <input type="text" value="{{$inspection->id}}" name="farmid" hidden>
-                    <input type="text" value="{{$inspection->iid}}" name="inspectionid" hidden>
-                    <input type="text" value="{{$inspection->reportid}}" name="reportid" hidden>
-                    <button type="submit"  class="btn btn-warning" data-toggle="tooltip" data-placement="right" title="Continue Inspection"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-                </form>
-                    @break
-        
-            @default
-                
-        @endswitch
-        <form action="inspection/continue" method="POST">
-            @csrf
-            <input type="text" value="{{$inspection->id}}" name="farmid" hidden>
-            <input type="text" value="{{$inspection->iid}}" name="inspectionid" hidden>
-            <input type="text" value="{{$inspection->reportid}}" name="reportid" hidden>
-
-            <button class="btn btn-success" name='viewsheet' data-toggle="tooltip" data-placement="right" 
-            title="View Inspection Sheet" style="margin: 3px"><i class="fa fa-eye" aria-hidden="true"></i></button>
-            <button class="btn btn-danger" name='printsheet' data-toggle="tooltip" data-placement="right" 
-            title="Download Inspection PDF" style="margin: 3px"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+        @forelse ( $internalinspection as $inspection )
+  
+        <tr>
+            <td>{{$inspection->getfarm()->farmname}}</td>
+            <td>{{$inspection->getfarm()->farmcode}}</td>
+            <td>{{$inspection->getfarm()->gender}}</td>
+             <td>{{$inspection->getfarm()->getreportfarmcount($season)}}</td>
+            <td>{{number_format($inspection->getfarm()->getreportfarmarea($season),2)}}</td>
+            <td>{{number_format($inspection->farmentrance->getestimatedyield(),2)}}</td>
+            <td>@if (!empty($inspection->farmentrance->reportvolcropdel()[0]))
+                {{number_format($inspection->farmentrance->reportvolcropdel()[0]->value,2)}}
+                @endif
+            </td>
+            <td>@if (!empty($inspection->farmentrance->reportvolcropdel()[1]))
+                {{number_format($inspection->farmentrance->reportvolcropdel()[1]->value,2)}}
+                @endif
+            </td>
+            <td>@if (!empty($inspection->farmentrance->reportvolcropdel()[2]))
+                {{number_format($inspection->farmentrance->reportvolcropdel()[2]->value,2)}}
+                @endif
+            </td>
+        </tr>
            
+        @empty
             
+        @endforelse
 
-        </form>
-        
-    </div>
-    </td>
-    </tr>  
-        
-    @empty
-        <td>No inspections conducted yet</td>
-        <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
-    @endforelse
 </tbody>    
 </table>
+@else
+    <h5>This report is unavailable for this inspection type.</5>
+@endif 
+
 </div>
 </div>
 </div>

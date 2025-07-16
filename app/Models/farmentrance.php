@@ -50,7 +50,7 @@ class farmentrance extends Model
     }
             public function reportvolcropdel()
     {
-         $reportvolsold=misccodes::where('parameter','vol')->where('farmid', $this->farmid)->where('active', true)->get();
+         $reportvolsold=misccodes::where('parameter','vol')->where('farmid', $this->farmid)->where('active', true)->orderBy('season', 'desc')->get();
         return $reportvolsold;
 
     }
@@ -73,5 +73,11 @@ class farmentrance extends Model
 
     }
 
+                public function getestimatedyield()
+    {
+         $estyield=farmunits::where('farmentranceid', $this->id)->where('active', true)->sum('estimatedyield');
+        return $estyield ? $estyield : 0;
+
+    }
 
 }

@@ -364,7 +364,7 @@ class InternalinspectionController extends Controller
                     ->leftJoin('farms', 'internalinspections.farmid','=', 'farms.id')
                     ->leftJoin('users', 'internalinspections.inspectorid','=', 'users.id' )
                     ->select('reportname','max_score','score','internalinspections.id as iid', 'farmname','inspectionstate', 
-                    'internalinspections.created_at as cdate', 'users.name as iname','internalinspections.comments as comments')
+                    'internalinspections.created_at as cdate', 'users.name as iname','internalinspections.comments as comments', 'internalinspections.season as season')
                     ->orderBy('internalinspections.created_at', 'desc')
                     ->get();
 
@@ -504,9 +504,20 @@ class InternalinspectionController extends Controller
 
     }
 
-        public function summarypage(){
+        public function summarypage(Request $request){
+        
+            $season=$request->season;
+            $state=$request->reportstate;
+            $reportname=reports::where('id', $request->report)->first();
+            if ($state=='ALL'){
+              $internalinspection=internalinspection::where('reportid',$request->report)->where('season', $season)->get();  
+            }
+            else{
+                $internalinspection=internalinspection::where('reportid',$request->report)->where('inspectionstate',$state)->where('season', $season)->get();
+            }
 
-        return view('inspection.inspection_summary');
+     
+        return view('inspection.inspection_summary', compact('internalinspection','season','state','reportname'));
 
     }
     
