@@ -35,7 +35,7 @@
                 </div>
                 <div class="mb-3">
                     <label>FARM AREA {{$farm->measurement}}</label>
-                    <input type="text" readonly class="form-control" value="{{number_format($farm->farmarea,2) }}">
+                    <input type="text" readonly class="form-control" value="{{number_format($farm->getfarmareacurrent(),2) }}">
                 </div>
                 <div class="mb-3">
                     <label>FIELD STAFF</label>
