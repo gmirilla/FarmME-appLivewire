@@ -224,8 +224,8 @@ class InternalinspectionController extends Controller
                 case strpos($report->reportname,'Entrance'):
                     # code...
                     $fcode='fcode='.$farm->farmcode;
-                    $farm->farmstate='ACTIVE';
-                    $farm->save();
+                   # $farm->farmstate='ACTIVE';
+                   # $farm->save();
                      $inspection->inspectionstate='SUBMITTED';
             $inspection->save();
                 
@@ -409,7 +409,17 @@ class InternalinspectionController extends Controller
 
                         case $request->has('approvebtn'):
                             # Approve the inspection sheet...
+
+                            $report=reports::where('id', $inspection->reportid)->first();
+                            $farm=farm::where('id', $inspection->farmid)->first();
+                         
                             $inspection->inspectionstate='APPROVED';
+
+                            #On approval of Entrance Reports Change farm Status to active
+                            if (strpos($report->reportname,'Entrance')) {
+                                $farm->farmstate='ACTIVE';
+                                $farm->save();
+                            }
 
                             break;
 
