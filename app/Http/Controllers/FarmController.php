@@ -315,10 +315,11 @@ switch ($user->roles) {
         $users=User::all();
         $farmerpicture=farm::where('farmcode',$request->id)->first()->getfarmerpicture();
         $seasons=internalinspection::where('farmid',$id)->pluck('season')->unique();
+        $farmdetails=farm::where('farmcode',$request->id)->first();
 
 
 
-        return view('viewfarm', compact('farm','farmreports', 'users', 'lastreport','authuser','farmerpicture','seasons'));
+        return view('viewfarm', compact('farm','farmreports', 'users', 'lastreport','authuser','farmerpicture','seasons','farmdetails'));
     }
 
     public function importfarms(Request $request)

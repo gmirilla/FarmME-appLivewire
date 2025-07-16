@@ -61,4 +61,29 @@ class farm extends Model
         return $farmentrance;
 
     }
+
+         public function getfarmareacurrent()
+    {
+                $year = date("Y");
+                $next=$year+1;
+                $currentseason=$year."/".$next;
+                $farmareacurrent=farmunits::where('season', $currentseason)->where('farmid', $this->id)->where('active', true)->sum('fuarea');
+
+        return $farmareacurrent? $farmareacurrent: 0;
+
+    }
+
+             public function getfarmcount()
+    {
+                $year = date("Y");
+                $next=$year+1;
+                $currentseason=$year."/".$next;
+                $farmcount=farmunits::where('season', $currentseason)->where('farmid', $this->id)->where('active', true)->count();
+
+        return $farmcount? $farmcount: 0;
+
+    }
+
+
+
 }

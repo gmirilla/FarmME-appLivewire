@@ -114,7 +114,7 @@
                 </div>
                 <div class="mb-3">
                     <div>
-                        FARM MEASURMENTS:
+                        CURRENT SEASON FARM MEASURMENTS:
                         <table class="table table-bordered table-striped">
                             <tr>
                                 <td><b>House Latidude</b></td>
@@ -124,13 +124,13 @@
                             </tr>
                             <tr>
                                 <td><b>Farm Size (Ha)</b></td>
-                                <td>@if (!empty($farm->farmarea))
-                                    {{number_format($farm->farmarea,2)}} Ha
+                                <td>@if (!empty($farmdetails->getfarmareacurrent()))
+                                    {{number_format($farmdetails->getfarmareacurrent(),2)}} Ha
                                 @endif 
                                     </td>
                                 <td><b> No of Plots</b></td>
-                                <td> @if (!empty($farm->nooffarmunits))
-                                    {{ $farm->nooffarmunits}}            
+                                <td> @if (!empty($farmdetails->getfarmcount()))
+                                    {{ $farmdetails->getfarmcount()}}            
                                 @endif
                             </td>
                             </tr>
