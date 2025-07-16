@@ -510,7 +510,8 @@ class InternalinspectionController extends Controller
             $state=$request->reportstate;
             $reportname=reports::where('id', $request->report)->first();
             if ($state=='ALL'){
-              $internalinspection=internalinspection::where('reportid',$request->report)->where('season', $season)->get();  
+              $internalinspection=internalinspection::where('reportid',$request->report)->where('season', $season)->get(); 
+              dd($internalinspection); 
             }
             else{
                 $internalinspection=internalinspection::where('reportid',$request->report)->where('inspectionstate',$state)->where('season', $season)->get();

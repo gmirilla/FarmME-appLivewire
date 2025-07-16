@@ -102,6 +102,8 @@
 </div>
 </div>
 <script>
-    new DataTable('#inspectiondt');
+    new DataTable('#inspectiondt',{
+    order: [[2, 'desc']], pageLength: 200
+    });
 </script>
 </x-layouts.app>
