@@ -63,6 +63,8 @@
             <td>{{$inspection->getfarm()->gender}}</td>
              <td>{{$inspection->getfarm()->getreportfarmcount($season)}}</td>
             <td>{{number_format($inspection->getfarm()->getreportfarmarea($season),2)}}</td>
+            @if (!empty($inspection->farmentrance))
+
             <td>{{number_format($inspection->farmentrance->getestimatedyield(),2)}}</td>
             <td>@if (!empty($inspection->farmentrance->reportvolcropdel()[0]))
                 {{number_format($inspection->farmentrance->reportvolcropdel()[0]->value,2)}}
@@ -76,6 +78,14 @@
                 {{number_format($inspection->farmentrance->reportvolcropdel()[2]->value,2)}}
                 @endif
             </td>
+                
+            @else
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>  
+            @endif
+
         </tr>
            
         @empty
