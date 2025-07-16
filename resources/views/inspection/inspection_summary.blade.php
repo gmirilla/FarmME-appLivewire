@@ -33,6 +33,7 @@
     </div>
 <div class="card-body table-responsive">   
 @php
+    $reporttype='NIL'
     if (strpos($reportname->reportname,'Entrance')) {
         # code...
         $reporttype='Entrance';
