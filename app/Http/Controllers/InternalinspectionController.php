@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-
+use App\Models\User;
 use App\Models\farm;
 use App\Models\farmentrance;
 use App\Models\inspectionanswers;
@@ -458,6 +458,7 @@ class InternalinspectionController extends Controller
       
                             $reportname=reports::where('id', $inspection->reportid)->first();
                             $farm=farm::where('id',$inspection->farmid)->first();
+                            $inspector=User::where('id',$inspection->inspectorid)->first();
                             //ADD Logic to redirect to Farm Entrance VIEW IF report is an entrance report
                             if (strpos($reportname->reportname,'Entrance')) {
                                 # code...
@@ -467,7 +468,7 @@ class InternalinspectionController extends Controller
                             }
     
     
-                            return view('inspection.inspection_view_sheet', compact('reportname','reportquestions', 'user', 'inspection','farm'));
+                            return view('inspection.inspection_view_sheet', compact('reportname','reportquestions', 'user', 'inspection','farm','inspector'));
                             //->with('reportname',$reportname)->with('reportquestions',$reportquestions);
 
                             break; 

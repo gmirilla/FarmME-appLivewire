@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <td><b>NAME OF INTERNAL INSPECTOR: </b> </td>
-                <td colspan="2">{{$user->name}}</td>
+                <td colspan="2">{{$inspector->name}}</td>
                 <td>
                     <b>DATE OF INSPECTION:</b> 
                 </td>
@@ -154,9 +154,21 @@
                 </td>
             </tr>
             <tr>
-                <td>Signature/Thumbprint of the field operator:<br/>         
+                <td>Signature/Thumbprint of the field operator:<br/>  
+                 @if (!empty($farm->signaturepath))
+                <div class="col-auto" style="margin-left:30%; margin-right:30%;">
+                     <img src="{{Request::root().('/storage/'.$farm->signaturepath)}}" alt="" width="70px"></div>
+                @endif       
                </td>
-                <td> Signature of the internal inspector: <br/></td>
+                <td> Signature of the internal inspector: <br/>
+                                @if (!empty($inspector->signaturepath))
+                <img src="{{Request::root().('/storage/'.$inspector->signaturepath)}}" alt="" width="70px"><br>
+
+            @else
+            <br><br>    
+            @endif
+                
+                </td>
             </tr>
             <tr>
                 <td colspan="2">
