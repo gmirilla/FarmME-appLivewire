@@ -87,9 +87,15 @@ class FarmunitsController extends Controller
                     break;
 
                 case $request->has('deletefu'):
-                        # code...
+                        # If Farm Unit is not attached to an approved or reject Farm Entrance set as inactive
+                       
+
+                        if ($farmunit->farmentrance==null or $farmunit->farmentrance->inspectionsheet=='PENDING'){
                         $farmunit->active=false;
                         $farmunit->save();
+                            
+                        }
+
                     break;
                     
                 default:

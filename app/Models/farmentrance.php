@@ -13,6 +13,11 @@ class farmentrance extends Model
         'regdate','fieldofficer','farmerpicture', 'annex6id','annex6accepted'
     ];
 
+    public function inspectionsheet(){
+        return $this->hasOne(internalinspection::class, 'id', 'internalinspectionid');
+    }
+    
+
     public function getvolumesold()
     {
          $volsold=misccodes::where('parameter','vol')->where('farmid', $this->farmid)->where('active', true)->get();

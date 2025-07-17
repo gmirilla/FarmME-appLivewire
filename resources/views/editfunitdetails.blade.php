@@ -69,8 +69,16 @@
                             <td>{{$funit->fuarea}}</td>
                             <td>{{$funit->fulatitude}}</td>
                             <td>{{$funit->fulongitude}}</td>
-                            <td><button type="submit" class="btn btn-success" name="updatefu">Update Details</button>
-                                <button type="submit" class="btn btn-danger" name="deletefu">Delete Plot</button>
+                            <td>
+                                @if ($funit->active==true)
+                                <button type="submit" class="btn btn-success mb-2" name="updatefu">Update Details</button>
+                                <button type="submit" class="btn btn-danger mb-2" name="deletefu">Mark Plot Inactive</button>
+                                @else
+                                <button type="submit" class="btn btn-success mb-2" disabled name="updatefu">Update Details</button>
+                                <button type="submit" class="btn btn-danger mb-2" disabled name="deletefu">Plot Inactive</button>
+                                    
+                                @endif
+                                
 
                             
                             </td>

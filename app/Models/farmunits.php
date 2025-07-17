@@ -19,4 +19,9 @@ class farmunits extends Model
         'actualyeild',
         'active', 'farmentranceid', 'imagefilepath', 'season'
      ];
+
+   public function farmentrance(){
+        return $this->hasOne(farmentrance::class, 'id', 'farmentranceid');
+    }
+    
 }
