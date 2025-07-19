@@ -103,6 +103,7 @@ class FarmunitsController extends Controller
                         $currentfarmunitsacreage=farmunits::where('farmid',$farmunit->id)
                         ->where('active', true)->where('season',$currentseason)
                         ->sum('fuarea');
+                        dd($currentfarmunitsacreage);
                          $currentfarmunitscount=farmunits::where('farmid',$farmunit->id)
                         ->where('active', true)->where('season',$currentseason)
                         ->count();
