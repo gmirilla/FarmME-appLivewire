@@ -61,7 +61,7 @@
             <div style="font-size: 30px"><i class="fa fa-check" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$inspectionapprovedcount}}</h3>
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">REPORT(S)APPROVED</h5>
+              <h5  style="color: #388E3C">REPORT(S) APPROVED</h5>
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@
             <i class="fa fa-times" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$inspectionrejectedcount}}</h3>
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">REPORT(S)REJECTED</h5>
+              <h5  style="color: #388E3C">REPORT(S) REJECTED</h5>
             </div>
           </div>
         </div>
