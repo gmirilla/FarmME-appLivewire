@@ -188,8 +188,10 @@ class FarmunitsController extends Controller
 
             //Update total Farm Area and unit count
 
-            $totalfarmunitcount=$farmunit::where('farmid', $request->fid )->count();
-            $totalfarmunitarea=$farmunit::where('farmid', $request->fid )->sum('fuarea');
+            $totalfarmunitcount=$farmunit::where('farmid', $request->fid )
+            ->where('active', true)->where('season',$currentseason)->sum('fuarea')->count();
+            $totalfarmunitarea=$farmunit::where('farmid', $request->fid )
+            ->where('active', true)->where('season',$currentseason)->sum('fuarea');
             $farm->farmarea=$totalfarmunitarea;
             $farm->nooffarmunits=$totalfarmunitcount;
 
