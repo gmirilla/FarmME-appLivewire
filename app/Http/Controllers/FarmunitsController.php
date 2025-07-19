@@ -98,19 +98,9 @@ class FarmunitsController extends Controller
                         $farmunit->active=false;
                         $farmunit->save();
                             
+
                         }
-                        ## Update the total count and acreage of the associated farmer
-                        $currentfarmunitsacreage=farmunits::where('active', true)->where('farmid',$farmunit->id)
-                        ->where('season',$currentseason)->sum('fuarea');
 
-                         $currentfarmunitscount=farmunits::where('farmid',$farmunit->id)
-                        ->where('active', true)->where('season',$currentseason)
-                        ->count();
-                        $farm->nooffarmunits=$currentfarmunitscount;
-                        $farm->farmarea=number_format($currentfarmunitsacreage,4);
-                        $farm->save();
-
-                    break;
                     
                 default:
                     # code...
@@ -122,10 +112,16 @@ class FarmunitsController extends Controller
             //throw $th;
         }
         //dd($request);
-        $totalfarmunitcount=farmunits::where('farmid', $request->farmid)->count();
-        $totalfarmunitarea=farmunits::where('farmid', $request->farmid)->sum('fuarea');
-        $farm->farmarea=$totalfarmunitarea;
-        $farm->nooffarmunits=$totalfarmunitcount;
+                        ## Update the total count and acreage of the associated farmer
+                        $currentfarmunitsacreage=farmunits::where('active', true)->where('farmid',$farmunit->id)
+                        ->where('season',$currentseason)->sum('fuarea');
+
+                         $currentfarmunitscount=farmunits::where('farmid',$farmunit->id)
+                        ->where('active', true)->where('season',$currentseason)
+                        ->count();
+                        $farm->nooffarmunits=$currentfarmunitscount;
+                        $farm->farmarea=number_format($currentfarmunitsacreage,4);
+                     $farm->save();
 
         $farm->save();
         
