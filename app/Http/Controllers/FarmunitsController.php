@@ -78,6 +78,10 @@ class FarmunitsController extends Controller
             $farm=farm::where('id',$request->farmid)->first();
             $farmunit=farmunits::where('id', $request->fid)->first();
 
+            $year0=date('Y');
+            $year1=$year0+1;
+            $currentseason=$year0."/".$year1;
+            
             switch ($request) {
                 case $request->has('updatefu'):
                     # code...
@@ -95,6 +99,16 @@ class FarmunitsController extends Controller
                         $farmunit->save();
                             
                         }
+                        ## Update the total count and acreage of the associated farmer
+                        $currentfarmunitsacreage=farmunits::where('farmid',$farmunit->id)
+                        ->where('active', true)->where('season',$currentseason)
+                        ->sum('fuarea');
+                         $currentfarmunitscount=farmunits::where('farmid',$farmunit->id)
+                        ->where('active', true)->where('season',$currentseason)
+                        ->count();
+                        $farm->nooffarmunits=$currentfarmunitscount;
+                        $farm->farmarea=$currentfarmunitsacreage;
+                        $farm->save();
 
                     break;
                     
