@@ -13,17 +13,17 @@
     <style>
         .c-sidebar a {
             color:#F5F0E6;
-            border-color: #5D4037;
+            border-color: #388E3C;
             text-decoration:none
 
         }
         .c-navitem-selected {
-            background: #388E3C
+            background: #D72638
 ;
 
         }
                 .c-sidebar a:hover {
-            background: #388E3C
+            background: #D72638
 ;
 
         }
@@ -33,7 +33,7 @@
         $user = Auth::user();
     @endphp
     <body class="min-h-screen bg-white dark:bg-zinc-800" style="background: url('{{Request::root()}}/assets/images/triangles.svg') repeat 0 100%, -webkit-gradient(linear, left top, right top, from(#f2eadc), to(#F5F0E6)) 0% 0% no-repeat padding-box">
-        <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900" style="background-color:#5D4037 ; color: #f5f0e6">
+        <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900" style="background-color:#388E3C ; color: #f5f0e6">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
             <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2" wire:navigate>

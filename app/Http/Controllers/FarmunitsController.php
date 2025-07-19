@@ -98,19 +98,9 @@ class FarmunitsController extends Controller
                         $farmunit->active=false;
                         $farmunit->save();
                             
-                        }
-                        ## Update the total count and acreage of the associated farmer
-                        $currentfarmunitsacreage=farmunits::where('farmid',$farmunit->id)
-                        ->where('active', true)->where('season',$currentseason)
-                        ->sum('fuarea');
-                         $currentfarmunitscount=farmunits::where('farmid',$farmunit->id)
-                        ->where('active', true)->where('season',$currentseason)
-                        ->count();
-                        $farm->nooffarmunits=$currentfarmunitscount;
-                        $farm->farmarea=$currentfarmunitsacreage;
-                        $farm->save();
 
-                    break;
+                        }
+
                     
                 default:
                     # code...
@@ -122,8 +112,10 @@ class FarmunitsController extends Controller
             //throw $th;
         }
         //dd($request);
-        $totalfarmunitcount=farmunits::where('farmid', $request->farmid)->count();
-        $totalfarmunitarea=farmunits::where('farmid', $request->farmid)->sum('fuarea');
+        $totalfarmunitcount=farmunits::where('farmid', $request->farmid)
+        ->where('active', true)->where('season',$currentseason)->count();
+        $totalfarmunitarea=farmunits::where('farmid', $request->farmid)
+        ->where('active', true)->where('season',$currentseason)->sum('fuarea');
         $farm->farmarea=$totalfarmunitarea;
         $farm->nooffarmunits=$totalfarmunitcount;
 
@@ -187,8 +179,10 @@ class FarmunitsController extends Controller
 
             //Update total Farm Area and unit count
 
-            $totalfarmunitcount=$farmunit::where('farmid', $request->fid )->count();
-            $totalfarmunitarea=$farmunit::where('farmid', $request->fid )->sum('fuarea');
+            $totalfarmunitcount=$farmunit::where('farmid', $request->fid )
+            ->where('active', true)->where('season',$currentseason)->sum('fuarea')->count();
+            $totalfarmunitarea=$farmunit::where('farmid', $request->fid )
+            ->where('active', true)->where('season',$currentseason)->sum('fuarea');
             $farm->farmarea=$totalfarmunitarea;
             $farm->nooffarmunits=$totalfarmunitcount;
 
