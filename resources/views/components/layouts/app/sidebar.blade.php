@@ -11,9 +11,13 @@
 
     </head>
     <style>
+        .data-current\:bg-white {
+           
+        }
+
         .c-sidebar a {
             color:#F5F0E6;
-            border-color: #388E3C;
+            border-color: #388E3C !important;
             text-decoration:none
 
         }
@@ -40,9 +44,11 @@
                 <x-app-logo />
             </a>
             
+           
 
             <flux:navlist variant="outline">
                 <flux:navlist.group heading="Platform" class="grid c-sidebar">
+                     <flux:menu.separator />
                     @if (in_array($user->roles,['ADMINISTRATOR','INSPECTOR']) )
             
                     <flux:navlist.item  class="c-sidebar" icon="chart-bar" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate style="margin-top:8px;">{{ __('Dashboard') }}</flux:navlist.item>                 

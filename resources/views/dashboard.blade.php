@@ -4,7 +4,8 @@
 @endphp
 <x-layouts.app>
   <div class="bg-transparent col-sm-9 mb-3">
-    <div class="class-body"><h3 style="color: #388E3C"><b>Dashboard: Welcome {{$user->fname}}</b></h3> </div>
+    <div class="class-body"><h3 style="color: #D72638"><b>Farm Management Dashboard: {{$user->fname}}</b></h3> 
+    <font style="color: black"> Welcome back! Here's your farm overview for today. </font></div>
   </div>
   <div>
   <div class="card  bg-transparent col-sm-10">
@@ -16,7 +17,7 @@
             
               <h3 class="card-title text-center">{{$usercount}}</h3>
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">Active Users</h5>
+              <p className="text-sm text-charcoal-grey/70">Active Users</p>
             </div>
           </div>
         </div>
@@ -25,7 +26,7 @@
             <div style="font-size: 30px"><i class="fa fa-leaf" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$farmpendingcount}}</h3>
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">Farm Entrance Pending</h5>
+              <p className="text-sm text-charcoal-grey/70">Farm Entrance Pending</p>
             </div>
           </div>
         </div>
@@ -34,7 +35,7 @@
             <div style="font-size: 30px"><i class="fa fa-pagelines" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$farmcount}}</h3>
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">Active Farmers</h5>
+               <p className="text-sm text-charcoal-grey/70">Active Farmers</p>
             </div>
           </div>
         </div>
@@ -43,7 +44,7 @@
             <div style="font-size: 30px"><i class="fa fa-pagelines" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$farmcount+$farmpendingcount}}</h3>
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">Total Farmers Registered </h5>
+              <p className="text-sm text-charcoal-grey/70">Total Farmers Registered </p>
             </div>
           </div>
         </div>
@@ -52,7 +53,7 @@
             <div style="font-size: 30px"><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$inspectioncount}}</h3>
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">REPORT(S) SUBMITTED</h5>
+              <p className="text-sm text-charcoal-grey/70">Report(s) Submitted</p>
             </div>
           </div>
         </div>
@@ -61,7 +62,7 @@
             <div style="font-size: 30px"><i class="fa fa-check" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$inspectionapprovedcount}}</h3>
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">REPORT(S)APPROVED</h5>
+              <p className="text-sm text-charcoal-grey/70">Report(s) Approved</p>
             </div>
           </div>
         </div>
@@ -70,30 +71,30 @@
             <i class="fa fa-times" aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{$inspectionrejectedcount}}</h3>
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">REPORT(S)REJECTED</h5>
+              <p className="text-sm text-charcoal-grey/70">Report(s) Rejected</p>
             </div>
           </div>
         </div>
         <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem ; margin-right:5px">
           <div class="card-body"><div style="font-size: 30px">
-            <i class="fa fa-briefcase" aria-hidden="true"></i></div>
+            <i class="fa fa-map-marker" style="color: rgba(88, 31, 31, 0.811) " aria-hidden="true"></i></div>
               <h3 class="card-title text-center">{{number_format($farmarea,2)}}  ha</h3>
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">Total Acreage</h5>
+              <p className="text-sm text-charcoal-grey/70">Total Acreage</p>
             </div>
           </div>
         </div>
         
         <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem ; margin-right:5px">
           <div class="card-body"><div style="font-size: 30px">
-            <i class="fa fa-balance-scale" aria-hidden="true"></i></div>
+            <i class="fa fa-bullseye" style="color: rgb(188, 188, 21)" aria-hidden="true"></i></div>
              @if (is_numeric($actualyield))
              <h3 class="card-title text-center">{{number_format($estyield,2)}} Kgs</h3>       
             @else
                <h3 class="card-title text-center">{{($estyield)}}</h3>
             @endif
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">Est. Yield [ {{$datayear}}]</h5>
+              <p className="text-sm text-charcoal-grey/70">Est. Yield [ {{$datayear}}]</p>
             </div>
           </div>
         </div>
@@ -106,7 +107,7 @@
                <h3 class="card-title text-center">{{($actualyield)}}</h3>
             @endif
             <div  class="card-footer" style="text-align: center; ">
-              <h5  style="color: #388E3C">Actual Yield [ {{$datayear}}]</h5>
+              <p className="text-sm text-charcoal-grey/70">Actual Yield [ {{$datayear}}]</p>
             </div>
           </div>
         </div>
