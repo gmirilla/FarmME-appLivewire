@@ -289,6 +289,8 @@ class InternalinspectionController extends Controller
                if ($request->has('viewsheet')) {
                 # code...
 
+                
+
                 return redirect()->route('iapprove',$request);
                }
                if ($request->has('printsheet')) {
