@@ -107,7 +107,7 @@ class FarmunitsController extends Controller
                         ->where('active', true)->where('season',$currentseason)
                         ->count();
                         $farm->nooffarmunits=$currentfarmunitscount;
-                        $farm->farmarea=$currentfarmunitsacreage;
+                        $farm->farmarea=number_format($currentfarmunitsacreage,4);
                         $farm->save();
 
                     break;
