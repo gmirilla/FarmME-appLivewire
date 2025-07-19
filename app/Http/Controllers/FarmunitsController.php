@@ -100,9 +100,8 @@ class FarmunitsController extends Controller
                             
                         }
                         ## Update the total count and acreage of the associated farmer
-                        $currentfarmunitsacreage=farmunits::where('farmid',$farmunit->id)
-                        ->where('active', true)->where('season',$currentseason)
-                        ->sum('fuarea');
+                        $currentfarmunitsacreage=farmunits::where('active', true)->where('farmid',$farmunit->id)
+                        ->where('season',$currentseason)->sum('fuarea');
 
                          $currentfarmunitscount=farmunits::where('farmid',$farmunit->id)
                         ->where('active', true)->where('season',$currentseason)
