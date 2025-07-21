@@ -20,18 +20,22 @@ class farmImport implements ToModel, WithHeadingRow
             'village' => $row['village'],
             'state' => $row['state'],	
             'region' => $row['region'],
+            'community' => $row['region'],
             'measeaurement' => $row['measurement'],
             'farmcode' => $row['farmcode'],
-            'yearofcertification' => $row['certification'],
             'fname' => $row['fname'],
             'surname' => $row['surname'],
             'phonenumber' => $row['phonenumber'],  
             'nationalidnumber' => $row['nationalidnumber'],
             'gender' => $row['gender'],
-            'community' => $row['community'],
             'farmname'=>$row['farmname'],
-            'farmstate'=>$row['farmstatus'],
-            'measurement'=>$row['measurement']
+            'farmstate'=>$row['farmstate'],
+            'measurement'=>$row['measurement'],
+            'yob'=>$row['yob'],
+            'farmarea'=>$row['farmarea'],
+            'farmtype'=>$row['farmtype'],
+            'crop'=>$row['crop'],
+            'cropvariety'=>$row['cropvariety']
 
             //
         ]);
