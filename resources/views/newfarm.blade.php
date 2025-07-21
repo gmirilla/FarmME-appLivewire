@@ -62,7 +62,7 @@
             <div class="mb-3">
                 <label for="state" class="form-label">State</label>
                 <select required class="form-select" name="state" id="state">
-                    <option value="Kaduna">Kaduna</option>
+                    <option value="Kaduna">Kano</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -72,13 +72,13 @@
             <div class="mb-3">
                 <label for="crop" class="form-label">Certified Crop</label>
                 <select required class="form-select" name="crop" id="crop">
-                    <option value="Ginger">Ginger</option>
+                    <option value="Hibiscus">Hibiscus</option>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="cropvariety" class="form-label">Certified Crop Variety</label>
                 <select required class="form-select" name="cropvariety" id="cropvariety">
-                    <option value="UG 1( TAFIN GIWA)">UG 1( TAFIN GIWA)</option>
+                    <option value="DANGWALAIDA">DANGWALAIDA</option>
                 </select>
             </div>
             <div class="mb-3">
