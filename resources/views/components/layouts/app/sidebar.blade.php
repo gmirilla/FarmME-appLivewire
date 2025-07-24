@@ -174,4 +174,33 @@
         @fluxScripts
         @RegisterServiceWorkerScript <!-- Service worker registration -->
     </body>
+<script>
+    const checkOnlineStatus = async () => {
+        try {
+            const response = await fetch('/ping', { method: 'GET' });
+            return response.ok;
+        } catch (err) {
+            return false;
+        }
+    };
+
+    window.addEventListener('online', () => {
+        console.log('Browser thinks we\'re online...');
+        checkOnlineStatus().then(isOnline => {
+            if (isOnline) {
+                console.log('Confirmed: Laravel server is reachable');
+                confirm("Press a button!");
+                
+                // Trigger UI update or sync
+            } else {
+                console.log('Still no connectivity despite online flag');
+            }
+        });
+    });
+
+    window.addEventListener('offline', () => {
+        console.log('Offline detected!');
+        // Trigger offline UI
+    });
+</script> 
 </html>

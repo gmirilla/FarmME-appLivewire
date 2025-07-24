@@ -28,6 +28,11 @@ Route::view('dashboard', 'dashboard2')
     ->middleware(['auth', 'verified'])
     ->name('dashboard2');
 */
+Route::get('/ping', function () {
+    return response()->json(['status' => 'ok']);
+});
+
+
 Route::middleware('auth')->group(function () {
     Route::get('user_admin',[userController::class, 'index'])->name('user_admin'); 
     Route::get('new_user',[userController::class, 'newuser'])->name('newuser');
