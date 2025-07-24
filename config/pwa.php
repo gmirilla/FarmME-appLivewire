@@ -21,10 +21,10 @@ return [
     'manifest' => [
         'name' => 'Laravel PWA',
         'short_name' => 'LPT',
-        'background_color' => '#6777ef',
+        'background_color' => '#ffffffff',
         'display' => 'fullscreen',
-        'description' => 'A Progressive Web Application setup for Laravel projects.',
-        'theme_color' => '#6777ef',
+        'description' => 'IMS KANO PWA',
+        'theme_color' => '#502905ff',
         'icons' => [
             [
                 'src' => 'logo.png',
