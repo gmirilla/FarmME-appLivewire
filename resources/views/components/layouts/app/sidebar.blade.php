@@ -8,6 +8,8 @@
     <head>
         @include('partials.head')
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        @PwaHead <!-- PWA meta tags directive -->
+
 
     </head>
     <style>
@@ -170,5 +172,6 @@
         {{ $slot }}
 
         @fluxScripts
+        @RegisterServiceWorkerScript <!-- Service worker registration -->
     </body>
 </html>
