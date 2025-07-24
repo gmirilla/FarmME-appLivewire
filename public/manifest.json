@@ -1,10 +1,10 @@
 {
-    "name": "Laravel PWA",
-    "short_name": "LPT",
-    "background_color": "#6777ef",
+    "name": "IMS KANO PWA",
+    "short_name": "IMS",
+    "background_color": "#ffffffff",
     "display": "fullscreen",
-    "description": "A Progressive Web Application setup for Laravel projects.",
-    "theme_color": "#6777ef",
+    "description": "IMS KANO PWA",
+    "theme_color": "#502905ff",
     "start_url": "/",
     "icons": [
         {

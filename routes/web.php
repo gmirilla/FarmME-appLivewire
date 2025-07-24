@@ -18,6 +18,7 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ReportsectionController;
 use App\Http\Controllers\ReportquestionsController;
 use App\Http\Controllers\userController;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,6 +33,10 @@ Route::get('/ping', function () {
     return response()->json(['status' => 'ok']);
 });
 
+Route::post('/api/sync-onboarding', function (Request $request) {
+  // Save onboarding form data to DB
+  return response()->json(['status' => 'synced']);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('user_admin',[userController::class, 'index'])->name('user_admin'); 

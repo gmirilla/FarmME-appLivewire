@@ -12,6 +12,13 @@
 
 
     </head>
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3.2.2/dist/dexie.min.js"></script>
+    <script>
+  const db = new Dexie("FarmEntrances");
+  db.version(1).stores({
+    farms: "farmcode,community,farmname,farmstate"
+  });
+</script>
     <style>
         .c-sidebar a {
             color:#F5F0E6;
@@ -189,7 +196,7 @@
         checkOnlineStatus().then(isOnline => {
             if (isOnline) {
                 console.log('Confirmed: Laravel server is reachable');
-                confirm("Press a button!");
+                confirm("Connectivity restored");
                 
                 // Trigger UI update or sync
             } else {
@@ -203,4 +210,6 @@
         // Trigger offline UI
     });
 </script> 
+
+
 </html>

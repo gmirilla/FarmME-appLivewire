@@ -19,8 +19,8 @@ return [
     */
 
     'manifest' => [
-        'name' => 'Laravel PWA',
-        'short_name' => 'LPT',
+        'name' => 'IMS KANO PWA',
+        'short_name' => 'IMS',
         'background_color' => '#ffffffff',
         'display' => 'fullscreen',
         'description' => 'IMS KANO PWA',

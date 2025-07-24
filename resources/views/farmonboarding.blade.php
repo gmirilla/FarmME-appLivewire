@@ -10,6 +10,11 @@
   <div class="card-header"><h4>FARM ENTRANTS  ASSIGNED FOR {{$currentseason}} SEASON</h4></div>
 
   <div class="card-body table-responsive">
+    <table>
+    <tbody id="farm-rows">
+  <!-- JS will populate this -->
+</tbody>
+    </table>
 
     <table class="table table-striped display" id="farms">
         <thead>
@@ -112,10 +117,56 @@ exampleModal.addEventListener('show.bs.modal', function (event) {
   modalTitle.textContent = 'Schedule Inspection for  ' + recipient
   modalBodyInput.value = recipient
 })
+
+window.addEventListener('offline', () => {
+  document.body.insertAdjacentHTML('afterbegin', '<div class="offline-banner">You’re offline. Showing cached data.</div>');
+});
+
 </script>
 <script>
   new DataTable('#farms');
 </script>
+<script>
+  const farmData = @json($farmlist);
+  const farms = Object.values(farmData); // Now farms is an actual array
+  console.log(farmData);
+
+  if (navigator.onLine) {
+    farms.forEach(farm => {
+      db.farms.put({
+        farmcode: farm.farmcode,
+        community: farm.community,
+        farmname: farm.farmname,
+        farmstate: farm.farmstate
+      });
+      console.log(farm.farmcode, farm.community);
+    });
+  }
+</script>
+<script>
+  if (!navigator.onLine) {
+    db.farms.toArray().then(farms => {
+      const tbody = document.getElementById("farm-rows");
+      tbody.innerHTML = "";
+
+      farms.forEach((farm, index) => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${farm.community}</td>
+            <td>${farm.farmcode}</td>
+            <td>${farm.farmname}</td>
+            <td>${farm.farmstate}</td>
+            <td>
+              <button class="btn btn-secondary" disabled>Offline</button>
+            </td>
+          </tr>
+        `;
+      });
+    });
+  }
+</script>
+
 </x-layouts.app>
 
             
