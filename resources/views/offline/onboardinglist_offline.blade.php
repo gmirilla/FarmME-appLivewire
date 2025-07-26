@@ -1,15 +1,11 @@
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
-<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
-<x-layouts.app>
+<x-layouts.offline>
+    <script src="https://cdn.jsdelivr.net/npm/dexie@3.2.2/dist/dexie.min.js"></script>
 
-<div class="card">
+    <div class="card">
 
   <div class="card-header"><h4>FARM ENTRANTS  ASSIGNED FOR {{$currentseason}} SEASON</h4></div>
 
-  <div class="card-body table-responsive offline">
+  <div class="card-body table-responsive">
     <table>
     <tbody id="farm-rows">
   <!-- JS will populate this -->
@@ -129,6 +125,7 @@ window.addEventListener('offline', () => {
 <script>
   const farmData = @json($farmlist);
   const farms = Object.values(farmData); // Now farms is an actual array
+  console.log(farmData);
 
   if (navigator.onLine) {
     farms.forEach(farm => {
@@ -144,9 +141,8 @@ window.addEventListener('offline', () => {
 </script>
 <script>
 if (!navigator.onLine) {
-   console.log("Offline mode detected. Redirecting to offline view...");
   const tableHTML = `
-    <table class="table table-strpied">
+    <table class="table">
       <thead>
         <tr>
           <th>#</th>
@@ -159,7 +155,7 @@ if (!navigator.onLine) {
       </thead>
       <tbody id="farm-rows"></tbody>
     </table>`;
-  document.querySelector(".offline").innerHTML = tableHTML;
+  document.querySelector(".card-body").innerHTML = tableHTML;
 
   db.farms.toArray().then(farms => {
     const tbody = document.getElementById("farm-rows");
@@ -171,20 +167,12 @@ if (!navigator.onLine) {
           <td>${farm.farmcode}</td>
           <td>${farm.farmname}</td>
           <td>${farm.farmstate}</td>
-          <td><button class="btn btn-secondary" onclick="goToOfflineFormFE('${farm.farmcode}')">Offline Form</button></td>
+          <td><button class="btn btn-secondary" disabled>Offline</button></td>
         </tr>
       `;
     });
   });
 }
-
-function goToOfflineFormFE(farmcode) {
-  localStorage.setItem("selectedFarm", farmcode);
-  window.location.href = "/offline-fe";
-}
-
 </script>
 
-</x-layouts.app>
-
-            
+</x-layouts.offline>

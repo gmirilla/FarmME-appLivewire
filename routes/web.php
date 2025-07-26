@@ -33,6 +33,14 @@ Route::get('/ping', function () {
     return response()->json(['status' => 'ok']);
 });
 
+Route::get('/offline-fe', function () {
+    return view('offline.farm_entrance_offline'); // or return view with x-layouts.offline
+});
+Route::middleware('auth')->group(function () {
+    Route::get('offline/farmentrance',[FarmentranceController::class, 'offlinefestart'])->name('offlinefestart'); 
+
+});
+
 Route::post('/api/sync-onboarding', function (Request $request) {
   // Save onboarding form data to DB
   return response()->json(['status' => 'synced']);
