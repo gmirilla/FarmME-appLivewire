@@ -2,12 +2,17 @@
 <script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+@php
+$userid=Auth::user()->id;
+@endphp
 <x-layouts.app>
 
 <div class="card">
 
   <div class="card-header"><h4>FARM ENTRANTS  ASSIGNED FOR {{$currentseason}} SEASON</h4></div>
+  <input type="text" value="{{$userid}}" hidden disabled id="userid">
 
   <div class="card-body table-responsive offline">
     <table>
@@ -136,7 +141,8 @@ window.addEventListener('offline', () => {
         farmcode: farm.farmcode,
         community: farm.community,
         farmname: farm.farmname,
-        farmstate: farm.farmstate
+        farmstate: farm.farmstate,
+        inspectorid: farm.inspectorid
       });
       console.log(farm.farmcode, farm.community);
     });
@@ -161,21 +167,43 @@ if (!navigator.onLine) {
     </table>`;
   document.querySelector(".offline").innerHTML = tableHTML;
 
-  db.farms.toArray().then(farms => {
-    const tbody = document.getElementById("farm-rows");
-    farms.forEach((farm, index) => {
-      tbody.innerHTML += `
+const currentUserId = document.getElementById("userid");
+const x=currentUserId.value;
+console.log(x); // Replace with actual user ID from session or context
+
+db.farms.toArray().then(farms => {
+  const tbody = document.getElementById("farm-rows");
+  let rowsHTML = "";
+
+  farms
+    .filter(farm => farm.inspectorid ==x) // Filter based on inspector match
+    .forEach((farm, index) => {
+      rowsHTML += `
         <tr>
           <td>${index + 1}</td>
           <td>${farm.community}</td>
           <td>${farm.farmcode}</td>
           <td>${farm.farmname}</td>
           <td>${farm.farmstate}</td>
-          <td><button class="btn btn-secondary" onclick="goToOfflineFormFE('${farm.farmcode}')">Offline Form</button></td>
+          <td>
+            <button class="btn btn-secondary" onclick="goToOfflineFormFE('${farm.farmcode}')">
+              Offline Form
+            </button>
+          </td>
         </tr>
       `;
     });
-  });
+    if (rowsHTML === "") {
+  rowsHTML = `
+    <tr>
+      <td colspan="6" class="text-center">No farms found for this inspector.</td>
+    </tr>
+  `;
+}
+
+
+  tbody.innerHTML = rowsHTML;
+});
 }
 
 function goToOfflineFormFE(farmcode) {

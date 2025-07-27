@@ -32,7 +32,7 @@
                     <input name="volseason" id="seasonrange0"  disabled class="form-control">
                   </td>
                   <td>
-                    <input type="number" step="any" name="volsold"  class="form-control">
+                    <input type="number" step="any" name="volsold[]"  class="form-control">
                   </td>
                   <td>
                     <input type="text" name="farmcode" hidden class="form-control" id="farmcode-hidden">
@@ -43,7 +43,7 @@
                     <input name="volseason" id="seasonrange1"  disabled class="form-control">
                   </td>
                   <td>
-                    <input type="number" step="any" name="volsold" class="form-control">
+                    <input type="number" step="any" name="volsold[]" class="form-control">
                   </td>
                   <td>
                     <input type="text" name="farmcode" hidden class="form-control" id="farmcode-hidden">
@@ -54,7 +54,7 @@
                     <input name="volseason" id="seasonrange2" disabled class="form-control">
                   </td>
                   <td>
-                    <input type="number" step="any" name="volsold" class="form-control">
+                    <input type="number" step="any" name="volsold[]" class="form-control">
                   </td>
                   <td>
                     <input type="text" name="farmcode" hidden class="form-control" id="farmcode-hidden">
@@ -64,6 +64,7 @@
             </table>
           </div>
         </div>
+    
         <div class="card my-3">
     <div class="card-body">
             <h5>C. </h5>
@@ -75,16 +76,13 @@
                     <th></th>
                 </thead>
                 <tbody>
-
                     <tr>
                         <td><input type="text" id="prevseason_id1" disabled class="form-control"></td>
                             <td>Previous year’s </b> harvest of certified crop delivered to the group</td>
-                            <td><input type="number" step=any name="cropdelivered" id="cropdelivered" class="form-control"></td>
+                            <td><input type="number" step=any name="cropdelivered[]" id="cropdelivered" class="form-control"></td>
                             <td>
                                 <input type="text" hidden name='prevseason' >
                             </td>
-                            </form>
-
                     </tr>
                     <tr>
                         <td><input type="text" id="prevseason_id2" disabled class="form-control"></td>
@@ -113,46 +111,132 @@
                 <tbody>
 
                       <tr>
-                        <td><input type="text" name="herbicide" class="form-control" ></td>
-                        <td><input type="text"  name="herbicideqty" class="form-control" ></td>
-                        <td><input type="text"  name="herbicideapplier" class="form-control"></td>
-                        <td><input type="number" step=any name="hectareapplied" class="form-control"></td>
+                        <td><input type="text" name="herbicide[]" class="form-control" ></td>
+                        <td><input type="text"  name="herbicideqty[]" class="form-control" ></td>
+                        <td><input type="text"  name="herbicideapplier[]" class="form-control"></td>
+                        <td><input type="number" step=any name="hectareapplied[]" class="form-control"></td>
+                        <td></td>
+                    </tr> 
+                                          <tr>
+                        <td><input type="text" name="herbicide[]" class="form-control" ></td>
+                        <td><input type="text"  name="herbicideqty[]" class="form-control" ></td>
+                        <td><input type="text"  name="herbicideapplier[]" class="form-control"></td>
+                        <td><input type="number" step=any name="hectareapplied[]" class="form-control"></td>
+                        <td></td>
+                    </tr> 
+                                          <tr>
+                        <td><input type="text" name="herbicide[]" class="form-control" ></td>
+                        <td><input type="text"  name="herbicideqty[]" class="form-control" ></td>
+                        <td><input type="text"  name="herbicideapplier[]" class="form-control"></td>
+                        <td><input type="number" step=any name="hectareapplied[]" class="form-control"></td>
+                        <td></td>
+                    </tr> 
+                </tbody>
+            </table>
+    </div>
+    </div>
+    <div class="card my-3">
+    <div class="card-body">
+            <h5>E. OTHER CULTIVATED CROPS  </h5>
+            <table class="table">
+                <thead>
+                    <th>PLOT NAME</th>
+                    <th>CROP CULTIVATED</th>
+                    <th>ESTIMATED HECTARES</th>
+                    <th>LOCATION</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" name="otherplotname[]"    class="form-control"></td>
+                        <td><input type="text" name="otherplotcrop[]"  class="form-control"></td>
+                        <td><input type="text" name="otherplotarea[]" class="form-control"></td>
+                        <td><input type="text" name="otherplotlocation[]" class="form-control"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="otherplotname[]"    class="form-control"></td>
+                        <td><input type="text" name="otherplotcrop[]"  class="form-control"></td>
+                        <td><input type="text" name="otherplotarea[]" class="form-control"></td>
+                        <td><input type="text" name="otherplotlocation[]" class="form-control"></td>
                         <td></td>
                     </tr> 
                     <tr>
-                        <td><input type="text" name="herbicide" class="form-control" ></td>
-                        <td><input type="text"  name="herbicideqty" class="form-control" ></td>
-                        <td><input type="text"  name="herbicideapplier" class="form-control"></td>
-                        <td><input type="number" step=any name="hectareapplied" class="form-control"></td>
+                        <td><input type="text" name="otherplotname[]"    class="form-control"></td>
+                        <td><input type="text" name="otherplotcrop[]"  class="form-control"></td>
+                        <td><input type="text" name="otherplotarea[]" class="form-control"></td>
+                        <td><input type="text" name="otherplotlocation[]" class="form-control"></td>
                         <td></td>
-                    </tr>
-                                          <tr>
-                        <td><input type="text" name="herbicide" class="form-control" ></td>
-                        <td><input type="text"  name="herbicideqty" class="form-control" ></td>
-                        <td><input type="text"  name="herbicideapplier" class="form-control"></td>
-                        <td><input type="number" step=any name="hectareapplied" class="form-control"></td>
-                        <td></td>
-                    </tr>  
-
-                    <tr>
-                        <td><input type="text" required name="herbicide" class="form-control" placeholder="Enter name of Chemical.."></td>
-                        <td><input type="text" required name="herbicideqty" class="form-control"></td>
-                        <td><input type="text" required name="herbicideapplier" class="form-control"></td>
-                        <td><input type="text" required name="hectareapplied" class="form-control"></td>
-                        <td>
-                            <input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
-                            <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
-                            <input type="text" name="farmentrance" hidden class="form-control" value="{{$farmentrance->id}}">
-                            <input type="text" name="season" hidden class="form-control" value="{{$currentseason}}">
-                            <button type="submit" name="addherbicide" class="btn btn-primary">ADD</a></td>
-                            </form>
-                    </tr>
+                    </tr> 
                 </tbody>
+            </table>
+    </div>
+    </div>
 
-        <button type="submit">Save Offline</button>
+
+        <button type="submit" class="btn btn-primary">Save Offline</button>
       </form>
     </div>
   </div>
 
   <script src="/js/offline-handler.js"></script>
+  <script>
+    document.getElementById("offline-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const formData = new FormData(e.target);
+  const farmcode = formData.get("farmcode") || formData.getAll("farmcode[]")[0]; // fallback
+
+  // Save base farm entry (can expand this)
+  await db.farms.put({ farmcode });
+
+  //  Volumes delivered
+  const volumes = formData.getAll("volsold[]");
+  ["seasonrange0", "seasonrange1", "seasonrange2"].forEach((id, i) => {
+    const season = document.getElementById(id).value;
+    const volume = volumes[i];
+    if (volume) {
+      db.volumes.put({ farmcode, season, volume: parseFloat(volume) });
+    }
+  });
+
+  //Agrochemicals
+  const herbicideNames = formData.getAll("herbicide[]");
+  const herbicideQtys = formData.getAll("herbicideqty[]");
+  const appliers = formData.getAll("herbicideapplier[]");
+  const hectares = formData.getAll("hectareapplied[]");
+
+  herbicideNames.forEach((name, i) => {
+    if (name) {
+      db.agrochemicals.put({
+        farmcode,
+        herbicide: name,
+        quantity: herbicideQtys[i],
+        applier: appliers[i],
+        hectare: parseFloat(hectares[i])
+      });
+    }
+  });
+
+  // ther Crops
+  const plotNames = formData.getAll("otherplotname[]");
+  const crops = formData.getAll("otherplotcrop[]");
+  const areas = formData.getAll("otherplotarea[]");
+  const locations = formData.getAll("otherplotlocation[]");
+
+  plotNames.forEach((name, i) => {
+    if (name) {
+      db.otherCrops.put({
+        farmcode,
+        plotName: name,
+        crop: crops[i],
+        area: areas[i],
+        location: locations[i]
+      });
+    }
+  });
+
+  alert("Farm data saved offline successfully 🌍💾");
+});
+  </script>
 </x-layouts.offline>

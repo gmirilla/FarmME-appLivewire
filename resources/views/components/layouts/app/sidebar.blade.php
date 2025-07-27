@@ -9,16 +9,47 @@
         @include('partials.head')
         <meta name="csrf-token" content="{{ csrf_token() }}">
         @PwaHead <!-- PWA meta tags directive -->
-
-
-    </head>
     <script src="https://cdn.jsdelivr.net/npm/dexie@3.2.2/dist/dexie.min.js"></script>
     <script>
   const db = new Dexie("FarmEntrances");
-  db.version(1).stores({
-    farms: "farmcode,community,farmname,farmstate"
+  db.version(3).stores({
+      // Basic Farm Info
+  farms: "farmcode,community,farmname,farmstate,inspectorid",
+
+  // Main Submitted Form Header
+  forms: "++id,farmcode,farmname,community,crop,cropvariety,regdate,address,sync_status",
+
+  // Volumes Sold (Section B)
+  volumes: "++id,farmcode,season,volume,season",
+
+  // Agrochemical Use (Section D)
+  agrochemicals: "++id,farmcode,herbicide,quantity,applier,hectare,season",
+
+  // Other Cultivated Crops (Section E)
+  otherCrops: "++id,farmcode,plotName,crop,area,location,season",
+
+  //Report Details
+  reports: "reportid, reportname,reportstate,",
+
+  // Report Sections
+  reportSections: "sectionid, reportid,sectionname,sectionseq,sectionstate,",
+
+  //Report Questions
+  reportQuestions: "questionid, sectionid, reportid, questionseq, question, questiontype, questionstate",
+
+  //Inspection Sheet:
+  inspectionSheet: "++id, farmcode,reportid,inspectorid,season",
+
+  //Inspection Sheet answers
+  inspectionAnswers: "++id, farmcode, inspectionsheetid, questionid, answer,comment"
+
   });
 </script>
+<script src="/js/offline-handler.js"></script>
+
+
+    </head>
+
     <style>
         .c-sidebar a {
             color:#F5F0E6;

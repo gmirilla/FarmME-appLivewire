@@ -1,7 +1,21 @@
+
+
 const db = new Dexie("FarmEntrances");
-db.version(1).stores({
-  farms: "++id,farmcode,community,farmname,farmstate",
-  forms: "++id,farmcode,farmname,community,crop,cropvariety,regdate,address,sync_status"
+db.version(3).stores({
+  // Basic Farm Info
+  farms: "farmcode,community,farmname,farmstate,inspectorid",
+
+  // Main Submitted Form Header
+  forms: "++id,farmcode,farmname,community,crop,cropvariety,regdate,address,sync_status",
+
+  // Volumes Sold (Section B)
+  volumes: "++id,farmcode,season,volume",
+
+  // Agrochemical Use (Section D)
+  agrochemicals: "++id,farmcode,herbicide,quantity,applier,hectare",
+
+  // Other Cultivated Crops (Section E)
+  otherCrops: "++id,farmcode,plotName,crop,area,location"
 });
 
 const selectedFarm = localStorage.getItem("selectedFarm");
@@ -37,24 +51,95 @@ preseasonid2.value=seasonrange[0];
 
 
 // Handle form submission offline
-document.getElementById("offline-form").addEventListener("submit", e => {
+document.getElementById("offline-form").addEventListener("submit", async function (e) {
   e.preventDefault();
   const form = e.target;
-  const data = {
-    farmcode: form.farmcode.value,
-    farmname: form.farmname?.value || "", // optional fallback
-    community: form.community?.value || "",
-    crop: form.crop?.value || "",
-    cropvariety: form.cropvariety?.value || "",
-    regdate: form.regdate?.value || "",
-    address: form.address?.value || "",
+  const formData = new FormData(form);
+  const farmcode = formData.get("farmcode") || formData.getAll("farmcode[]")[0];
+
+  // 🔎 Check if this farm already has a saved form
+  const exists = await db.forms.where("farmcode").equals(farmcode).count();
+  if (exists > 0) {
+    alert("A form for this farm already exists offline.");
+    return;
+  }
+
+  // 📝 Save form header (Section A)
+  const header = {
+    farmcode,
     sync_status: "pending"
   };
+  await db.forms.add(header);
 
-  db.forms.add(data).then(() => {
-    alert("Saved offline. Will sync when online.");
-    form.reset();
+  // 🌽 Section B – Volumes Sold
+  const volumes = formData.getAll("volsold[]");
+  ["seasonrange0", "seasonrange1", "seasonrange2"].forEach((id, i) => {
+    const season = document.getElementById(id).value;
+    const volume = volumes[i];
+    if (volume) {
+      db.volumes.put({ farmcode, season, volume: parseFloat(volume) });
+    }
   });
+
+  // 📦 Section C – Crop Delivery & Production
+  const cropDelivered = formData.getAll("cropdelivered[]");
+  const cropProduced = formData.getAll("cropproduced");
+  const prevSeason = document.getElementById("prevseason_id1").value;
+
+  if (cropDelivered.length > 0) {
+    db.volumes.put({
+      farmcode,
+      season: prevSeason,
+      volume: parseFloat(cropDelivered[0])
+    });
+  }
+
+  if (cropProduced.length > 0) {
+    db.volumes.put({
+      farmcode,
+      season: prevSeason,
+      volume: parseFloat(cropProduced[0]) // You could store separately if needed
+    });
+  }
+
+  // 🧪 Section D – Agrochemicals
+  const herbicideNames = formData.getAll("herbicide[]");
+  const herbicideQtys = formData.getAll("herbicideqty[]");
+  const appliers = formData.getAll("herbicideapplier[]");
+  const hectares = formData.getAll("hectareapplied[]");
+
+  herbicideNames.forEach((name, i) => {
+    if (name) {
+      db.agrochemicals.put({
+        farmcode,
+        herbicide: name,
+        quantity: herbicideQtys[i],
+        applier: appliers[i],
+        hectare: parseFloat(hectares[i])
+      });
+    }
+  });
+
+  // 🌾 Section E – Other Cultivated Crops
+  const plotNames = formData.getAll("otherplotname[]");
+  const crops = formData.getAll("otherplotcrop[]");
+  const areas = formData.getAll("otherplotarea[]");
+  const locations = formData.getAll("otherplotlocation[]");
+
+  plotNames.forEach((name, i) => {
+    if (name) {
+      db.otherCrops.put({
+        farmcode,
+        plotName: name,
+        crop: crops[i],
+        area: areas[i],
+        location: locations[i]
+      });
+    }
+  });
+
+  alert("All data saved offline successfully! 💾 Will sync when online.");
+  form.reset();
 });
 
 // Sync when online
