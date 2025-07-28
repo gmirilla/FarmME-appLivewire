@@ -11,14 +11,11 @@
 
     </head>
     <style>
-        .data-current\:bg-white {
-           
-        }
 
         .c-sidebar a {
             color:#F5F0E6;
             border-color: #388E3C !important;
-            text-decoration:none
+            text-decoration:none;
 
         }
         .c-navitem-selected {
@@ -36,8 +33,8 @@
          Auth::check();
         $user = Auth::user();
     @endphp
-    <body class="min-h-screen bg-white dark:bg-zinc-800" style="background: url('{{Request::root()}}/assets/images/triangles.svg') repeat 0 100%, -webkit-gradient(linear, left top, right top, from(#f2eadc), to(#F5F0E6)) 0% 0% no-repeat padding-box">
-        <flux:sidebar sticky stashable class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900" style="background-color:#388E3C ; color: #f5f0e6">
+    <body class="min-h-screen bg-white dark:bg-zinc-800" style="background: -webkit-gradient(linear, left top, right top, from(#f2eadc), to(#F5F0E6)) 0% 0% no-repeat padding-box">
+        <flux:sidebar sticky class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900" style="background-color:#388E3C ; color: #f5f0e6;">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
             <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2" wire:navigate>
@@ -66,17 +63,7 @@
             </flux:navlist>
 
             <flux:spacer />
-<!--
-            <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                {{ __('Repository') }}
-                </flux:navlist.item>
 
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits" target="_blank">
-                {{ __('Documentation') }}
-                </flux:navlist.item>
-            </flux:navlist>
-        -->
             <!-- Desktop User Menu -->
             <flux:dropdown position="bottom" align="start">
                 <flux:profile

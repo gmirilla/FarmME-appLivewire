@@ -31,7 +31,7 @@
 
 
     <div class="card">
-        <div class="card-header"><h4>Annex 5:  Field Entrance Form (UEBT/RA/Mabagrown) {{$currentseason}} Season</h4></div>
+        <div class="card-header"><h4>Annex 3:  Field Entrance Form {{$currentseason}} Season</h4></div>
         <div class="card-body">
             <h5>A. FIELD OPERATOR BIO-DATA</h5>
             <form action="{{route('feprofile_update')}}" method="post" enctype="multipart/form-data">
@@ -106,6 +106,10 @@
                 <div class="col-3 p-3">
                     <label for="varietyofcrop" class="form-label">Variety of Crop</label>
                     <input type="text"  name="varietyofcrop" id="varietycrop" class="form-control" value="{{$farmerdetail->cropvariety}}"/>
+                </div> 
+                <div class="col-3 p-3">
+                    <label for="sourceofcrop" class="form-label">Source of Crop</label>
+                    <input type="text"  name="sourceofcrop" id="sourceofcrop" class="form-control" value="{{ $farmentrance->sourceofcrop }}"/>
                 </div> 
                                 <div class="col-3 p-3">
                     <label for="regdate" class="form-label">Reg Date</label>

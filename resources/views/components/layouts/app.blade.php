@@ -1,6 +1,5 @@
 <x-layouts.app.sidebar>
-    <flux:main>
-
+    <flux:main container>
         {{ $slot }}
 
     </flux:main>

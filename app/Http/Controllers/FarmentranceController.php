@@ -80,6 +80,7 @@ $path=$request->file('signature')->store('public/signatures','public');
         $farmentrance->crop=$farmerdetail->crop;
         $farmentrance->cropvariety=$farmerdetail->cropvariety;
         $farmentrance->regdate=$request->regdate;
+        $farmentrance->sourceofcrop=$request->sourceofcrop;
 
 //farmerpicture_path do not override if empty
        if (!empty($request->farmerpicture)) {

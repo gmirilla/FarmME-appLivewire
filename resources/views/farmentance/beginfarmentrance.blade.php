@@ -33,7 +33,7 @@
 @endphp
 
     <div class="card">
-        <div class="card-header"><h4>Annex 5:  Field Entrance Form (UEBT/RA/Mabagrown) {{$currentseason}} Season</h4></div>
+        <div class="card-header"><h4>Annex 3:  Field Entrance Form {{$currentseason}} Season</h4></div>
         <div class="card-body">
             <h5>A. FIELD OPERATOR BIO-DATA</h5>
             <div class="row my-3 gx-5">
@@ -92,6 +92,10 @@
                     <label for="varietyofcrop" class="form-label">Variety of Crop</label>
                     <input type="text"  disabled name="varietyofcrop" id="varietycrop" class="form-control" value="{{$farmerdetail->cropvariety}}"/>
                 </div> 
+                <div class="col-3 p-3">
+                    <label for="sourceofcrop" class="form-label">Source of Crop</label>
+                    <input type="text"  disabled name="sourceofcrop" id="sourceofcrop" class="form-control" value="{{ $farmentrance->source }}"/>
+                </div> 
                                 <div class="col-3 p-3">
                     @if (!empty($farmerdetail->signaturepath))
                     <img src="{{url('/storage/'.$farmerdetail->signaturepath)}}" alt="" width="70px"><br> 
@@ -103,17 +107,18 @@
     </div>
     <div class="card my-3">
     <div class="card-body">
-            <h5>A. PRDOUCTION HISTORY</h5>
+            <h5>B. Historical Production: Hibiscus Production</h5>
             <table class="table">
                 <thead>
-                    <th>Ginger Plot Name</th>
+                    <th>Year</th>
                     <th>Farm Size (Ha)</th>
-                    <th>Estimated Yield (Kg)</th>
-                    <th>Lat. N</th>
-                    <th>Long. E</th>
-                    <th></th>
+                    <th>HarvestVolume (Bags)</th>
+                    <th>Crop</th>
+                    <th>System</th>
+                    <th>Intra-row Spacing (m)</th>
+
                 </thead>
-                <tbody>
+                <tbody><!--TO DO-->
                     @forelse ($farmplots as $farmplot)
                     <tr>
                         <td>{{$farmplot->plotname}}</td>
@@ -121,7 +126,7 @@
                         <td>{{$farmplot->estimatedyield}}</td>
                         <td>{{$farmplot->fulatitude}}</td>
                         <td>{{$farmplot->fulongitude}}</td>
-                        <td><a href="{{ route('disablefarm', ['farmcode' => $farmerdetail->farmcode, 'fuid' => $farmplot->id]) }}" class="btn btn-danger">Disable</a></td>
+                        <td></td>
 
                     </tr>
                     @empty
@@ -154,6 +159,51 @@
             </table>
         </div>
         </div>
+            <div class="card my-3">
+    <div class="card-body">
+            <h5>C. Historical Production: Agrochemicals Used : TODO YEAR  </h5>
+            <table class="table">
+                <thead>
+                    <th>Farm Size (Ha)</th>
+                    <th>Products<br>(Fertilizers, Pesticides, Herbicides)
+                    </th>
+                    <th>QUANTITY APPLIED (LITER'S/BAGS)</th>
+                    <th>NAME OF PERSON WHO APPLIED</th>
+                    <th>PPE Used (Y/N)</th>
+                    <th></th>
+                </thead>
+                <tbody>'
+                    @forelse ($agrochems as $agrochem )
+                                           <tr>
+                        <td></td>
+                        <td><input type="text" disabled name="herbicide" class="form-control" value="{{$agrochem->herbicidename}}"></td>
+                        <td><input type="text"  disabled name="herbicideqty" class="form-control" value="{{$agrochem->quantity}}"></td>
+                        <td><input type="text" disabled name="herbicideapplier" class="form-control" value="{{$agrochem->nameofperson}}"></td>
+                        <td><input type="number" disabled step=any name="hectareapplied" class="form-control" value="{{number_format($agrochem->hectaresapplied,2)}}"></td>
+                        <td><a href="{{ route('disablechems', ['farmcode' => $farmerdetail->farmcode, 'aid' => $agrochem->id]) }}" class="btn btn-danger">Disable</a></td>
+                    </tr> 
+                    @empty
+                        
+                    @endforelse
+                    <tr><form action="{{route('addchems')}}" method="post">
+                        @csrf
+                        <td></td>
+                        <td><input type="text" required name="herbicide" class="form-control" placeholder="Enter name of Chemical.."></td>
+                        <td><input type="text" required name="herbicideqty" class="form-control"></td>
+                        <td><input type="text" required name="herbicideapplier" class="form-control"></td>
+                        <td><input type="text" required name="hectareapplied" class="form-control"></td>
+                        <td>
+                            <input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
+                            <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
+                            <input type="text" name="farmentrance" hidden class="form-control" value="{{$farmentrance->id}}">
+                            <input type="text" name="season" hidden class="form-control" value="{{$currentseason}}">
+                            <button type="submit" name="addherbicide" class="btn btn-primary">ADD</a></td>
+                            </form>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
+    </div>
             <div class="card my-3">
     <div class="card-body">
             <h5>B. VOLUME OF CERTIFIED CROPS SOLD/DELIVERED TO THE GROUP IN PREVIOUS YEARS (KGS)</h5>
@@ -245,47 +295,7 @@
             </table>
     </div>
     </div>
-    <div class="card my-3">
-    <div class="card-body">
-            <h5>D. AGROCHEMICALS USED ON THE FARM LAND  </h5>
-            <table class="table">
-                <thead>
-                    <th>NAME  OF HERBICIDE & FERTILIZERS USED</th>
-                    <th>QUANTITY APPLIED (LITER'S/BAGS)</th>
-                    <th>NAME OF PERSON WHO APPLIED</th>
-                    <th>Ha OF GINGER APPLIED ON</th>
-                    <th></th>
-                </thead>
-                <tbody>'
-                    @forelse ($agrochems as $agrochem )
-                                           <tr>
-                        <td><input type="text" disabled name="herbicide" class="form-control" value="{{$agrochem->herbicidename}}"></td>
-                        <td><input type="text"  disabled name="herbicideqty" class="form-control" value="{{$agrochem->quantity}}"></td>
-                        <td><input type="text" disabled name="herbicideapplier" class="form-control" value="{{$agrochem->nameofperson}}"></td>
-                        <td><input type="number" disabled step=any name="hectareapplied" class="form-control" value="{{number_format($agrochem->hectaresapplied,2)}}"></td>
-                        <td><a href="{{ route('disablechems', ['farmcode' => $farmerdetail->farmcode, 'aid' => $agrochem->id]) }}" class="btn btn-danger">Disable</a></td>
-                    </tr> 
-                    @empty
-                        
-                    @endforelse
-                    <tr><form action="{{route('addchems')}}" method="post">
-                        @csrf
-                        <td><input type="text" required name="herbicide" class="form-control" placeholder="Enter name of Chemical.."></td>
-                        <td><input type="text" required name="herbicideqty" class="form-control"></td>
-                        <td><input type="text" required name="herbicideapplier" class="form-control"></td>
-                        <td><input type="text" required name="hectareapplied" class="form-control"></td>
-                        <td>
-                            <input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
-                            <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
-                            <input type="text" name="farmentrance" hidden class="form-control" value="{{$farmentrance->id}}">
-                            <input type="text" name="season" hidden class="form-control" value="{{$currentseason}}">
-                            <button type="submit" name="addherbicide" class="btn btn-primary">ADD</a></td>
-                            </form>
-                    </tr>
-                </tbody>
-            </table>
-    </div>
-    </div>
+
     <div class="card my-3">
     <div class="card-body">
             <h5>E. OTHER CULTIVATED CROPS  </h5>

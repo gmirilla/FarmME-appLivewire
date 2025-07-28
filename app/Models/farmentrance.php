@@ -10,7 +10,7 @@ class farmentrance extends Model
     protected $fillable=[
         'farm_period','farmid','internalinspectionid','inspectorid', 'surname','fname','farmcode','nationalidno',
         'yob','phoneno', 'householdsize','address', 'lastinspection','inpsectionresult', 'crop','cropvariety',
-        'regdate','fieldofficer','farmerpicture', 'annex6id','annex6accepted'
+        'regdate','fieldofficer','farmerpicture', 'annex6id','annex6accepted','sourceofcrop'
     ];
 
     public function inspectionsheet(){
