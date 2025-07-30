@@ -18,6 +18,7 @@ use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ReportsectionController;
 use App\Http\Controllers\ReportquestionsController;
 use App\Http\Controllers\userController;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,6 +29,28 @@ Route::view('dashboard', 'dashboard2')
     ->middleware(['auth', 'verified'])
     ->name('dashboard2');
 */
+Route::get('/ping', function () {
+    return response()->json(['status' => 'ok']);
+});
+
+Route::get('/offline-fe', function () {
+    return view('offline.farm_entrance_offline'); // return view with x-layouts.offline
+});
+
+Route::get('/offline-inspection', function () {
+    return view('offline.offline_inspection'); // return view with x-layouts.offline
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('offline/farmentrance',[FarmentranceController::class, 'offlinefestart'])->name('offlinefestart'); 
+
+});
+
+Route::post('/api/sync-onboarding', function (Request $request) {
+  // Save onboarding form data to DB
+  return response()->json(['status' => 'synced']);
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('user_admin',[userController::class, 'index'])->name('user_admin'); 
     Route::get('new_user',[userController::class, 'newuser'])->name('newuser');

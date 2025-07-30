@@ -2,14 +2,24 @@
 <script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+@php
+$userid=Auth::user()->id;
+@endphp
 <x-layouts.app>
 
 <div class="card">
 
   <div class="card-header"><h4>FARM ENTRANTS  ASSIGNED FOR {{$currentseason}} SEASON</h4></div>
+  <input type="text" value="{{$userid}}" hidden disabled id="userid">
 
-  <div class="card-body table-responsive">
+  <div class="card-body table-responsive offline">
+    <table>
+    <tbody id="farm-rows">
+  <!-- JS will populate this -->
+</tbody>
+    </table>
 
     <table class="table table-striped display" id="farms">
         <thead>
@@ -112,10 +122,130 @@ exampleModal.addEventListener('show.bs.modal', function (event) {
   modalTitle.textContent = 'Schedule Inspection for  ' + recipient
   modalBodyInput.value = recipient
 })
+
+window.addEventListener('offline', () => {
+  document.body.insertAdjacentHTML('afterbegin', '<div class="offline-banner">You’re offline. Showing cached data.</div>');
+});
+
 </script>
 <script>
   new DataTable('#farms');
 </script>
+<script>
+  const farmData = @json($farmlist);
+  const farms = Object.values(farmData); // Now farms is an actual array
+
+  const reportData=@json($reports);
+  const reports=Object.values(reportData); // No of active reports in system
+
+
+
+  if (navigator.onLine) {
+    farms.forEach(farm => {
+      db.farms.put({
+        farmcode: farm.farmcode,
+        community: farm.community,
+        farmname: farm.farmname,
+        farmstate: farm.farmstate,
+        inspectorid: farm.inspectorid
+      });
+     
+    });
+
+    reports.forEach(report=>{
+      db.reports.put({
+        reportid: report.id,
+        reportname: report.reportname,
+        reportstate: report.reportstate
+      });
+
+    });
+  }
+</script>
+<script>
+if (!navigator.onLine) {
+   console.log("Offline mode detected. Redirecting to offline view...");
+  const tableHTML = `
+    <table class="table table-strpied">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Community</th>
+          <th>Farm Code</th>
+          <th>Farm Name</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="farm-rows"></tbody>
+    </table>`;
+  document.querySelector(".offline").innerHTML = tableHTML;
+
+const currentUserId = document.getElementById("userid");
+const x=currentUserId.value;
+
+
+db.farms.toArray().then(farms => {
+  const tbody = document.getElementById("farm-rows");
+  let rowsHTML = "";
+
+  farms
+    .filter(farm => farm.inspectorid ==x) // Filter based on inspector match
+    .forEach((farm, index) => {
+      rowsHTML += `
+        <tr>
+          <td>${index + 1}</td>
+          <td>${farm.community}</td>
+          <td>${farm.farmcode}</td>
+          <td>${farm.farmname}</td>
+          <td>${farm.farmstate}</td>
+          <td>
+            <button class="btn btn-secondary" data-code="${farm.farmcode}" data-state="${farm.farmstate}">
+
+          
+              Offline Form
+            </button>
+          </td>
+        </tr>
+      `;
+    });
+    if (rowsHTML === "") {
+  rowsHTML = `
+    <tr>
+      <td colspan="6" class="text-center">No farms found for this inspector.</td>
+    </tr>
+  `;
+}
+
+
+  tbody.innerHTML = rowsHTML;
+
+  document.querySelectorAll(".btn-secondary").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const farmcode = btn.dataset.code;
+    const farmstate = btn.dataset.state;
+    goToOfflineFormFE(farmcode, farmstate);
+  });
+});
+
+});
+}
+
+function goToOfflineFormFE(farmcode, farmstate) {
+  console.log("Farm state:", farmstate);
+
+  if (farmstate == "PENDING") {
+    localStorage.setItem("selectedFarm", farmcode);
+    window.location.href = "/offline-fe";
+  } else {
+    alert("Unable to start Farm Entrance: farmer is not in PENDING state.");
+  }
+}
+
+
+
+</script>
+
 </x-layouts.app>
 
             

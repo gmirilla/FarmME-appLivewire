@@ -8,6 +8,43 @@
     <head>
         @include('partials.head')
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        @PwaHead
+            <script src="https://cdn.jsdelivr.net/npm/dexie@3.2.2/dist/dexie.min.js"></script>
+    <script>
+  const db = new Dexie("FarmEntranceskano");
+ db.version(4).stores({
+  // Basic Farm Info
+  farms: "farmcode,community,farmname,farmstate,inspectorid",
+
+  //Main Form Submission
+  forms: "++id,farmcode,farmname,community,crop,cropvariety,regdate,address,sync_status",
+
+  //Volumes Sold (Section B)
+  volumes: "++id,farmcode,season,volume", 
+
+  // Agrochemical Use (Section D)
+  agrochemicals: "++id,farmcode,herbicide,quantity,applier,hectare,season",
+
+  // Other Cultivated Crops (Section E)
+  otherCrops: "++id,farmcode,plotName,crop,area,location,season",
+
+  // Report Details
+  reports: "reportid,reportname,reportstate", 
+
+  // Report Sections
+  reportSections: "sectionid,reportid,sectionname,sectionseq,sectionstate",
+
+  // Report Questions
+  reportQuestions: "questionid,sectionid,reportid,questionseq,question,questiontype,questionstate",
+
+  // Inspection Sheet Header
+  inspectionSheet: "++id,farmcode,reportid,inspectorid,season",
+
+  // Inspection Sheet Answers
+  inspectionAnswers: "++id,farmcode,inspectionsheetid,questionid,answer,comment"
+});
+</script>
+<script src="/js/offline-handler.js"></script>
 
     </head>
     <style>
@@ -34,7 +71,7 @@
         $user = Auth::user();
     @endphp
     <body class="min-h-screen bg-white dark:bg-zinc-800" style="background: -webkit-gradient(linear, left top, right top, from(#f2eadc), to(#F5F0E6)) 0% 0% no-repeat padding-box">
-        <flux:sidebar sticky class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900" style="background-color:#388E3C ; color: #f5f0e6;">
+        <flux:sidebar  stashable  sticky class="border-r border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900" style="background-color:#388E3C ; color: #f5f0e6;" >
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
             <a href="{{ route('dashboard') }}" class="mr-5 flex items-center space-x-2" wire:navigate>
@@ -43,7 +80,7 @@
             
            
 
-            <flux:navlist variant="outline">
+            <flux:navlist variant="outline" wire:ignore>
                 <flux:navlist.group heading="Platform" class="grid c-sidebar">
                      <flux:menu.separator />
                     @if (in_array($user->roles,['ADMINISTRATOR','INSPECTOR']) )
@@ -163,5 +200,6 @@
         {{ $slot }}
 
         @fluxScripts
+        @RegisterServiceWorkerScript
     </body>
 </html>
