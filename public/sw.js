@@ -19,6 +19,7 @@ self.addEventListener("install", event => {
       const urls = [
         '/offline.html',
         '/farm/onboardinglist',
+        '/offline-fe',
         '/css/app.css',
         '/js/app.js',
         'https://code.jquery.com/jquery-3.7.1.js',
