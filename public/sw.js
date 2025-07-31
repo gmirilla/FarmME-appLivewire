@@ -77,7 +77,14 @@ self.addEventListener("fetch", event => {
           })
           .catch(() => caches.match(event.request) || caches.match('/offline.html'))
       );
-    } else {
+    }
+     else if (url.pathname === "/offline-fe") {
+    event.respondWith(
+      caches.match('/offline-fe') || caches.match('/offline.html')
+    );
+  }
+ 
+    else {
       event.respondWith(
         fetch(event.request)
           .catch(() => caches.match('/offline.html'))
