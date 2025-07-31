@@ -2,6 +2,7 @@ const CACHE_NAME = 'farm-cache-v1';
 const urlsToCache = [
   '/farm/onboardinglist',
   '/offline.html',
+  '/offline-fe',
   '/css/app.css',
   '/js/app.js',
   'https://code.jquery.com/jquery-3.7.1.js',
