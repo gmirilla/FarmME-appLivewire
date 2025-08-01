@@ -175,6 +175,9 @@ class FarmunitsController extends Controller
             $farmunit->farmentranceid=$request->farmentranceid;
             $farmunit->imagefilepath=$request->imagefilePath;
             $farmunit->season=$currentseason;
+            $farmunit->crop=$request->crop;
+            $farmunit->system=$request->system;
+            $farmunit->spacing=$request->spacing;
             $farmunit->save();
 
             //Update total Farm Area and unit count

@@ -64,6 +64,7 @@
 <x-layouts.app>
 
     <h4 class="text-center">{{$farm->farmcode}} : NEW FARM UNIT</h4>
+    <span style="font-size:0.8rem;">Note: Maize (M), Sorghum (S), Cowpea (C), Millet (ML), Sesame (Se), Groundnut (Gr)</span>
     
     <form action="{{route('fusave')}}" method="post">
         @csrf
@@ -87,6 +88,30 @@
                         <input type="text" value="" id="fuplotname"  name="fuplotname"  required class="form-control"> 
                         @else
                         <input type="text" value="{{$farmunit->plotname}}" id="fuplotname"  name="fuplotname"   required class="form-control">
+                        @endif
+                    </div>
+                     <div class="col-auto">
+                    <label for="fucrop" class="form-label">Crop</label>
+                      @if (empty($farmunit))
+                        <input type="text" value="" id="fucrop"  name="crop"  required class="form-control"> 
+                        @else
+                        <input type="text" value="{{$farmunit->crop}}" id="fucrop"  name="crop"   required class="form-control">
+                        @endif
+                    </div>
+                    <div class="col-auto">
+                    <label for="fusystem" class="form-label">System</label>
+                      @if (empty($farmunit))
+                        <input type="text" value="" id="fusystem"  name="system"  required class="form-control"> 
+                        @else
+                        <input type="text" value="{{$farmunit->system}}" id="fusystem"  name="system"   required class="form-control">
+                        @endif
+                    </div>
+                    <div class="col-auto">
+                    <label for="fuspacing" class="form-label">Spacing (m)</label>
+                      @if (empty($farmunit))
+                        <input type="text" value="" id="fuspacing"  name="spacing"  required class="form-control"> 
+                        @else
+                        <input type="text" value="{{$farmunit->spacing}}" id="fuspacing"  name="spacing"   required class="form-control">
                         @endif
                     </div>
             <div class="col-auto">

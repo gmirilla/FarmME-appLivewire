@@ -222,6 +222,7 @@
                     <th>Intra-row Spacing (m)</th>
                     <th>Latitude</th>
                     <th>Longitude</th>
+                    <th></th>
 
                 </thead>
                 <tbody><!--TO DO-->
@@ -230,11 +231,12 @@
                         <td>{{$farmplot->plotname}}</td>
                         <td>{{$farmplot->fuarea}}</td>
                         <td>{{$farmplot->estimatedyield}}</td>
+                        <td>{{$farmplot->crop}}</td>
+                        <td>{{$farmplot->system}}</td>
+                        <td>{{$farmplot->spacing}}</td>
                         <td>{{$farmplot->fulatitude}}</td>
                         <td>{{$farmplot->fulongitude}}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td><td><a href="{{ route('disablefarm', ['farmcode' => $farmerdetail->farmcode, 'fuid' => $farmplot->id]) }}" class="btn btn-danger">Disable</a></td></td>
 
                     </tr>
                     @empty
