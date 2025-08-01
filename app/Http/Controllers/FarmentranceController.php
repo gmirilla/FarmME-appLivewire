@@ -236,6 +236,13 @@ $fpath=$request->file('farmerpicture')->store('public/farmerpictures','public');
         $misccode->season=$request->volseason;
         $misccode->value=$request->volsold;
         $misccode->farmid=$request->farmid;
+        $misccode->farmentranceid=$request->farmentranceid;
+        $misccode->crop=$request->crop;
+        $misccode->system=$request->sysyem;
+        $misccode->spacing=$request->spacing;
+        $misccode->value=$request->harvest;
+        $misccode->farmsize=$request->farmsize;
+
         $misccode->save();
         $fcode='fcode='.$request->farmcode;
 

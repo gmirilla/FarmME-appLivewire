@@ -94,7 +94,7 @@
                 </div> 
                 <div class="col-3 p-3">
                     <label for="sourceofcrop" class="form-label">Source of Crop</label>
-                    <input type="text"  disabled name="sourceofcrop" id="sourceofcrop" class="form-control" value="{{ $farmentrance->source }}"/>
+                    <input type="text"  disabled name="sourceofcrop" id="sourceofcrop" class="form-control" value="{{ $farmentrance->sourceofcrop }}"/>
                 </div> 
                                 <div class="col-3 p-3">
                     @if (!empty($farmerdetail->signaturepath))
@@ -106,19 +106,27 @@
         </div>
     </div>
             <div class="card my-3">
-    <div class="card-body">
-            <h5>B. VOLUME OF CERTIFIED CROPS SOLD/DELIVERED TO THE GROUP IN PREVIOUS YEARS (KGS)</h5>
+    <div class="card-body responsive">
+            <h5>B. Historical Production: Hibiscus Production</h5><span style="font-size:0.8rem;">Note: Maize (M), Sorghum (S), Cowpea (C), Millet (ML), Sesame (Se), Groundnut (Gr)</span>
             <table class="table">
                 <thead>
-                    <th>SEASON</th>
-                    <th>VOLUME SOLD/DELIVERED (KGS)</th>
-                    <th></th>
+                    <th>Year</th>
+                    <th>Farm Size (Ha)</th>
+                    <th>Harvest Volume (BAGS)</th>
+                    <th>Intercrop <br/>Crop</th>
+                    <th>Intercrop <br/>System</th>
+                    <th>Intra-row Spacing (m)</th>
+                     <th></th>
                 </thead>
                 <tbody>
                     @forelse ($farmentrance->getvolumesold() as $volsold)
                      <tr>
                         <td>{{$volsold->season}}</td>
+                        <td>{{$volsold->farmsize}}</td>
                         <td>{{$volsold->value}}</td>
+                        <td>{{$volsold->crop}}</td>
+                        <td>{{$volsold->system}}</td>
+                        <td>{{$volsold->spacing}}</td>
                         <td><a href="{{ route('disablevolsold', ['farmcode' => $farmerdetail->farmcode, 'vsid' => $volsold->id]) }}"  required class="btn btn-danger">Disable</a></td>
                      </tr>   
                     @empty
@@ -133,12 +141,17 @@
                             @endforeach
                             </select>
                         </td>
+                        <td><input type="number" step=any name="farmsize" required class="form-control"></td>
+                        <td><input type="number" name="harvest" required class="form-control"></td>
+                        <td><input type="text" name="crop" required class="form-control"></td>
+                        <td><input type="text" name="sysyem" required class="form-control"></td>
                         <td>
-                            <input type="number" step=any name="volsold" class="form-control">
+                            <input type="number" step=any name="spacing" class="form-control">
                         </td>
                         <td>
                             <input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
                             <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
+                            <input type="text" name="farmentranceid" hidden class="form-control" value="{{$farmentrance->id}}">
                             
                         <button type="submit" class="btn btn-primary" >ADD</button></td>
                         </form>
@@ -148,57 +161,9 @@
             </table>
     </div>
     </div>
-<div class="card my-3">
-    <div class="card-body">
-            <h5>C. </h5>
-            <table class="table">
-                <thead>
-                    <th>SEASON</th>
-                    <th>DESCRIPTION</th>
-                    <th>QUANTITY IN KGS</th>
-                    <th></th>
-                </thead>
-                <tbody>
-
-                    <tr><form action="{{route('cropdelivered')}}" method="get">
-                        @csrf
-                        <td>{{$prevseason}}</td>
-                            <td>Previous year’s <b> ({{$prevseason}})</b> harvest of certified crop delivered to the group</td>
-                            <td><input type="number" step=any name="cropdelivered" id="cropdelivered" class="form-control" value="{{$prevcropdelivered}}"></td>
-                            <td>
-                                <input type="text" hidden name='prevseason' value='{{$seasonrange[0]}}'>
-                                <input type="text" hidden name='farmid' value='{{$farmerdetail->id}}'>
-                                <input type="text" hidden name='farmcode' value='{{$farmerdetail->farmcode}}'>
-                                <button type="submit" class="btn btn-primary">UPDATE</button>
-                            </td>
-                            </form>
-
-                    </tr>
-                    <tr>
-                        <form action="{{route('cropproduced')}}" method="get">
-                            @csrf
-                        <td>{{$prevseason}}</td>
-                            <td>Previous year’s <b> ({{$prevseason}})</b> estimated total production </td>
-                            <td><input type="number" step=any name="cropproduced" class="form-control" value="{{$prevcropproduced}}"></td>
-                                  <td>
-                                <input type="text" hidden name='prevseason' value='{{$prevseason}}'>
-                                <input type="text" hidden name='farmid' value='{{$farmerdetail->id}}'>
-                                <input type="text" hidden name='farmcode' value='{{$farmerdetail->farmcode}}'>
-                                <button type="submit" class="btn btn-primary">UPDATE</button>
-                            </td>
-                            </form>
-
-
-
-                    </tr>
-
-                </tbody>
-            </table>
-    </div>
-    </div>
         <div class="card my-3">
     <div class="card-body">
-            <h5>C. Historical Production: Agrochemicals Used : {{$currentseason}}  </h5>
+            <h5>C. Historical Production: Agrochemicals Used : {{$prevseason}}  </h5>
             <table class="table">
                 <thead>
                     <th>Farm Size (Ha)</th>
@@ -212,11 +177,13 @@
                 <tbody>'
                     @forelse ($agrochems as $agrochem )
                                            <tr>
-                        <td></td>
+                        <td><input type="text" disabled name="farmsize" class="form-control" value="{{$agrochem->farmsize}}"></td>
                         <td><input type="text" disabled name="herbicide" class="form-control" value="{{$agrochem->herbicidename}}"></td>
                         <td><input type="text"  disabled name="herbicideqty" class="form-control" value="{{$agrochem->quantity}}"></td>
                         <td><input type="text" disabled name="herbicideapplier" class="form-control" value="{{$agrochem->nameofperson}}"></td>
-                        <td><input type="text" disabled name="ppeused"  class="form-control"></td>
+                        <td>    <input type="checkbox" name="ppeused" class="form-check-input" 
+                                    disabled {{ $agrochem->ppeused ? 'checked' : '' }}>
+                        </td>
                         <td><a href="{{ route('disablechems', ['farmcode' => $farmerdetail->farmcode, 'aid' => $agrochem->id]) }}" class="btn btn-danger">Disable</a></td>
                     </tr> 
                     @empty
@@ -224,11 +191,11 @@
                     @endforelse
                     <tr><form action="{{route('addchems')}}" method="post">
                         @csrf
-                        <td></td>
+                        <td><input type="text" required name="farmsize" class="form-control"></td>
                         <td><input type="text" required name="herbicide" class="form-control" placeholder="Enter name of Chemical.."></td>
                         <td><input type="text" required name="herbicideqty" class="form-control"></td>
                         <td><input type="text" required name="herbicideapplier" class="form-control"></td>
-                        <td><input type="checkbox" required name="ppeused" class="form-checked"></td>
+                        <td><input type="checkbox"  name="ppeused" class="form-check-input"></td>
                         <td>
                             <input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
                             <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
@@ -244,7 +211,7 @@
 
     <div class="card my-3">
     <div class="card-body">
-            <h5>D. Current Production {{$currentseason}}</h5>
+            <h5>D. Current Production {{$currentseason}}</h5><span style="font-size:0.8rem;">Note: Maize (M), Sorghum (S), Cowpea (C), Millet (ML), Sesame (Se), Groundnut (Gr)</span>
             <table class="table">
                 <thead>
                     <th>Plot</th>

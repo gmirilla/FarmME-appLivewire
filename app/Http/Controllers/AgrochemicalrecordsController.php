@@ -41,8 +41,18 @@ class AgrochemicalrecordsController extends Controller
       $newherbicide->nameofperson=$request->herbicideapplier;
       $newherbicide->season=$request->season;
       $newherbicide->herbicidename=$request->herbicide;
-      $newherbicide->hectaresapplied=$request->hectareapplied;
-      $newherbicide->entranceid=$request->farmentrance; //temp solution
+      $newherbicide->hectaresapplied=$request->farmsize;
+      $newherbicide->farmsize=$request->farmsize;
+      if (empty($request->ppeused)) {
+        # code...
+        $ppeused=false;
+      } else {
+        # code...
+        $ppeused=true;
+      }
+      
+      $newherbicide->ppeused=$ppeused;
+      $newherbicide->entranceid=$request->farmentrance; 
 
       $newherbicide->save();
 
