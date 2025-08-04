@@ -1,4 +1,4 @@
-const CACHE_NAME = 'farm-cache-v1';
+const CACHE_NAME = 'farm-kanocache-v2';
 const urlsToCache = [
   '/farm/onboardinglist',
   '/offline.html',

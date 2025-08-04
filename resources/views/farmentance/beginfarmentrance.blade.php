@@ -174,7 +174,7 @@
                     <th>PPE Used (Y/N)</th>
                     <th></th>
                 </thead>
-                <tbody>'
+                <tbody>
                     @forelse ($agrochems as $agrochem )
                                            <tr>
                         <td><input type="text" disabled name="farmsize" class="form-control" value="{{$agrochem->farmsize}}"></td>

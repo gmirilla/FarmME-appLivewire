@@ -27,8 +27,9 @@ input[type="radio"] {
 
 <div class="card">
     <div class="card-header" style="text-align: center">
-    <h3><b>B & R SPICES NIGERIA LTD</b> <br>
+    <h3><b>FARM ENTRANCE FORM | Registration Date: {{$farmentrance->regdate}}</b> <br>
         {{strtoupper($farm->farmname)}}</h3>
+        <h4>UEBT/RA Certification Program</h4>
     <h4>@if (!empty($farmentrance->farm_period))
          {{$farmentrance->farm_period}} Season | 
     @endif
@@ -58,13 +59,13 @@ input[type="radio"] {
             <td><b>YEAR OF BIRTH:</b><br/>
                 {{$farm->yob}}
                 </td>
-                                <td><b>PHONE NUMBER:</b><br/>
+                <td><b>PHONE NUMBER:</b><br/>
                 {{$farmentrance->phoneno}}
                 </td>
                 <td><b>HOUSEHOLD SIZE:</b><br/>
                 {{$farmentrance->householdsize}}
                 </td>
-                <td><b>ADDRESS:</b><br/>
+               <td><b>ADDRESS:</b><br/>
                 {{$farmentrance->address}}
                 </td>
                 <td>
@@ -83,112 +84,105 @@ input[type="radio"] {
             <tr>
                 <td colspan="2"><b>NAME OF CROP: </b><br>{{$farmentrance->crop}}</td>
                 <td colspan="2"><b>VARIETY:</b><br/>{{$farmentrance->cropvariety}}</td>
-                <td><b>REG DATE: </b>{{$farmentrance->regdate}}</td>
+                <td><b>Source of Planting Material: </b>{{$farmentrance->sourceofcrop}}</td>
             </tr>
         </tbody>
     </table>
 
-    <h4>A. PRODUCTION HISTORY</h4>
-    <table>
-        <thead><th>Ginger Plot Name</th><th>Farm Size (Ha)</th><th>Estimated Yield Kg</th><th>Lat N.</th><th>Long E.</th>
-        </thead>
+    <h4>B. HISTORICAL PRODUCTION : HIBISCUS PRODUCTION</h4>
+    <table  class="table table-bordered" style="border: 1px solid black">
+            <thead>
+                    <th>Year</th>
+                    <th>Farm Size (Ha)</th>
+                    <th>Harvest Volume (BAGS)</th>
+                    <th>Intercrop <br/>Crop</th>
+                    <th>Intercrop <br/>System</th>
+                    <th>Intra-row Spacing (m)</th>
+                     <th></th>
+            </thead>
+            <tbody>
+                    @forelse ($farmentrance->getvolumesold() as $volsold)
+                     <tr>
+                        <td>{{$volsold->season}}</td>
+                        <td>{{$volsold->farmsize}}</td>
+                        <td>{{$volsold->value}}</td>
+                        <td>{{$volsold->crop}}</td>
+                        <td>{{$volsold->system}}</td>
+                        <td>{{$volsold->spacing}}</td>
+                        <td></td>
+                     </tr>   
+                    @empty
+                <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            @endforelse
+
+        </tbody>
+    </table>
+    <h4>C. HISTORICAL PRODUCTION: AGROCHEMICALS USED {{$prevseason}}</h4>
+    <table  class="table table-bordered" style="border: 1px solid black">
+                        <thead>
+                    <th>Farm Size (Ha)</th>
+                    <th>Products<br>(Fertilizers, Pesticides, Herbicides)
+                    </th>
+                    <th>QUANTITY APPLIED (LITER'S/BAGS)</th>
+                    <th>NAME OF PERSON WHO APPLIED</th>
+                    <th>PPE Used (Y/N)</th>
+                    <th></th>
+                </thead>
         <tbody>
-            @forelse ($farmentrance->reportprodhistory() as $prodhistory )
+                    @forelse ($farmentrance->reportagrochems() as $agrochem)
                         <tr>
-                <td>{{$prodhistory->plotname}}</td>
-                 <td>{{$prodhistory->fuarea}}</td>
-                  <td>{{number_format($prodhistory->estimatedyield,2)}}</td>
-                   <td>{{$prodhistory->fulatitude}}</td>
-                    <td>{{$prodhistory->fulongitude}}</td>
-            
-            </tr>
-                
+                        <td><input type="text" disabled name="farmsize" class="form-control" value="{{$agrochem->farmsize}}"></td>
+                        <td><input type="text" disabled name="herbicide" class="form-control" value="{{$agrochem->herbicidename}}"></td>
+                        <td><input type="text"  disabled name="herbicideqty" class="form-control" value="{{$agrochem->quantity}}"></td>
+                        <td><input type="text" disabled name="herbicideapplier" class="form-control" value="{{$agrochem->nameofperson}}"></td>
+                        <td>    <input type="checkbox" name="ppeused" class="form-check-input" 
+                                    disabled {{ $agrochem->ppeused ? 'checked' : '' }}>
+                        </td>
+                        <td></td>
+                    </tr> 
             @empty
-                
+                <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>
             @endforelse
 
         </tbody>
     </table>
-    <h4>B. VOLUME OF CERTIFIED CROPS SOLD/DELIVERED TO THE GROUP IN PREVIOUS YEARS (KGS)</h4>
-    <table>
-        <thead><th>Season</th><th>Volume Sold (Kg)</th>
-        </thead>
+      <h4>D. CURRENT PRODUCTION {{$farmentrance->farm_period}}</h4>
+    <table  class="table table-bordered" style="border: 1px solid black">
+        <thead>
+                    <th>Plot</th>
+                    <th>Plot Size (Ha)</th>
+                    <th>Yield Est (Bags)</th>
+                    <th>Crop</th>
+                    <th>System</th>
+                    <th>Intra-row Spacing (m)</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th></th>
+                </thead>
         <tbody>
-            @forelse ( $farmentrance->reportvolcropdel() as $volcropdel )
-                            <tr>
-                <td>{{$volcropdel->season}}</td>
-                 <td>{{$volcropdel->value}}</td>
-
-            
-            </tr>
-            @empty
-                
-            @endforelse
-
-        </tbody>
-    </table>
-     <h4>C.</h4>
-    <table>
-        <tbody>
-            <tr>
-                <td style="width: 50%">Previous year’s ({{$farmentrance->farm_period}}) harvest of certified crop delivered to the group</td>
-                 <td>@if (!empty($farmentrance->getcropdeliver()->value))
-                     {{$farmentrance->getcropdeliver()->value}}
-                 @endif
-                    </td>
-        </tr>
+             <tbody><!--TO DO-->
+                    @forelse  ($farmentrance->reportprodhistory() as $farmplot )
                     <tr>
-                <td>Previous year’s  ({{$farmentrance->farm_period}}) estimated total production </td>
-                 <td>
-                    @if (!empty($farmentrance->getcropproduced()->value))
-                     {{$farmentrance->getcropproduced()->value}}
-                 @endif
-                    </td>
-        </tr>
-        </tbody>
-    </table>
+                        <td>{{$farmplot->plotname}}</td>
+                        <td>{{$farmplot->fuarea}}</td>
+                        <td>{{$farmplot->estimatedyield}}</td>
+                        <td>{{$farmplot->crop}}</td>
+                        <td>{{$farmplot->system}}</td>
+                        <td>{{$farmplot->spacing}}</td>
+                        <td>{{$farmplot->fulatitude}}</td>
+                        <td>{{$farmplot->fulongitude}}</td>
+                        <td></td>
 
-     <h4>D. AGROCHEMICALS USED ON THE FARM LAND</h4>
-    <table>
-        <thead><th>Name of  Herbicide and Fertilizers<br> Used on the Farm</th><th>Quantity applied <br>(Liter’s/Bags)</th><th>Name of person who applied</th><th>Ha of Ginger applied on</th>
-        </thead>
-        <tbody>
-            @forelse ($farmentrance->reportagrochems() as $agrochem)
-                            <tr>
-                <td>{{$agrochem->herbicidename}}</td>
-                 <td>{{$agrochem->quantity}}</td>
-                  <td>{{$agrochem->nameofperson}}</td>
-                   <td>{{number_format($agrochem->hectaresapplied,2)}}</td>
-    
-        </tr>
+                    </tr>
             @empty
-                
+                <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
             @endforelse
 
         </tbody>
     </table>
 
-     <h4>E. OTHER CULTIVATED CROPS</h4>
-    <table>
-        <thead><th>Plot Name</th><th>Crops Culivated</th><th>Estimated Hectares</th><th>Location</th>
-        </thead>
-        <tbody>
-            @forelse ($farmentrance->reportothercrops() as $othercrop )
-                        <tr>
-                <td>{{$othercrop->plotname}}</td>
-                 <td>{{$othercrop->crop}}<</td>
-                  <td>{{$othercrop->area}}<</td>
-                   <td>{{$othercrop->location}}<</td>
-        </tr>
-                
-            @empty
-                
-            @endforelse
-
-        </tbody>
-    </table>
- <h4>F. FARM HISTORY</h4>
-    <table  style="border: 1px solid black; margin-top:5px;">
+ <h4>E. FARM ENGAGEMENT & INITIAL RISK ASSESSMENT</h4>
+    <table  class="table table-bordered" style="border: 1px solid black; margin-top:5px;">
         <tbody>
         <thead>
             <th>#</th>
@@ -277,7 +271,9 @@ input[type="radio"] {
     $counter+=1;
     @endphp
     @empty
-        
+        <tr>
+            <td></td><td></td><td></td>
+        </tr>
     @endforelse
         
         </tbody>
@@ -292,15 +288,17 @@ input[type="radio"] {
             </tr>
            <tr><td style="width: 50%" class="text-justify">
             <p>I, <b><u>{{$farm->farmname}}</u></b>, the farm owner, declare that, this information is correct, and on this day pledge to adhere
-             at all times to the conditions for the UEBT/RA/MABA certification process and sustainable agriculture production </p><br>
+             at all times to the conditions for the UEBT/RA certification process and sustainable agriculture production </p><br>
             
-            <div class="text-center">
+            <div class="text-center flex-column">
                 @if (!empty($farm->signaturepath))
-                     <img src="{{public_path('/storage/'.$farm->signaturepath)}}" alt="" width="70px"><br>
+                <div class="col-auto" style="margin-left:30%; margin-right:30%;">
+                     <img src="{{Request::root().('/storage/'.$farm->signaturepath)}}" alt="" width="70px"></div>
                 @endif
-           
-            <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint</span><br><br>
-           </div><br><br>
+           <div>
+            <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint</span><div>
+
+           </div>
 
             <span style="border-top: 1px dashed rgb(86, 84, 84)">Date: {{$farmentrance->regdate}}</span>
         </td><td>
@@ -313,7 +311,7 @@ input[type="radio"] {
             
            <div class="text-center">
             @if (!empty($farmentrance->reportinspectorname()->signaturepath))
-                <img src="{{public_path('/storage/'.$farmentrance->reportinspectorname()->signaturepath)}}" alt="" width="70px"><br>
+                <img src="{{Request::root().('/storage/'.$farmentrance->reportinspectorname()->signaturepath)}}" alt="" width="70px"><br>
 
             @else
             <br><br>    
@@ -335,8 +333,9 @@ input[type="radio"] {
 @forelse ($farmentrance->reportprodhistory() as $farmplot )
 
     <div style="page-break-before: always;">
+        <br>
         <h4>FARM SKETCH</h4>
-        <table>
+        <table  class="table table-bordered" style="border: 1px solid black">
             <tr>
                 <td style="width: 25%"><b>NAME OF FARMER: </b></td>
                 <td style="width: 25%">{{strtoupper($farm->farmname)}}</td>
@@ -363,27 +362,25 @@ input[type="radio"] {
             </tr>
             <tr>
                 <td colspan="4" style="padding: 5px;">
+                    {{$farmplot->id}}
                     @if (!empty($farmplot->imagefilepath))
-                        <img src="{{public_path($farmplot->imagefilepath)}}" alt="" style="max-height: 600px; max-width: 100%;">
+                        <img src="{{public_path($farmplot->imagefilepath) }}" alt="" width="100%;" height="1000px;">
                     @endif           
                 </td>
             </tr>
                         <tr>
                 <td colspan="4">
                     @if (!empty($farmplot->imagefilepath))
-                        {{url($farmplot->imagefilepath)}}
+                        {{url($farmplot->imagefilepath)}}<br>
                     @endif           
                 </td>
             </tr>
         </table>
     
 @empty
-    
 @endforelse
-
 
 
     </div>
 </div>
 </div>
-

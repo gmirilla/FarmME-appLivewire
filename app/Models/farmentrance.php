@@ -21,7 +21,7 @@ class farmentrance extends Model
     public function getvolumesold()
     {
          $volsold=misccodes::where('parameter','vol')->where('farmid', $this->farmid)->where('active', true)->get();
-        return $volsold;
+        return $volsold ?? 'Nothing Sold';
 
     }
 
