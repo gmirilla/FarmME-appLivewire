@@ -142,7 +142,7 @@ window.addEventListener('offline', () => {
 
   if (navigator.onLine) {
     farms.forEach(farm => {
-      db.farms.put({
+      window.db.farms.put({
         farmcode: farm.farmcode,
         community: farm.community,
         farmname: farm.farmname,
@@ -153,7 +153,7 @@ window.addEventListener('offline', () => {
     });
 
     reports.forEach(report=>{
-      db.reports.put({
+      window.db.reports.put({
         reportid: report.id,
         reportname: report.reportname,
         reportstate: report.reportstate
@@ -185,7 +185,7 @@ const currentUserId = document.getElementById("userid");
 const x=currentUserId.value;
 
 
-db.farms.toArray().then(farms => {
+window.db.farms.toArray().then(farms => {
   const tbody = document.getElementById("farm-rows");
   let rowsHTML = "";
 

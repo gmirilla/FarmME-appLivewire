@@ -3,85 +3,60 @@
 
   <div class="card">
     <div class="card-header"><h4>Offline Farm Entrance Form</h4></div>
+    <div class="" id="farm-details">
+        
+    </div>
     <div id="farm-details"></div>
     <div class="card-body">
       <form id="offline-formFE">
-        <!-- SEction A BIO Data-->
-            <div class="card">
-        <div class="card-header"><h4>Annex 3:  Field Entrance Form {{$currentseason}} Season</h4></div>
-        <div class="card-body">
+        <div id="sectiona">
+                        <div class="card-body">
             <h5>A. FIELD OPERATOR BIO-DATA</h5>
             <div class="row my-3 gx-5">
                 <div class="col-3 p-3">
-                    <label for="surname" class="form-label">Surname</label>
-                    <input type="text" disabled class="form-control" value="{{$farmerdetail->surname}}">
+                    <label for="surname" class="form-label">Farmer name</label>
+                    <input type="text" disabled class="form-control" name="farmname">
                 </div>
                 <div class="col-3 p-3">
-                    <label for="fname" class="form-label">Other name</label>
-                    <input type="text" disabled class="form-control" value="{{$farmerdetail->fname}}">
+                    <label for="farmcode" class="form-label">Farmer Code</label>
+                    <input type="text" name="farmcode" disabled class="form-control" value=>
                 </div>
-                <div class="col-3 p-3">
-                    <label for="gender" class="form-label">Gender</label>
-                    <input type="text" disabled class="form-control" value="{{$farmerdetail->gender}}">
-                </div>
-                <div class="col-3 p-3">
-                    <label for="farmercode" class="form-label">Farmer Code</label>
-                    <input type="text" disabled class="form-control" value="{{$farmerdetail->farmcode}}">
-                </div>
-                <div class="col-3 p-3">
-                    <label for="idnumber" class="form-label">ID Number</label>
-                    <input type="text" disabled class="form-control" value="{{$farmerdetail->nationalidnumber}}">
-                </div>
-
                 <div class="col-3 p-3">
                     <label for="yearofbirth" class="form-label">Year of Birth</label>
-                     <input type="number" value="{{$farmerdetail->yob}}" class="form-control" disabled/>  
-                </div>
-                <div class="col-3 p-3">
-                    <label for="phoneno" class="form-label">Phone Number</label>
-                    <input type="text" name="phonenumber" id="phonenumber" value="{{$farmerdetail->phonenumber}}" disabled class="form-control" />
-                </div>
-                <div class="col-3 p-3">
-                    <label for="householdsize" class="form-label">Household Size</label>
-                    <input type="text" disabled name="householdsize" id="householdsize" value="{{$farmerdetail->householdsize}}"  class="form-control" />
+                     <input type="number" value="" class="form-control" name=yob/>  
                 </div>
                 <div class="col-3 p-3">
                     <label for="address" class="form-label">Address</label>
-                    <textarea name="address"  disabled id="address" class="form-control" >{{$farmerdetail->address}}</textarea>
+                    <textarea name="address"  id="address" class="form-control" ></textarea>
                 </div>
                
                 <div class="col-3 p-3">
                     <label for="dateoflastinspection" class="form-label">Date of Last Inspection</label>
-                        <input type="text" disabled name="dateoflastinspection" id="dateoflastinspection" class="form-control" value="{{$farmentrance->lastinspection}}"/>
+                        <input type="text" name="dateoflastinspection" id="dateoflastinspection" class="form-control" value=""/>
                         </div>
                 <div class="col-3 p-3">
                     <label for="dateoflastinspection" class="form-label">Outcome of Last Inspection</label>
-                    <input type="text" disabled name="outcomeoflastinspection" id="dateoflastinspection" class="form-control" value="{{$farmentrance->inspectionresult}})"/>
+                    <input type="text"  name="outcomeoflastinspection" id="dateoflastinspection" class="form-control" value=""/>
                 </div>
-                    
-                <div class="col-3 p-3">
-                    <label for="nameofcrop" class="form-label">Name of Crop</label>
-                    <input type="text"  disabled name="nameofcrop" id="crop" class="form-control" value="{{$farmerdetail->crop}}"/>
-                </div>
-                <div class="col-3 p-3">
-                    <label for="varietyofcrop" class="form-label">Variety of Crop</label>
-                    <input type="text"  disabled name="varietyofcrop" id="varietycrop" class="form-control" value="{{$farmerdetail->cropvariety}}"/>
-                </div> 
                 <div class="col-3 p-3">
                     <label for="sourceofcrop" class="form-label">Source of Crop</label>
-                    <input type="text"  disabled name="sourceofcrop" id="sourceofcrop" class="form-control" value="{{ $farmentrance->sourceofcrop }}"/>
+                    <input type="text"  name="sourceofcrop" id="sourceofcrop" class="form-control" value=""/>
                 </div> 
-                                <div class="col-3 p-3">
-                    @if (!empty($farmerdetail->signaturepath))
-                    <img src="{{url('/storage/'.$farmerdetail->signaturepath)}}" alt="" width="70px"><br> 
-                    @endif
+                 <div class="col-3 p-3">
                     <label for="signature" class="form-label">Farmers Signature</label>
-                </div>          
+                    <input type="file" name="signature" accept="image/*" class="form-control">                  
+                </div>
+                <div class="col-3 p-3">
+                    <label for="signature" class="form-label">Farmer's Picture</label>
+                    <input type="file" name="farmerpicture" accept="image/*" class="form-control">                  
+                </div>
+                          
             </div>
         </div>
-    </div>
-    <!-- Sectionn Historical Production -->
-    <div class="card my-3">
+
+        </div>
+        <div id="sectionb">
+             <div class="card my-3">
     <div class="card-body responsive">
             <h5>B. Historical Production: Hibiscus Production</h5><span style="font-size:0.8rem;">Note: Maize (M), Sorghum (S), Cowpea (C), Millet (ML), Sesame (Se), Groundnut (Gr)</span>
             <table class="table">
@@ -92,55 +67,42 @@
                     <th>Intercrop <br/>Crop</th>
                     <th>Intercrop <br/>System</th>
                     <th>Intra-row Spacing (m)</th>
-                     <th></th>
                 </thead>
                 <tbody>
-                    @forelse ($farmentrance->getvolumesold() as $volsold)
                      <tr>
-                        <td>{{$volsold->season}}</td>
-                        <td>{{$volsold->farmsize}}</td>
-                        <td>{{$volsold->value}}</td>
-                        <td>{{$volsold->crop}}</td>
-                        <td>{{$volsold->system}}</td>
-                        <td>{{$volsold->spacing}}</td>
-                        <td><a href="{{ route('disablevolsold', ['farmcode' => $farmerdetail->farmcode, 'vsid' => $volsold->id]) }}"  required class="btn btn-danger">Disable</a></td>
-                     </tr>   
-                    @empty
-                        
-                    @endforelse
-                    <tr>
-                        <form action="{{route('addvolsold')}}" method="post">
-                            @csrf
-                        <td><select name="volseason" id="seasonrange" class="form-select">
-                            @foreach ($seasonrange as $srange)
-                                <option value="{{$srange}}">{{$srange}}</option>
-                            @endforeach
-                            </select>
-                        </td>
-                        <td><input type="number" step=any name="farmsize" required class="form-control"></td>
-                        <td><input type="number" name="harvest" required class="form-control"></td>
-                        <td><input type="text" name="crop" required class="form-control"></td>
-                        <td><input type="text" name="sysyem" required class="form-control"></td>
-                        <td>
-                            <input type="number" step=any name="spacing" class="form-control">
-                        </td>
-                        <td>
-                            <input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
-                            <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
-                            <input type="text" name="farmentranceid" hidden class="form-control" value="{{$farmentrance->id}}">
-                            
-                        <button type="submit" class="btn btn-primary" >ADD</button></td>
-                        </form>
-                    </tr> 
-
+                        <td><input type="text" name="hpseason[]"    class="form-control"></td>
+                        <td><input type="text" name="hpfarmsize[]"    class="form-control"></td>
+                        <td><input type="text" name="hpharvestvol[]"    class="form-control"></td>
+                        <td><input type="text" name="hpcrop[]"    class="form-control"></td>
+                        <td><input type="text" name="hpsystem[]"    class="form-control"></td>
+                        <td><input type="text" name="hpspacing[]"    class="form-control"></td>
+                     </tr>
+                     <tr>
+                        <td><input type="text" name="hpseason[]"    class="form-control"></td>
+                        <td><input type="text" name="hpfarmsize[]"    class="form-control"></td>
+                        <td><input type="text" name="hpharvestvol[]"    class="form-control"></td>
+                        <td><input type="text" name="hpcrop[]"    class="form-control"></td>
+                        <td><input type="text" name="hpsystem[]"    class="form-control"></td>
+                        <td><input type="text" name="hpspacing[]"    class="form-control"></td>
+                     </tr>
+                     <tr>
+                        <td><input type="text" name="hpseason[]"    class="form-control"></td>
+                        <td><input type="text" name="hpfarmsize[]"    class="form-control"></td>
+                        <td><input type="text" name="hpharvestvol[]"    class="form-control"></td>
+                        <td><input type="text" name="hpcrop[]"    class="form-control"></td>
+                        <td><input type="text" name="hpsystem[]"    class="form-control"></td>
+                        <td><input type="text" name="hpspacing[]"    class="form-control"></td>
+                     </tr>
                 </tbody>
             </table>
-    </div>
-    </div>
-    <!-- Section C Historical Agrochemical-->
-     <div class="card my-3">
-    <div class="card-body">
-            <h5>C. Historical Production: Agrochemicals Used : {{$prevseason}}  </h5>
+
+        </div>
+        </div>
+        </div>
+        <div id="sectionc">
+        <div class="card my-3">
+            <div class="card-body">
+            <h5>C. Historical Production: Agrochemicals Used : </h5>
             <table class="table">
                 <thead>
                     <th>Farm Size (Ha)</th>
@@ -151,41 +113,52 @@
                     <th>PPE Used (Y/N)</th>
                     <th></th>
                 </thead>
-                <tbody>'
-                    @forelse ($agrochems as $agrochem )
-                                           <tr>
-                        <td><input type="text" disabled name="farmsize" class="form-control" value="{{$agrochem->farmsize}}"></td>
-                        <td><input type="text" disabled name="herbicide" class="form-control" value="{{$agrochem->herbicidename}}"></td>
-                        <td><input type="text"  disabled name="herbicideqty" class="form-control" value="{{$agrochem->quantity}}"></td>
-                        <td><input type="text" disabled name="herbicideapplier" class="form-control" value="{{$agrochem->nameofperson}}"></td>
-                        <td>    <input type="checkbox" name="ppeused" class="form-check-input" 
-                                    disabled {{ $agrochem->ppeused ? 'checked' : '' }}>
+                <tbody>
+                        <tr>
+                        <td><input type="text"  name="agrochemfarmsize[]" class="form-control" ></td>
+                        <td><input type="text" name="agrochemherbicide[]" class="form-control"></td>
+                        <td><input type="text"   name="agrochemherbicideqty[]" class="form-control"></td>
+                        <td><input type="text" name="agrochemherbicideapplier[]" class="form-control"></td>
+                        <td><input type="checkbox" name="agrochemppeused[]" class="form-check-input" >
                         </td>
-                        <td><a href="{{ route('disablechems', ['farmcode' => $farmerdetail->farmcode, 'aid' => $agrochem->id]) }}" class="btn btn-danger">Disable</a></td>
                     </tr> 
-                    @empty
-                        
-                    @endforelse
-                    <tr><form action="{{route('addchems')}}" method="post">
-                        @csrf
-                        <td><input type="text" required name="farmsize" class="form-control"></td>
-                        <td><input type="text" required name="herbicide" class="form-control" placeholder="Enter name of Chemical.."></td>
-                        <td><input type="text" required name="herbicideqty" class="form-control"></td>
-                        <td><input type="text" required name="herbicideapplier" class="form-control"></td>
-                        <td><input type="checkbox"  name="ppeused" class="form-check-input"></td>
-                        <td>
-                            <input type="text" name="farmcode" hidden class="form-control" value="{{$farmerdetail->farmcode}}">
-                            <input type="text" name="farmid" hidden class="form-control" value="{{$farmerdetail->id}}">
-                            <input type="text" name="farmentrance" hidden class="form-control" value="{{$farmentrance->id}}">
-                            <input type="text" name="season" hidden class="form-control" value="{{$currentseason}}">
-                            <button type="submit" name="addherbicide" class="btn btn-primary">ADD</a></td>
-                            </form>
-                    </tr>
+                    <tr>
+                        <td><input type="text"  name="agrochemfarmsize[]" class="form-control" ></td>
+                        <td><input type="text" name="agrochemherbicide[]" class="form-control"></td>
+                        <td><input type="text"   name="agrochemherbicideqty[]" class="form-control"></td>
+                        <td><input type="text" name="agrochemherbicideapplier[]" class="form-control"></td>
+                        <td><input type="checkbox" name="agrochemppeused[]" class="form-check-input" >
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td><input type="text"  name="agrochemfarmsize[]" class="form-control" ></td>
+                        <td><input type="text" name="agrochemherbicide[]" class="form-control"></td>
+                        <td><input type="text"   name="agrochemherbicideqty[]" class="form-control"></td>
+                        <td><input type="text" name="agrochemherbicideapplier[]" class="form-control"></td>
+                        <td><input type="checkbox" name="agrochemppeused[]" class="form-check-input" >
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td><input type="text"  name="agrochemfarmsize[]" class="form-control" ></td>
+                        <td><input type="text" name="agrochemherbicide[]" class="form-control"></td>
+                        <td><input type="text"   name="agrochemherbicideqty[]" class="form-control"></td>
+                        <td><input type="text" name="agrochemherbicideapplier[]" class="form-control"></td>
+                        <td><input type="checkbox" name="agrochemppeused[]" class="form-check-input" >
+                        </td>
+                    </tr> 
+
                 </tbody>
             </table>
     </div>
     </div>
-    <!-- Section D Current Production -->
+
+        </div>
+
+        <div id="sectiond">
+
+        </div>
+
+
     
    
     
@@ -195,6 +168,7 @@
   </div>
 
   <script src="/js/offline-handler.js"></script>
+  <script src="/js/db.js"></script>
   <script>
     document.getElementById("offline-formFE").addEventListener("submit", async function (e) {
   e.preventDefault();
@@ -203,7 +177,7 @@
   const farmcode = formData.get("farmcode") || formData.getAll("farmcode[]")[0]; // fallback
 
   // Save base farm entry (can expand this)
-  await db.farms.put({ farmcode });
+  await window.db.farms.put({ farmcode });
 
   //  Volumes delivered
   const volumes = formData.getAll("volsold[]");
@@ -211,7 +185,7 @@
     const season = document.getElementById(id).value;
     const volume = volumes[i];
     if (volume) {
-      db.volumes.put({ farmcode, season, volume: parseFloat(volume) });
+      window.db.volumes.put({ farmcode, season, volume: parseFloat(volume) });
     }
   });
 
@@ -223,7 +197,7 @@
 
   herbicideNames.forEach((name, i) => {
     if (name) {
-      db.agrochemicals.put({
+      window.db.agrochemicals.put({
         farmcode,
         herbicide: name,
         quantity: herbicideQtys[i],
@@ -241,7 +215,7 @@
 
   plotNames.forEach((name, i) => {
     if (name) {
-      db.otherCrops.put({
+      window.db.otherCrops.put({
         farmcode,
         plotName: name,
         crop: crops[i],
@@ -254,4 +228,24 @@
   alert("Farm data saved offline successfully 🌍💾");
 });
   </script>
+  <script>
+    console.log(selectedFarm);
+window.db.farms.where("farmcode").equals(selectedFarm).toArray().then(results => {
+  if (results.length > 0) {
+    const farm = results[0]; // define farm before use
+    document.querySelector('[name="farmcode"]').value = farm.farmcode || "";
+    document.querySelector('[name="farmname"]').value = farm.farmname || "";
+  } else {
+    console.warn("No farm data found for:", selectedFarm);
+  }
+}).catch(err => {
+  console.error("Failed to load farm data", err);
+});
+
+
+
+    
+
+  </script>
+
 </x-layouts.offline>

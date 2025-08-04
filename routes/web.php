@@ -33,9 +33,11 @@ Route::get('/ping', function () {
     return response()->json(['status' => 'ok']);
 });
 
-Route::get('/offline-fe', function () {
+Route::get('/offlinefe', function () {
     return view('offline.farm_entrance_offline'); // return view with x-layouts.offline
 });
+Route::view('/offline-fe','offline.farm_entrance_offline' );
+
 
 Route::get('/offline-inspection', function () {
     return view('offline.offline_inspection'); // return view with x-layouts.offline

@@ -1,27 +1,8 @@
 
-
-const db = new Dexie("FarmEntrances");
-db.version(3).stores({
-  // Basic Farm Info
-  farms: "farmcode,community,farmname,farmstate,inspectorid",
-
-  // Main Submitted Form Header
-  forms: "++id,farmcode,farmname,community,crop,cropvariety,regdate,address,sync_status",
-
-  // Volumes Sold (Section B)
-  volumes: "++id,farmcode,season,volume",
-
-  // Agrochemical Use (Section D)
-  agrochemicals: "++id,farmcode,herbicide,quantity,applier,hectare",
-
-  // Other Cultivated Crops (Section E)
-  otherCrops: "++id,farmcode,plotName,crop,area,location"
-});
-
 const selectedFarm = localStorage.getItem("selectedFarm");
 
 if (selectedFarm) {
-  db.farms.where("farmcode").equals(selectedFarm).toArray().then(results => {
+  window.db.farms.where("farmcode").equals(selectedFarm).toArray().then(results => {
     const farm = results[0];
     document.getElementById("farm-details").innerHTML = `
       <h4>${farm.farmname}</h4>
@@ -37,17 +18,17 @@ if (selectedFarm) {
 const currentYear = new Date().getFullYear();
 const seasonrange = Array.from({ length: 3 }, (_, i) => `${currentYear - i - 1}/${currentYear - i}`);
 
-const seasonSelect0 = document.getElementById("seasonrange0");
-const seasonSelect1 = document.getElementById("seasonrange1");
-const seasonSelect2 = document.getElementById("seasonrange2");
-seasonSelect0.value=seasonrange[0];
-seasonSelect1.value=seasonrange[1];
-seasonSelect2.value=seasonrange[2];
+//const seasonSelect0 = document.getElementById("seasonrange0");
+//const seasonSelect1 = document.getElementById("seasonrange1");
+//const seasonSelect2 = document.getElementById("seasonrange2");
+//seasonSelect0.value=seasonrange[0];
+//seasonSelect1.value=seasonrange[1];
+//seasonSelect2.value=seasonrange[2];
 
-const preseasonid1 = document.getElementById("prevseason_id1");
-const preseasonid2 = document.getElementById("prevseason_id2");
-preseasonid1.value=seasonrange[0];
-preseasonid2.value=seasonrange[0];
+//const preseasonid1 = document.getElementById("prevseason_id1");
+//const preseasonid2 = document.getElementById("prevseason_id2");
+//preseasonid1.value=seasonrange[0];
+//preseasonid2.value=seasonrange[0];
 
 
 // Handle form submission offline FArm Entrance
@@ -58,7 +39,7 @@ document.getElementById("offline-formFE").addEventListener("submit", async funct
   const farmcode = formData.get("farmcode") || formData.getAll("farmcode[]")[0];
 
   // 🔎 Check if this farm already has a saved form
-  const exists = await db.forms.where("farmcode").equals(farmcode).count();
+  const exists = await window.db.forms.where("farmcode").equals(farmcode).count();
   if (exists > 0) {
     alert("A form for this farm already exists offline.");
     return;
@@ -69,7 +50,7 @@ document.getElementById("offline-formFE").addEventListener("submit", async funct
     farmcode,
     sync_status: "pending"
   };
-  await db.forms.add(header);
+  await window.db.forms.add(header);
 
   // 🌽 Section B – Volumes Sold
   const volumes = formData.getAll("volsold[]");
@@ -77,7 +58,7 @@ document.getElementById("offline-formFE").addEventListener("submit", async funct
     const season = document.getElementById(id).value;
     const volume = volumes[i];
     if (volume) {
-      db.volumes.put({ farmcode, season, volume: parseFloat(volume) });
+      window.db.volumes.put({ farmcode, season, volume: parseFloat(volume) });
     }
   });
 
@@ -87,7 +68,7 @@ document.getElementById("offline-formFE").addEventListener("submit", async funct
   const prevSeason = document.getElementById("prevseason_id1").value;
 
   if (cropDelivered.length > 0) {
-    db.volumes.put({
+    window.db.volumes.put({
       farmcode,
       season: prevSeason,
       volume: parseFloat(cropDelivered[0])
@@ -95,7 +76,7 @@ document.getElementById("offline-formFE").addEventListener("submit", async funct
   }
 
   if (cropProduced.length > 0) {
-    db.volumes.put({
+    window.db.volumes.put({
       farmcode,
       season: prevSeason,
       volume: parseFloat(cropProduced[0]) // You could store separately if needed
@@ -110,7 +91,7 @@ document.getElementById("offline-formFE").addEventListener("submit", async funct
 
   herbicideNames.forEach((name, i) => {
     if (name) {
-      db.agrochemicals.put({
+      window.db.agrochemicals.put({
         farmcode,
         herbicide: name,
         quantity: herbicideQtys[i],
@@ -128,7 +109,7 @@ document.getElementById("offline-formFE").addEventListener("submit", async funct
 
   plotNames.forEach((name, i) => {
     if (name) {
-      db.otherCrops.put({
+      window.db.otherCrops.put({
         farmcode,
         plotName: name,
         crop: crops[i],
@@ -146,7 +127,7 @@ document.getElementById("offline-formFE").addEventListener("submit", async funct
 
 // Sync when online
 window.addEventListener("online", () => {
-  db.forms.where("sync_status").equals("pending").toArray().then(entries => {
+  window.db.forms.where("sync_status").equals("pending").toArray().then(entries => {
     entries.forEach(entry => {
       fetch("/api/sync-onboarding", {
         method: "POST",
@@ -154,7 +135,7 @@ window.addEventListener("online", () => {
         body: JSON.stringify(entry)
       }).then(res => {
         if (res.ok) {
-          db.forms.update(entry.id, { sync_status: "synced" });
+          window.db.forms.update(entry.id, { sync_status: "synced" });
         }
       });
     });
