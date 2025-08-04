@@ -106,13 +106,13 @@
             <div class="mb-3 col-auto">
                 <label for="crop" class="form-label">Certified Crop</label>
                 <select required class="form-select" name="crop" id="crop">
-                    <option value="Ginger">Ginger</option>
+                    <option value="Hibiscus">Hibiscus</option>
                 </select>
             </div>
             <div class="mb-3 col-auto">
                 <label for="cropvariety" class="form-label">Certified Crop Variety</label>
                 <select required class="form-select" name="cropvariety" id="cropvariety">
-                    <option value="UG 1( TAFIN GIWA)">UG 1( TAFIN GIWA)</option>
+                    <option value="DANGWALAIDA">DANGWALAIDA</option>
                 </select>
             </div>
             
