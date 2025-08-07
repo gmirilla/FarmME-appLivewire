@@ -16,7 +16,8 @@
     </div>
 
   </div>
- <script src="/js/offline-handler.js"></script>
+  <script src="/js/offline-handler.js"></script>
+  <script src="/js/db.js"></script>
  <script>
     //Read stored reports from local DB
     db.reports.toArray().then(reports => {

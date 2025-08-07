@@ -101,8 +101,14 @@
                     <div class="col-auto">
                     <label for="fusystem" class="form-label">System</label>
                       @if (empty($farmunit))
-                        <input type="text" value="" id="fusystem"  name="system"  required class="form-control"> 
-                        @else
+                        <select name="system" id="optsystem" class="form-select">
+                        @forelse ($misccodes as $misccode )
+                            <option value="{{$misccode->id}}">{{$misccode->system}}</option>
+                        @empty
+                            <option disabled>No systems available</option>
+                        @endforelse
+                        </select>
+                     @else
                         <input type="text" value="{{$farmunit->system}}" id="fusystem"  name="system"   required class="form-control">
                         @endif
                     </div>
@@ -260,7 +266,7 @@
         <div class="flex">
             <div class="card" style="height: 550px; width: 90%;">
                 <div class="card-body">
-                    <div id="map" style="height: 500px; width: 100%;"></div>
+                    <div id="map" hidden style="height: 500px; width: 100%;"></div>
 
                 </div>
                 

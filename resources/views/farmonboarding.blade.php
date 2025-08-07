@@ -138,6 +138,9 @@ window.addEventListener('offline', () => {
   const reportData=@json($reports);
   const reports=Object.values(reportData); // No of active reports in system
 
+  const reportSectionData=@json($reportsection);
+  const reportSections=Object.values(reportSectionData); // No of active reports in system
+
 
 
   if (navigator.onLine) {
@@ -160,6 +163,19 @@ window.addEventListener('offline', () => {
       });
 
     });
+
+
+reportSections.forEach(reportSection => {
+  window.db.reportSections.put({
+    sectionid: reportSection.id,
+    reportid: reportSection.reportid,
+    sectionname: reportSection.sectionname,
+    sectionseq: reportSection.section_seq,
+    sectionstate: reportSection.sectionstate
+  });
+});
+    
+
   }
 </script>
 <script>

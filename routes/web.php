@@ -12,6 +12,7 @@ use App\Http\Controllers\InternalinspectionController;
 use App\Http\Controllers\MapImage;
 use App\Http\Controllers\MapImageController;
 use App\Http\Controllers\MapsController;
+use App\Http\Controllers\MisccodesController;
 use App\Http\Controllers\OthercropsrecordsController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ReportsController;
@@ -19,6 +20,8 @@ use App\Http\Controllers\ReportsectionController;
 use App\Http\Controllers\ReportquestionsController;
 use App\Http\Controllers\userController;
 use Illuminate\Http\Request;
+use App\Http\Middleware\RoleMiddleware;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -47,6 +50,15 @@ Route::middleware('auth')->group(function () {
     Route::get('offline/farmentrance',[FarmentranceController::class, 'offlinefestart'])->name('offlinefestart'); 
 
 });
+
+Route::view('/adminconfig/misccodes', 'adminconfig.misccodes')
+    ->middleware([
+        'auth',
+        'verified',
+        RoleMiddleware::class . ':ADMINISTRATOR'
+    ])
+    ->name('codeadmin');
+
 
 Route::post('/api/sync-onboarding', function (Request $request) {
   // Save onboarding form data to DB
@@ -180,6 +192,13 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
+});
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('misccode/yieldest_show',[MisccodesController::class, 'miscyieldest_show'])->name('mye_show');
+    Route::get('misccode/yieldest_add',[MisccodesController::class, 'miscyieldest_add'])->name('mye_add');
+    Route::get('misccode/yieldest_upd',[MisccodesController::class, 'miscyieldest_update'])->name('mye_update');
 });
 
 require __DIR__.'/auth.php';

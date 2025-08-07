@@ -11,9 +11,9 @@
 @endphp
 <x-layouts.app>
     <div class="card">
-        <div class="card-header">Miscellaneous Codes Configuration</div>
+        <div class="card-header"><h3>Miscellaneous Codes Configuration</h3></div>
         <div class="card-body">
-            
+           <a href="{{route('mye_show')}}" style="color:white;"><div class="col-2 py-3 text-center" style="background-color: rgb(5, 100, 45)">CONFIGURE YIELD ESTIMATES</div></a> 
         </div>
     </div>
 

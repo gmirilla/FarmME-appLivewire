@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Imports\farmImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\farmentrance;
+use App\Models\reportsection;
 
 class FarmController extends Controller
 {
@@ -81,8 +82,10 @@ class FarmController extends Controller
                         $year0=date('Y');
         $year1=$year0+1;
         $currentseason=$year0."/".$year1;
+        $reportsection=reportsection::all();
 
-        return view('farmonboarding')->with('farmlist', $farmlist)->with('user',$user)->with('reports', $reports)->with('currentseason',$currentseason);
+        return view('farmonboarding')->with('farmlist', $farmlist)->with('user',$user)
+        ->with('reports', $reports)->with('currentseason',$currentseason)->with('reportsection',$reportsection);
     }
 
 

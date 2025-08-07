@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\farmunits;
 use App\Models\farm;
 use App\Models\farmentrance;
+use App\Models\misccodes;
 use Illuminate\Http\Request;
 
 class FarmunitsController extends Controller
@@ -135,6 +136,7 @@ class FarmunitsController extends Controller
             $farm=farm::where('id',$request->farmid)->first();
             $farmunit=farmunits::find($request->fid);
             $farmentrance=farmentrance::where('id', $request->farmentranceid)->first();
+            $misccodes=misccodes::where('parameter', 'yieldest')->where('active', true)->get();
 
         } catch (\Throwable $th) {
             //throw $th;
@@ -142,7 +144,7 @@ class FarmunitsController extends Controller
         $farmunits=farmunits::where('farmid',$request->farmid)->get();
         //dd($request);
 
-        return view("newfunit", compact('farm','farmunit','farmentrance'));
+        return view("newfunit", compact('farm','farmunit','farmentrance', 'misccodes'));
     }
 
     public function savefunit(Request $request)
@@ -162,6 +164,10 @@ class FarmunitsController extends Controller
                 # code...
                 $farmunit= new farmunits();
             }
+
+            $yieldestimate=misccodes::where('id',$request->system)->first();
+            $yieldmultiplier=$yieldestimate->value;
+
                     $year0=date('Y');
         $year1=$year0+1;
         $currentseason=$year0."/".$year1;
@@ -171,12 +177,12 @@ class FarmunitsController extends Controller
             $farmunit->fulongitude=$request->fulongitude;
             $farmunit->plot_coords=$request->polycoords;
             $farmunit->plotname=$request->fuplotname;
-            $farmunit->estimatedyield=$farmunit->fuarea*8000; //TO DO: CREATE A FUNCTION TO ALLOW USER TO INPUT ESTIMATE YIELD MULTIPLIER FOR SEASON
+            $farmunit->estimatedyield=$farmunit->fuarea*$yieldmultiplier; //TO DO: CREATE A FUNCTION TO ALLOW USER TO INPUT ESTIMATE YIELD MULTIPLIER FOR SEASON
             $farmunit->farmentranceid=$request->farmentranceid;
             $farmunit->imagefilepath=$request->imagefilePath;
             $farmunit->season=$currentseason;
             $farmunit->crop=$request->crop;
-            $farmunit->system=$request->system;
+            $farmunit->system=$yieldestimate->system;
             $farmunit->spacing=$request->spacing;
             $farmunit->save();
 

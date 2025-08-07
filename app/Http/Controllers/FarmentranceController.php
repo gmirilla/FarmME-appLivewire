@@ -289,6 +289,7 @@ $fpath=$request->file('farmerpicture')->store('public/farmerpictures','public');
         $farmplots=farmunits::where('farmid', $farmerdetail->id)->where('active',true)->get();
         $otherplots=othercropsrecords::where('farmid',$farmerdetail->id)->where('active',true)->get();
         $agrochems=agrochemicalrecords::where('farmid',$farmerdetail->id)->where('active',true)->get();
+        $misccodes=misccodes::where('parameter','yield')->where('active',true)->get();
 
          //FInd the active report with Entrance in name 
         $report=reports::where('reportstate', 'ACTIVE')->where('reportname','like', '%Entrance%')->first();
@@ -314,7 +315,7 @@ $fpath=$request->file('farmerpicture')->store('public/farmerpictures','public');
 
 
         return view('farmentance.beginfarmentrance', 
-        compact('farmerdetail','currentseason','lastreport','farmplots','otherplots','agrochems', 'report','farmentrance', 'seasonrange'));
+        compact('farmerdetail','currentseason','lastreport','farmplots','otherplots','agrochems', 'report','farmentrance', 'seasonrange', 'misccodes'));
     }
 
     /**
