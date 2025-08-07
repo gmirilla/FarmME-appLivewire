@@ -136,7 +136,10 @@ class FarmunitsController extends Controller
             $farm=farm::where('id',$request->farmid)->first();
             $farmunit=farmunits::find($request->fid);
             $farmentrance=farmentrance::where('id', $request->farmentranceid)->first();
-            $misccodes=misccodes::where('parameter', 'yieldest')->where('active', true)->get();
+                                $year0=date('Y');
+        $year1=$year0+1;
+        $currentseason=$year0."/".$year1;
+            $misccodes=misccodes::where('parameter', 'yieldest')->where('active', true)->where('season',$currentseason)->get();
 
         } catch (\Throwable $th) {
             //throw $th;
