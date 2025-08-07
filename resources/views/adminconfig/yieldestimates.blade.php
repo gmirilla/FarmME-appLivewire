@@ -14,7 +14,7 @@
 @endif
 <x-layouts.app>
     <div class="card">
-        <div class="card-header">Yield Estimate (Hibiscus) Configuration</div>
+        <div class="card-header"><h4>Yield Estimate (Hibiscus) Configuration</h4></div>
         <div class="card-body">
             
         </div>
@@ -29,13 +29,14 @@
                 <tbody>
                     @forelse ($yieldcodes as $yieldcode )
                         <tr>
-                            <form action="" method="post">
+                            <form action="{{route('mye_delete')}}" method="post">
+                                @csrf
                             <td><input type="text" class="form-control" name="season" disabled id="season" value="{{$yieldcode->season}}"></td>
                             <td><input type="text" class="form-control" name="system" disabled id="system" value="{{$yieldcode->system}}"></td>
                             <td><input type="text" class="form-control" name="value" id="value" value="{{$yieldcode->value}}"></td>
                             <td><input type="checkbox" class="form-checked" name="active" id="active" value="1"
                                  {{ $yieldcode->active ? 'checked' : '' }}>
-                                <button type="submit" class="btn btn-primary ml-3">UPDATE</button>
+                                <button type="submit" class="btn btn-danger ml-3">DELETE</button>
                             <input type="text" hidden class="form-control" name="id" id="id" value="{{$yieldcode->id}}">
                             </td>
                             </form>

@@ -194,11 +194,15 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware([
+        'auth',
+        'verified',
+        RoleMiddleware::class . ':ADMINISTRATOR'
+    ])->group(function () {
 
     Route::get('misccode/yieldest_show',[MisccodesController::class, 'miscyieldest_show'])->name('mye_show');
     Route::get('misccode/yieldest_add',[MisccodesController::class, 'miscyieldest_add'])->name('mye_add');
-    Route::get('misccode/yieldest_upd',[MisccodesController::class, 'miscyieldest_update'])->name('mye_update');
+    Route::post('misccode/yieldest_delete',[MisccodesController::class, 'miscyieldest_delete'])->name('mye_delete');
 });
 
 require __DIR__.'/auth.php';

@@ -30,6 +30,15 @@ class MisccodesController extends Controller
         return view('adminconfig.yieldestimates', compact('yieldcodes', 'currentseason'));
     }
 
+
+        public function miscyieldest_delete(Request $request)
+    {
+        //
+        misccodes::destroy($request->id);
+       
+        return redirect()->route('mye_show');
+    }
+
     public function miscyieldest_add(Request $request)
     {
         //
