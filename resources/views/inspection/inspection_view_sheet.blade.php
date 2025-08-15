@@ -41,7 +41,7 @@
 
         </tbody>
     </table>
-    @if (strpos($reportname->reportname, '8B'))
+    @if (strpos($reportname->reportname, '8B')!==false)
         <div class="card-body my-3">
         <table class="table table-striped">
           <thead>
