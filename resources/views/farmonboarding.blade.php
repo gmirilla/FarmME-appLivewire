@@ -135,6 +135,11 @@ window.addEventListener('offline', () => {
   const farmData = @json($farmlist);
   const farms = Object.values(farmData); // Now farms is an actual array
 
+  const reportData=@json($reports);
+  const reports=Object.values(reportData); // No of active reports in system
+
+
+
   if (navigator.onLine) {
     farms.forEach(farm => {
       db.farms.put({
@@ -144,7 +149,16 @@ window.addEventListener('offline', () => {
         farmstate: farm.farmstate,
         inspectorid: farm.inspectorid
       });
-      console.log(farm.farmcode, farm.community);
+     
+    });
+
+    reports.forEach(report=>{
+      db.reports.put({
+        reportid: report.id,
+        reportname: report.reportname,
+        reportstate: report.reportstate
+      });
+
     });
   }
 </script>
@@ -169,7 +183,7 @@ if (!navigator.onLine) {
 
 const currentUserId = document.getElementById("userid");
 const x=currentUserId.value;
-console.log(x); // Replace with actual user ID from session or context
+
 
 db.farms.toArray().then(farms => {
   const tbody = document.getElementById("farm-rows");
@@ -186,7 +200,9 @@ db.farms.toArray().then(farms => {
           <td>${farm.farmname}</td>
           <td>${farm.farmstate}</td>
           <td>
-            <button class="btn btn-secondary" onclick="goToOfflineFormFE('${farm.farmcode}')">
+            <button class="btn btn-secondary" data-code="${farm.farmcode}" data-state="${farm.farmstate}">
+
+          
               Offline Form
             </button>
           </td>
@@ -203,13 +219,30 @@ db.farms.toArray().then(farms => {
 
 
   tbody.innerHTML = rowsHTML;
+
+  document.querySelectorAll(".btn-secondary").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const farmcode = btn.dataset.code;
+    const farmstate = btn.dataset.state;
+    goToOfflineFormFE(farmcode, farmstate);
+  });
+});
+
 });
 }
 
-function goToOfflineFormFE(farmcode) {
-  localStorage.setItem("selectedFarm", farmcode);
-  window.location.href = "/offline-fe";
+function goToOfflineFormFE(farmcode, farmstate) {
+  console.log("Farm state:", farmstate);
+
+  if (farmstate == "PENDING") {
+    localStorage.setItem("selectedFarm", farmcode);
+    window.location.href = "/offline-fe";
+  } else {
+    alert("Unable to start Farm Entrance: farmer is not in PENDING state.");
+  }
 }
+
+
 
 </script>
 

@@ -26,6 +26,8 @@ class InternalinspectionController extends Controller
                 //Check if user is authorized to view resource
                 Auth::check();
                 $user = Auth::user();
+                $entranceIds = reports::where('reportname', 'like', '%Entrance%')->pluck('id')->toArray();
+
         
 
         $inspections = DB::table('internalinspections')
@@ -33,7 +35,8 @@ class InternalinspectionController extends Controller
     ->join('reports','internalinspections.reportid', '=', 'reports.id') // Join the 'insternalinspections' and 'farms' tables
     ->select('farmcode','farmname','inspectionstate', 'internalinspections.id as iid','farms.id','internalinspections.reportid as reportid','score','max_score',
     'internalinspections.inspectorid as inspectorid' , 'internalinspections.updated_at', 'reportname')
-    ->where('internalinspections.inspectorid', $user->id)            // Select specific columns
+    ->where('internalinspections.inspectorid', $user->id)
+    ->whereNotIn('internalinspections.reportid', $entranceIds)
     ->get();
 
 

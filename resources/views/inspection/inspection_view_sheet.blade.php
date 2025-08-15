@@ -41,6 +41,40 @@
 
         </tbody>
     </table>
+    @if (strpos($reportname->reportname, '8B'))
+        <div class="card-body my-3">
+        <table class="table table-striped">
+          <thead>
+            <th>Ginger Plot Names</th>
+            <th>Plot Size in Hectares</th>
+            <th>Estimation of production in KGs</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+          </thead>
+          <tbody>
+            @php
+                $farmentrance=$inspection->reportgingerproduction();
+            @endphp
+                        @forelse ($farmentrance->reportprodhistory() as $prodhistory )
+                        <tr>
+                <td>{{$prodhistory->plotname}}</td>
+                 <td>{{$prodhistory->fuarea}}</td>
+                  <td>{{number_format($prodhistory->estimatedyield,2)}}</td>
+                   <td>{{$prodhistory->fulatitude}}</td>
+                    <td>{{$prodhistory->fulongitude}}</td>
+            
+            </tr>
+                
+            @empty
+                
+            @endforelse
+          </tbody>
+        </table>
+        </div>
+        
+    @endif
+
+
 
     
     

@@ -50,8 +50,8 @@ preseasonid1.value=seasonrange[0];
 preseasonid2.value=seasonrange[0];
 
 
-// Handle form submission offline
-document.getElementById("offline-form").addEventListener("submit", async function (e) {
+// Handle form submission offline FArm Entrance
+document.getElementById("offline-formFE").addEventListener("submit", async function (e) {
   e.preventDefault();
   const form = e.target;
   const formData = new FormData(form);
@@ -138,8 +138,10 @@ document.getElementById("offline-form").addEventListener("submit", async functio
     }
   });
 
-  alert("All data saved offline successfully! 💾 Will sync when online.");
-  form.reset();
+  alert("Data saved offline successfully! 💾 Will sync when online. Proceeding to Questionnaire");
+  localStorage.setItem("selectedfarm", farmcode);
+  localStorage.setItem("selectedmode", "Entrance");
+  window.location.href = "/offline-inspection";
 });
 
 // Sync when online

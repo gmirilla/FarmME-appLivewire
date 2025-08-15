@@ -5,7 +5,7 @@
     <div class="card-header"><h4>Offline Farm Entrance Form</h4></div>
     <div id="farm-details"></div>
     <div class="card-body">
-      <form id="offline-form">
+      <form id="offline-formFE">
         <!-- Section A -->
         <div class="card my-3">
           <div class="card-body">
@@ -181,7 +181,7 @@
 
   <script src="/js/offline-handler.js"></script>
   <script>
-    document.getElementById("offline-form").addEventListener("submit", async function (e) {
+    document.getElementById("offline-formFE").addEventListener("submit", async function (e) {
   e.preventDefault();
 
   const formData = new FormData(e.target);

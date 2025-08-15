@@ -31,6 +31,13 @@ class internalinspection extends Model
     public function farmentrance(){
         return $this->hasOne(farmentrance::class, 'internalinspectionid', 'id');
     }
+
+    public function reportgingerproduction(){
+        $farmentrance=farmentrance::where('farm_period', $this->season)->where('farmid',$this->farmid)->first();
+
+        return $farmentrance;
+
+    }
     
     
 }

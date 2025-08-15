@@ -34,8 +34,13 @@ Route::get('/ping', function () {
 });
 
 Route::get('/offline-fe', function () {
-    return view('offline.farm_entrance_offline'); // or return view with x-layouts.offline
+    return view('offline.farm_entrance_offline'); // return view with x-layouts.offline
 });
+
+Route::get('/offline-inspection', function () {
+    return view('offline.offline_inspection'); // return view with x-layouts.offline
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('offline/farmentrance',[FarmentranceController::class, 'offlinefestart'])->name('offlinefestart'); 
 
