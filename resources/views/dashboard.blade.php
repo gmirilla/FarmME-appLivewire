@@ -83,6 +83,16 @@
             </div>
           </div>
         </div>
+
+        <div class="card col-auto mr-3" style="background-color:white; color:#388E3C ; width:18rem ; margin-right:5px">
+          <div class="card-body"><div style="font-size: 30px">
+            <i class="fa fa-map-marker" style="color: rgba(88, 31, 31, 0.811) " aria-hidden="true"></i></div>
+              <h3 class="card-title text-center">{{number_format($plotcount,2)}}</h3>
+            <div  class="card-footer" style="text-align: center; ">
+              <p className="text-sm text-charcoal-grey/70">No. of Plots</p>
+            </div>
+          </div>
+        </div>
         
         <div class="card col-auto mr-3" style="background-color:white; color:#388E3C; width:18rem ; margin-right:5px">
           <div class="card-body"><div style="font-size: 30px">

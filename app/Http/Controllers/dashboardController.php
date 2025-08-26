@@ -30,7 +30,14 @@ class dashboardController extends Controller
                 # code...
                 $usercount=User::whereNotIn('roles',['NONE','DISABLED'] )->count();
                 $farmcount=farm::where('farmstate','like', '%ACTIVE%' )->count();
-                $farmarea=farm::where('farmstate','like', '%ACTIVE%' )->sum('farmarea');
+                $activefarms=farm::where('farmstate','like', '%ACTIVE%')->get();
+                $farmarea=0;
+                $plotcount=0;
+                foreach ($activefarms as $activefarm) {
+                    # code...
+                    $farmarea+=$activefarm->getfarmareacurrent();
+                    $plotcount+=$activefarm->getfarmcount();
+                }
                 $farmpendingcount=farm::where('farmstate','like', '%PENDING%' )->count();
                 $inspectioncount=internalinspection::where('inspectionstate','like', '%SUBMITTED%' )->count();
                 $inspectionapprovedcount=internalinspection::where('inspectionstate','like', '%APPROVED%' )->count();
@@ -45,7 +52,14 @@ class dashboardController extends Controller
                 $usercount=1;
                 $farmcount=farm::where('farmstate','like', '%ACTIVE%' )->where('inspectorid',$user->id)->count();
                 $farmpendingcount=farm::where('farmstate','like', '%PENDING%' )->where('inspectorid',$user->id)->count();
-                 $farmarea=farm::where('farmstate','like', '%ACTIVE%' )->where('inspectorid',$user->id)->sum('farmarea');
+                $activefarms=farm::where('farmstate','like', '%ACTIVE%')->where('inspectorid',$user->id)->get();
+                $farmarea=0;
+                $plotcount=0;
+                foreach ($activefarms as $activefarm) {
+                    # code...
+                    $farmarea+=$activefarm->getfarmareacurrent();
+                    $plotcount+=$activefarm->getfarmcount();
+                }
                 $inspectioncount=internalinspection::where('inspectionstate','like', '%SUBMITTED%' )->where('inspectorid',$user->id)->count(); 
                 $inspectionapprovedcount=internalinspection::where('inspectionstate','like', '%APPROVED%' )->where('inspectorid',$user->id)->count();
                 $inspectionrejectedcount=internalinspection::where('inspectionstate','like', '%REJECTED%' )->where('inspectorid',$user->id)->count();
@@ -62,7 +76,7 @@ class dashboardController extends Controller
 
 
         return view('dashboard', 
-        compact('usercount','farmcount','inspectioncount','farmpendingcount', 'inspectionapprovedcount',  'inspectionrejectedcount','farmarea','user','estyield','actualyield'));
+        compact('usercount','farmcount','inspectioncount','farmpendingcount', 'inspectionapprovedcount',  'inspectionrejectedcount','farmarea','user','estyield','actualyield', 'plotcount'));
     }
 
     /**
