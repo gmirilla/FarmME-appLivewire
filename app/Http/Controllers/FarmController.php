@@ -67,11 +67,12 @@ class FarmController extends Controller
                 switch ($user->roles) {
                     case 'ADMINISTRATOR':
                         # code...
-                        $farmlist=farm::where('farmstate','!=',  'APPROVED')->get()->sortByDesc('created_at');
+                        $farmlist=farm::where('farmstate','=',  'PENDING')->get()->sortByDesc('created_at');
                         break;
                     case 'INSPECTOR':
                         # code...
-                        $farmlist=farm::where('inspectorid',$user->id)->where('farmstate','!=',  'APPROVED')->get(); 
+                        
+                        $farmlist=farm::where('inspectorid',$user->id)->where('farmstate','=',  'PENDING')->get(); 
                         break;
                                 
                     default:
