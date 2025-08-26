@@ -31,6 +31,7 @@ class dashboardController extends Controller
                 $usercount=User::whereNotIn('roles',['NONE','DISABLED'] )->count();
                 $farmcount=farm::where('farmstate','like', '%ACTIVE%' )->count();
                 $farmarea=farm::where('farmstate','like', '%ACTIVE%' )->sum('farmarea');
+                dd($farmarea);
                 $farmpendingcount=farm::where('farmstate','like', '%PENDING%' )->count();
                 $inspectioncount=internalinspection::where('inspectionstate','like', '%SUBMITTED%' )->count();
                 $inspectionapprovedcount=internalinspection::where('inspectionstate','like', '%APPROVED%' )->count();
