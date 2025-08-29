@@ -94,6 +94,14 @@
                             @endif
                             <label class="form-check-label" for="vgood">Very Good</label>
                         </div> 
+                        <div class="form-check">
+                            @if ($question->answer==0)
+                            <input class="form-check-input"   checked type="radio" id="notapp" name="answers[{{$counter}}]" value="0">
+                            @else
+                            <input class="form-check-input"  type="radio" id="notapp" name="answers[{{$counter}}]" value="0">
+                            @endif
+                            <label class="form-check-label" for="notapp">N/A</label>
+                        </div> 
                             @break
 
                             @case("TYPEC") 
