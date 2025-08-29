@@ -41,40 +41,6 @@
 
         </tbody>
     </table>
-    @if (strpos($reportname->reportname, '8B')!==false)
-        <div class="card-body my-3">
-        <table class="table table-striped">
-          <thead>
-            <th>Ginger Plot Names</th>
-            <th>Plot Size in Hectares</th>
-            <th>Estimation of production in KGs</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-          </thead>
-          <tbody>
-            @php
-                $farmentrance=$inspection->reportgingerproduction();
-            @endphp
-                        @forelse ($farmentrance->reportprodhistory() as $prodhistory )
-                        <tr>
-                <td>{{$prodhistory->plotname}}</td>
-                 <td>{{$prodhistory->fuarea}}</td>
-                  <td>{{number_format($prodhistory->estimatedyield,2)}}</td>
-                   <td>{{$prodhistory->fulatitude}}</td>
-                    <td>{{$prodhistory->fulongitude}}</td>
-            
-            </tr>
-                
-            @empty
-                
-            @endforelse
-          </tbody>
-        </table>
-        </div>
-        
-    @endif
-
-
 
     
     
@@ -148,6 +114,14 @@
                 <input class="form-check-input"   disabled type="radio" id="vgood" name="answers[{{$counter}}]" value="4">
                 @endif
                 <label class="form-check-label" for="vgood">Very Good</label>
+            </div> 
+            <div class="form-check">
+                @if ($reportquestion->answer==0)
+                <input class="form-check-input"   disabled checked type="radio" id="notapp" name="answers[{{$counter}}]" value="0">
+                @else
+                <input class="form-check-input"   disabled type="radio" id="notapp" name="answers[{{$counter}}]" value="0">
+                @endif
+                <label class="form-check-label" for="notapp">N/A</label>
             </div> 
                 @break
 
