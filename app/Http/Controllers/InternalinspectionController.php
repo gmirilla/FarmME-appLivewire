@@ -451,6 +451,7 @@ class InternalinspectionController extends Controller
                                'reportquestions.id as id',
                                'reportquestions.reportid  as reportid',
                                'reportquestions.reportsectionid as reportsectionid',
+                               'reportquestions.indicator as indicator',
                                'reportquestions.question_seq as question_seq',
                                'reportquestions.question as question',
                                'reportquestions.questiontype as questiontype',

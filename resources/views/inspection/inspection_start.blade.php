@@ -23,6 +23,7 @@
                 <thead>
                     <th>#</th>
                     <th>Question</th>
+                    <th>Importance Indicator</th>
                     <th>Answer</th>
                     <th>Remarks</th>
                 </thead>
@@ -36,7 +37,8 @@
 
                 <tr>
                     <td class="col-1">{{$counter+1}}</td>
-                    <td class="col-4">{{$question->question}}</td>
+                    <td class="col-3">{{$question->question}}</td>
+                    <td class="col-2">{{$question->indicator}}</td>
                     <td class="col-2">
 
                         @switch($question->questiontype)

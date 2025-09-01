@@ -164,6 +164,7 @@ class ReportquestionsController extends Controller
                         $report=reports::where('id', $question->reportid)->first();
                         $section=reportsection::where('id', $question->reportsectionid)->first();
                         $question->question_seq=$request->questionseq;
+                        $question->indicator=$request->questionindicator;
                         switch ($request->questionstate) {
                             case 'on':
                                 # code...
@@ -179,11 +180,9 @@ class ReportquestionsController extends Controller
                                 # code...
                                 break;
                         }
+                        $question->save();
 
                         $questions=reportquestions::where('reportsectionid',$question->reportsectionid)->orderBy('question_seq', 'asc')->get();
-
-                    
-                        $question->save();
 
                 return view('report.reportquestion')
         ->with('section', $section)
