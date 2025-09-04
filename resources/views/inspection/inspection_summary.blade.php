@@ -84,7 +84,7 @@
             @if (!empty($inspection->farmentrance))
 
             <td>{{number_format($inspection->farmentrance->getestimatedyield(),2)}}</td>
-            <td>{{$inspection->getothercropsize()}}</td>
+            <td>{{number_format($inspection->getothercropsize(),4)}}</td>
             <td>@if (!empty($inspection->farmentrance->reportvolcropdel()[0]))
                 {{number_format($inspection->farmentrance->reportvolcropdel()[0]->value,2)}}
                 @endif
