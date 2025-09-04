@@ -122,12 +122,17 @@
                                    
                                     <button type="submit" name="approvebtn" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="Approve Inspection"><i class="fa fa-check-square-o"></i></button>
                             </div>
-
-                            <div style="display:none; margin-top: 5px">
+                          @if (strpos($inspection->reportname, 'Entrance') == false)
+                          <!-- Entrance String is not found display approve with condition button-->
+                          <div style=" margin-top: 5px">
                                 <button  type="button" name="approvewithconditionmodal" class="btn btn-warning" 
-                                data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="{{$inspection->iid}}"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="{{$inspection->farmname}} : {{($inspection->reportname)}}"
                                 data-toggle="tooltip" data-placement="right" title="Approve with Condition"><i class="fa fa-check-square-o"></i></button>
                         </div>
+                          @endif
+
+
+                            
                             <div style="margin-top: 5px">
                                     
                                     <button type="submit" name="rejectbtn" class="btn btn-danger"><i class="fa fa-times-circle" data-toggle="tooltip" data-placement="right" title="Inspection not Approved"></i></button>
@@ -176,7 +181,11 @@
             <div class="mb-3">
               <label for="message-text" class="col-form-label">Conditions</label>
               <textarea class="form form-control" name="apprconditions" id="approveconditions" cols="20" rows="15"></textarea>
-            </div>       
+            </div>
+            <div class="mb-3">
+            <label for="addcommittee" class="form-label">Add Committee Members to Note </label>
+            <input type="checkbox" name="addcommittee" class="form-checked">
+            </div>     
         </div>     
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

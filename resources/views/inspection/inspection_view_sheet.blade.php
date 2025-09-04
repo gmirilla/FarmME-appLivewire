@@ -182,7 +182,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    Approval decision by the internal inspector
+                    Approval decision by the IMS Manager
                 </td>
             </tr>
             <tr>

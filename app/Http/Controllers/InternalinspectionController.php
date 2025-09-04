@@ -12,6 +12,7 @@ use App\Models\internalinspection;
 use App\Models\reportquestions;
 use App\Models\reports;
 use App\Models\reportsection;
+use App\Models\approvalcommitte;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -375,10 +376,12 @@ class InternalinspectionController extends Controller
 
                     $seasons=internalinspection::select('season')->distinct()->get();
                     $reports=reports::where('reportstate', 'ACTIVE')->get();
+                    $approvalcommittee=approvalcommitte::where('is_active', true)->get();
 
                     return view('inspection.inspection_review')
                     ->with('reportquestions',$inspections)
-                    ->with('seasons',$seasons)->with('reports',$reports);
+                    ->with('seasons',$seasons)->with('reports',$reports)
+                    ->with('approvalcommittees',$approvalcommittee);
                   }
 
 

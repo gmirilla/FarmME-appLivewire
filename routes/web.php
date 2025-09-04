@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgrochemicalrecordsController;
+use App\Http\Controllers\ApprovalcommitteController;
 use App\Http\Controllers\dashboardController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -19,6 +20,7 @@ use App\Http\Controllers\ReportsectionController;
 use App\Http\Controllers\ReportquestionsController;
 use App\Http\Controllers\userController;
 use Illuminate\Http\Request;
+use App\Http\Middleware\RoleMiddleware;
 
 Route::get('/', function () {
     return view('welcome');
@@ -178,6 +180,27 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
+});
+
+
+Route::view('/adminconfig/misccodes', 'adminconfig.misccodes')
+    ->middleware([
+        'auth',
+        'verified',
+        RoleMiddleware::class . ':ADMINISTRATOR'
+    ])
+    ->name('codeadmin');
+
+
+    Route::middleware([
+        'auth',
+        'verified',
+        RoleMiddleware::class . ':ADMINISTRATOR'
+    ])->group(function () {
+
+    Route::get('misccode/apprcomm_show',[ApprovalcommitteController::class, 'apprcomm_show'])->name('apprcomm_show');
+    Route::post('misccode/apprcomm_add',[ApprovalcommitteController::class, 'apprcomm_add'])->name('apprcomm_add');
+    Route::post('misccode/apprcomm_show',[ApprovalcommitteController::class, 'apprcomm_show'])->name('apprcomm_delete');
 });
 
 require __DIR__.'/auth.php';

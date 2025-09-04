@@ -28,6 +28,14 @@ class internalinspection extends Model
 
     }
 
+    public function getothercropsize() {
+        $farmentrance=farmentrance::where('internalinspectionid',$this->id)->first();
+        $othercroparea=othercropsrecords::where('farmid', $this->farmid)->where('active', true )
+        ->where('season',$this->season)->where('farmentranceid',$farmentrance->id)->sum('area');
+        return $othercroparea ;
+
+    }
+
     public function farmentrance(){
         return $this->hasOne(farmentrance::class, 'internalinspectionid', 'id');
     }
