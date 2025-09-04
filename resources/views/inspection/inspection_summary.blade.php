@@ -54,6 +54,10 @@
         <th>Gender</th>
         <th>Year of Birth</th>
         <th>ID NO</th>
+        <th>Plot name</th>
+        <th>Plot Size (ha)</th>
+        <th>Plot Lat.</th>
+        <th>Plot Long.</th>
         <th>No of Plots</th>
         <th>Total Farm Size (ha)</th>
         <th>Estimated yield (kg)</th>
@@ -71,6 +75,10 @@
             <td>{{$inspection->getfarm()->gender}}</td>
             <td>{{$inspection->getfarm()->yob}}</td>
             <td>{{$inspection->getfarm()->nationalidnumber}}</td>
+            <td>{{$inspection->getplotdetails()->plotname}}</td>
+            <td>{{$inspection->getplotdetails()->fuarea}}</td>
+            <td>{{$inspection->getplotdetails()->fulatitude}}</td>
+            <td>{{$inspection->getplotdetails()->fulongitude}}</td>
              <td>{{$inspection->getfarm()->getreportfarmcount($season)}}</td>
             <td>{{number_format($inspection->getfarm()->getreportfarmarea($season),2)}}</td>
             @if (!empty($inspection->farmentrance))

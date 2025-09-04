@@ -36,6 +36,15 @@ class internalinspection extends Model
 
     }
 
+        public function getplotdetails() {
+        $farmentrance=farmentrance::where('internalinspectionid',$this->id)->first();
+        $farmplot=farmunits::where('farmentranceid', $farmentrance->id)->where('active', true )
+        ->orderBy('created_at', 'asc') // Oldest first
+        ->first();
+        return $farmplot ;
+
+    }
+
     public function farmentrance(){
         return $this->hasOne(farmentrance::class, 'internalinspectionid', 'id');
     }
