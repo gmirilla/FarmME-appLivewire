@@ -362,6 +362,7 @@ class InternalinspectionController extends Controller
                   //Check if user is authorized to view resource
                   Auth::check();
                   $user = Auth::user();
+                    $year=date('Y');
 
                   if (str_contains($user->roles,'ADMINISTRATOR')) {
                     # only viewable by administrators
@@ -376,7 +377,7 @@ class InternalinspectionController extends Controller
 
                     $seasons=internalinspection::select('season')->distinct()->get();
                     $reports=reports::where('reportstate', 'ACTIVE')->get();
-                    $approvalcommittee=approvalcommitte::where('is_active', true)->get();
+                    $approvalcommittee=approvalcommitte::where('is_active', true)->where('year',$year)->get();
 
                     return view('inspection.inspection_review')
                     ->with('reportquestions',$inspections)
@@ -411,8 +412,25 @@ class InternalinspectionController extends Controller
 
                     switch ($request) {
                         case $request->has('approvewithcondition'):
+                            
                             $inspection->conditions=$request->apprconditions;
-                            $inspection->inspectionstate='CONDITIONAL';                          
+                            $inspection->inspectionstate='CONDITIONAL'; 
+                            
+                            //deal with approval committee 
+                            //check if approval committee add button was clicked
+                            if ($request->has('addcommittee')) {
+                                # code...
+                                //get the list of all active approvers
+                                $year=date('Y');
+                        $approvercommstring = approvalcommitte::where('is_active', true)
+                            ->where('year', date('Y'))
+                            ->pluck('id')
+                            ->implode(',');
+
+                        $inspection->approvalcommittee = $approvercommstring;
+
+
+                            }
                             break;
 
                         case $request->has('approvebtn'):

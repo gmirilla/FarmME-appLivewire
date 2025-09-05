@@ -49,6 +49,14 @@ class internalinspection extends Model
         return $this->hasOne(farmentrance::class, 'internalinspectionid', 'id');
     }
 
+    public function getapprcomm(){
+
+        $approvercommArray = explode(',', $this->approvalcommittee);
+
+        $apprcomm=approvalcommitte::whereIn('id',$approvercommArray)->get();
+        return $apprcomm;
+    }
+
     public function reportgingerproduction(){
         $farmentrance=farmentrance::where('farm_period', $this->season)->where('farmid',$this->farmid)->first();
 

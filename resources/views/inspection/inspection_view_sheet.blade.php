@@ -272,7 +272,25 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    Name /Signature of Evaluation and Sanction committee:
+                    Name /Signature(s) of Evaluation and Sanction committee:
+                    @php
+                        $acounter=0;
+                    @endphp
+                    <table class= "table">
+                    @forelse ($inspection->getapprcomm() as $committeemember )
+                    @php
+                        $acounter+=1;
+                    @endphp
+                    <tr>
+                        <td>{{$acounter}}.</td>
+                        <td><b>{{$committeemember->name}}</b> <i style="font-size: 0.75em">({{$committeemember->position}})</i> </td>
+                        <td><img src="{{url('/storage/'.$committeemember->signaturepath)}}" alt="" width="50px" ></td>
+                    </tr>
+                    @empty
+                        
+                    @endforelse
+                    </table>
+
                 </td>
             </tr>
             <tr>

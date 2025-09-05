@@ -8,6 +8,7 @@
 @php
     Auth::check();
     $user=Auth::user();
+     $year=date('Y');
 @endphp
     @if ($errors->any())
   <div class="alert alert-danger">
@@ -27,6 +28,7 @@
         <div class="card-body ">
             <table class="table">
                 <thead>
+                    <th>Year</th>
                     <th>Name of Member</th>
                     <th>Designation</th>
                     <th>Signature</th>
@@ -37,6 +39,7 @@
                         <tr>
                             <form action="{{route('apprcomm_delete')}}" method="post">
                                 @csrf
+                            <td>{{$apprcomm->year}}</td>
                             <td><input type="text" class="form-control" name="name" disabled id="name" value="{{$apprcomm->name}}"></td>
                             <td><input type="text" class="form-control" name="position" disabled value="{{$apprcomm->position}}"></td>
                             <td>
@@ -57,6 +60,7 @@
                         <tr>
                             <form action="{{route('apprcomm_add')}}" method="post" enctype="multipart/form-data">
                                 @csrf
+                                <td>{{$year}}</td>
                             <td><input type="text" name="name" id="name" class="form-control">
                             </td>
                             <td><input type="text" name="position" class="form-control">
