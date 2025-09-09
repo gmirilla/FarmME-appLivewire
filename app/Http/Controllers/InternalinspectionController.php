@@ -199,6 +199,7 @@ class InternalinspectionController extends Controller
                ->select(
                   'reportquestions.id as id',
                   'reportquestions.reportid  as reportid',
+                  'reportquestions.indicator as indicator',
                   'reportquestions.reportsectionid as reportsectionid',
                   'reportquestions.question_seq as question_seq',
                   'reportquestions.question as question',
@@ -310,7 +311,8 @@ class InternalinspectionController extends Controller
                   'reportquestions.id as id',
                   'reportquestions.reportid  as reportid',
                   'reportquestions.reportsectionid as reportsectionid',
-                  'reportquestions.question_seq as question_seq',
+                  'reportquestions.indicator as indicator',
+                'reportquestions.question_seq as question_seq',
                   'reportquestions.question as question',
                   'reportquestions.questiontype as questiontype',
                   'reportquestions.questionstate as questionstate',
@@ -506,6 +508,49 @@ class InternalinspectionController extends Controller
                     $inspection->save();
 
                     return redirect()->route('iapproval');
+                  }
+                  else if ((str_contains($user->roles,'INSPECTOR'))){
+
+                    switch ($request){
+                        case $request->has('viewsheet'):
+                          
+                            # Display Result Sheet
+                            $reportquestions= DB::table('reportquestions')
+                            ->leftJoin('inspectionanswers','reportquestions.id' , '=', 'inspectionanswers.questionid') 
+                            ->leftJoin('reportsections', 'reportquestions.reportsectionid', '=', 'reportsections.id')// Join the 'reportquestions' and 'answers' tables
+                            ->select(
+                               'reportquestions.id as id',
+                               'reportquestions.reportid  as reportid',
+                               'reportquestions.reportsectionid as reportsectionid',
+                               'reportquestions.indicator as indicator',
+                               'reportquestions.question_seq as question_seq',
+                               'reportquestions.question as question',
+                               'reportquestions.questiontype as questiontype',
+                               'reportquestions.questionstate as questionstate',
+                               'answer','sectionidcomments', 'section_seq'
+                            )
+                            ->where('reportquestions.reportid',$inspection->reportid)->where('reportquestions.questionstate', 'ACTIVE')
+                            ->where('internalinspectionid',$inspection->id)->orderBy('section_seq', 'asc')->orderBy('question_seq', 'asc')
+                            ->get(); 
+      
+                            $reportname=reports::where('id', $inspection->reportid)->first();
+                            $farm=farm::where('id',$inspection->farmid)->first();
+                            $inspector=User::where('id',$inspection->inspectorid)->first();
+                            //ADD Logic to redirect to Farm Entrance VIEW IF report is an entrance report
+                            if (strpos($reportname->reportname,'Entrance')) {
+                                # code...
+                                $farmentrance=farmentrance::where('internalinspectionid',$request->iid)->first();
+                                 $data=compact('reportname','reportquestions', 'user', 'inspection','farm','farmentrance');
+                                return view('inspection.viewfarmentrance', $data);
+                            }
+    
+    
+                            return view('inspection.inspection_view_sheet', compact('reportname','reportquestions', 'user', 'inspection','farm','inspector'));
+                            //->with('reportname',$reportname)->with('reportquestions',$reportquestions);
+
+                            break; 
+                    }
+
                   }
 
 
