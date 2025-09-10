@@ -50,7 +50,14 @@
         {{$inspection->inspectionstate}}
     @endswitch
     </td>
-    <td><b style="font-size: 0.9em">{{number_format(($inspection->score/$inspection->max_score *100),2) }} % ({{$inspection->score}} /{{$inspection->max_score }} ) </b>   
+    <td>
+                        @if ($farmreport->max_score==0)
+                    0.00%
+                @else
+                    <b style="font-size: 0.9em">{{number_format(($inspection->score/$inspection->max_score *100),2) }} % ({{$inspection->score}} /{{$inspection->max_score }} ) </b>   
+                @endif
+        
+        
     </td>
     <td><div>
         @switch($inspection->inspectionstate)
