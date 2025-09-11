@@ -35,7 +35,13 @@
                     <b>DATE OF INSPECTION:</b> 
                 </td>
                 <td>
-                    {{$inspection->created_at}}
+                    @if (!empty($inspection->inspectiondate))
+                    {{$inspection->inspectiondate}}
+                        
+                    @else
+                      {{$inspection->created_at}}  
+                    @endif
+                    
                 </td>
             </tr>
 

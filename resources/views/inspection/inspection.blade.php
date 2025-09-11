@@ -97,6 +97,27 @@
             
 
         </form>
+        @if ( $inspection->inspectionstate=='ACTIVE')
+        <form action="{{route('icancel')}}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this inspection?');">
+            @csrf
+            <input type="text" value="{{$inspection->id}}" name="farmid" hidden>
+            <input type="text" value="{{$inspection->iid}}" name="inspectionid" hidden>
+            <input type="text" value="{{$inspection->reportid}}" name="reportid" hidden>
+
+            <button class="btn btn-danger" name="deletetbtn" data-toggle="tooltip" data-placement="right" 
+            title="Cancel Inspection" style="margin: 3px"><i class="fa fa-times" aria-hidden="true"></i></button>
+        </form>
+        @endif
+
+        @if ($inspection->inspectionstate=='ACTIVE') 
+              <button type="button" class="btn btn-success" data-bs-toggle="modal"
+              data-bs-target="#exampleModal" data-bs-whatever="{{$inspection->farmcode}}" 
+              data-bs-orgdate="{{$inspection->inspectiondate}}"
+              data-bs-reportname="{{$inspection->reportname}}"
+              data-bs-inspectionid="{{$inspection->iid}}"
+              data-toggle="tooltip" 
+              data-placement="right" title="Çhange Inspection Date"><i class="fa fa-calendar" aria-hidden="true"></i></button>  
+              @endif
         
     </div>
     </td>
@@ -110,7 +131,68 @@
 </table>
 </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="updateinspectiondate" method="post" action='{{route('changedate')}}'>
+        @csrf
+      <div class="modal-body">
+        
+          <div class="mb-3">
+            <label for="farmcode" class="col-form-label">INSPECTION TYPE</label>
+            <input type="text"  disabled class="form-control itype" name="inspectiontype">
+          </div>
+          <div class="mb-3">
+            <label for="message-dropdown" class="col-form-label">Inspection Date</label>
+            <input type="text" disabled class="form-control orgdate" name="orgdate">
+          </div>  
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">New Date</label>
+            <input type="date" class="form-control" required name="newinspectiondate" style="background-color:cornflowerblue">
+            <input type="text" hidden class="form-control inspectionid"  name="inspectionid" >
+          </div>       
+      </div>     
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <input  type="submit" class="btn btn-success" value="Save">
+      </div>
+    </form>
+    </div>
+  </div>
 </div>
+
+</div>
+<script>
+var exampleModal = document.getElementById('exampleModal')
+exampleModal.addEventListener('show.bs.modal', function (event) {
+  // Button that triggered the modal
+  var button = event.relatedTarget
+  // Extract info from data-bs-* attributes
+  var farmcode = button.getAttribute('data-bs-whatever')
+  var orgdate = button.getAttribute('data-bs-orgdate')
+  var reportname = button.getAttribute('data-bs-reportname')
+  var inspectionid = button.getAttribute('data-bs-inspectionid')
+  // If necessary, you could initiate an AJAX request here
+  // and then do the updating in a callback.
+  //
+  // Update the modal's content.
+  var modalTitle = exampleModal.querySelector('.modal-title')
+  var modalBodyItype = exampleModal.querySelector('.itype')
+  var modalBodyOrgdate = exampleModal.querySelector('.orgdate')
+   var modalBodyIid = exampleModal.querySelector('.inspectionid')
+
+  modalTitle.textContent = 'Update Inspection Date for  ' + farmcode
+  modalBodyItype.value = reportname
+  modalBodyOrgdate.value = orgdate
+  modalBodyIid.value = inspectionid
+})
+</script>
 <script>
     new DataTable('#inspectiondt');
 </script>

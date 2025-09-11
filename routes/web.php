@@ -171,6 +171,8 @@ Route::middleware('auth')->group(function () {
     Route::get('iapprove',[InternalinspectionController::class, 'iapprove'])->name('iapprove');
     Route::post('ireject',[InternalinspectionController::class, 'iapprove'])->name('ireject');
     Route::get('inspection/summary',[InternalinspectionController::class,'summarypage'])->name('summarypage');
+    Route::post('inspection/cancel',[InternalinspectionController::class, 'icancel'])->name('icancel');
+    Route::post('inspection/changedate',[InternalinspectionController::class, 'changedate'])->name('changedate');
 
 });
 

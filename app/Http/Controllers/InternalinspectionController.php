@@ -35,7 +35,8 @@ class InternalinspectionController extends Controller
     ->join('farms', 'internalinspections.farmid', '=', 'farms.id')
     ->join('reports','internalinspections.reportid', '=', 'reports.id') // Join the 'insternalinspections' and 'farms' tables
     ->select('farmcode','farmname','inspectionstate', 'internalinspections.id as iid','farms.id','internalinspections.reportid as reportid','score','max_score',
-    'internalinspections.inspectorid as inspectorid' , 'internalinspections.updated_at', 'reportname')
+    'internalinspections.inspectorid as inspectorid' , 'internalinspections.inspectiondate as inspectiondate' ,
+    'internalinspections.created_at', 'internalinspections.updated_at', 'reportname')
     ->where('internalinspections.inspectorid', $user->id)
     ->whereNotIn('internalinspections.reportid', $entranceIds)
     ->get();
@@ -591,6 +592,30 @@ class InternalinspectionController extends Controller
 
      
         return view('inspection.inspection_summary', compact('internalinspection','season','state','reportname'));
+
+    }
+
+    public function icancel(Request $request)
+    {
+
+        $inspection = internalinspection::where('id', $request->inspectionid)->first();
+        inspectionanswers::where('internalinspectionid', $inspection->id)->delete();
+        $inspection->delete();
+
+        return redirect()->route('inspection');
+
+    }
+    
+        public function changedate(Request $request)
+    {
+
+        $inspection = internalinspection::where('id', $request->inspectionid)->first();
+
+        $inspection->inspectiondate=$request->newinspectiondate;
+        $inspection->save();    
+
+
+        return redirect()->route('inspection');
 
     }
     

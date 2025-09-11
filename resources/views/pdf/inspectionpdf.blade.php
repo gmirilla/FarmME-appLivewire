@@ -51,7 +51,13 @@ input[type="radio"] {
                     <b>DATE OF INSPECTION:</b> 
                 </td>
                 <td>
-                    {{$inspection->created_at}}
+                    @if (!empty($inspection->inspectiondate))
+                    {{$inspection->inspectiondate}}
+                        
+                    @else
+                      {{$inspection->created_at}}  
+                    @endif
+                    
                 </td>
             </tr>
 
@@ -130,6 +136,14 @@ input[type="radio"] {
                 <input class="form-check-input"   disabled type="radio" id="vgood" name="answers[{{$counter}}]" value="4">
                 @endif
                 <label class="form-check-label" for="vgood">Very Good</label>
+            </div>
+                        <div class="form-check">
+                @if ($reportquestion->answer==0)
+                <input class="form-check-input"   disabled checked type="radio" id="notapp" name="answers[{{$counter}}]" value="0">
+                @else
+                <input class="form-check-input"   disabled type="radio" id="notapp" name="answers[{{$counter}}]" value="0">
+                @endif
+                <label class="form-check-label" for="notapp">N/A</label>
             </div> 
                 @break
 
@@ -170,9 +184,29 @@ input[type="radio"] {
                 </td>
             </tr>
             <tr >
-                <td>Signature/Thumbprint of the field operator:<br/>         
+                <td>
+                    <div  class="text-center">
+                @if (!empty($farm->signaturepath))
+                     <img src="{{public_path('/storage/'.$farm->signaturepath)}}" alt="" width="70px"><br>
+                    <u>{{$farm->farmname}}</u>
+                    
+                @endif
+           <div>
+            <br><br>
+            <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint/Name</span><br><br> 
+            </div>      
                </td>
-                <td> Signature of the internal inspector: <br/></td>
+                <td>            <div class="text-center">
+            @if (!empty($inspection->reportinspectorname()->signaturepath))
+                <img src="{{public_path('/storage/'.$inspection->reportinspectorname()->signaturepath)}}" alt="" width="70px"><br>
+                <u>{{$inspection->reportinspectorname()->name}}</u>
+
+            @else
+            <br><br>    
+            @endif
+            <br><br>
+            <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint/Name</span><br><br>
+           </div></td>
             </tr>
             <tr >
                 <td colspan="2">
@@ -266,7 +300,25 @@ input[type="radio"] {
             </tr>
             <tr>
                 <td colspan="2">
-                    Name /Signature of Evaluation and Sanction committee:
+                    Name /Signature(s) of Evaluation and Sanction committee:
+                    @php
+                        $acounter=0;
+                    @endphp
+                    <table class= "table">
+                    @forelse ($inspection->getapprcomm() as $committeemember )
+                    @php
+                        $acounter+=1;
+                    @endphp
+                    <tr>
+                        <td>{{$acounter}}.</td>
+                        <td><b>{{$committeemember->name}}</b> <i style="font-size: 0.75em">({{$committeemember->position}})</i> </td>
+                        <td><img src="{{public_path('/storage/'.$committeemember->signaturepath)}}" alt="" width="50px" ></td>
+                    </tr>
+                    @empty
+                        
+                    @endforelse
+                    </table>
+
                 </td>
             </tr>
             <tr>

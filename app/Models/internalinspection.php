@@ -63,6 +63,12 @@ class internalinspection extends Model
         return $farmentrance;
 
     }
+
+    public function reportinspectorname()
+    {
+        $reportinspectorname = User::where('id', $this->inspectorid)->first();
+        return $reportinspectorname;
+    }
     
     
 }
