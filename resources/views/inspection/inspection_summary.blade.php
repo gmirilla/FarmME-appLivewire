@@ -114,7 +114,48 @@
 </tbody>    
 </table>
 @else
-    <h5>This report is unavailable for this inspection type.</5>
+<table class="table table-striped display table-sm table-sm" id="inspectiondt">
+
+    <thead>
+
+        <th>Farmer Name</th>
+        <th>Farm Code</th>
+        <th>Phone Number</th>
+        <th>House Lat.</th>
+        <th>House Long.</th>
+        <th>No of Plots</th>
+        <th>Total Farm Size (ha)</th>
+        <th>Approval Committee Conditions</th>
+    </thead>
+    <tbody>
+        @forelse ( $internalinspection as $inspection )
+  
+        <tr>
+            <td>{{$inspection->getfarm()->farmname}}</td>
+            <td>{{$inspection->getfarm()->farmcode}}</td>
+            <td>{{$inspection->getfarm()->phonenumber}}</td>
+            <td>{{$inspection->getfarm()->latitude}}</td>
+            <td>{{$inspection->getfarm()->longitude}}</td>
+            <td>{{$inspection->getfarm()->getreportfarmcount($season)}}</td>
+            <td>{{number_format($inspection->getfarm()->getreportfarmarea($season),2)}}</td>
+            <td></td>
+        </tr>
+            @empty
+            <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            </tr>
+            @endforelse
+
+    </tbody>
+</table>
+
 @endif 
 
 </div>
