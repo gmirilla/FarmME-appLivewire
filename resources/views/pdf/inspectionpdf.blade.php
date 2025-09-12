@@ -46,7 +46,7 @@ input[type="radio"] {
             </tr>
             <tr>
                 <td><b>NAME OF INTERNAL INSPECTOR: </b> </td>
-                <td colspan="2">{{$user->name}}</td>
+                <td colspan="2">{{$inspection->reportinspectorname()->name}}</td>
                 <td>
                     <b>DATE OF INSPECTION:</b> 
                 </td>

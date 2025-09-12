@@ -145,7 +145,7 @@
         </form>
          </div>
     </div>
-<script async src="https://maps.googleapis.com/maps/api/js?key={{config('MAP_API_KEY')}}&libraries=geometry"></script>
+<script async src="https://maps.googleapis.com/maps/api/js?key={{env('MAP')}}&libraries=geometry,drawing"></script>
     <script>
                 function initMap(latitude, longitude) {
 if ("geolocation" in navigator) {
