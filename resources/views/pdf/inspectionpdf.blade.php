@@ -73,13 +73,15 @@ input[type="radio"] {
         <thead>
             <th>#</th>
             <th style="width:50%">Question</th>
+            <th style="width:10%">Importance Indicator</th>
             <th style="width:20%">Answer</th>
-            <th style="width:25%">Remarks</th>
+            <th style="width:20%">Remarks</th>
         </thead>
     @forelse ($reportquestions as $reportquestion )
     <tr>
         <td>{{$counter+1}}</td>
         <td>{{$reportquestion->question }}</td>
+        <td>{{$reportquestion->indicator}}</td>
         <td class="col-2">
 
             @switch($reportquestion->questiontype)
