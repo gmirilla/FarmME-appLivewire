@@ -147,28 +147,38 @@
     </div>
 <script async src="https://maps.googleapis.com/maps/api/js?key={{env('MAP')}}&libraries=geometry,drawing"></script>
     <script>
-                function initMap(latitude, longitude) {
-if ("geolocation" in navigator) {
+function initMap() {
+  if (!("geolocation" in navigator)) {
+    alert("Geolocation is not supported by this browser.");
+    return;
+  }
+
   navigator.geolocation.getCurrentPosition(
     function(position) {
-      var currentLatitude = position.coords.latitude;
-      var currentLongitude = position.coords.longitude;
+      const currentLatitude = position.coords.latitude;
+      const currentLongitude = position.coords.longitude;
       document.getElementById("latitude").value = currentLatitude;
       document.getElementById("longitude").value = currentLongitude;
       console.log("Latitude: " + currentLatitude + ", Longitude: " + currentLongitude);
-      
-
     },
     function(error) {
-
-      alert("Unable to retrieve your location. Please enable location services and try again.");
+      console.error("Geolocation error:", error);
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          alert("Permission denied. Please enable location access in your browser settings.");
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert("Location information is unavailable.");
+          break;
+        case error.TIMEOUT:
+          alert("The request to get your location timed out.");
+          break;
+        default:
+          alert("An unknown error occurred.");
+          break;
+      }
     }
   );
-} else {
-
-  alert("Geolocation is not supported by this browser.");
 }
-
-                }
-    </script>
+</script>
 </x-layouts.app>
