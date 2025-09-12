@@ -81,7 +81,12 @@ input[type="radio"] {
     <tr>
         <td>{{$counter+1}}</td>
         <td>{{$reportquestion->question }}</td>
-        <td>{{$reportquestion->indicator}}</td>
+        <td>@if (!empty($reportquestion->indicator))
+            {{$reportquestion->indicator}}
+        @else
+            
+        @endif
+            </td>
         <td class="col-2">
 
             @switch($reportquestion->questiontype)
