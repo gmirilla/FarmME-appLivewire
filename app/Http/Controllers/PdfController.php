@@ -70,7 +70,7 @@ class PdfController extends Controller
                                    'reportquestions.reportid  as reportid',
                                    'reportquestions.reportsectionid as reportsectionid',
                                    'reportquestions.question_seq as question_seq',
-                                   'reportquestions.question as question',
+                                   'reportquestions.question as question','reportquestions.indicator as indicator',
                                    'reportquestions.questiontype as questiontype',
                                    'reportquestions.questionstate as questionstate',
                                    'answer','sectionidcomments', 'section_seq'
