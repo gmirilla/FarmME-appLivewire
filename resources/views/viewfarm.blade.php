@@ -236,7 +236,13 @@
               <td>{{$farmreport->season}}</td>  
              <td>{{$farmreport->reportname}}</td>
 
-             <td>{{number_format(($farmreport->score / $farmreport->max_score *100),2)}}%</td> 
+             <td>
+                @if ($farmreport->max_score==0)
+                    0.00%
+                @else
+                    {{number_format(($farmreport->score / $farmreport->max_score *100),2)}}%
+                @endif
+                </td> 
              <td>{{$farmreport->created_at}}</td>
              <td>{{$farmreport->inspectionstate}}</td>
              <td><textarea class="form-control" name="comments" id="" cols="20" rows="3">{{$farmreport->comments}}</textarea></td>

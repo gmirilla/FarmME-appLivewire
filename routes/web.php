@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AgrochemicalrecordsController;
+use App\Http\Controllers\ApprovalcommitteController;
 use App\Http\Controllers\dashboardController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -183,6 +184,8 @@ Route::middleware('auth')->group(function () {
     Route::get('iapprove',[InternalinspectionController::class, 'iapprove'])->name('iapprove');
     Route::post('ireject',[InternalinspectionController::class, 'iapprove'])->name('ireject');
     Route::get('inspection/summary',[InternalinspectionController::class,'summarypage'])->name('summarypage');
+    Route::post('inspection/cancel',[InternalinspectionController::class, 'icancel'])->name('icancel');
+    Route::post('inspection/changedate',[InternalinspectionController::class, 'changedate'])->name('changedate');
 
 });
 
@@ -203,6 +206,17 @@ Route::middleware([
     Route::get('misccode/yieldest_show',[MisccodesController::class, 'miscyieldest_show'])->name('mye_show');
     Route::get('misccode/yieldest_add',[MisccodesController::class, 'miscyieldest_add'])->name('mye_add');
     Route::post('misccode/yieldest_delete',[MisccodesController::class, 'miscyieldest_delete'])->name('mye_delete');
+});
+
+    Route::middleware([
+        'auth',
+        'verified',
+        RoleMiddleware::class . ':ADMINISTRATOR'
+    ])->group(function () {
+
+    Route::get('misccode/apprcomm_show',[ApprovalcommitteController::class, 'apprcomm_show'])->name('apprcomm_show');
+    Route::post('misccode/apprcomm_add',[ApprovalcommitteController::class, 'apprcomm_add'])->name('apprcomm_add');
+    Route::post('misccode/apprcomm_show',[ApprovalcommitteController::class, 'apprcomm_show'])->name('apprcomm_delete');
 });
 
 require __DIR__.'/auth.php';

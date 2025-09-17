@@ -12,8 +12,16 @@
 <x-layouts.app>
     <div class="card">
         <div class="card-header"><h3>Miscellaneous Codes Configuration</h3></div>
-        <div class="card-body">
-           <a href="{{route('mye_show')}}" style="color:white;"><div class="col-2 py-3 text-center" style="background-color: rgb(5, 100, 45)">CONFIGURE YIELD ESTIMATES</div></a> 
+        <div class="card-body flex">
+            <div class="col-auto"> 
+                <a href="{{route('mye_show')}}" style="color:white;"><div class="col-auto  mx-2 py-3 px-2 text-center" style="background-color: rgb(5, 100, 45)">CONFIGURE YIELD ESTIMATES</div></a> 
+            </div>
+           
+            <div class="col-auto"> 
+                <a href="{{route('apprcomm_show')}}" style="color:white;"><div class="col-auto  mx-2 py-3 px-2 text-center" style="background-color: rgb(5, 100, 45)">CONFIGURE APPROVAL COMITTEE</div></a> 
+
+            </div>
+           
         </div>
     </div>
 

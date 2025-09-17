@@ -35,7 +35,13 @@
                     <b>DATE OF INSPECTION:</b> 
                 </td>
                 <td>
-                    {{$inspection->created_at}}
+                    @if (!empty($inspection->inspectiondate))
+                    {{$inspection->inspectiondate}}
+                        
+                    @else
+                      {{$inspection->created_at}}  
+                    @endif
+                    
                 </td>
             </tr>
 
@@ -51,13 +57,15 @@
         <thead>
             <th>#</th>
             <th>Question</th>
+            <th>Importance Indicator</th>
             <th>Answer</th>
             <th>Remarks</th>
         </thead>
     @forelse ($reportquestions as $reportquestion )
     <tr>
-        <td>{{$counter+1}}</td>
-        <td>{{$reportquestion->question }}</td>
+        <td class="col-1">{{$counter+1}}</td>
+        <td class="col-3">{{$reportquestion->question }}</td>
+        <td class="col-2">{{$reportquestion->indicator}}</td>
         <td class="col-2">
 
             @switch($reportquestion->questiontype)
@@ -180,7 +188,7 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    Approval decision by the internal inspector
+                    Approval decision by the IMS Manager
                 </td>
             </tr>
             <tr>
@@ -270,7 +278,25 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    Name /Signature of Evaluation and Sanction committee:
+                    Name /Signature(s) of Evaluation and Sanction committee:
+                    @php
+                        $acounter=0;
+                    @endphp
+                    <table class= "table">
+                    @forelse ($inspection->getapprcomm() as $committeemember )
+                    @php
+                        $acounter+=1;
+                    @endphp
+                    <tr>
+                        <td>{{$acounter}}.</td>
+                        <td><b>{{$committeemember->name}}</b> <i style="font-size: 0.75em">({{$committeemember->position}})</i> </td>
+                        <td><img src="{{url('/storage/'.$committeemember->signaturepath)}}" alt="" width="50px" ></td>
+                    </tr>
+                    @empty
+                        
+                    @endforelse
+                    </table>
+
                 </td>
             </tr>
             <tr>

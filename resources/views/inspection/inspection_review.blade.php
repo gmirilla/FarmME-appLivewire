@@ -5,6 +5,9 @@
 <link rel="stylesheet" href=
 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <x-layouts.app>
+  @php
+     $year=date('Y');
+  @endphp
   @if ($errors->any())
   <div class="alert alert-danger">
       <ul>
@@ -122,12 +125,18 @@
                                    
                                     <button type="submit" name="approvebtn" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="Approve Inspection"><i class="fa fa-check-square-o"></i></button>
                             </div>
-
-                            <div style="display:none; margin-top: 5px">
+                          @if (strpos($inspection->reportname, 'Entrance') == false)
+                          <!-- Entrance String is not found display approve with condition button-->
+                          <div style=" margin-top: 5px">
                                 <button  type="button" name="approvewithconditionmodal" class="btn btn-warning" 
-                                data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="{{$inspection->iid}}"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="{{$inspection->farmname}} : {{($inspection->reportname)}}"
+                                data-bs-whatever2="{{$inspection->iid}}"
                                 data-toggle="tooltip" data-placement="right" title="Approve with Condition"><i class="fa fa-check-square-o"></i></button>
                         </div>
+                          @endif
+
+
+                            
                             <div style="margin-top: 5px">
                                     
                                     <button type="submit" name="rejectbtn" class="btn btn-danger"><i class="fa fa-times-circle" data-toggle="tooltip" data-placement="right" title="Inspection not Approved"></i></button>
@@ -171,12 +180,28 @@
           
             <div class="mb-3">
               <label for="iid" class="col-form-label">Inspection Report ID:</label>
-              <input type="text"  readonly class="form-control fcode" id="iid" name="iid">
+              <input type="text"  readonly class="form-control fcode" id="report_name" name="report_name">
+               <input type="text" class="form-control fiid" hidden name="iid">
             </div>  
             <div class="mb-3">
               <label for="message-text" class="col-form-label">Conditions</label>
-              <textarea class="form form-control" name="apprconditions" id="approveconditions" cols="20" rows="15"></textarea>
-            </div>       
+              <textarea class="form form-control" name="apprconditions" id="approveconditions" cols="20" rows="10"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="list_ac" class="col-form-label">{{$year}} Current Approval Committee</label>
+              <p>
+                @forelse ( $approvalcommittees as $acmember )
+                 <b>{{$acmember->name}}</b>({{$acmember->position}})<br/>
+                @empty
+                  <b>No Committee Members for {{$year}} on Record</b>
+                @endforelse
+              </p>
+              @if ($approvalcommittees->isNotEmpty())
+                <label for="addcommittee" class="form-label">Add Committee Members to Note </label>
+                <input type="checkbox" name="addcommittee" class="form-checked">
+              @endif
+
+            </div>     
         </div>     
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -193,15 +218,18 @@
       var button = event.relatedTarget
       // Extract info from data-bs-* attributes
       var recipient = button.getAttribute('data-bs-whatever')
+      var reportid = button.getAttribute('data-bs-whatever2')
       // If necessary, you could initiate an AJAX request here
       // and then do the updating in a callback.
       //
       // Update the modal's content.
       var modalTitle = exampleModal.querySelector('.modal-title')
-      var modalBodyInput = exampleModal.querySelector('.modal-body input')
+      var modalBodyInput = exampleModal.querySelector('.fcode')
+      var modalBodyreportid = exampleModal.querySelector('.fiid')
     
       modalTitle.textContent = 'Approval Conditions for Farm  ' 
       modalBodyInput.value = recipient
+      modalBodyreportid.value =reportid
     })
     </script>
     <script>

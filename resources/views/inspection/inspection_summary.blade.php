@@ -52,9 +52,16 @@
         <th>Farmer Name</th>
         <th>Farm Code</th>
         <th>Gender</th>
+        <th>Year of Birth</th>
+        <th>ID NO</th>
+        <th>Plot name</th>
+        <th>Plot Size (ha)</th>
+        <th>Plot Lat.</th>
+        <th>Plot Long.</th>
         <th>No of Plots</th>
         <th>Total Farm Size (ha)</th>
         <th>Estimated yield (kg)</th>
+        <th>Non Ginger Hectare</th>
         <th>Previous Year Del.</th>
          <th>Previous 2 Years Del.</th>
           <th>Previous 3 Years Del.</th>
@@ -66,11 +73,18 @@
             <td>{{$inspection->getfarm()->farmname}}</td>
             <td>{{$inspection->getfarm()->farmcode}}</td>
             <td>{{$inspection->getfarm()->gender}}</td>
+            <td>{{$inspection->getfarm()->yob}}</td>
+            <td>{{$inspection->getfarm()->nationalidnumber}}</td>
+            <td>{{$inspection->getplotdetails()->plotname}}</td>
+            <td>{{$inspection->getplotdetails()->fuarea}}</td>
+            <td>{{$inspection->getplotdetails()->fulatitude}}</td>
+            <td>{{$inspection->getplotdetails()->fulongitude}}</td>
              <td>{{$inspection->getfarm()->getreportfarmcount($season)}}</td>
             <td>{{number_format($inspection->getfarm()->getreportfarmarea($season),2)}}</td>
             @if (!empty($inspection->farmentrance))
 
             <td>{{number_format($inspection->farmentrance->getestimatedyield(),2)}}</td>
+            <td>{{number_format($inspection->getothercropsize(),4)}}</td>
             <td>@if (!empty($inspection->farmentrance->reportvolcropdel()[0]))
                 {{number_format($inspection->farmentrance->reportvolcropdel()[0]->value,2)}}
                 @endif
@@ -100,7 +114,48 @@
 </tbody>    
 </table>
 @else
-    <h5>This report is unavailable for this inspection type.</5>
+<table class="table table-striped display table-sm table-sm" id="inspectiondt">
+
+    <thead>
+
+        <th>Farmer Name</th>
+        <th>Farm Code</th>
+        <th>Phone Number</th>
+        <th>House Lat.</th>
+        <th>House Long.</th>
+        <th>No of Plots</th>
+        <th>Total Farm Size (ha)</th>
+        <th>Approval Committee Conditions</th>
+    </thead>
+    <tbody>
+        @forelse ( $internalinspection as $inspection )
+  
+        <tr>
+            <td>{{$inspection->getfarm()->farmname}}</td>
+            <td>{{$inspection->getfarm()->farmcode}}</td>
+            <td>{{$inspection->getfarm()->phonenumber}}</td>
+            <td>{{$inspection->getfarm()->latitude}}</td>
+            <td>{{$inspection->getfarm()->longitude}}</td>
+            <td>{{$inspection->getfarm()->getreportfarmcount($season)}}</td>
+            <td>{{number_format($inspection->getfarm()->getreportfarmarea($season),2)}}</td>
+            <td></td>
+        </tr>
+            @empty
+            <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            </tr>
+            @endforelse
+
+    </tbody>
+</table>
+
 @endif 
 
 </div>
