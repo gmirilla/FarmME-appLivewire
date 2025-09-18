@@ -315,7 +315,8 @@ switch ($user->roles) {
         )->where('farmcode', $request->id)->first(); 
         $farmreports=DB::table('internalinspections')
         ->leftJoin('reports', 'internalinspections.reportid', '=', 'reports.id')
-        ->select('internalinspections.id as iid','reportname','score','internalinspections.created_at as created_at','inspectionstate','max_score','comments','season' )
+        ->select('internalinspections.id as iid','reportname','score','internalinspections.created_at as created_at',
+        'inspectionstate','max_score','comments','season' )
         ->where('farmid',$id)->get();
 
         #Get List of all Users on System

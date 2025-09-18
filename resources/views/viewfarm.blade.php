@@ -171,7 +171,13 @@
                                 <td>{{$lastreport->id}}</td>
                                 <td>
                                     @php
-                                        $farmscore=number_format((($lastreport->score/$farmreports[0]->max_score)*100),2)
+                                    for ($i=0; $i <$farmreports->count(); $i++) { 
+                                        if ($farmreports[$i]->iid==$lastreport->id) {
+                                            $maxscore=$farmreports[$i]->max_score;
+                                        break;
+                                         }
+                                    }
+                                        $farmscore=number_format((($lastreport->score/$maxscore)*100),2)
                                     @endphp
                                     @switch($farmscore)
                                         @case($farmscore<=49.99)
