@@ -257,7 +257,7 @@ class InternalinspectionController extends Controller
         #block of code to populate unanswered questions stack 
         $currentsection= $reportsections[$request->sectioncounter]->id;
         $test=inspectionanswers::where('sectionid',$currentsection)->where('internalinspectionid',$inspection->id) ->get();
-        if ($test->count()>1) {
+        if ($test->count()>=1) {
             # "More questions answered"; Do nothing
 
         } else {
