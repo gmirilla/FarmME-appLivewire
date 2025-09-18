@@ -61,6 +61,7 @@
                 <th>#</th>
                 <th>Question </th>
                 <th>Question Seq</th>
+                <th>Indicator</th>
                 <th>Type</th>
                 <th>Active</th>
                 <th>Action</th>
@@ -79,6 +80,9 @@
                   <td>{{$counter}}</td> 
                   <td>{{$question->question}}</td>
                   <td><input type="number" class="form-control" value="{{$question->question_seq}}" name='questionseq'>
+                    </td>
+                    <td>
+                      <input type="text" value="{{$question->indicator}}" name='questionindicator' class="form-control">  
                     </td>
                   <td>{{$question->questiontype}}</td>
                   <td>
