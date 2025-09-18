@@ -61,7 +61,13 @@
             <th>Answer</th>
             <th>Remarks</th>
         </thead>
-    @forelse ($reportquestions as $reportquestion )
+    @forelse ($sectionlist as $section)
+        <tr>
+            <td></td>
+            <td colspan="4"><b style="font-size: 1.2em;">{{$section->sectionname}}</b></td>
+        </tr>
+         @forelse ($reportquestions as $reportquestion )
+        @if ($reportquestion->reportsectionid==$section->id)
     <tr>
         <td class="col-1">{{$counter+1}}</td>
         <td class="col-3">{{$reportquestion->question }}</td>
@@ -147,12 +153,19 @@
         </td>
         <td>{{$reportquestion->sectionidcomments}}</td>
     </tr>
+    
     @php
     $counter+=1;
     @endphp
+
+    @endif
+
+    @empty
+    @endforelse
     @empty
         
     @endforelse
+   
         
         </tbody>
     </table>

@@ -81,6 +81,7 @@ class PdfController extends Controller
           
                                 $reportname=reports::where('id', $inspection->reportid)->first();
                                 $farm=farm::where('id',$inspection->farmid)->first();
+                                $sectionlist=reportsection::where('reportid',$inspection->reportid)->where('sectionstate', 'ACTIVE')->orderBy('section_seq', 'asc')->get();
 
                                 if (strpos($reportname,'Entrance')) {
                                     # code...
@@ -94,7 +95,7 @@ class PdfController extends Controller
 
                                 } else {
                                     # code...
-                                     $data=compact('reportname','reportquestions', 'user', 'inspection','farm');
+                                     $data=compact('reportname','reportquestions', 'user', 'inspection','farm','sectionlist');
 
                               $pdf=Pdf::loadView('pdf.inspectionpdf', $data);
                                 }
