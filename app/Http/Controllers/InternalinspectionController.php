@@ -537,7 +537,7 @@ class InternalinspectionController extends Controller
                             ->where('reportquestions.reportid',$inspection->reportid)->where('reportquestions.questionstate', 'ACTIVE')
                             ->where('internalinspectionid',$inspection->id)->orderBy('section_seq', 'asc')->orderBy('question_seq', 'asc')
                             ->get(); 
-      
+                            $sectionlist=reportsection::where('reportid',$inspection->reportid)->where('sectionstate', 'ACTIVE')->orderBy('section_seq', 'asc')->get();
                             $reportname=reports::where('id', $inspection->reportid)->first();
                             $farm=farm::where('id',$inspection->farmid)->first();
                             $inspector=User::where('id',$inspection->inspectorid)->first();
@@ -550,7 +550,7 @@ class InternalinspectionController extends Controller
                             }
     
     
-                            return view('inspection.inspection_view_sheet', compact('reportname','reportquestions', 'user', 'inspection','farm','inspector'));
+                            return view('inspection.inspection_view_sheet', compact('reportname','reportquestions', 'user', 'inspection','farm','inspector','sectionlist'));
                             //->with('reportname',$reportname)->with('reportquestions',$reportquestions);
 
                             break; 
