@@ -77,16 +77,17 @@ input[type="radio"] {
             <th style="width:20%">Answer</th>
             <th style="width:20%">Remarks</th>
         </thead>
-    @forelse ($reportquestions as $reportquestion )
+         @forelse ($sectionlist as $section)
+        <tr>
+            <td></td>
+            <td colspan="4"><b style="font-size: 1.2em;">{{$section->sectionname}}</b></td>
+        </tr>
+         @forelse ($reportquestions as $reportquestion )
+        @if ($reportquestion->reportsectionid==$section->id)
     <tr>
-        <td>{{$counter+1}}</td>
-        <td>{{$reportquestion->question }}</td>
-        <td>@if (!empty($reportquestion->indicator))
-            {{$reportquestion->indicator}}
-        @else
-            
-        @endif
-            </td>
+        <td class="col-1">{{$counter+1}}</td>
+        <td class="col-3">{{$reportquestion->question }}</td>
+        <td class="col-2">{{$reportquestion->indicator}}</td>
         <td class="col-2">
 
             @switch($reportquestion->questiontype)
@@ -143,8 +144,8 @@ input[type="radio"] {
                 <input class="form-check-input"   disabled type="radio" id="vgood" name="answers[{{$counter}}]" value="4">
                 @endif
                 <label class="form-check-label" for="vgood">Very Good</label>
-            </div>
-                        <div class="form-check">
+            </div> 
+            <div class="form-check">
                 @if ($reportquestion->answer==0)
                 <input class="form-check-input"   disabled checked type="radio" id="notapp" name="answers[{{$counter}}]" value="0">
                 @else
@@ -168,12 +169,19 @@ input[type="radio"] {
         </td>
         <td>{{$reportquestion->sectionidcomments}}</td>
     </tr>
+    
     @php
     $counter+=1;
     @endphp
+
+    @endif
+
+    @empty
+    @endforelse
     @empty
         
     @endforelse
+   
         
         </tbody>
     </table>
