@@ -81,7 +81,7 @@
             <td>{{$inspection->getplotdetails()->fulatitude}}</td>
             <td>{{$inspection->getplotdetails()->fulongitude}}</td>
             @else
-                <td>Error Found</td>
+                <td>Error Found (ID: {{$inspection->id}})</td>
                 <td></td>
                 <td></td>
                 <td></td>
