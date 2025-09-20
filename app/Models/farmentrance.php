@@ -49,7 +49,7 @@ class farmentrance extends Model
 
         public function reportprodhistory()
     {
-         $prodhistory=farmunits::where('farmid',$this->farmid)->where('active', true)->get();
+         $prodhistory=farmunits::where('farmid',$this->farmid)->where('farmentranceid', $this->id)->where('active', true)->get();
         return $prodhistory;
 
     }
