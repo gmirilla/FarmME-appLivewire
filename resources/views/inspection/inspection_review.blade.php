@@ -110,7 +110,7 @@
                                 {{$inspection->inspectionstate}}
                             @endswitch
                             </td>
-                            <td>@if (!empty($inspection->farmentrance) || $inspection->inspectionstate =='ACTIVE')
+                            <td>@if (!empty($inspection->getplotdetails()) || $inspection->inspectionstate =='ACTIVE')
                               @if (strpos($inspection->reportname, 'Entrance') != false)
                                 <b style="color: green; font-size: 0.5em ">No Issues detected</b>
                               @endif                            
