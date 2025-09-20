@@ -6,6 +6,9 @@
 <link rel="stylesheet" href=
 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <x-layouts.app>
+  @php
+     $year=date('Y');
+  @endphp
   @if ($errors->any())
   <div class="alert alert-danger">
       <ul>
