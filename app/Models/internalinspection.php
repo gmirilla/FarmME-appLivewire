@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
+
 
 class internalinspection extends Model
 {
@@ -52,14 +54,10 @@ class internalinspection extends Model
             $errorCause = "Error: ". $e->getMessage();
             $errorTrace= "Internal Inspection ID get plot details:  ".$this->id;
 
-            // Specify the log file path
-            $logFile = __DIR__ . '/error_log.txt';
-
             // Write the error message to the log file
-            file_put_contents($logFile, $errorMessage . PHP_EOL, FILE_APPEND);
-            file_put_contents($logFile, $errorCause . PHP_EOL, FILE_APPEND);
-            file_put_contents($logFile, $errorTrace . PHP_EOL, FILE_APPEND);
-
+            Log::error($errorMessage);
+            Log::error($errorCause);
+            Log::error($errorTrace);
                 return null; // or some default value
             }
 
