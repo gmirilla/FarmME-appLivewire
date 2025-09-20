@@ -1,3 +1,4 @@
+
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
@@ -68,7 +69,7 @@
        
 
       </div>
-      <div class="card-body">
+      <div class="card-body table-responsive">
         <table class="table display table-striped table-hover" id="reports">
             <thead>
                 <th>Season</th>
@@ -77,22 +78,24 @@
                 <th>FarmName</th>
                 <th>Score</th>
                 <th>Status</th>
+                <th>Error Check</th>
                 <th>Date</th>
                 <th>Comment(s)</th>
                 <th>Action</th>
             </thead>
             <tbody>
+
                 @forelse ($reportquestions as $inspection)
                     <tr>
                         <td>{{$inspection->season}}</td>
-                        <td>{{$inspection->reportname}}</td>
-                        <td>{{$inspection->iname}}</td>
-                        <td>{{$inspection->farmname}}</td>
+                        <td>{{$inspection->getreport()->reportname}}</td>
+                        <td>{{$inspection->reportinspectorname()->iname}}</td>
+                        <td>{{$inspection->getfarm()->farmname}}</td>
                         <td>
-                            @if ($inspection->max_score==0)
+                            @if ($inspection->getreport()->max_score==0)
                             Check Report
                             @else
-                           <b> {{number_format(($inspection->score / $inspection->max_score * 100),2)}}% </b></td>
+                           <b> {{number_format(($inspection->score / $inspection->getreport()->max_score * 100),2)}}% </b></td>
                             @endif
                         <td>
                             @switch($inspection->inspectionstate)
@@ -109,14 +112,25 @@
                                 {{$inspection->inspectionstate}}
                             @endswitch
                             </td>
-                        <td>{{$inspection->cdate}}</td>
+                            <td>
+
+                              @if (!empty($inspection->getplotdetails()) || $inspection->inspectionstate =='ACTIVE')
+                                @if (strpos($inspection->getreport()->reportname, 'Entrance') != false)
+                                  <b style="color: green; font-size: 0.75em ">No Issues detected</b>
+                                @endif                            
+                            @else
+                              @if (strpos($inspection->getreport()->reportname, 'Entrance') != false)
+                              <b style="color: red; font-size: 0.75em">Potential Issues detected (Check Plots mapped)</b>
+                              @endif
+                            @endif</td>
+                        <td>{{$inspection->created_at}}</td>
                         <td><form action="iapprove" method="POST">
                             @csrf
                             <textarea class="form-control" name="comments" id="comments" >{{$inspection->comments}}</textarea>
                         </td>
                         <td>
                             <div style="margin-top: 5px">
-                                    <input type="text" hidden name="iid" value={{$inspection->iid}}>
+                                    <input type="text" hidden name="iid" value={{$inspection->id}}>
                                     <button name="viewsheet" type="submit" id="viewbtn" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="View inspection Sheet"><i class="fa fa-eye"></i></button>
 
                             </div>
@@ -130,7 +144,7 @@
                           <div style=" margin-top: 5px">
                                 <button  type="button" name="approvewithconditionmodal" class="btn btn-warning" 
                                 data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="{{$inspection->farmname}} : {{($inspection->reportname)}}"
-                                data-bs-whatever2="{{$inspection->iid}}"
+                                data-bs-whatever2="{{$inspection->id}}"
                                 data-toggle="tooltip" data-placement="right" title="Approve with Condition"><i class="fa fa-check-square-o"></i></button>
                         </div>
                           @endif
