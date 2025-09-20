@@ -123,7 +123,7 @@
                               <b style="color: red; font-size: 0.75em">Potential Issues detected (Check Plots mapped)</b>
                               @endif
                             @endif</td>
-                        <td>{{$inspection->cdate}}</td>
+                        <td>{{$inspection->created_at}}</td>
                         <td><form action="iapprove" method="POST">
                             @csrf
                             <textarea class="form-control" name="comments" id="comments" >{{$inspection->comments}}</textarea>
