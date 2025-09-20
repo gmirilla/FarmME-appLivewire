@@ -79,6 +79,8 @@
                 <label for="cropvariety" class="form-label">Certified Crop Variety</label>
                 <select required class="form-select" name="cropvariety" id="cropvariety">
                     <option value="DANGWALAIDA">DANGWALAIDA</option>
+                                            <option value="DANKANYA">DANKANYA</option>
+                        <option value="DANBATTA">DANBATTA</option>
                 </select>
             </div>
             <div class="mb-3">

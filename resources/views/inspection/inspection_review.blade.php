@@ -1,3 +1,4 @@
+
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
@@ -5,9 +6,6 @@
 <link rel="stylesheet" href=
 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <x-layouts.app>
-  @php
-     $year=date('Y');
-  @endphp
   @if ($errors->any())
   <div class="alert alert-danger">
       <ul>
@@ -110,10 +108,12 @@
                                 {{$inspection->inspectionstate}}
                             @endswitch
                             </td>
-                            <td>@if (!empty($inspection->farmentrance) || $inspection->inspectionstate =='ACTIVE')
-                              @if (strpos($inspection->reportname, 'Entrance') != false)
-                                <b style="color: green; font-size: 0.5em ">No Issues detected</b>
-                              @endif                            
+                            <td>
+
+                              @if (!empty($inspection->farmentrance) || $inspection->inspectionstate =='ACTIVE')
+                                @if (strpos($inspection->reportname, 'Entrance') != false)
+                                  <b style="color: green; font-size: 0.5em ">No Issues detected</b>
+                                @endif                            
                             @else
                               <b style="color: red; font-size: 0.5em">Potential Issues detected (Check Plots mapped)</b>
                             @endif</td>
