@@ -110,10 +110,12 @@
                                 {{$inspection->inspectionstate}}
                             @endswitch
                             </td>
-                            <td>@if (!empty($inspection->farmentrance) || $inspection->inspectionstate!='ACTIVE')
-                              <b style="color: green; font-size=0.5em ">No Issues detected</b>
+                            <td>@if (!empty($inspection->farmentrance) || $inspection->inspectionstate =='ACTIVE')
+                              @if (strpos($inspection->reportname, 'Entrance') != false)
+                                <b style="color: green; font-size: 0.5em ">No Issues detected</b>
+                              @endif                            
                             @else
-                              <b style="color: red; font-size=0.5em">Potential Issues detected (Check Plots mapped)</b>
+                              <b style="color: red; font-size: 0.5em">Potential Issues detected (Check Plots mapped)</b>
                             @endif</td>
                         <td>{{$inspection->cdate}}</td>
                         <td><form action="iapprove" method="POST">
