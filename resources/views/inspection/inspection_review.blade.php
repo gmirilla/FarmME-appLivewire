@@ -68,7 +68,7 @@
        
 
       </div>
-      <div class="card-body">
+      <div class="card-body table-responsive">
         <table class="table display table-striped table-hover" id="reports">
             <thead>
                 <th>Season</th>
@@ -77,6 +77,7 @@
                 <th>FarmName</th>
                 <th>Score</th>
                 <th>Status</th>
+                <th>Error Check</th>
                 <th>Date</th>
                 <th>Comment(s)</th>
                 <th>Action</th>
@@ -109,6 +110,11 @@
                                 {{$inspection->inspectionstate}}
                             @endswitch
                             </td>
+                            <td>@if (!empty($inspection->farmentrance))
+                              <b style="color: green; font-size=0.5em ">No Issues detected</b>
+                            @else
+                              <b style="color: red; font-size=0.5em">Potential Issues detected (Check Plots mapped)</b>
+                            @endif</td>
                         <td>{{$inspection->cdate}}</td>
                         <td><form action="iapprove" method="POST">
                             @csrf
