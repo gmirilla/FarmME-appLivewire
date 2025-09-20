@@ -371,14 +371,8 @@ class InternalinspectionController extends Controller
 
                   if (str_contains($user->roles,'ADMINISTRATOR')) {
                     # only viewable by administrators
-                    $inspections= DB::table('internalinspections')
-                    ->leftJoin('reports', 'internalinspections.reportid', '=','reports.id')
-                    ->leftJoin('farms', 'internalinspections.farmid','=', 'farms.id')
-                    ->leftJoin('users', 'internalinspections.inspectorid','=', 'users.id' )
-                    ->select('reportname','max_score','score','internalinspections.id as iid', 'farmname','inspectionstate', 
-                    'internalinspections.created_at as cdate', 'users.name as iname','internalinspections.comments as comments', 'internalinspections.season as season')
-                    ->orderBy('internalinspections.created_at', 'desc')
-                    ->get();
+                    $inspections = internalinspection::orderBy('created_at', 'desc')->get();
+
 
                     $seasons=internalinspection::select('season')->distinct()->get();
                     $reports=reports::where('reportstate', 'ACTIVE')->get();
@@ -468,6 +462,7 @@ class InternalinspectionController extends Controller
                             break;
 
                         case $request->has('viewsheet'):
+
                           
                             # Display Result Sheet
                             $reportquestions= DB::table('reportquestions')
