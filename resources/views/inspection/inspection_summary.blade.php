@@ -85,6 +85,7 @@
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
             @endif
 
              <td>{{$inspection->getfarm()->getreportfarmcount($season)}}</td>
