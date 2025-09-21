@@ -81,6 +81,7 @@
                 <th>Error Check</th>
                 <th>Date</th>
                 <th>Comment(s)</th>
+                <th>Verification</th>
                 <th>Action</th>
             </thead>
             <tbody>
@@ -128,19 +129,30 @@
                             @csrf
                             <textarea class="form-control" name="comments" id="comments" >{{$inspection->comments}}</textarea>
                         </td>
+                        <td><b>{{$inspection->getverificationstatus()}}</b></td>
                         <td>
                             <div style="margin-top: 5px">
                                     <input type="text" hidden name="iid" value={{$inspection->id}}>
                                     <button name="viewsheet" type="submit" id="viewbtn" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="View inspection Sheet"><i class="fa fa-eye"></i></button>
 
                             </div>
+                             @if (in_array($inspection->inspectionstate, ['CONDITIONAL']) && $inspection->verifiedby==null)
+                            <div style="margin-top: 5px">
+                                   
+                                    <button type="button" name="verifybtn" class="btn btn-info"
+                                     data-bs-toggle="modal" data-bs-target="#verifyModal" data-bs-whatever="{{$inspection->farmname}} : {{($inspection->reportname)}}"
+                                data-bs-whatever2="{{$inspection->id}}" data-bs-conditions="{{$inspection->conditions}}"
+                                data-toggle="tooltip" data-placement="right" title="Verify Inspection"><i class="fa fa-search-plus"></i></button>
+                            </div>
+                            @endif
                             @if (in_array($inspection->inspectionstate, ['SUBMITTED', 'PENDING','ACTIVE']))
                             <div style="margin-top: 5px">
                                    
                                     <button type="submit" name="approvebtn" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="Approve Inspection"><i class="fa fa-check-square-o"></i></button>
                             </div>
-                          @if (strpos($inspection->reportname, 'Entrance') == false)
+                          @if (strpos($inspection->getreport()->reportname, 'Entrance') == false)
                           <!-- Entrance String is not found display approve with condition button-->
+
                           <div style=" margin-top: 5px">
                                 <button  type="button" name="approvewithconditionmodal" class="btn btn-warning" 
                                 data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="{{$inspection->farmname}} : {{($inspection->reportname)}}"
@@ -148,8 +160,6 @@
                                 data-toggle="tooltip" data-placement="right" title="Approve with Condition"><i class="fa fa-check-square-o"></i></button>
                         </div>
                           @endif
-
-
                             
                             <div style="margin-top: 5px">
                                     
@@ -225,7 +235,48 @@
       </div>
     </div>
   </div>
+    <!-- MODAL for Verification-->
+<div class="modal fade" id="verifyModal" tabindex="-1" aria-labelledby="verifyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="verifyModalLabel">Conditions for Approval</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="verifyinspection" method="post" action='iapprove'>
+          @csrf
+        <div class="modal-body">
+          
+            <div class="mb-3">
+              <label for="iid" class="col-form-label">Inspection Report ID:</label>
+              <input type="text"  readonly class="form-control vcode" id="report_name_verify" name="report_name_verify">
+               <input type="text" class="form-control fiid" hidden name="iid">
+            </div>  
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Conditions</label>
+              <textarea class="form form-control" readonly name="apprconditions" id="approveconditions_verify" cols="20" rows="6"></textarea>
+            </div>  
+
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Verification Notes (Optional)</label>
+              <textarea class="form form-control" name="verify_note" id="verify_note" cols="20" rows="6"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label">Verification Date</label>
+              <input type="date" name="verify_date" id="verify_date" class="form-control" default="{{date('d-m-Y')}}">
+            </div>   
+        </div> 
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <input  type="submit" class="btn btn-success" value="Verify" name="verifyinspection">
+        </div>
+      </form>
+      </div>
+    </div>
+  </div> 
   <script>
+  //Config for approve with Condition Modal
     var exampleModal = document.getElementById('exampleModal')
     exampleModal.addEventListener('show.bs.modal', function (event) {
       // Button that triggered the modal
@@ -244,6 +295,30 @@
       modalTitle.textContent = 'Approval Conditions for Farm  ' 
       modalBodyInput.value = recipient
       modalBodyreportid.value =reportid
+    })
+
+  //Config for VerifyModal
+    var verifyModal = document.getElementById('verifyModal')
+    verifyModal.addEventListener('show.bs.modal', function (event) {
+      // Button that triggered the modal
+      var button = event.relatedTarget
+      // Extract info from data-bs-* attributes
+      var recipient = button.getAttribute('data-bs-whatever')
+      var reportid = button.getAttribute('data-bs-whatever2')
+      var conditions = button.getAttribute('data-bs-conditions')
+      // If necessary, you could initiate an AJAX request here
+      // and then do the updating in a callback.
+      //
+      // Update the modal's content.
+      var modalTitle = verifyModal.querySelector('.modal-title')
+      var modalBodyInput = verifyModal.querySelector('.vcode')
+      var modalBodyreportid = verifyModal.querySelector('.fiid')
+      var modalBodyConditions = verifyModal.querySelector('#approveconditions_verify')
+
+      modalTitle.textContent = 'Verification Conditions for Farm  '
+      modalBodyInput.value = recipient
+      modalBodyreportid.value = reportid
+      modalBodyConditions.value = conditions
     })
     </script>
     <script>

@@ -279,13 +279,13 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    Additional conditions or sanctions or corrective actions to be undertaken:
+                   <b> Additional conditions or sanctions or corrective actions to be undertaken:</b>
                     <br/>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    Comments of Evaluation and Sanction committee: {{$inspection->comments}} || {{$inspection->conditions}}
+                    <b>Comments of Evaluation and Sanction committee:</b> {{$inspection->comments}} || {{$inspection->conditions}}
 
                 </td>
             </tr>
@@ -314,17 +314,27 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    Corrective action verification (when required)
+                    <b>Corrective action verification (when required)</b>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    Name/Signature/Date of verification officer:
-                </td>
+                   <b> Comments of Verification Officer:</b> {{$inspection->verificationcomments}}</td>
             </tr>
             <tr>
-                <td colspan="2">
-                    Signature of evaluation and sanction committee:
+                <td>
+                    {{$inspection->getverifiedby()->name}} <br/><br/>
+                   <b> Name of verification officer:</b>
+                </td>
+                <td>
+                    @if (!empty($inspection->getverifiedby()))                 
+                <img src="{{Request::root().('/storage/'.$inspection->getverifiedby()->signaturepath)}}" alt="" width="70px"> {{\Carbon\Carbon::parse($inspection->verifieddate)->format('d-M-Y')}}<br>
+
+            @else
+            <br>{{$inspection->verifieddate}}<br>    
+            @endif
+            
+            <b>Signature/Date of verification officer:</b>
                 </td>
             </tr>
         </tbody>

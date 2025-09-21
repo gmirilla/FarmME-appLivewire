@@ -410,6 +410,15 @@ class InternalinspectionController extends Controller
         if (str_contains($user->roles, 'ADMINISTRATOR')) {
 
             switch ($request) {
+                case $request->has('verifyinspection'):
+                    
+                    //update the inspection  record to show verification details
+                    $inspection->verifiedby = $user->id;
+                    $inspection->verifieddate= $request->verify_date;
+                    $inspection->verificationcomments=$request->verify_note;
+                    $inspection->save();
+                    break;
+
                 case $request->has('approvewithcondition'):
 
                     $inspection->conditions = $request->apprconditions;
