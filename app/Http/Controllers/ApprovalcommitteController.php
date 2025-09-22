@@ -16,6 +16,24 @@ class ApprovalcommitteController extends Controller
     {
         //
     }
+    public function apprcomm_delete(Request $request){
+        $id=$request->id;
+        $apprcomm=approvalcommitte::find($id);
+  
+        if ($request->is_active==1) {
+            $apprcomm->is_active=0;
+        }
+        else {
+            # code...
+            $apprcomm->is_active=1;
+        }
+        
+        $apprcomm->save();
+        $apprcomms=approvalcommitte::all();
+        return view('adminconfig.appr_com_show', compact('apprcomms'));
+
+    }
+
     public function apprcomm_show()
     {
         $apprcomms=approvalcommitte::all();

@@ -202,7 +202,7 @@ Route::view('/adminconfig/misccodes', 'adminconfig.misccodes')
 
     Route::get('misccode/apprcomm_show',[ApprovalcommitteController::class, 'apprcomm_show'])->name('apprcomm_show');
     Route::post('misccode/apprcomm_add',[ApprovalcommitteController::class, 'apprcomm_add'])->name('apprcomm_add');
-    Route::post('misccode/apprcomm_show',[ApprovalcommitteController::class, 'apprcomm_show'])->name('apprcomm_delete');
+    Route::post('misccode/apprcomm_delete',[ApprovalcommitteController::class, 'apprcomm_delete'])->name('apprcomm_delete');
 });
 
 require __DIR__.'/auth.php';

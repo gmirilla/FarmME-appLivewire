@@ -49,7 +49,14 @@
                             </td>
                             <td><input type="checkbox" class="form-checked" name="is_active" id="is_active" value="1"
                                  {{ $apprcomm->is_active ? 'checked' : '' }}>
-                                <button type="submit" class="btn btn-danger ml-3">DISABLE</button>
+                                 @if ($apprcomm->is_active)
+                                 <button type="submit" class="btn btn-danger ml-5">DISABLE</button>
+
+                                 @else
+                                     <button type="submit" class="btn btn-success ml-5">ENABLE</button>
+                                 @endif
+
+                                
                             <input type="text" hidden class="form-control" name="id" id="id" value="{{$apprcomm->id}}">
                             </td>
                             </form>
