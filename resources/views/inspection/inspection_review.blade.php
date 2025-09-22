@@ -164,7 +164,7 @@
                                 <button  type="button" name="approvewithconditionmodal" class="btn btn-warning" 
                                 data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="{{$inspection->farmname}} : {{($inspection->reportname)}}"
                                 data-bs-whatever2="{{$inspection->id}}"
-                                data-toggle="tooltip" data-placement="right" title="Approve with Condition"><i class="fa fa-check-square-o"></i></button>
+                                data-toggle="tooltip" data-placement="right" title="Evaluation Committee Decision"><i class="fa fa-check-square-o"></i></button>
                         </div>
                           @endif
                         </form>
