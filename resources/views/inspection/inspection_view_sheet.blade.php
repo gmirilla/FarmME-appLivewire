@@ -323,17 +323,18 @@
             </tr>
             <tr>
                 <td>
-                    {{$inspection->getverifiedby()->name}} <br/><br/>
+                     @if (!empty($inspection->getverifiedby())) 
+                    {{$inspection->getverifiedby()->name}} <br/><br/>@endif
                    <b> Name of verification officer:</b>
                 </td>
                 <td>
                     @if (!empty($inspection->getverifiedby()))                 
-                <img src="{{Request::root().('/storage/'.$inspection->getverifiedby()->signaturepath)}}" alt="" width="70px"> {{\Carbon\Carbon::parse($inspection->verifieddate)->format('d-M-Y')}}<br>
+                <img src="{{public_path('/storage/'.$inspection->getverifiedby()->signaturepath)}}" alt="" width="70px"> {{\Carbon\Carbon::parse($inspection->verifieddate)->format('d-M-Y')}}<br>
 
             @else
             <br>{{$inspection->verifieddate}}<br>    
             @endif
-            
+
             <b>Signature/Date of verification officer:</b>
                 </td>
             </tr>
