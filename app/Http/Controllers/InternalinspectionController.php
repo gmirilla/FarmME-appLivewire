@@ -420,10 +420,13 @@ class InternalinspectionController extends Controller
                     break;
 
                 case $request->has('approvewithcondition'):
-
+                    //First store IMS managers approval comments to the new field should only occur once 
+                    if ($inspection->IMSmanager_approval == null){
+                        $inspection->IMSmanager_approval =$inspection->inspectionstate;
+                    }
                     $inspection->conditions = $request->apprconditions;
-                    $inspection->inspectionstate = 'CONDITIONAL';
-
+                    $inspection->inspectionstate = $request->ecdecision;
+                    $inspection->ecomm_checked=2;
                     //deal with approval committee 
                     //check if approval committee add button was clicked
                     if ($request->has('addcommittee')) {
@@ -440,12 +443,15 @@ class InternalinspectionController extends Controller
                     break;
 
                 case $request->has('approvebtn'):
-                    # Approve the inspection sheet...
+                    # Approve the inspection sheet...IMS Manager
+                    $inspection->ecomm_checked=1;
 
                     $report = reports::where('id', $inspection->reportid)->first();
                     $farm = farm::where('id', $inspection->farmid)->first();
 
                     $inspection->inspectionstate = 'APPROVED';
+                    $inspection->approvedby =$user->id;
+                    $inspection->approveddate = date('Y-m-d');
 
                     #On approval of Entrance Reports Change farm Status to active
                     if (strpos($report->reportname, 'Entrance')) {

@@ -22,7 +22,7 @@ class internalinspection extends Model
         'comments',
         'conditions',
         'season', 'approvalcommittee', 'approvedby', 'approveddate',
-        'verifiedby', 'verifieddate', 'verificationcomments'
+        'verifiedby', 'verifieddate', 'verificationcomments','IMSmanager_approval','ecomm_checked'
     ];
         public function getverificationstatus()
     {

@@ -80,7 +80,7 @@
                 <th>Status</th>
                 <th>Error Check</th>
                 <th>Date</th>
-                <th>Comment(s)</th>
+                <th>IMS Mgr Comment(s)</th>
                 <th>Verification</th>
                 <th>Action</th>
             </thead>
@@ -146,11 +146,18 @@
                             </div>
                             @endif
                             @if (in_array($inspection->inspectionstate, ['SUBMITTED', 'PENDING','ACTIVE']))
+                            <div style="margin-top: 5px">                                  
+                                    <button type="submit" name="approvebtn" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="Approve Inspection (IMS Manager)"><i class="fa fa-check-square-o"></i></button>
+                            </div>                            
                             <div style="margin-top: 5px">
-                                   
-                                    <button type="submit" name="approvebtn" class="btn btn-success" data-toggle="tooltip" data-placement="right" title="Approve Inspection"><i class="fa fa-check-square-o"></i></button>
+                                    
+                                    <button type="submit" name="rejectbtn" class="btn btn-danger"><i class="fa fa-times-circle" data-toggle="tooltip" data-placement="right" title="Inspection not Approved (IMS Manager)"></i></button>
                             </div>
-                          @if (strpos($inspection->getreport()->reportname, 'Entrance') == false)
+                            <div style="margin-top: 5px">                                    
+                                    <button type="submit" name="deletetbtn" class="btn btn-danger"><i class="fa fa-trash" data-toggle="tooltip" data-placement="right" title="Delete Inspection"></i></button>
+                            </div>
+                            @endif
+                          @if (strpos($inspection->getreport()->reportname, 'Entrance') == false && $inspection->ecomm_checked==1)
                           <!-- Entrance String is not found display approve with condition button-->
 
                           <div style=" margin-top: 5px">
@@ -160,16 +167,6 @@
                                 data-toggle="tooltip" data-placement="right" title="Approve with Condition"><i class="fa fa-check-square-o"></i></button>
                         </div>
                           @endif
-                            
-                            <div style="margin-top: 5px">
-                                    
-                                    <button type="submit" name="rejectbtn" class="btn btn-danger"><i class="fa fa-times-circle" data-toggle="tooltip" data-placement="right" title="Inspection not Approved"></i></button>
-                            </div>
-                            <div style="margin-top: 5px">
-                                    
-                                    <button type="submit" name="deletetbtn" class="btn btn-danger"><i class="fa fa-trash" data-toggle="tooltip" data-placement="right" title="Delete Inspection"></i></button>
-                            </div>
-                            @endif
                         </form>
                             </td>
                         
@@ -206,7 +203,15 @@
               <label for="iid" class="col-form-label">Inspection Report ID:</label>
               <input type="text"  readonly class="form-control fcode" id="report_name" name="report_name">
                <input type="text" class="form-control fiid" hidden name="iid">
-            </div>  
+            </div> 
+                        <div class="mb-3">
+              <label for="selectstate" class="col-form-label">Committee Decision:</label>
+              <select name="ecdecision" id="ecdecision" required class="form-select">
+                <option value="APPROVED">APPROVED</option>
+                <option value="CONDITIONAL">APPROVED WITH CONDITIONS</option>
+                <option value="REJECTED">REJECTED</option>
+              </select>
+            </div>
             <div class="mb-3">
               <label for="message-text" class="col-form-label">Conditions</label>
               <textarea class="form form-control" name="apprconditions" id="approveconditions" cols="20" rows="10"></textarea>
