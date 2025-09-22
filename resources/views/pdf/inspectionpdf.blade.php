@@ -339,8 +339,8 @@ input[type="radio"] {
                    <b> Comments of Verification Officer:</b> {{$inspection->verificationcomments}}</td>
             </tr>
             <tr>
-                <td>
-                    {{$inspection->getverifiedby()->name}} <br/><br/>
+                <td> @if (!empty($inspection->getverifiedby())) 
+                    {{$inspection->getverifiedby()->name}} <br/><br/>@endif
                    <b> Name of verification officer:</b>
                 </td>
                 <td>
