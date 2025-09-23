@@ -222,7 +222,7 @@
                         <div class="p-2">
                            
                             <input class="form-check-input"  type="checkbox" disabled name="" id="Notapproved">
-                            <label class="form-check-label" for="Notapproved">Not Approved</label>
+                            <label class="form-check-label" for="Notapproved">Sanctioned</label>
                         </div>
                             @break
                         @case('CONDITIONAL')

@@ -18,7 +18,7 @@ class farm extends Model
         'longitude',
         'farmarea',
         'inspectorid',
-        'measurement', 
+        'measurement',
         'nooffarmunits',
         'yearofcertification',
         'fname',
@@ -33,7 +33,9 @@ class farm extends Model
         'region',
         'crop',
         'cropvariety',
-        'yob', 'signaturepath',''
+        'yob',
+        'signaturepath',
+        ''
 
 
     ];
@@ -42,68 +44,73 @@ class farm extends Model
     {
         $inspector = User::where('id', $this->inspectorid)->first();
         return $inspector ? $inspector->name : 'Inspector Not Assigned';
-
     }
 
-        public function getfarmplots()
+    public function getfarmplots()
     {
         $farmplots = farmunits::where('farmid', $this->id)->get();
         return $farmplots ? $farmplots->count() : 'No Farm Units';
-
     }
-     public function getfarmerpicture()
+    public function getfarmerpicture()
     {
         $farmentrance = farmentrance::where('farmid', $this->id)
-                                  ->whereNotNull('farmerpicture')
-                                  ->latest()
-                                  ->first();
+            ->whereNotNull('farmerpicture')
+            ->latest()
+            ->first();
 
         return $farmentrance;
-
     }
 
-         public function getfarmareacurrent()
+    public function getfarmareacurrent()
     {
-                $year = date("Y");
-                $next=$year+1;
-                $currentseason=$year."/".$next;
-                $farmareacurrent=farmunits::where('season', $currentseason)->where('farmid', $this->id)->where('active', true)->sum('fuarea');
+        $year = date("Y");
+        $next = $year + 1;
+        $currentseason = $year . "/" . $next;
+        $farmareacurrent = farmunits::where('season', $currentseason)->where('farmid', $this->id)->where('active', true)->sum('fuarea');
 
-        return $farmareacurrent? $farmareacurrent: 0;
-
+        return $farmareacurrent ? $farmareacurrent : 0;
     }
 
-             public function getfarmcount()
+    public function getfarmcount()
     {
-                $year = date("Y");
-                $next=$year+1;
-                $currentseason=$year."/".$next;
-                $farmcount=farmunits::where('season', $currentseason)->where('farmid', $this->id)->where('active', true)->count();
+        $year = date("Y");
+        $next = $year + 1;
+        $currentseason = $year . "/" . $next;
+        $farmcount = farmunits::where('season', $currentseason)->where('farmid', $this->id)->where('active', true)->count();
 
-        return $farmcount? $farmcount: 0;
-
+        return $farmcount ? $farmcount : 0;
     }
 
-                 public function getreportfarmcount($season)
+    public function getreportfarmcount($season)
     {
 
-                $currentseason=$season;
-                $farmcount=farmunits::where('season', $currentseason)->where('farmid', $this->id)->where('active', true)->count();
+        $currentseason = $season;
+        $farmcount = farmunits::where('season', $currentseason)->where('farmid', $this->id)->where('active', true)->count();
 
-        return $farmcount? $farmcount: 0;
-
+        return $farmcount ? $farmcount : 0;
     }
 
-                     public function getreportfarmarea($season)
+    public function getreportfarmarea($season)
     {
 
-                $currentseason=$season;
-               $farmareacurrent=farmunits::where('season', $currentseason)->where('farmid', $this->id)->where('active', true)->sum('fuarea');
+        $currentseason = $season;
+        $farmareacurrent = farmunits::where('season', $currentseason)->where('farmid', $this->id)->where('active', true)->sum('fuarea');
 
-        return $farmareacurrent? $farmareacurrent: 0;
-
+        return $farmareacurrent ? $farmareacurrent : 0;
     }
 
 
+    public function getlastreport()
+    {
+        $EntranceReports = reports::whereRaw('LOWER(reportname) LIKE ?', ['%entrance%'])->get();
+        $reportIds = $EntranceReports->pluck('id')->toArray();
 
+
+
+        $lastreport = internalinspection::where('farmid', $this->id)
+            ->whereNotIn('reportid', $reportIds)
+            ->latest('updated_at')->first();
+        
+            return $lastreport->inspectionstate ?? null;
+    }
 }

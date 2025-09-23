@@ -103,9 +103,17 @@
     
             @if (!empty($farmerpicture))
            <img src="{{Request::root().('/storage/'.$farmerpicture->farmerpicture)}}" alt="" style="width: 100px; height: 100px;">
+
            @else
               <img id="uploadedImage" src="{{Request::root().('/storage/farmmap.png')}}" alt="No Photo Uploaded" style="width: 80px; height: 80px;">
            @endif
+           @if ($lastreport->inspectionstate=='CONDITIONAL')
+                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+    Sanctioned
+                <span class="visually-hidden">Farmer is currently under Sanction</span>
+            </span>
+           @endif
+ 
                 </div>
    
                 </div> 

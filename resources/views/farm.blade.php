@@ -52,7 +52,18 @@
             <td>{{$counter}}</td>
             <td>{{$farm->community}}</td>
             <td>{{$farm->farmcode}}</td>
-            <td>{{$farm->farmname}}</td>
+            <td>{{$farm->farmname}}           
+               @if ($farm->getlastreport()=='CONDITIONAL')
+               <div><br/>
+                    <span class="position-absolute  translate-middle badge rounded-pill bg-danger ml-5">
+                    Sanction
+                    <span class="visually-hidden">Sanction</span>
+            </span>
+            <br/>
+
+               </div>
+
+           @endif</td>
             <td>{{$farm->lastinspection}}</td>
             <td>{{$farm->nextinspection}}</td>
             <td>{{$farm->farmstate}}</td>
