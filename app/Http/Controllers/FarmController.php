@@ -319,6 +319,8 @@ switch ($user->roles) {
         'inspectionstate','max_score','comments','season' )
         ->where('farmid',$id)->get();
 
+        $farmdetails=farm::where('farmcode',$request->id)->first();
+
         #Get List of all Users on System
         $users=User::all();
         $farmerpicture=farm::where('farmcode',$request->id)->first()->getfarmerpicture();
