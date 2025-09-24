@@ -13,7 +13,7 @@
         <div class="row">
             <input type="text"  disabled class="form-control" value='{{$report->reportname}}'>
         </div>
-        <div>
+        <div class="table-responsive">
             <h4>Section {{$current+1}} of {{$nosections}} </h4>
             <h5>{{$reportsections[$current]->sectionname}} </h5>
             <form action="{{route('nextsection')}}" method="POST">
