@@ -9,7 +9,8 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
+        //"php": "^8.2",
+        "php": "^8.1",
         "barryvdh/laravel-dompdf": "^3.1",
         "erag/laravel-pwa": "^1.8",
         "intervention/image": "^3.11",
