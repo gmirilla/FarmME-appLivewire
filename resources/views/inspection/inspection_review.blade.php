@@ -75,6 +75,8 @@
 
         </div>
         <div class="card-body table-responsive">
+            <button id="clearFilters" class="btn btn-secondary mb-2">Clear Filters</button>
+
             <table class="table display table-striped table-hover" id="reports">
                 <thead>
                     <tr>
@@ -92,25 +94,25 @@
                     </tr>
                     <tr>
                         <th>
-                          <select class="form-select" id="season" name="season">
-                            <option value="">All</option>
-                            @forelse ($seasons as $season)
-                                <option>{{ $season->season }}</option>
-                            @empty
-                                <option value="No seasons available" disabled>No Season Available</option>
-                            @endforelse
-                        </select>
+                            <select class="form-select" id="season" name="season">
+                                <option value="">All</option>
+                                @forelse ($seasons as $season)
+                                    <option>{{ $season->season }}</option>
+                                @empty
+                                    <option value="No seasons available" disabled>No Season Available</option>
+                                @endforelse
+                            </select>
 
                         </th>
-                        <th>                        
-                          <select class="form-select" id="report" name="report">
-                            <option value="">All</option>
-                            @forelse ($reports as $report)
-                                <option>{{ $report->reportname }}</option>
-                            @empty
-                                <option>No Report Available</option>
-                            @endforelse
-                        </select>
+                        <th>
+                            <select class="form-select" id="report" name="report">
+                                <option value="">All</option>
+                                @forelse ($reports as $report)
+                                    <option>{{ $report->reportname }}</option>
+                                @empty
+                                    <option>No Report Available</option>
+                                @endforelse
+                            </select>
                         </th>
                         <th><input type="text" placeholder="Search Filed By" /></th>
                         <th><input type="text" placeholder="Search Farm Name" /></th>
@@ -418,6 +420,14 @@
                         if (table.column(i).search() !== this.value) {
                             table.column(i).search(this.value).draw();
                         }
+                    });
+                });
+
+                $('#clearFilters').on('click', function() {
+                    // Clear each input/select in the filter row
+                    $('#reports thead tr:eq(1) th').each(function(i) {
+                        $('input, select', this).val('');
+                        table.column(i).search('').draw();
                     });
                 });
             });
