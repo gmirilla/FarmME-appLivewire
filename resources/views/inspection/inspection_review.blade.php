@@ -10,6 +10,38 @@
 
     <link rel="stylesheet" href=
 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        @media (max-width: 576px) {
+
+            th,
+            td {
+                font-size: 0.75rem;
+                padding: 0.25rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+
+            th,
+            td {
+                font-size: 0.75rem;
+                padding: 0.5rem;
+            }
+        }
+
+        @media (min-width: 992px) {
+
+            th,
+            td {
+                font-size: 1rem;
+                padding: 0.75rem;
+            }
+        }
+        .table td {
+  word-wrap: break-word;
+}
+
+    </style>
 
     @php
         $year = date('Y');
@@ -74,24 +106,24 @@
 
 
         </div>
-        <div class="card-body table-responsive">
+        <div class="card-body table-responsive fs-6">
             <button id="clearFilters" class="btn btn-secondary mb-2">Clear Filters</button>
 
-            <table class="table display table-striped table-hover" id="reports">
+            <table class="table display table-sm table-striped table-hover" id="reports">
                 <thead>
                     <tr>
-                        <th>Season</th>
-                        <th>ReportType</th>
-                        <th>FiledBy</th>
-                        <th>FarmName</th>
-                        <th>Score</th>
-                        <th>Status</th>
-                        <th>Error Check</th>
-                        <th>Date</th>
-                        <th>IMS Mgr Comment(s)</th>
-                        <th>Verification</th>
-                        <th>Action</th>
+                        <th style="width: 1%;">Season</th>
+                        <th style="width: 10%;">ReportType</th>
+                        <th style="width: 5%;">FiledBy</th>
+                        <th style="width: 15%;">FarmName</th>
+                        <th style="width: 7%;">Score</th>
+                        <th style="width: 3%;">Status</th>
+                        <th style="width: 5%;">Error Check</th>
+                        <th style="width: 10%;">IMS Mgr Comment(s)</th>
+                        <th style="width: 3%;">Verification</th>
+                        <th style="width: 7%;">Action</th>
                     </tr>
+
                     <tr>
                         <th>
                             <select class="form-select" id="season" name="season">
@@ -114,11 +146,10 @@
                                 @endforelse
                             </select>
                         </th>
-                        <th><input type="text" placeholder="Search Filed By" /></th>
-                        <th><input type="text" placeholder="Search Farm Name" /></th>
+                        <th><input type="text" placeholder="Search Filed By" style="width: 100px" class="form-control"/></th>
+                        <th><input type="text" placeholder="Search Farm Name" style="width: 100px"  class="form-control"/></th>
                         <th></th>
-                        <th><input type="text" placeholder="Search Status" /></th>
-                        <th></th>
+                        <th><input type="text" placeholder="Search Status" style="width: 100px" class="form-control"/></th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -143,7 +174,7 @@
                                     </b>
                             </td>
                     @endif
-                    <td>
+                    <td style="font-size: 0.75em">
                         @switch($inspection->inspectionstate)
                             @case('APPROVED')
                                 <b style="color:green"> {{ $inspection->inspectionstate }}</b>
@@ -161,7 +192,7 @@
                                 {{ $inspection->inspectionstate }}
                         @endswitch
                     </td>
-                    <td>
+                    <td class="d-none d-sm-table-cell">
 
                         @if (!empty($inspection->getplotdetails()) || $inspection->inspectionstate == 'ACTIVE')
                             @if (strpos($inspection->getreport()->reportname, 'Entrance') != false)
@@ -174,7 +205,6 @@
                             @endif
                         @endif
                     </td>
-                    <td>{{ $inspection->created_at }}</td>
                     <td>
                         <form action="iapprove" method="POST">
                             @csrf
@@ -203,8 +233,9 @@
                         @endif
                         @if (in_array($inspection->inspectionstate, ['SUBMITTED', 'PENDING', 'ACTIVE']))
                             <div style="margin-top: 5px">
-                                <button type="submit" name="approvebtn" class="btn btn-success" data-toggle="tooltip"
-                                    data-placement="right" title="Approve Inspection (IMS Manager)"><i
+                                <button type="submit" name="approvebtn" class="btn btn-success"
+                                    data-toggle="tooltip" data-placement="right"
+                                    title="Approve Inspection (IMS Manager)"><i
                                         class="fa fa-check-square-o"></i></button>
                             </div>
                             <div style="margin-top: 5px">
