@@ -1,15 +1,22 @@
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
-<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+<x-layouts.app>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
 <link rel="stylesheet" href=
 "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 
 @php
     Auth::check();
     $user=Auth::user();
 @endphp
-<x-layouts.app>
+
 <div>  
 <div>
     <div class="container-sm" >
@@ -103,9 +110,17 @@
     
             @if (!empty($farmerpicture))
            <img src="{{Request::root().('/storage/'.$farmerpicture->farmerpicture)}}" alt="" style="width: 100px; height: 100px;">
+
            @else
               <img id="uploadedImage" src="{{Request::root().('/storage/farmmap.png')}}" alt="No Photo Uploaded" style="width: 80px; height: 80px;">
            @endif
+           @if ($farmdetails->getlastreport()=='CONDITIONAL')
+                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+    Sanctioned
+                <span class="visually-hidden">Farmer is currently under Sanction</span>
+            </span>
+           @endif
+ 
                 </div>
    
                 </div> 

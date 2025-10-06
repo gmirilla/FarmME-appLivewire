@@ -1,9 +1,16 @@
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
-<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 <x-layouts.app>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <div class="d-flex flex-row-reverse">
 <!--
 <form method='get' action='dashboard'>
@@ -29,7 +36,6 @@
     <table class="table table-striped table-sm display" id="farms" style="width:100%">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Community</th>
             <th scope="col">Farm Code</th>
             <th scope="col">Farmer Name</th>
@@ -40,19 +46,25 @@
           </tr>
         </thead>
         <tbody>
-          @php
-            $counter=0;
-          @endphp
           @forelse ($farmlist as $farm )
           @php 
-          $counter=$counter+1;
           $farmcode=$farm->farmcode;
           @endphp
           <tr>
-            <td>{{$counter}}</td>
             <td>{{$farm->community}}</td>
             <td>{{$farm->farmcode}}</td>
-            <td>{{$farm->farmname}}</td>
+            <td>{{$farm->farmname}}           
+               @if ($farm->getlastreport()=='CONDITIONAL')
+               <div><br/>
+                    <span class="position-absolute  translate-middle badge rounded-pill bg-danger ml-5">
+                    Sanction
+                    <span class="visually-hidden">Sanction</span>
+            </span>
+            <br/>
+
+               </div>
+
+           @endif</td>
             <td>{{$farm->lastinspection}}</td>
             <td>{{$farm->nextinspection}}</td>
             <td>{{$farm->farmstate}}</td>
@@ -134,9 +146,25 @@ exampleModal.addEventListener('show.bs.modal', function (event) {
   modalBodyInput.value = recipient
 })
 </script>
-<script>
-  new DataTable('#farms');
-</script>
+    <script>
+            $(document).ready(function() {
+    $('#farms').DataTable({
+        dom: 'Bfrtip',
+        pageLength: 200,
+        order: [[1, 'asc']],
+        stateSave: true,
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                title: 'FARMERS_Report',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }
+        ]
+    });
+});
+    </script>
 </x-layouts.app>
 
             

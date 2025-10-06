@@ -1,13 +1,19 @@
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css"></script>
-<script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
+<x-layouts.app>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<link rel="stylesheet" href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 @php
 $userid=Auth::user()->id;
 @endphp
-<x-layouts.app>
 
 <div class="card">
 
@@ -128,9 +134,25 @@ window.addEventListener('offline', () => {
 });
 
 </script>
-<script>
-  new DataTable('#farms');
-</script>
+    <script>
+            $(document).ready(function() {
+    $('#farms').DataTable({
+        dom: 'Bfrtip',
+        pageLength: 200,
+        order: [[1, 'asc']],
+        stateSave: true,
+        buttons: [
+            {
+                extend: 'excelHtml5',
+                title: 'LIST_OF_FARMERS',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            }
+        ]
+    });
+});
+    </script>
 <script>
   const farmData = @json($farmlist);
   const farms = Object.values(farmData); // Now farms is an actual array
@@ -138,14 +160,11 @@ window.addEventListener('offline', () => {
   const reportData=@json($reports);
   const reports=Object.values(reportData); // No of active reports in system
 
-  const reportSectionData=@json($reportsection);
-  const reportSections=Object.values(reportSectionData); // No of active reports in system
-
 
 
   if (navigator.onLine) {
     farms.forEach(farm => {
-      window.db.farms.put({
+      db.farms.put({
         farmcode: farm.farmcode,
         community: farm.community,
         farmname: farm.farmname,
@@ -156,26 +175,13 @@ window.addEventListener('offline', () => {
     });
 
     reports.forEach(report=>{
-      window.db.reports.put({
+      db.reports.put({
         reportid: report.id,
         reportname: report.reportname,
         reportstate: report.reportstate
       });
 
     });
-
-
-reportSections.forEach(reportSection => {
-  window.db.reportSections.put({
-    sectionid: reportSection.id,
-    reportid: reportSection.reportid,
-    sectionname: reportSection.sectionname,
-    sectionseq: reportSection.section_seq,
-    sectionstate: reportSection.sectionstate
-  });
-});
-    
-
   }
 </script>
 <script>
@@ -201,7 +207,7 @@ const currentUserId = document.getElementById("userid");
 const x=currentUserId.value;
 
 
-window.db.farms.toArray().then(farms => {
+db.farms.toArray().then(farms => {
   const tbody = document.getElementById("farm-rows");
   let rowsHTML = "";
 

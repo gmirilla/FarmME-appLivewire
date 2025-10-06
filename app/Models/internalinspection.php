@@ -21,8 +21,28 @@ class internalinspection extends Model
         'updated_uid',
         'comments',
         'conditions',
-        'season'
+        'season', 'approvalcommittee', 'approvedby', 'approveddate',
+        'verifiedby', 'verifieddate', 'verificationcomments','IMSmanager_approval','ecomm_checked'
     ];
+        public function getverificationstatus()
+    {
+        //$report = reports::where('id', $this->reporid)->first();
+        if (in_array($this->inspectionstate, ['CONDITIONAL'])) {
+            # code...
+            if ($this->verifiedby != null){
+                $verificationstatus="VERIFIED";
+            }
+            else{
+                $verificationstatus="PENDING";
+            }
+        } else {
+            # code...
+            $verificationstatus= null;
+        }
+        
+        return $verificationstatus;
+    }
+
 
     public function getfarm()
     {
@@ -96,5 +116,11 @@ class internalinspection extends Model
     {
         $reportinspectorname = User::where('id', $this->inspectorid)->first();
         return $reportinspectorname;
+    }
+
+        public function getverifiedby()
+    {
+        $verifiedby = User::where('id', $this->verifiedby)->first();
+        return $verifiedby;
     }
 }

@@ -186,7 +186,6 @@ input[type="radio"] {
         </tbody>
     </table>
 
-
     <!-- Declaration page-->
     <div style="margin-top: 20px">
     <table class="table table-bordered" style="border: 1px solid black">
@@ -199,40 +198,33 @@ input[type="radio"] {
                     control system of the standard and has declared all used inputs/activities as stated in this form. The farmer has noted the set conditions.
                 </td>
             </tr>
-            <tr >
-                <td>
-                    <div  class="text-center">
-                @if (!empty($farm->signaturepath))
-                     <img src="{{public_path('/storage/'.$farm->signaturepath)}}" alt="" width="70px"><br>
-                    <u>{{$farm->farmname}}</u>
-                    
-                @endif
-           <div>
-            <br><br>
-            <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint/Name</span><br><br> 
-            </div>      
+                        <tr>
+                <td>Signature/Thumbprint of the field operator:<br/>  
+                 @if (!empty($farm->signaturepath))
+                <div class="col-auto" style="margin-left:30%; margin-right:30%;">
+                     <img src="{{public_path('/storage/'.$farm->signaturepath)}}" alt="" width="70px"></div>
+                @endif       
                </td>
-                <td>            <div class="text-center">
-            @if (!empty($inspection->reportinspectorname()->signaturepath))
-                <img src="{{public_path('/storage/'.$inspection->reportinspectorname()->signaturepath)}}" alt="" width="70px"><br>
-                <u>{{$inspection->reportinspectorname()->name}}</u>
+                <td> Signature of the internal inspector: <br/>
+                                @if (!empty($inspector->signaturepath))
+                <img src="{{public_path('/storage/'.$inspector->signaturepath)}}" alt="" width="70px"><br>
 
             @else
             <br><br>    
             @endif
-            <br><br>
-            <span style="border-top: 1px dashed rgb(86, 84, 84)">Signature/Thumbprint/Name</span><br><br>
-           </div></td>
+                
+                </td>
             </tr>
-            <tr >
+            <tr>
+              <tr>
                 <td colspan="2">
                     Approval decision by the IMS Manager
                 </td>
             </tr>
-            <tr >
+            <tr>
                 <td colspan="2">
-                    Compliance this Year 
-                    <div  class="d-flex flex-row" style="margin-top: 3px; margin-bottom: 3px"> 
+                    Compliance this Year <br/>
+                    <div  class="d-flex flex-row"> 
                         @switch($inspection->inspectionstate)
                         @case('APPROVED')
                         <div class="p-2">
@@ -247,7 +239,7 @@ input[type="radio"] {
                         <div class="p-2">
                            
                             <input class="form-check-input"  type="checkbox" disabled name="" id="Notapproved">
-                            <label class="form-check-label" for="Notapproved">Not Approved</label>
+                            <label class="form-check-label" for="Notapproved">Sanctioned</label>
                         </div>
                             @break
                         @case('CONDITIONAL')
@@ -304,13 +296,13 @@ input[type="radio"] {
             </tr>
             <tr>
                 <td colspan="2">
-                    Additional conditions or sanctions or corrective actions to be undertaken:
+                   <b> Additional conditions or sanctions or corrective actions to be undertaken:</b>
                     <br/>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    Comments of Evaluation and Sanction committee: {{$inspection->comments}} || {{$inspection->conditions}}
+                    <b>Comments of Evaluation and Sanction committee:</b> {{$inspection->comments}} || {{$inspection->conditions}}
 
                 </td>
             </tr>
@@ -339,17 +331,27 @@ input[type="radio"] {
             </tr>
             <tr>
                 <td colspan="2">
-                    Corrective action verification (when required)
+                    <b>Corrective action verification (when required)</b>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    Name/Signature/Date of verification officer:
-                </td>
+                   <b> Comments of Verification Officer:</b> {{$inspection->verificationcomments}}</td>
             </tr>
             <tr>
-                <td colspan="2">
-                    Signature of evaluation and sanction committee:
+                <td> @if (!empty($inspection->getverifiedby())) 
+                    {{$inspection->getverifiedby()->name}} <br/><br/>@endif
+                   <b> Name of verification officer:</b>
+                </td>
+                <td>
+                    @if (!empty($inspection->getverifiedby()))                 
+                <img src="{{public_path('/storage/'.$inspection->getverifiedby()->signaturepath)}}" alt="" width="70px"> {{\Carbon\Carbon::parse($inspection->verifieddate)->format('d-M-Y')}}<br>
+
+            @else
+            <br>{{$inspection->verifieddate}}<br>    
+            @endif
+            
+            <b>Signature/Date of verification officer:</b>
                 </td>
             </tr>
         </tbody>
@@ -357,4 +359,3 @@ input[type="radio"] {
     </div>
 </div>
 </div>
-

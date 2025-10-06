@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Imports\farmImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\farmentrance;
+use App\Models\reportquestions;
 use App\Models\reportsection;
 
 class FarmController extends Controller
@@ -83,10 +84,12 @@ class FarmController extends Controller
                         $year0=date('Y');
         $year1=$year0+1;
         $currentseason=$year0."/".$year1;
-        $reportsection=reportsection::all();
+        $reportsections=reportsection::where('sectionstate','ACTIVE')->get();
+        $reportquestions=reportquestions::where('questionstate','ACTIVE')->get();
 
         return view('farmonboarding')->with('farmlist', $farmlist)->with('user',$user)
-        ->with('reports', $reports)->with('currentseason',$currentseason)->with('reportsection',$reportsection);
+        ->with('reports', $reports)->with('currentseason',$currentseason)
+        ->with('reportsections',$reportsections)->with('reportquestions',$reportquestions);
     }
 
 
@@ -312,8 +315,11 @@ switch ($user->roles) {
         )->where('farmcode', $request->id)->first(); 
         $farmreports=DB::table('internalinspections')
         ->leftJoin('reports', 'internalinspections.reportid', '=', 'reports.id')
-        ->select('internalinspections.id as iid','reportname','score','internalinspections.created_at as created_at','inspectionstate','max_score','comments','season' )
+        ->select('internalinspections.id as iid','reportname','score','internalinspections.created_at as created_at',
+        'inspectionstate','max_score','comments','season' )
         ->where('farmid',$id)->get();
+
+        $farmdetails=farm::where('farmcode',$request->id)->first();
 
         #Get List of all Users on System
         $users=User::all();
