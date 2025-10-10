@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class AgrochemicalrecordsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource. This has not yet been abandoned
      */
     public function index()
     {
