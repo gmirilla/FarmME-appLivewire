@@ -310,7 +310,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="message-text" class="col-form-label">Conditions</label>
+                                <label for="message-text" class="col-form-label">Conditions/Comments</label>
                                 <textarea class="form form-control" name="apprconditions" id="approveconditions" cols="20" rows="10"></textarea>
                             </div>
                             <div class="mb-3">
