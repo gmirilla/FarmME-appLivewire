@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\approvalcommitte;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+
 
 class ApprovalcommitteController extends Controller
 {
@@ -14,6 +16,24 @@ class ApprovalcommitteController extends Controller
     {
         //
     }
+    public function apprcomm_delete(Request $request){
+        $id=$request->id;
+        $apprcomm=approvalcommitte::find($id);
+  
+        if ($request->is_active==1) {
+            $apprcomm->is_active=0;
+        }
+        else {
+            # code...
+            $apprcomm->is_active=1;
+        }
+        
+        $apprcomm->save();
+        $apprcomms=approvalcommitte::all();
+        return view('adminconfig.appr_com_show', compact('apprcomms'));
+
+    }
+
     public function apprcomm_show()
     {
         $apprcomms=approvalcommitte::all();
@@ -22,6 +42,17 @@ class ApprovalcommitteController extends Controller
 
         public function apprcomm_add(Request $request)
     {
+        $year=date('Y');
+        $request->validate([
+            'name' => [
+                'required',
+                Rule::unique('approvalcommittes')
+                    ->where('position', $request->position)
+                    ->where('year', $year),
+            ],
+            'position' => 'required',
+        ]);
+
         
 
         if (!empty($request->signaturepath)) {
@@ -31,11 +62,13 @@ class ApprovalcommitteController extends Controller
             ]);
             $path = $request->file('signaturepath')->store('public/signatures', 'public');
         }
+         $year=date('Y');
         $committemember= new approvalcommitte();
         $committemember->name=$request->name;
         $committemember->signaturepath=$path;
         $committemember->is_active=$request->is_active ? true : false;
         $committemember->position=$request->position;
+        $committemember->year=$year;
         $committemember->save();
         $apprcomms=approvalcommitte::all();
         return view('adminconfig.appr_com_show', compact('apprcomms'));
