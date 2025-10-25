@@ -375,4 +375,31 @@ public function viewcontract(Request $request)
 
 
 }
+public function updatepicture(Request $request)
+    {
+        //
+        Auth::check();
+        $user = Auth::user();
+
+        $farms = farm::all();
+        $id = farm::where('farmcode', $request->fcode)->first()->id;
+        $farm = $farms->find($id);
+
+        if ($request->hasFile('farmerpicture')) {
+            $file = $request->file('farmerpicture');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('uploads/farmerpictures', $filename, 'public');
+
+            //get last entrance record
+            $lastentrance = farmentrance::where('farmid', $farm->id)->latest()->first();
+
+            $lastentrance->farmerpicture = $filePath;
+            
+            $lastentrance->save();
+        }
+
+        $fcode = 'id=' . $farm->farmcode;
+
+        return redirect()->route('displayfarm', $fcode);
+    }
 }
