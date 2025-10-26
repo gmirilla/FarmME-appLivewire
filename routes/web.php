@@ -105,13 +105,14 @@ Route::middleware('auth')->group(function () {
         Route::post('/newfarm/Createfarm', [FarmController::class, 'store']);
         Route::post('/farm/schedule', [FarmController::class, 'newinspectiondate']);
         Route::post('/farm/assignstaff', [FarmController::class, 'assignstaff']);
-        Route::get('/farm/view', [FarmController::class, 'displayfarm']);
+        Route::get('/farm/view', [FarmController::class, 'displayfarm'])->name('displayfarm');
         Route::post('/farm/updatefarm', [FarmController::class, 'updatefarm']);
         Route::post('/farm/import', [FarmController::class, 'importfarms'])->name('importfarm');
         Route::get('/farm/importlist', [FarmController::class, 'import_list'])->name('import_list');
         Route::get('/farm/onboardinglist', [FarmController::class, 'onboarding'])->name('onboarding');
         Route::get('/farm/annualreport', [FarmController::class, 'annualreport'])->name('annualreport');
         Route::get('/farm/viewcontract',[FarmController::class, 'viewcontract'])->name('viewcontract');
+        Route::post('/farm/updatepicture',[FarmController::class, 'updatepicture'])->name('updatepicture');
         
     });
     Route::middleware('auth')->group(function () {

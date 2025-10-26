@@ -428,7 +428,10 @@ class InternalinspectionController extends Controller
                     $inspection->inspectionstate = $request->ecdecision;
                     $inspection->ecomm_checked=2;
                     //deal with approval committee 
-                    //check if approval committee add button was clicked
+                    
+                    $approvercommstring = implode(',', $request->acmembers);
+
+                    //check if ALL approval committee add checkbox was clicked
                     if ($request->has('addcommittee')) {
                         # code...
                         //get the list of all active approvers
@@ -436,10 +439,9 @@ class InternalinspectionController extends Controller
                         $approvercommstring = approvalcommitte::where('is_active', true)
                             ->where('year', date('Y'))
                             ->pluck('id')
-                            ->implode(',');
-
-                        $inspection->approvalcommittee = $approvercommstring;
+                            ->implode(',');                     
                     }
+                    $inspection->approvalcommittee = $approvercommstring;
                     break;
 
                 case $request->has('approvebtn'):
