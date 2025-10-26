@@ -314,18 +314,18 @@
                                 <textarea class="form form-control" name="apprconditions" id="approveconditions" cols="20" rows="10"></textarea>
                             </div>
                             <div class="mb-3">
-                                <label for="list_ac" class="col-form-label">{{ $year }} Current Approval
-                                    Committee</label>
                                 <p>
                                     @forelse ($approvalcommittees as $acmember)
+                                    <input type="checkbox" name="acmembers[]" value="{{ $acmember->id }}" class="form-checked">
                                         <b>{{ $acmember->name }}</b>({{ $acmember->position }})<br />
                                     @empty
                                         <b>No Committee Members for {{ $year }} on Record</b>
                                     @endforelse
                                 </p>
                                 @if ($approvalcommittees->isNotEmpty())
-                                    <label for="addcommittee" class="form-label">Add Committee Members to Note </label>
-                                    <input type="checkbox" name="addcommittee" class="form-checked">
+                                <input type="checkbox" name="addcommittee" class="form-checked">
+                                    <label for="addcommittee" class="form-label">Add <u>ALL</u> Active Committee Members to Note </label>
+                                    
                                 @endif
 
                             </div>
