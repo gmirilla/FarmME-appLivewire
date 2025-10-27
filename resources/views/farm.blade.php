@@ -56,9 +56,9 @@
             <td>{{$farm->farmname}}           
                @if ($farm->getlastreport()=='CONDITIONAL')
                <div><br/>
-                    <span class="position-absolute  translate-middle badge rounded-pill bg-danger ml-5">
-                    Sanction
-                    <span class="visually-hidden">Sanction</span>
+                    <span class="position-absolute  translate-middle badge rounded-pill bg-warning ml-5">
+                    Conditional
+                    <span class="visually-hidden">Conditional</span>
             </span>
             <br/>
 

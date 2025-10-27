@@ -125,8 +125,8 @@
                                         @endif
                                         @if ($farmdetails->getlastreport() == 'CONDITIONAL')
                                             <span
-                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                                Sanctioned
+                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                                                Conditional
                                                 <span class="visually-hidden">Farmer is currently under Sanction</span>
                                             </span>
                                         @endif
