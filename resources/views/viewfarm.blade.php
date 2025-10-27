@@ -125,9 +125,10 @@
                                         @endif
                                         @if ($farmdetails->getlastreport() == 'CONDITIONAL')
                                             <span
-                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                                Sanctioned
-                                                <span class="visually-hidden">Farmer is currently under Sanction</span>
+                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
+                                                Conditional
+                                                <span class="visually-hidden">Farmer is currently under Conditional
+                                                    Approval</span>
                                             </span>
                                         @endif
                                         <button type="button" class="btn btn-success py-2" data-bs-toggle="modal"
@@ -402,42 +403,46 @@
     </div>
 
 
-<div class="modal fade" id="farmerPictureModal" tabindex="-1" aria-labelledby="farmerPictureModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="farmerPictureModalLabel">UPDATE FARMER PICTURE</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="{{ route('updatepicture') }}" method="post" enctype="multipart/form-data">
-          @csrf
-          <p class="text-center text-danger">
-            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i><br />
-            <strong>Warning:</strong> Uploading a new image will <u>replace</u> the existing picture on
-            the Last Farm Entrance Record.
-          </p>
+    <div class="modal fade" id="farmerPictureModal" tabindex="-1" aria-labelledby="farmerPictureModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="farmerPictureModalLabel">UPDATE FARMER PICTURE</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('updatepicture') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <p class="text-center text-danger">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i><br />
+                            <strong>Warning:</strong> Uploading a new image will <u>replace</u> the existing picture on
+                            the Last Farm Entrance Record.
+                        </p>
 
-          <div class="mb-3">
-            <label class="form-label">FARM NAME</label>
-            <input type="text" class="form-control" value="{{ $farm->farmname }}" readonly disabled>
-            <input type="hidden" name="fcode" value="{{ $farm->farmcode }}">
-          </div>
+                        <div class="mb-3">
+                            <label class="form-label">FARM NAME</label>
+                            <input type="text" class="form-control" value="{{ $farm->farmname }}" readonly
+                                disabled>
+                            <input type="hidden" name="fcode" value="{{ $farm->farmcode }}">
+                        </div>
 
-          <div class="mb-3">
-            <label for="farmerpicture" class="form-label">Farmer Picture</label>
-            <input type="file" id="farmerpicture" name="farmerpicture" accept="image/*" class="form-control">
-          </div>
+                        <div class="mb-3">
+                            <label for="farmerpicture" class="form-label">Farmer Picture</label>
+                            <input type="file" id="farmerpicture" name="farmerpicture" accept="image/*"
+                                class="form-control">
+                        </div>
 
-          <button type="submit" class="btn btn-success" name="newfarmerpicture" style="margin-top: 8px;">
-            Submit
-          </button>
-        </form>
-      </div>
+                        <button type="submit" class="btn btn-success" name="newfarmerpicture"
+                            style="margin-top: 8px;">
+                            Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-        <script>
-            new DataTable('#farms');
-        </script>
+    <script>
+        new DataTable('#farms');
+    </script>
 </x-layouts.app>
