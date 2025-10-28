@@ -138,7 +138,9 @@
             <td>{{$inspection->getfarm()->longitude}}</td>
             <td>{{$inspection->getfarm()->getreportfarmcount($season)}}</td>
             <td>{{number_format($inspection->getfarm()->getreportfarmarea($season),2)}}</td>
-            <td></td>
+            <td><b>IMS Comments: </b>@if (!empty($inspection->comments)) {{$inspection->comments}} @endif
+                @if (!empty($inspection->conditions)) 
+                <br/><b>Committee: </b>{{$inspection->conditions}} @endif</td>
         </tr>
             @empty
             <tr>
