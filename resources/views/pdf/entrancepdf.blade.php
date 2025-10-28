@@ -117,7 +117,7 @@ input[type="radio"] {
 
         </tbody>
     </table>
-    <h4>C. HISTORICAL PRODUCTION: AGROCHEMICALS USED {{$prevseason}}</h4>
+    <h4>C. HISTORICAL PRODUCTION: AGROCHEMICALS USED @if (!empty($prevseason)) {{$prevseason}} @endif</h4>
     <table  class="table table-bordered" style="border: 1px solid black">
                         <thead>
                     <th>Farm Size (Ha)</th>
