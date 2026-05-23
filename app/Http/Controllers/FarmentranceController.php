@@ -34,11 +34,11 @@ class FarmentranceController extends Controller
 
         Auth::check();
         $user=Auth::user();
-        $farmerdetail=farm::where('farmcode', $request->fcode)->first();
-        $farmentrance=farmentrance::where('id',$request->farmentranceid)->first();
+        $farmerdetail=farm::where('farmcode', $request->fcode)->firstOrFail();
+        $this->authorizeInspectorFarmAccess($farmerdetail);
+        $farmentrance=farmentrance::where('id',$request->farmentranceid)->firstOrFail();
        // $dofl=Carbon::parse($request->dateoflastinspection);
 
-        
         //update farmer details
         $farmerdetail->cropvariety=$request->varietyofcrop;
         //$farmerdetail->lastinspection=$dofl->format('d-m-Y');
@@ -111,7 +111,8 @@ $fpath=$request->file('farmerpicture')->store('public/farmerpictures','public');
         //
         Auth::check();
         $user=Auth::user();
-        $farmerdetail=farm::where('farmcode', $request->fcode)->first();
+        $farmerdetail=farm::where('farmcode', $request->fcode)->firstOrFail();
+        $this->authorizeInspectorFarmAccess($farmerdetail);
         $year0=date('Y');
         $year1=$year0+1;
         $currentseason=$year0."/".$year1;
@@ -270,7 +271,8 @@ $fpath=$request->file('farmerpicture')->store('public/farmerpictures','public');
         Auth::check();
         $user=Auth::user();
 
-        $farmerdetail=farm::where('farmcode', $request->fcode)->first();
+        $farmerdetail=farm::where('farmcode', $request->fcode)->firstOrFail();
+        $this->authorizeInspectorFarmAccess($farmerdetail);
         $year0=date('Y');
         $year1=$year0+1;
         $currentseason=$year0."/".$year1;

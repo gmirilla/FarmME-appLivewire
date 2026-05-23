@@ -14,12 +14,15 @@ use App\Models\reportquestions;
 use App\Models\reports;
 use App\Models\reportsection;
 use App\Models\approvalcommitte;
+use App\Models\Season;
+use App\Services\InspectionApprovalService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 
 class InternalinspectionController extends Controller
 {
+    public function __construct(private InspectionApprovalService $approvalService) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -32,9 +35,9 @@ class InternalinspectionController extends Controller
 
 
 
-        $inspections = DB::table('internalinspections')
+        $query = DB::table('internalinspections')
             ->join('farms', 'internalinspections.farmid', '=', 'farms.id')
-            ->join('reports', 'internalinspections.reportid', '=', 'reports.id') // Join the 'insternalinspections' and 'farms' tables
+            ->join('reports', 'internalinspections.reportid', '=', 'reports.id')
             ->select(
                 'farmcode',
                 'farmname',
@@ -48,11 +51,20 @@ class InternalinspectionController extends Controller
                 'internalinspections.inspectiondate as inspectiondate',
                 'internalinspections.created_at',
                 'internalinspections.updated_at',
+                'internalinspections.season as season',
                 'reportname'
             )
-            ->where('internalinspections.inspectorid', $user->id)
-            ->whereNotIn('internalinspections.reportid', $entranceIds)
-            ->get();
+            ->whereNotIn('internalinspections.reportid', $entranceIds);
+
+        if ($user->roles === 'ADMINISTRATOR') {
+            // Administrators see all inspections across all seasons
+        } else {
+            // Inspectors see only their own inspections for the current season
+            $query->where('internalinspections.inspectorid', $user->id)
+                  ->where('internalinspections.season', Season::currentString());
+        }
+
+        $inspections = $query->get();
 
 
         return view('inspection.inspection')->with('inspections', $inspections);
@@ -371,7 +383,7 @@ class InternalinspectionController extends Controller
         $user = Auth::user();
         $year = date('Y');
 
-        if (str_contains($user->roles, 'ADMINISTRATOR')) {
+        if ($user->roles === 'ADMINISTRATOR') {
             # only viewable by administrators
             $inspections = internalinspection::orderBy('created_at', 'desc')->get();
 
@@ -392,183 +404,35 @@ class InternalinspectionController extends Controller
     }
     public function iapprove(Request $request)
     {
-        //Check if user is authorized to view resource
-
-
         Auth::check();
         $user = Auth::user();
 
-        if ($request->method() == 'GET') {
-            # code...
-            $inspection = internalinspection::where('id', $request->inspectionid)->first();
-        } else {
-            # code...
-            $inspection = internalinspection::where('id', $request->iid)->first();
-        }
+        $inspection = $request->method() === 'GET'
+            ? internalinspection::where('id', $request->inspectionid)->firstOrFail()
+            : internalinspection::where('id', $request->iid)->firstOrFail();
 
-
-        if (str_contains($user->roles, 'ADMINISTRATOR')) {
-
-            switch ($request) {
-                case $request->has('verifyinspection'):
-                    
-                    //update the inspection  record to show verification details
-                    $inspection->verifiedby = $user->id;
-                    $inspection->verifieddate= $request->verify_date;
-                    $inspection->verificationcomments=$request->verify_note;
-                    $inspection->save();
-                    break;
-
-                case $request->has('approvewithcondition'):
-                    //First store IMS managers approval comments to the new field should only occur once 
-                    if ($inspection->IMSmanager_approval == null){
-                        $inspection->IMSmanager_approval =$inspection->inspectionstate;
-                    }
-                    $inspection->conditions = $request->apprconditions;
-                    $inspection->inspectionstate = $request->ecdecision;
-                    $inspection->ecomm_checked=2;
-                    //deal with approval committee 
-                    
-                    $approvercommstring = implode(',', $request->acmembers);
-
-                    //check if ALL approval committee add checkbox was clicked
-                    if ($request->has('addcommittee')) {
-                        # code...
-                        //get the list of all active approvers
-                        $year = date('Y');
-                        $approvercommstring = approvalcommitte::where('is_active', true)
-                            ->where('year', date('Y'))
-                            ->pluck('id')
-                            ->implode(',');                     
-                    }
-                    $inspection->approvalcommittee = $approvercommstring;
-                    break;
-
-                case $request->has('approvebtn'):
-                    # Approve the inspection sheet...IMS Manager
-                    $inspection->ecomm_checked=1;
-
-                    $report = reports::where('id', $inspection->reportid)->first();
-                    $farm = farm::where('id', $inspection->farmid)->first();
-
-                    $inspection->inspectionstate = 'APPROVED';
-                    $inspection->approvedby =$user->id;
-                    $inspection->approveddate = date('Y-m-d');
-
-                    #On approval of Entrance Reports Change farm Status to active
-                    if (strpos($report->reportname, 'Entrance')) {
-                        $farm->farmstate = 'ACTIVE';
-                        $farm->save();
-                    }
-
-                    break;
-
-                case $request->has('rejectbtn'):
-                    # Reject the Inspection.
-                    $inspection->inspectionstate = 'REJECTED';
-                    break;
-                case $request->has('deletetbtn'):
-
-                    $inspection->delete();
-                    $inspectionanswers = inspectionanswers::where('internalinspectionid', $inspection->id)->delete();
-                    $farmentrance = farmentrance::where('internalinspectionid', $inspection->id)->delete();
-                    return redirect()->route('iapproval');
-
-                    break;
-
-                case $request->has('viewsheet'):
-
-
-                    # Display Result Sheet
-                    $reportquestions = DB::table('reportquestions')
-                        ->leftJoin('inspectionanswers', 'reportquestions.id', '=', 'inspectionanswers.questionid')
-                        ->leftJoin('reportsections', 'reportquestions.reportsectionid', '=', 'reportsections.id') // Join the 'reportquestions' and 'answers' tables
-                        ->select(
-                            'reportquestions.id as id',
-                            'reportquestions.reportid  as reportid',
-                            'reportquestions.reportsectionid as reportsectionid',
-                            'reportquestions.indicator as indicator',
-                            'reportquestions.question_seq as question_seq',
-                            'reportquestions.question as question',
-                            'reportquestions.questiontype as questiontype',
-                            'reportquestions.questionstate as questionstate',
-                            'answer',
-                            'sectionidcomments',
-                            'section_seq'
-                        )
-                        ->where('reportquestions.reportid', $inspection->reportid)->where('reportquestions.questionstate', 'ACTIVE')
-                        ->where('internalinspectionid', $inspection->id)->orderBy('section_seq', 'asc')->orderBy('question_seq', 'asc')
-                        ->get();
-                    $sectionlist = reportsection::where('reportid', $inspection->reportid)->where('sectionstate', 'ACTIVE')->orderBy('section_seq', 'asc')->get();
-
-
-                    $reportname = reports::where('id', $inspection->reportid)->first();
-                    $farm = farm::where('id', $inspection->farmid)->first();
-                    $inspector = User::where('id', $inspection->inspectorid)->first();
-                    //ADD Logic to redirect to Farm Entrance VIEW IF report is an entrance report
-                    if (strpos($reportname->reportname, 'Entrance')) {
-                        # code...
-                        $farmentrance = farmentrance::where('internalinspectionid', $request->iid)->first();
-                        $data = compact('reportname', 'reportquestions', 'user', 'inspection', 'farm', 'farmentrance');
-                        return view('inspection.viewfarmentrance', $data);
-                    }
-
-
-                    return view('inspection.inspection_view_sheet', compact('reportname', 'reportquestions', 'user', 'inspection', 'farm', 'inspector', 'sectionlist'));
-                    //->with('reportname',$reportname)->with('reportquestions',$reportquestions);
-
-                    break;
+        if ($user->roles === 'ADMINISTRATOR') {
+            if ($request->has('viewsheet')) {
+                return $this->approvalService->renderViewSheet($inspection, $request, $user);
             }
+
+            if ($request->has('deletetbtn')) {
+                $this->approvalService->delete($inspection);
+                return redirect()->route('iapproval');
+            }
+
+            $this->approvalService->handleApprovalAction($inspection, $request, $user);
             $inspection->comments = $request->comments;
             $inspection->save();
 
             return redirect()->route('iapproval');
-        } else if ((str_contains($user->roles, 'INSPECTOR'))) {
-
-            switch ($request) {
-                case $request->has('viewsheet'):
-
-                    # Display Result Sheet
-                    $reportquestions = DB::table('reportquestions')
-                        ->leftJoin('inspectionanswers', 'reportquestions.id', '=', 'inspectionanswers.questionid')
-                        ->leftJoin('reportsections', 'reportquestions.reportsectionid', '=', 'reportsections.id') // Join the 'reportquestions' and 'answers' tables
-                        ->select(
-                            'reportquestions.id as id',
-                            'reportquestions.reportid  as reportid',
-                            'reportquestions.reportsectionid as reportsectionid',
-                            'reportquestions.indicator as indicator',
-                            'reportquestions.question_seq as question_seq',
-                            'reportquestions.question as question',
-                            'reportquestions.questiontype as questiontype',
-                            'reportquestions.questionstate as questionstate',
-                            'answer',
-                            'sectionidcomments',
-                            'section_seq'
-                        )
-                        ->where('reportquestions.reportid', $inspection->reportid)->where('reportquestions.questionstate', 'ACTIVE')
-                        ->where('internalinspectionid', $inspection->id)->orderBy('section_seq', 'asc')->orderBy('question_seq', 'asc')
-                        ->get();
-                    $sectionlist = reportsection::where('reportid', $inspection->reportid)->where('sectionstate', 'ACTIVE')->orderBy('section_seq', 'asc')->get();
-                    $reportname = reports::where('id', $inspection->reportid)->first();
-                    $farm = farm::where('id', $inspection->farmid)->first();
-                    $inspector = User::where('id', $inspection->inspectorid)->first();
-                    //ADD Logic to redirect to Farm Entrance VIEW IF report is an entrance report
-                    if (strpos($reportname->reportname, 'Entrance')) {
-                        # code...
-                        $farmentrance = farmentrance::where('internalinspectionid', $request->iid)->first();
-                        $data = compact('reportname', 'reportquestions', 'user', 'inspection', 'farm', 'farmentrance');
-                        return view('inspection.viewfarmentrance', $data);
-                    }
-
-
-                    return view('inspection.inspection_view_sheet', compact('reportname', 'reportquestions', 'user', 'inspection', 'farm', 'inspector', 'sectionlist'));
-                    //->with('reportname',$reportname)->with('reportquestions',$reportquestions);
-
-                    break;
-            }
         }
 
-
+        if ($user->roles === 'INSPECTOR') {
+            if ($request->has('viewsheet')) {
+                return $this->approvalService->renderViewSheet($inspection, $request, $user);
+            }
+        }
 
         return redirect()->route('unauthorized');
     }

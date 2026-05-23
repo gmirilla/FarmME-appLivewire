@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(not exist *)",
+      "Bash(php artisan *)"
+    ]
+  }
+}

@@ -35,15 +35,21 @@ class farm extends Model
         'cropvariety',
         'yob',
         'signaturepath',
-        ''
-
-
     ];
+
+    public function inspector()
+    {
+        return $this->belongsTo(User::class, 'inspectorid');
+    }
+
+    public function inspections()
+    {
+        return $this->hasMany(internalinspection::class, 'farmid');
+    }
 
     public function getinspectorName()
     {
-        $inspector = User::where('id', $this->inspectorid)->first();
-        return $inspector ? $inspector->name : 'Inspector Not Assigned';
+        return $this->inspector ? $this->inspector->name : 'Inspector Not Assigned';
     }
 
     public function getfarmplots()

@@ -19,6 +19,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\ReportsectionController;
 use App\Http\Controllers\ReportquestionsController;
+use App\Http\Controllers\SeasonController;
 use App\Http\Controllers\userController;
 use Illuminate\Http\Request;
 use App\Http\Middleware\RoleMiddleware;
@@ -218,6 +219,17 @@ Route::middleware([
     Route::get('misccode/apprcomm_show',[ApprovalcommitteController::class, 'apprcomm_show'])->name('apprcomm_show');
     Route::post('misccode/apprcomm_add',[ApprovalcommitteController::class, 'apprcomm_add'])->name('apprcomm_add');
     Route::post('misccode/apprcomm_show',[ApprovalcommitteController::class, 'apprcomm_show'])->name('apprcomm_delete');
+});
+
+Route::middleware([
+    'auth',
+    'verified',
+    RoleMiddleware::class . ':ADMINISTRATOR',
+])->group(function () {
+    Route::get('admin/season', [SeasonController::class, 'index'])->name('season.index');
+    Route::post('admin/season/open', [SeasonController::class, 'open'])->name('season.open');
+    Route::post('admin/season/close', [SeasonController::class, 'close'])->name('season.close');
+    Route::post('admin/season/massassign', [SeasonController::class, 'massassign'])->name('season.massassign');
 });
 
 require __DIR__.'/auth.php';
