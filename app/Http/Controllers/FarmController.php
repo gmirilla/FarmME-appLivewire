@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Imports\farmImport;
+use App\Models\Season;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\farmentrance;
 use App\Models\reportquestions;
@@ -32,18 +33,16 @@ class FarmController extends Controller
         
                 switch ($user->roles) {
                     case 'ADMINISTRATOR':
-                        # code...
-                        $farmlist=farm::all()->sortBy('farmcode');
+                        $farmlist=farm::orderBy('farmcode')->get();
                         break;
                     case 'INSPECTOR':
-                        # code...
-                        $farmlist=farm::where('inspectorid',$user->id)->get(); 
+                        $farmlist=farm::where('inspectorid',$user->id)
+                            ->where('farmstate', '!=', 'CLOSED')
+                            ->orderBy('farmcode')
+                            ->get();
                         break;
-                                
                     default:
-                        # code...
                         return redirect()->route('unauthorized');
-                        break;
                 }  
   
 
@@ -66,19 +65,15 @@ class FarmController extends Controller
         
                 switch ($user->roles) {
                     case 'ADMINISTRATOR':
-                        # code...
-                        $farmlist=farm::where('farmstate','=',  'PENDING')->get()->sortByDesc('created_at');
+                        $farmlist=farm::orderByDesc('created_at')->get();
                         break;
                     case 'INSPECTOR':
-                        # code...
-                        
-                        $farmlist=farm::where('inspectorid',$user->id)->where('farmstate','=',  'PENDING')->get(); 
+                        $farmlist=Season::isOpen()
+                            ? farm::where('inspectorid',$user->id)->where('farmstate','ACTIVE')->get()
+                            : collect();
                         break;
-                                
                     default:
-                        # code...
                         return redirect()->route('unauthorized');
-                        break;
                 }  
 
                         $year0=date('Y');
@@ -254,8 +249,10 @@ switch ($user->roles) {
         //
         Auth::check();
         $user = Auth::user();
+        $farmdetails = farm::where('farmcode', $request->farmcode)->firstOrFail();
+        $this->authorizeInspectorFarmAccess($farmdetails);
         $farms=farm::all();
-        $id=farm::where('farmcode', $request->farmcode)->first()->id;
+        $id=$farmdetails->id;
         $farm=$farms->find($id);
         $farm->nextinspection=$request->newinspectiondate;
        // dd($farm);
@@ -281,8 +278,10 @@ switch ($user->roles) {
         $authuser = Auth::user();
         
         //Display Details of Farm
+        $farmdetails = farm::where('farmcode', $request->id)->firstOrFail();
+        $this->authorizeInspectorFarmAccess($farmdetails);
         $farms=farm::all();
-        $id=farm::where('farmcode', $request->id)->first()->id;
+        $id=$farmdetails->id;
         $EntranceReports = reports::whereRaw('LOWER(reportname) LIKE ?', ['%entrance%'])->get();
         $reportIds = $EntranceReports->pluck('id')->toArray();
 
@@ -323,9 +322,8 @@ switch ($user->roles) {
 
         #Get List of all Users on System
         $users=User::all();
-        $farmerpicture=farm::where('farmcode',$request->id)->first()->getfarmerpicture();
+        $farmerpicture=$farmdetails->getfarmerpicture();
         $seasons=internalinspection::where('farmid',$id)->pluck('season')->unique();
-        $farmdetails=farm::where('farmcode',$request->id)->first();
 
 
 

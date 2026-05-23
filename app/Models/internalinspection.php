@@ -46,15 +46,12 @@ class internalinspection extends Model
 
     public function getfarm()
     {
-        $farm = farm::where('id', $this->farmid)->first();
-        return $farm;
+        return $this->farm;
     }
-
 
     public function getreport()
     {
-        $report = reports::where('id', $this->reportid)->first();
-        return $report;
+        return $this->report;
     }
 
 
@@ -91,6 +88,26 @@ class internalinspection extends Model
         }
     }
 
+    public function farm()
+    {
+        return $this->belongsTo(farm::class, 'farmid');
+    }
+
+    public function report()
+    {
+        return $this->belongsTo(reports::class, 'reportid');
+    }
+
+    public function inspector()
+    {
+        return $this->belongsTo(User::class, 'inspectorid');
+    }
+
+    public function verifier()
+    {
+        return $this->belongsTo(User::class, 'verifiedby');
+    }
+
     public function farmentrance()
     {
         return $this->hasOne(farmentrance::class, 'internalinspectionid', 'id');
@@ -114,13 +131,11 @@ class internalinspection extends Model
 
     public function reportinspectorname()
     {
-        $reportinspectorname = User::where('id', $this->inspectorid)->first();
-        return $reportinspectorname;
+        return $this->inspector;
     }
 
-        public function getverifiedby()
+    public function getverifiedby()
     {
-        $verifiedby = User::where('id', $this->verifiedby)->first();
-        return $verifiedby;
+        return $this->verifier;
     }
 }

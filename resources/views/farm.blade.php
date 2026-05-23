@@ -22,8 +22,9 @@
   $user=auth()->user();
 @endphp
 @if ($user->roles=='ADMINISTRATOR')
-<a href='{{route('import_list')}}' class="btn btn-success" style="margin:5px"> Import Farmers</a>  
-<a href='/newfarm' class="btn btn-success" style="margin:5px"> Register New Farmer</a>   
+<a href='{{route('season.index')}}' class="btn btn-warning" style="margin:5px"><i class="fa fa-calendar"></i> Season Management</a>
+<a href='{{route('import_list')}}' class="btn btn-success" style="margin:5px"> Import Farmers</a>
+<a href='/newfarm' class="btn btn-success" style="margin:5px"> Register New Farmer</a>
 @endif
 
 </div>
