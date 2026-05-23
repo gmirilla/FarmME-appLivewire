@@ -7,6 +7,7 @@ use App\Models\farm;
 use App\Models\farmunityield;
 use App\Models\farmunits;
 use App\Models\internalinspection;
+use App\Models\Season;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -75,8 +76,14 @@ class dashboardController extends Controller
     
 
 
-        return view('dashboard', 
-        compact('usercount','farmcount','inspectioncount','farmpendingcount', 'inspectionapprovedcount',  'inspectionrejectedcount','farmarea','user','estyield','actualyield', 'plotcount'));
+        $currentSeason       = Season::current();
+        $currentSeasonString = Season::currentString();
+
+        return view('dashboard',
+        compact('usercount','farmcount','inspectioncount','farmpendingcount',
+                'inspectionapprovedcount','inspectionrejectedcount','farmarea',
+                'user','estyield','actualyield','plotcount',
+                'currentSeason','currentSeasonString'));
     }
 
     /**
