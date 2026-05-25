@@ -21,21 +21,29 @@
         'ACTIVE'      => 'bg-success',
         default       => 'bg-secondary',
     };
+
+    $total       = $reportquestions->count();
+    $submitted   = $reportquestions->where('inspectionstate', 'SUBMITTED')->count();
+    $approved    = $reportquestions->where('inspectionstate', 'APPROVED')->count();
+    $conditional = $reportquestions->where('inspectionstate', 'CONDITIONAL')->count();
+    $rejected    = $reportquestions->where('inspectionstate', 'REJECTED')->count();
 @endphp
 
 <style>
+    .metric-card   { border-left: 4px solid #198754; }
+    .metric-num    { font-size: 1.8rem; font-weight: 700; line-height: 1.1; }
+    .metric-sub    { font-size: .75rem; color: #6c757d; }
     .page-toolbar  { display: flex; align-items: center; justify-content: space-between;
                      flex-wrap: wrap; gap: .5rem; margin-bottom: 1.25rem; }
     .page-title    { font-size: 1.25rem; font-weight: 700; color: #212529; margin: 0; }
-    .section-header { background:#f8f9fa; border-left:4px solid #0d6efd;
-                      padding:6px 14px; font-weight:700; font-size:.78rem;
-                      text-transform:uppercase; letter-spacing:.07em;
-                      color:#495057; margin-bottom:.85rem; border-radius:0 4px 4px 0; }
+    .filter-label  { font-size: .72rem; font-weight: 700; text-transform: uppercase;
+                     letter-spacing: .05em; color: #495057; margin-bottom: 3px; }
     .score-bar     { height: 5px; background: #e9ecef; border-radius: 3px;
                      min-width: 60px; margin-top: 3px; }
     .score-fill    { height: 100%; border-radius: 3px; }
-    .filter-label  { font-size: .78rem; font-weight: 600; color: #495057;
-                     text-transform: uppercase; letter-spacing: .04em; }
+    .active-pill   { display: inline-flex; align-items: center; gap: 4px; cursor: pointer;
+                     font-size: .72rem; }
+    .active-pill:hover { opacity: .8; }
     @media (max-width: 576px) { th, td { font-size: 0.75rem; padding: 0.25rem; } }
     .table td { word-wrap: break-word; }
 </style>
@@ -59,64 +67,171 @@
     </h5>
 </div>
 
-{{-- ── SUMMARY FILTER CARD ───────────────────────────────────────────────── --}}
-<div class="card shadow-sm mb-4">
-    <div class="card-header bg-light fw-bold" style="font-size:.85rem;text-transform:uppercase;letter-spacing:.05em">
-        <i class="fa fa-bar-chart me-2 text-primary"></i>Generate Summary Report
-    </div>
-    <div class="card-body">
-        <form action="{{ route('summarypage') }}" method="get">
-            <div class="row g-3 align-items-end">
-                <div class="col-12 col-md-3">
-                    <label class="filter-label form-label">Season</label>
-                    <select class="form-select" name="season">
-                        @forelse ($seasons as $season)
-                            <option value="{{ $season->season }}">{{ $season->season }}</option>
-                        @empty
-                            <option value="" disabled>No Season Available</option>
-                        @endforelse
-                    </select>
-                </div>
-                <div class="col-12 col-md-3">
-                    <label class="filter-label form-label">Report</label>
-                    <select class="form-select" name="report">
-                        @forelse ($reports as $report)
-                            <option value="{{ $report->id }}">{{ $report->reportname }}</option>
-                        @empty
-                            <option value="" disabled>No Report Available</option>
-                        @endforelse
-                    </select>
-                </div>
-                <div class="col-12 col-md-3">
-                    <label class="filter-label form-label">Report State</label>
-                    <select class="form-select" name="reportstate">
-                        <option value="ALL">ALL</option>
-                        <option value="APPROVED">APPROVED</option>
-                        <option value="CONDITIONAL">APPROVED WITH CONDITIONS</option>
-                        <option value="PENDING">PENDING</option>
-                        <option value="SUBMITTED">SUBMITTED</option>
-                        <option value="REJECTED">REJECTED</option>
-                    </select>
-                </div>
-                <div class="col-12 col-md-3">
-                    <button class="btn btn-primary w-100" type="submit">
-                        <i class="fa fa-bar-chart me-1"></i> Generate Summary
-                    </button>
-                </div>
+{{-- ── METRIC CARDS ─────────────────────────────────────────────────────── --}}
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md">
+        <div class="card metric-card shadow-sm h-100">
+            <div class="card-body">
+                <div class="metric-sub mb-1">Total</div>
+                <div class="metric-num text-success">{{ $total }}</div>
             </div>
-        </form>
+        </div>
+    </div>
+    <div class="col-6 col-md">
+        <div class="card metric-card shadow-sm h-100" style="border-left-color:#0d6efd">
+            <div class="card-body">
+                <div class="metric-sub mb-1">Submitted</div>
+                <div class="metric-num" style="color:#0d6efd">{{ $submitted }}</div>
+                <div style="font-size:.7rem;color:#adb5bd">Awaiting review</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md">
+        <div class="card metric-card shadow-sm h-100">
+            <div class="card-body">
+                <div class="metric-sub mb-1">Approved</div>
+                <div class="metric-num text-success">{{ $approved }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md">
+        <div class="card metric-card shadow-sm h-100" style="border-left-color:#fd7e14">
+            <div class="card-body">
+                <div class="metric-sub mb-1">Conditional</div>
+                <div class="metric-num" style="color:#fd7e14">{{ $conditional }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md">
+        <div class="card metric-card shadow-sm h-100" style="border-left-color:#dc3545">
+            <div class="card-body">
+                <div class="metric-sub mb-1">Rejected</div>
+                <div class="metric-num text-danger">{{ $rejected }}</div>
+            </div>
+        </div>
     </div>
 </div>
 
-{{-- ── INSPECTION TABLE CARD ─────────────────────────────────────────────── --}}
+{{-- ── FILTER PANEL ──────────────────────────────────────────────────────── --}}
+<div class="card shadow-sm mb-3">
+    <div class="card-header"
+         style="font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em">
+        <i class="fa fa-filter me-2 text-primary"></i>Filter Inspections
+    </div>
+    <div class="card-body pb-2">
+            <div class="row g-2 align-items-end">
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="filter-label">Season</div>
+                    <select id="f_season" class="form-select form-select-sm">
+                        <option value="">All Seasons</option>
+                        @forelse ($seasons as $season)
+                            <option value="{{ $season->season }}">{{ $season->season }}</option>
+                        @empty
+                        @endforelse
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="filter-label">Report Type</div>
+                    <select id="f_report" class="form-select form-select-sm">
+                        <option value="">All Reports</option>
+                        @forelse ($reports as $report)
+                            <option value="{{ $report->reportname }}">{{ $report->reportname }}</option>
+                        @empty
+                        @endforelse
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="filter-label">Status</div>
+                    <select id="f_status" class="form-select form-select-sm">
+                        <option value="">All Statuses</option>
+                        <option value="SUBMITTED">SUBMITTED</option>
+                        <option value="APPROVED">APPROVED</option>
+                        <option value="CONDITIONAL">CONDITIONAL</option>
+                        <option value="REJECTED">REJECTED</option>
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="PENDING">PENDING</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="filter-label">Farm Name</div>
+                    <input type="text" id="f_farm" class="form-control form-control-sm"
+                           placeholder="Search farm…">
+                </div>
+                <div class="col-12 col-sm-6 col-md-2">
+                    <div class="filter-label">Filed By</div>
+                    <input type="text" id="f_filedby" class="form-control form-control-sm"
+                           placeholder="Search inspector…">
+                </div>
+                <div class="col-12 col-sm-6 col-md-2">
+                    <button id="applyFilters" class="btn btn-primary btn-sm w-100">
+                        <i class="fa fa-filter me-1"></i> Apply
+                    </button>
+                    <button id="clearFilters" class="btn btn-outline-secondary btn-sm w-100 mt-1">
+                        <i class="fa fa-times me-1"></i> Reset
+                    </button>
+                </div>
+            </div>
+            {{-- Active filter pills --}}
+            <div id="activeFilters" class="mt-2 d-flex flex-wrap gap-1"></div>
+            <div id="resultCount" class="mt-1 text-muted" style="font-size:.72rem"></div>
+        </div>
+</div>
+
+{{-- ── GENERATE SUMMARY REPORT ───────────────────────────────────────────── --}}
+<div class="card shadow-sm mb-3">
+    <div class="card-header"
+         style="font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em">
+        <i class="fa fa-bar-chart me-2 text-success"></i>Generate Summary Report
+    </div>
+    <div class="card-body">
+            <form action="{{ route('summarypage') }}" method="get">
+                <div class="row g-3 align-items-end">
+                    <div class="col-12 col-md-3">
+                        <div class="filter-label form-label">Season</div>
+                        <select class="form-select" name="season">
+                            @forelse ($seasons as $season)
+                                <option value="{{ $season->season }}">{{ $season->season }}</option>
+                            @empty
+                                <option value="" disabled>No Season Available</option>
+                            @endforelse
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="filter-label form-label">Report</div>
+                        <select class="form-select" name="report">
+                            @forelse ($reports as $report)
+                                <option value="{{ $report->id }}">{{ $report->reportname }}</option>
+                            @empty
+                                <option value="" disabled>No Report Available</option>
+                            @endforelse
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="filter-label form-label">Report State</div>
+                        <select class="form-select" name="reportstate">
+                            <option value="ALL">ALL</option>
+                            <option value="APPROVED">APPROVED</option>
+                            <option value="CONDITIONAL">APPROVED WITH CONDITIONS</option>
+                            <option value="PENDING">PENDING</option>
+                            <option value="SUBMITTED">SUBMITTED</option>
+                            <option value="REJECTED">REJECTED</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <button class="btn btn-success w-100" type="submit">
+                            <i class="fa fa-bar-chart me-1"></i> Generate Summary
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+</div>
+
+{{-- ── INSPECTION TABLE ──────────────────────────────────────────────────── --}}
 <div class="card shadow-sm">
     <div class="card-body table-responsive">
-        <div class="d-flex justify-content-end mb-2">
-            <button id="clearFilters" class="btn btn-outline-secondary btn-sm">
-                <i class="fa fa-times me-1"></i>Clear Filters
-            </button>
-        </div>
-        <table class="table display table-sm table-striped table-hover align-middle" id="reports" style="width:100%">
+        <table class="table display table-sm table-striped table-hover align-middle"
+               id="reports" style="width:100%">
             <thead class="table-dark">
                 <tr>
                     <th style="width:8%">Season</th>
@@ -129,37 +244,6 @@
                     <th style="width:12%">IMS Comment(s)</th>
                     <th style="width:6%">Verification</th>
                     <th style="width:8%">Actions</th>
-                </tr>
-                {{-- column filter row --}}
-                <tr>
-                    <th>
-                        <select class="form-select form-select-sm" id="seasonFilter">
-                            <option value="">All</option>
-                            @forelse ($seasons as $season)
-                                <option>{{ $season->season }}</option>
-                            @empty
-                                <option disabled>No seasons</option>
-                            @endforelse
-                        </select>
-                    </th>
-                    <th>
-                        <select class="form-select form-select-sm" id="reportFilter">
-                            <option value="">All</option>
-                            @forelse ($reports as $report)
-                                <option>{{ $report->reportname }}</option>
-                            @empty
-                                <option>No reports</option>
-                            @endforelse
-                        </select>
-                    </th>
-                    <th><input type="text" placeholder="Filed by…" class="form-control form-control-sm"/></th>
-                    <th><input type="text" placeholder="Farm name…" class="form-control form-control-sm"/></th>
-                    <th></th>
-                    <th><input type="text" placeholder="Status…" class="form-control form-control-sm"/></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -177,32 +261,40 @@
                                     $pct      = ($inspection->score / $inspection->getreport()->max_score) * 100;
                                     $barColor = $pct >= 70 ? '#198754' : ($pct >= 50 ? '#fd7e14' : '#dc3545');
                                 @endphp
-                                <div style="font-size:.78rem;font-weight:600">{{ number_format($pct, 1) }}%</div>
+                                <div style="font-size:.78rem;font-weight:600;color:{{ $barColor }}">
+                                    {{ number_format($pct, 1) }}%
+                                </div>
                                 <div class="score-bar">
-                                    <div class="score-fill" style="width:{{ $pct }}%;background:{{ $barColor }}"></div>
+                                    <div class="score-fill"
+                                         style="width:{{ $pct }}%;background:{{ $barColor }}"></div>
                                 </div>
                             @endif
                         </td>
                         <td>
-                            <span class="badge {{ $statusBadge($inspection->inspectionstate) }}" style="font-size:.7rem">
+                            <span class="badge {{ $statusBadge($inspection->inspectionstate) }}"
+                                  style="font-size:.7rem">
                                 {{ $inspection->inspectionstate }}
                             </span>
                         </td>
                         <td class="d-none d-sm-table-cell small">
                             @if (!empty($inspection->getplotdetails()) || $inspection->inspectionstate == 'ACTIVE')
                                 @if (strpos($inspection->getreport()->reportname, 'Entrance') != false)
-                                    <span class="text-success"><i class="fa fa-check-circle me-1"></i>No Issues</span>
+                                    <span class="text-success">
+                                        <i class="fa fa-check-circle me-1"></i>No Issues
+                                    </span>
                                 @endif
                             @else
                                 @if (strpos($inspection->getreport()->reportname, 'Entrance') != false)
-                                    <span class="text-danger"><i class="fa fa-exclamation-circle me-1"></i>Check Plots</span>
+                                    <span class="text-danger">
+                                        <i class="fa fa-exclamation-circle me-1"></i>Check Plots
+                                    </span>
                                 @endif
                             @endif
                         </td>
                         <td>
                             <form action="iapprove" method="POST">
                                 @csrf
-                                <input type="text" hidden name="iid" value="{{ $inspection->id }}">
+                                <input type="hidden" name="iid" value="{{ $inspection->id }}">
                                 <textarea class="form-control form-control-sm" name="comments"
                                           rows="2">{{ $inspection->comments }}</textarea>
                         </td>
@@ -219,7 +311,7 @@
 
                                 {{-- Verify (conditional, unverified) --}}
                                 @if (in_array($inspection->inspectionstate, ['CONDITIONAL']) && $inspection->verifiedby == null)
-                                    <button type="button" name="verifybtn" class="btn btn-info btn-sm"
+                                    <button type="button" class="btn btn-info btn-sm"
                                             data-bs-toggle="modal" data-bs-target="#verifyModal"
                                             data-bs-whatever="{{ $inspection->farmname }} : {{ $inspection->reportname }}"
                                             data-bs-whatever2="{{ $inspection->id }}"
@@ -229,7 +321,7 @@
                                     </button>
                                 @endif
 
-                                {{-- Approve / Reject / Delete (submitted/pending) --}}
+                                {{-- Approve / Reject / Delete (submitted/pending/active) --}}
                                 @if (in_array($inspection->inspectionstate, ['SUBMITTED', 'PENDING', 'ACTIVE']))
                                     <button type="submit" name="approvebtn" class="btn btn-success btn-sm"
                                             title="Approve (IMS Manager)">
@@ -247,9 +339,8 @@
 
                                 {{-- Evaluation Committee Decision --}}
                                 @if (strpos($inspection->getreport()->reportname, 'Entrance') == false && $inspection->ecomm_checked == 1)
-                                    <button type="button" name="approvewithconditionmodal"
-                                            class="btn btn-warning btn-sm"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                    <button type="button" class="btn btn-warning btn-sm"
+                                            data-bs-toggle="modal" data-bs-target="#committeeModal"
                                             data-bs-whatever="{{ $inspection->farmname }} : {{ $inspection->reportname }}"
                                             data-bs-whatever2="{{ $inspection->id }}"
                                             title="Evaluation Committee Decision">
@@ -274,26 +365,27 @@
 </div>
 
 {{-- ── MODAL: Evaluation Committee Decision ─────────────────────────────── --}}
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="committeeModal" tabindex="-1"
+     aria-labelledby="committeeModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
+                <h5 class="modal-title" id="committeeModalLabel">
                     <i class="fa fa-check-square-o me-2"></i>Evaluation Committee Decision
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form id="farmschedule" method="post" action="iapprove">
+            <form method="post" action="iapprove">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label fw-bold">Inspection Report</label>
-                        <input type="text" readonly class="form-control fcode" id="report_name" name="report_name">
-                        <input type="text" class="form-control fiid" hidden name="iid">
+                        <input type="text" readonly class="form-control fcode" name="report_name">
+                        <input type="hidden" class="fiid" name="iid">
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">Committee Decision</label>
-                        <select name="ecdecision" id="ecdecision" required class="form-select">
+                        <select name="ecdecision" required class="form-select">
                             <option value="APPROVED">APPROVED</option>
                             <option value="CONDITIONAL">APPROVED WITH CONDITIONS</option>
                             <option value="REJECTED">REJECTED</option>
@@ -301,28 +393,32 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">Conditions / Comments</label>
-                        <textarea class="form-control" name="apprconditions" id="approveconditions"
-                                  rows="6"></textarea>
+                        <textarea class="form-control" name="apprconditions" rows="6"></textarea>
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">Committee Members</label>
                         <div class="border rounded p-2">
                             @forelse ($approvalcommittees as $acmember)
                                 <div class="form-check">
-                                    <input type="checkbox" name="acmembers[]" value="{{ $acmember->id }}"
-                                           class="form-check-input" id="ac_{{ $acmember->id }}">
+                                    <input type="checkbox" name="acmembers[]"
+                                           value="{{ $acmember->id }}"
+                                           class="form-check-input"
+                                           id="ac_{{ $acmember->id }}">
                                     <label class="form-check-label" for="ac_{{ $acmember->id }}">
                                         <b>{{ $acmember->name }}</b>
                                         <span class="text-muted small">({{ $acmember->position }})</span>
                                     </label>
                                 </div>
                             @empty
-                                <p class="text-muted mb-0 small">No committee members for {{ $year }} on record.</p>
+                                <p class="text-muted mb-0 small">
+                                    No committee members for {{ $year }} on record.
+                                </p>
                             @endforelse
                         </div>
                         @if ($approvalcommittees->isNotEmpty())
                             <div class="form-check mt-2">
-                                <input type="checkbox" name="addcommittee" class="form-check-input" id="addAllCommittee">
+                                <input type="checkbox" name="addcommittee"
+                                       class="form-check-input" id="addAllCommittee">
                                 <label class="form-check-label" for="addAllCommittee">
                                     Add <u>ALL</u> active committee members to note
                                 </label>
@@ -342,7 +438,8 @@
 </div>
 
 {{-- ── MODAL: Verify Conditions ─────────────────────────────────────────── --}}
-<div class="modal fade" id="verifyModal" tabindex="-1" aria-labelledby="verifyModalLabel" aria-hidden="true">
+<div class="modal fade" id="verifyModal" tabindex="-1"
+     aria-labelledby="verifyModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -351,14 +448,13 @@
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form id="verifyinspection" method="post" action="iapprove">
+            <form method="post" action="iapprove">
                 @csrf
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label fw-bold">Inspection Report</label>
-                        <input type="text" readonly class="form-control vcode" id="report_name_verify"
-                               name="report_name_verify">
-                        <input type="text" class="form-control fiid" hidden name="iid">
+                        <input type="text" readonly class="form-control vcode" name="report_name_verify">
+                        <input type="hidden" class="fiid" name="iid">
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">Approval Conditions</label>
@@ -366,12 +462,15 @@
                                   id="approveconditions_verify" rows="5"></textarea>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Verification Notes <span class="text-muted fw-normal">(Optional)</span></label>
-                        <textarea class="form-control" name="verify_note" id="verify_note" rows="4"></textarea>
+                        <label class="form-label fw-bold">
+                            Verification Notes
+                            <span class="text-muted fw-normal">(Optional)</span>
+                        </label>
+                        <textarea class="form-control" name="verify_note" rows="4"></textarea>
                     </div>
                     <div class="mb-3">
                         <label class="form-label fw-bold">Verification Date</label>
-                        <input type="date" name="verify_date" id="verify_date" class="form-control"
+                        <input type="date" name="verify_date" class="form-control"
                                value="{{ date('Y-m-d') }}">
                     </div>
                 </div>
@@ -387,70 +486,149 @@
 </div>
 
 <script>
-    // Evaluation Committee Decision modal
-    var exampleModal = document.getElementById('exampleModal');
-    exampleModal.addEventListener('show.bs.modal', function (event) {
-        var button        = event.relatedTarget;
-        var recipient     = button.getAttribute('data-bs-whatever');
-        var reportid      = button.getAttribute('data-bs-whatever2');
-        var modalTitle    = exampleModal.querySelector('.modal-title');
-        var modalBodyInput    = exampleModal.querySelector('.fcode');
-        var modalBodyReportid = exampleModal.querySelector('.fiid');
-
-        modalTitle.innerHTML  = '<i class="fa fa-check-square-o me-2"></i>Evaluation Committee Decision';
-        modalBodyInput.value    = recipient;
-        modalBodyReportid.value = reportid;
+    // ── Modal: Evaluation Committee Decision ──────────────────────────────
+    var committeeModal = document.getElementById('committeeModal');
+    committeeModal.addEventListener('show.bs.modal', function (event) {
+        var button   = event.relatedTarget;
+        var label    = button.getAttribute('data-bs-whatever');
+        var reportid = button.getAttribute('data-bs-whatever2');
+        committeeModal.querySelector('.modal-title').innerHTML =
+            '<i class="fa fa-check-square-o me-2"></i>Evaluation Committee Decision';
+        committeeModal.querySelector('.fcode').value = label;
+        committeeModal.querySelector('.fiid').value  = reportid;
     });
 
-    // Verify Conditions modal
+    // ── Modal: Verify Conditions ──────────────────────────────────────────
     var verifyModal = document.getElementById('verifyModal');
     verifyModal.addEventListener('show.bs.modal', function (event) {
         var button     = event.relatedTarget;
-        var recipient  = button.getAttribute('data-bs-whatever');
+        var label      = button.getAttribute('data-bs-whatever');
         var reportid   = button.getAttribute('data-bs-whatever2');
         var conditions = button.getAttribute('data-bs-conditions');
-        var modalTitle         = verifyModal.querySelector('.modal-title');
-        var modalBodyInput     = verifyModal.querySelector('.vcode');
-        var modalBodyReportid  = verifyModal.querySelector('.fiid');
-        var modalBodyConditions = verifyModal.querySelector('#approveconditions_verify');
-
-        modalTitle.innerHTML    = '<i class="fa fa-search-plus me-2"></i>Verify Conditions &mdash; ' + recipient;
-        modalBodyInput.value    = recipient;
-        modalBodyReportid.value = reportid;
-        modalBodyConditions.value = conditions;
+        verifyModal.querySelector('.modal-title').innerHTML =
+            '<i class="fa fa-search-plus me-2"></i>Verify Conditions &mdash; ' + label;
+        verifyModal.querySelector('.vcode').value                    = label;
+        verifyModal.querySelector('.fiid').value                     = reportid;
+        verifyModal.querySelector('#approveconditions_verify').value = conditions;
     });
 </script>
 
 <script>
-    $(document).ready(function () {
-        var table = $('#reports').DataTable({
-            dom: 'Bfrtip',
-            pageLength: 200,
-            order: [[1, 'asc']],
-            stateSave: true,
-            buttons: [{
-                extend: 'excelHtml5',
-                title: 'Inspection_Report_Review',
-                exportOptions: { columns: ':visible' }
-            }]
-        });
+$(document).ready(function () {
 
-        // Apply column filters from the second thead row
-        $('#reports thead tr:eq(1) th').each(function (i) {
-            $('input, select', this).on('keyup change', function () {
-                if (table.column(i).search() !== this.value) {
-                    table.column(i).search(this.value).draw();
-                }
-            });
-        });
-
-        $('#clearFilters').on('click', function () {
-            $('#reports thead tr:eq(1) th').each(function (i) {
-                $('input, select', this).val('');
-                table.column(i).search('').draw();
-            });
-        });
+    // ── DataTable init ────────────────────────────────────────────────────
+    var table = $('#reports').DataTable({
+        dom: 'Bfrtip',
+        pageLength: 200,
+        order: [[0, 'desc']],
+        stateSave: false,
+        buttons: [{
+            extend: 'excelHtml5',
+            title: 'Inspection_Report_Review',
+            exportOptions: { columns: ':not(:last-child)' }
+        }]
     });
+
+    // Column indices (0-based)
+    var COL = { season: 0, reportType: 1, filedBy: 2, farmName: 3, status: 5 };
+
+    // ── Apply all active filters to DataTable ─────────────────────────────
+    function applyFilters() {
+        var season   = $('#f_season').val().trim();
+        var report   = $('#f_report').val().trim();
+        var status   = $('#f_status').val().trim();
+        var farmName = $('#f_farm').val().trim();
+        var filedBy  = $('#f_filedby').val().trim();
+
+        // Exact-match for dropdowns (regex anchors); partial-match for text inputs
+        var escape = $.fn.dataTable.util.escapeRegex;
+
+        table.column(COL.season)
+             .search(season   ? '^' + escape(season)  + '$' : '', true, false);
+        table.column(COL.reportType)
+             .search(report   ? '^' + escape(report)  + '$' : '', true, false);
+        table.column(COL.status)
+             .search(status   ? '^' + escape(status)  + '$' : '', true, false);
+        table.column(COL.farmName)
+             .search(farmName, false, false);
+        table.column(COL.filedBy)
+             .search(filedBy,  false, false);
+        table.draw();
+    }
+
+    // ── Render active filter pills below the controls ─────────────────────
+    function renderPills() {
+        var defs = [
+            { id: 'f_season',  label: 'Season',   val: $('#f_season').val()  },
+            { id: 'f_report',  label: 'Report',   val: $('#f_report').val()  },
+            { id: 'f_status',  label: 'Status',   val: $('#f_status').val()  },
+            { id: 'f_farm',    label: 'Farm',     val: $('#f_farm').val()    },
+            { id: 'f_filedby', label: 'Filed By', val: $('#f_filedby').val() },
+        ];
+
+        var html = defs.filter(d => d.val).map(d =>
+            '<span class="badge bg-primary active-pill" data-target="' + d.id + '">' +
+            d.label + ': ' + $('<span>').text(d.val).html() +
+            ' <i class="fa fa-times-circle"></i></span>'
+        ).join('');
+
+        $('#activeFilters').html(html);
+
+        $('#activeFilters .badge').on('click', function () {
+            var id = $(this).data('target');
+            $('#' + id).is('select') ? $('#' + id).val('') : $('#' + id).val('');
+            applyFilters();
+            renderPills();
+            updateCount();
+        });
+    }
+
+    // ── Update record count display ───────────────────────────────────────
+    function updateCount() {
+        var info = table.page.info();
+        $('#resultCount').text(
+            'Showing ' + info.recordsDisplay.toLocaleString() +
+            ' of '     + info.recordsTotal.toLocaleString()   + ' records'
+        );
+    }
+
+    // ── Bind controls ─────────────────────────────────────────────────────
+    $('#applyFilters').on('click', function () {
+        applyFilters();
+        renderPills();
+        updateCount();
+    });
+
+    // Selects apply immediately on change
+    $('#f_season, #f_report, #f_status').on('change', function () {
+        applyFilters();
+        renderPills();
+        updateCount();
+    });
+
+    // Text inputs apply on keyup (debounced)
+    var debounceTimer;
+    $('#f_farm, #f_filedby').on('keyup', function () {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(function () {
+            applyFilters();
+            renderPills();
+            updateCount();
+        }, 250);
+    });
+
+    $('#clearFilters').on('click', function () {
+        $('#f_season, #f_report, #f_status').val('');
+        $('#f_farm, #f_filedby').val('');
+        table.columns().search('').draw();
+        renderPills();
+        updateCount();
+    });
+
+    // Keep count in sync whenever DataTable redraws for any reason
+    table.on('draw', updateCount);
+    updateCount();
+});
 </script>
 
 </x-layouts.app>
