@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use App\Models\Season;
-use App\Services\InspectionApprovalService;
 
 use App\Models\User;
 use App\Models\farm;
@@ -16,8 +14,9 @@ use App\Models\reportquestions;
 use App\Models\reports;
 use App\Models\reportsection;
 use App\Models\approvalcommitte;
+use App\Models\Season;
+use App\Services\InspectionApprovalService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 
 class InternalinspectionController extends Controller
@@ -52,13 +51,15 @@ class InternalinspectionController extends Controller
                 'internalinspections.inspectiondate as inspectiondate',
                 'internalinspections.created_at',
                 'internalinspections.updated_at',
+                'internalinspections.season as season',
                 'reportname'
             )
             ->whereNotIn('internalinspections.reportid', $entranceIds);
 
         if ($user->roles === 'ADMINISTRATOR') {
-            // administrator sees all seasons
+            // Administrators see all inspections across all seasons
         } else {
+            // Inspectors see only their own inspections for the current season
             $query->where('internalinspections.inspectorid', $user->id)
                   ->where('internalinspections.season', Season::currentString());
         }
@@ -407,8 +408,8 @@ class InternalinspectionController extends Controller
         $user = Auth::user();
 
         $inspection = $request->method() === 'GET'
-            ? internalinspection::where('id', $request->inspectionid)->first()
-            : internalinspection::where('id', $request->iid)->first();
+            ? internalinspection::where('id', $request->inspectionid)->firstOrFail()
+            : internalinspection::where('id', $request->iid)->firstOrFail();
 
         if ($user->roles === 'ADMINISTRATOR') {
             if ($request->has('viewsheet')) {
