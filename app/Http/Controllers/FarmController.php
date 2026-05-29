@@ -24,33 +24,33 @@ class FarmController extends Controller
     public function index()
     {
         //
-        //Check if user is authorized to view resource
-        Auth::check();
-        $user = Auth::user();
+                        //Check if user is authorized to view resource
+                        Auth::check();
+                        $user = Auth::user();
 
-        $reports = reports::where('reportstate', 'ACTIVE')->get();
+                        $reports=reports::where('reportstate', 'ACTIVE')->get();
 
+        
+                switch ($user->roles) {
+                    case 'ADMINISTRATOR':
+                        $farmlist=farm::where('farmstate', '!=', 'DISABLED')
+                            ->orderBy('farmcode')->get();
+                        break;
+                    case 'INSPECTOR':
+                        $farmlist=farm::where('inspectorid',$user->id)
+                            ->whereNotIn('farmstate', ['CLOSED', 'DISABLED'])
+                            ->orderBy('farmcode')
+                            ->get();
+                        break;
+                    default:
+                        return redirect()->route('unauthorized');
+                }  
+  
 
-        switch ($user->roles) {
-            case 'ADMINISTRATOR':
-                $farmlist = farm::orderBy('farmcode')->get();
-                break;
-            case 'INSPECTOR':
-                $farmlist = farm::where('inspectorid', $user->id)
-                    ->where('farmstate', '!=', 'CLOSED')
-                    ->orderBy('farmcode')
-                    ->get();
-                break;
-            default:
-                return redirect()->route('unauthorized');
-        }
+        
 
-
-
-
-        return view('farm')->with('farmlist', $farmlist)->with('user', $user)->with('reports', $reports);
+        return view('farm')->with('farmlist', $farmlist)->with('user',$user)->with('reports', $reports);
     }
-
 
     public function onboarding()
     {
@@ -66,7 +66,8 @@ class FarmController extends Controller
         switch ($user->roles) {
             case 'ADMINISTRATOR':
                 // Admin sees all farms regardless of season status
-                $farmlist = farm::orderByDesc('created_at')->get();
+                $farmlist=farm::where('farmstate', '!=', 'DISABLED')
+                    ->orderByDesc('created_at')->get();
                 break;
             case 'INSPECTOR':
                 // Inspectors only see their ACTIVE farms when the season is open
@@ -269,6 +270,11 @@ class FarmController extends Controller
 
         $farmdetails = farm::where('farmcode', $request->id)->firstOrFail();
         $this->authorizeInspectorFarmAccess($farmdetails);
+        
+        if ($farmdetails->farmstate === 'DISABLED' && $authuser->roles !== 'ADMINISTRATOR') {
+            abort(403, 'This farm is disabled.');
+        }
+
         $id = $farmdetails->id;
 
         $EntranceReports = reports::where('reportname', 'like', '%entrance%')->get();
@@ -322,6 +328,47 @@ class FarmController extends Controller
 
         return view('viewfarm', compact('farm', 'farmreports', 'users', 'lastreport', 'authuser', 'farmerpicture', 'seasons', 'farmdetails'));
     }
+
+    
+    public function disabled()
+    {
+        Auth::check();
+        $user = Auth::user();
+
+        if ($user->roles !== 'ADMINISTRATOR') {
+            return redirect()->route('unauthorized');
+        }
+
+        $farmlist = farm::where('farmstate', 'DISABLED')
+            ->orderBy('community')
+            ->orderBy('farmcode')
+            ->get();
+
+        return view('admin.disabled_farms', compact('farmlist', 'user'));
+    }
+
+    public function reenable(Request $request)
+    {
+        Auth::check();
+        $user = Auth::user();
+
+        if ($user->roles !== 'ADMINISTRATOR') {
+            return redirect()->route('unauthorized');
+        }
+
+        $request->validate([
+            'farmid'   => 'required|exists:farms,id',
+            'newstate' => 'required|in:ACTIVE,PENDING',
+        ]);
+
+        farm::where('id', $request->farmid)
+            ->where('farmstate', 'DISABLED')
+            ->update(['farmstate' => $request->newstate]);
+
+        return redirect()->route('disabled.farms')
+            ->with('success', 'Farm re-enabled as ' . $request->newstate . '.');
+    }
+
 
     public function importfarms(Request $request)
     {

@@ -47,6 +47,7 @@
             <a href="{{ route('season.index') }}" class="btn btn-warning btn-sm">
                 <i class="fa fa-calendar me-1"></i> Season Management
             </a>
+            <a href='{{route('disabled.farms')}}' class="btn btn-secondary" style="margin:5px"><i class="fa fa-ban"></i> Disabled Farms</a>
             <a href="{{ route('import_list') }}" class="btn btn-outline-success btn-sm">
                 <i class="fa fa-upload me-1"></i> Import Farmers
             </a>
