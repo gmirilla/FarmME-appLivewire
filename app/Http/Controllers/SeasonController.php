@@ -47,6 +47,7 @@ class SeasonController extends Controller
             // Mark all farms ACTIVE and set next inspection date
             farm::query()->update([
                 'farmstate'      => 'ACTIVE',
+                'inspectorid' => null,
                 'nextinspection' => $request->nextinspection_date,
             ]);
         });

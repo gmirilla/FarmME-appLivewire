@@ -31,7 +31,7 @@
                     <div class="card-body">
                         <p class="text-muted small">
                             Opens <b>{{ $currentSeasonString }}</b>. All farms will be set to
-                            <b>ACTIVE</b> and their next inspection date updated.
+                            <b>ACTIVE</b>, all inspector assignments will be cleared and their next inspection date updated.
                         </p>
                         @if ($currentSeason && $currentSeason->status === 'OPEN')
                             <div class="alert alert-info mb-0">Season is already open.</div>
