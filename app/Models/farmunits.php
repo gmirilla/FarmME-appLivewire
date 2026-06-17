@@ -17,7 +17,7 @@ class farmunits extends Model
         'plotname',
         'estimatedyield',
         'actualyeild',
-        'active', 'farmentranceid', 'imagefilepath', 'season','crop','system', 'spacing' 
+        'active', 'farmentranceid', 'imagefilepath', 'season','crop','system', 'spacing' ,'dateplanted'
      ];
 
    public function farmentrance(){

@@ -182,6 +182,7 @@ class FarmunitsController extends Controller
             $farmunit->plotname=$request->fuplotname;
             $farmunit->estimatedyield=$farmunit->fuarea*$yieldmultiplier; //TO DO: CREATE A FUNCTION TO ALLOW USER TO INPUT ESTIMATE YIELD MULTIPLIER FOR SEASON
             $farmunit->farmentranceid=$request->farmentranceid;
+            $farmunit->dateplanted=$request->dateplanted ;
             $farmunit->imagefilepath=$request->imagefilePath;
             $farmunit->season=$currentseason;
             $farmunit->crop=$request->crop;
@@ -191,8 +192,8 @@ class FarmunitsController extends Controller
 
             //Update total Farm Area and unit count
 
-            $totalfarmunitcount=$farmunit::where('farmid', $request->fid )
-            ->where('active', true)->where('season',$currentseason)->sum('fuarea')->count();
+             $totalfarmunitcount=$farmunit::where('farmid', $request->fid )
+            ->where('active', true)->where('season',$currentseason)->count();
             $totalfarmunitarea=$farmunit::where('farmid', $request->fid )
             ->where('active', true)->where('season',$currentseason)->sum('fuarea');
             $farm->farmarea=$totalfarmunitarea;

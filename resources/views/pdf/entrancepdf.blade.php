@@ -152,6 +152,7 @@ input[type="radio"] {
                     <th>Plot</th>
                     <th>Plot Size (Ha)</th>
                     <th>Yield Est (Bags)</th>
+                    <th>Date Planted</th>
                     <th>Crop</th>
                     <th>System</th>
                     <th>Intra-row Spacing (m)</th>
@@ -166,6 +167,7 @@ input[type="radio"] {
                         <td>{{$farmplot->plotname}}</td>
                         <td>{{$farmplot->fuarea}}</td>
                         <td>{{$farmplot->estimatedyield}}</td>
+                        <td>{{$farmplot->dateplanted ?? 'N/A'}}</td>
                         <td>{{$farmplot->crop}}</td>
                         <td>{{$farmplot->system}}</td>
                         <td>{{$farmplot->spacing}}</td>
