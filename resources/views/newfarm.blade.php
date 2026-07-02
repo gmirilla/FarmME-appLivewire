@@ -62,7 +62,7 @@
             <div class="mb-3">
                 <label for="state" class="form-label">State</label>
                 <select required class="form-select" name="state" id="state">
-                    <option value="Kaduna">Kano</option>
+                    <option value="Kano">Kano</option>
                 </select>
             </div>
             <div class="mb-3">
