@@ -77,10 +77,10 @@
             <td>{{$inspection->getfarm()->gender}}</td>
             <td>{{$inspection->getfarm()->yob}}</td>
             <td>{{$inspection->getfarm()->nationalidnumber}}</td>
-            <td>{{$inspection->getplotdetails()->plotname}}</td>
-            <td>{{$inspection->getplotdetails()->fuarea}}</td>
-            <td>{{$inspection->getplotdetails()->fulatitude}}</td>
-            <td>{{$inspection->getplotdetails()->fulongitude}}</td>
+            <td>{{$inspection->getplotdetails()->plotname ?? 'N/A'}}</td>
+            <td>{{$inspection->getplotdetails()->fuarea ?? 'N/A' }}</td>
+            <td>{{$inspection->getplotdetails()->fulatitude ?? 'N/A'}}</td>
+            <td>{{$inspection->getplotdetails()->fulongitude ?? 'N/A'}}</td>
              <td>{{$inspection->getfarm()->getreportfarmcount($season)}}</td>
             <td>{{number_format($inspection->getfarm()->getreportfarmarea($season),2)}}</td>
             @if (!empty($inspection->farmentrance))
