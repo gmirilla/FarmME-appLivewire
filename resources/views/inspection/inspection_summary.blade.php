@@ -45,6 +45,10 @@
                   color:#495057; margin-bottom:1rem; border-radius:0 4px 4px 0; }
     @media (max-width: 576px) { th, td { font-size: 0.75rem; padding: 0.25rem; } }
     .table td { word-wrap: break-word; }
+    th.sortable { cursor: pointer; user-select: none; white-space: nowrap; }
+    th.sortable:hover { background-color: #343a40; }
+    th.sortable .fa { font-size: .75rem; opacity: .6; margin-left: 4px; }
+    th.sortable.sort-asc .fa, th.sortable.sort-desc .fa { opacity: 1; }
 </style>
 
 <div>
@@ -153,22 +157,22 @@
 <table class="table table-striped table-hover table-sm" id="inspectiondt" style="width:100%">
     <thead class="table-dark">
         <tr>
-            <th>Farmer Name</th>
-            <th>Farm Code</th>
-            <th>Gender</th>
-            <th>Year of Birth</th>
-            <th>ID NO</th>
-            <th>Plot name</th>
-            <th>Plot Size (ha)</th>
-            <th>Plot Lat.</th>
-            <th>Plot Long.</th>
-            <th>No of Plots</th>
-            <th>Total Farm Size (ha)</th>
-            <th>Estimated yield (kg)</th>
-            <th>Non Ginger Hectare</th>
-            <th>Previous Year Del.</th>
-            <th>Previous 2 Years Del.</th>
-            <th>Previous 3 Years Del.</th>
+            <th class="sortable">Farmer Name<i class="fa fa-sort"></i></th>
+            <th class="sortable">Farm Code<i class="fa fa-sort"></i></th>
+            <th class="sortable">Gender<i class="fa fa-sort"></i></th>
+            <th class="sortable">Year of Birth<i class="fa fa-sort"></i></th>
+            <th class="sortable">ID NO<i class="fa fa-sort"></i></th>
+            <th class="sortable">Plot name<i class="fa fa-sort"></i></th>
+            <th class="sortable">Plot Size (ha)<i class="fa fa-sort"></i></th>
+            <th class="sortable">Plot Lat.<i class="fa fa-sort"></i></th>
+            <th class="sortable">Plot Long.<i class="fa fa-sort"></i></th>
+            <th class="sortable">No of Plots<i class="fa fa-sort"></i></th>
+            <th class="sortable">Total Farm Size (ha)<i class="fa fa-sort"></i></th>
+            <th class="sortable">Estimated yield (kg)<i class="fa fa-sort"></i></th>
+            <th class="sortable">Non Ginger Hectare<i class="fa fa-sort"></i></th>
+            <th class="sortable">Previous Year Del.<i class="fa fa-sort"></i></th>
+            <th class="sortable">Previous 2 Years Del.<i class="fa fa-sort"></i></th>
+            <th class="sortable">Previous 3 Years Del.<i class="fa fa-sort"></i></th>
         </tr>
     </thead>
     <tbody>
@@ -221,14 +225,14 @@
 <table class="table table-striped table-hover table-sm" id="inspectiondt" style="width:100%">
     <thead class="table-dark">
         <tr>
-            <th>Farmer Name</th>
-            <th>Farm Code</th>
-            <th>Phone Number</th>
-            <th>House Lat.</th>
-            <th>House Long.</th>
-            <th>No of Plots</th>
-            <th>Total Farm Size (ha)</th>
-            <th>Approval Committee Conditions</th>
+            <th class="sortable">Farmer Name<i class="fa fa-sort"></i></th>
+            <th class="sortable">Farm Code<i class="fa fa-sort"></i></th>
+            <th class="sortable">Phone Number<i class="fa fa-sort"></i></th>
+            <th class="sortable">House Lat.<i class="fa fa-sort"></i></th>
+            <th class="sortable">House Long.<i class="fa fa-sort"></i></th>
+            <th class="sortable">No of Plots<i class="fa fa-sort"></i></th>
+            <th class="sortable">Total Farm Size (ha)<i class="fa fa-sort"></i></th>
+            <th class="sortable">Approval Committee Conditions<i class="fa fa-sort"></i></th>
         </tr>
     </thead>
     <tbody>
@@ -268,6 +272,41 @@
         var rows = document.querySelectorAll('#inspectiondt tbody tr');
         rows.forEach(function (row) {
             row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
+        });
+    });
+
+    // ── Click-to-sort table headers (Bootstrap-native replacement for DataTables sort) ──
+    document.querySelectorAll('#inspectiondt th.sortable').forEach(function (th, index) {
+        th.addEventListener('click', function () {
+            var table = document.getElementById('inspectiondt');
+            var tbody = table.querySelector('tbody');
+            var rows  = Array.from(tbody.querySelectorAll('tr'))
+                .filter(function (row) { return row.children.length > 1; }); // skip empty-state row
+
+            var asc = !th.classList.contains('sort-asc');
+
+            table.querySelectorAll('th.sortable').forEach(function (h) {
+                h.classList.remove('sort-asc', 'sort-desc');
+                h.querySelector('.fa').className = 'fa fa-sort';
+            });
+            th.classList.add(asc ? 'sort-asc' : 'sort-desc');
+            th.querySelector('.fa').className = 'fa ' + (asc ? 'fa-sort-asc' : 'fa-sort-desc');
+
+            rows.sort(function (a, b) {
+                var aText = a.children[index].textContent.trim();
+                var bText = b.children[index].textContent.trim();
+                var aNum  = parseFloat(aText.replace(/,/g, ''));
+                var bNum  = parseFloat(bText.replace(/,/g, ''));
+                var cmp;
+                if (!isNaN(aNum) && !isNaN(bNum) && aText !== '' && bText !== '') {
+                    cmp = aNum - bNum;
+                } else {
+                    cmp = aText.localeCompare(bText);
+                }
+                return asc ? cmp : -cmp;
+            });
+
+            rows.forEach(function (row) { tbody.appendChild(row); });
         });
     });
 
