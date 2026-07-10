@@ -73,6 +73,7 @@
                 <label for="crop" class="form-label">Certified Crop</label>
                 <select required class="form-select" name="crop" id="crop">
                     <option value="Hibiscus">Hibiscus</option>
+                    <option value="White Hibiscus">White Hibiscus</option>
                 </select>
             </div>
             <div class="mb-3">
@@ -81,6 +82,7 @@
                     <option value="DANGWALAIDA">DANGWALAIDA</option>
                                             <option value="DANKANYA">DANKANYA</option>
                         <option value="DANBATTA">DANBATTA</option>
+                        <option value="DAN TARABA">DAN TARABA</option>
                 </select>
             </div>
             <div class="mb-3">
