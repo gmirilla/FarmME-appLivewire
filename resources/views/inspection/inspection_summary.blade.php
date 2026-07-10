@@ -158,6 +158,7 @@
     <thead class="table-dark">
         <tr>
             <th class="sortable">Farmer Name<i class="fa fa-sort"></i></th>
+            <th class="sortable">Phone Number<i class="fa fa-sort"></i></th>
             <th class="sortable">Farm Code<i class="fa fa-sort"></i></th>
             <th class="sortable">Gender<i class="fa fa-sort"></i></th>
             <th class="sortable">Year of Birth<i class="fa fa-sort"></i></th>
@@ -179,6 +180,7 @@
         @forelse ( $internalinspection as $inspection )
         <tr>
             <td>{{$inspection->getfarm()->farmname}}</td>
+            <td>{{$inspection->getfarm()->phonenumber ?? 'N/A'}}</td>
             <td>{{$inspection->getfarm()->farmcode}}</td>
             <td>{{$inspection->getfarm()->gender}}</td>
             <td>{{$inspection->getfarm()->yob}}</td>
