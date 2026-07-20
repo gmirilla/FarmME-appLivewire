@@ -203,6 +203,7 @@ class FarmunitsController extends Controller
 
         } catch (\Throwable $th) {
             //throw $th;
+            dd($th);
         }
         
         $farmunits=farmunits::where('farmid',$request->fid)->get();
