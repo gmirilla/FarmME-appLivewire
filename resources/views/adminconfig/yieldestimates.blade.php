@@ -51,6 +51,7 @@
                             <input type="text" class="form-control" name="season" id="season" hidden value="{{$currentseason}}">
                             </td>
                             <td><select name="system" id="optsystem" class="form-select">
+                                <option value="1:0.5">1:0.5</option>
                                 <option value="1:1">1:1</option>
                                 <option value="1:2">1:2</option>
                                 <option value="1:3">1:3</option>
