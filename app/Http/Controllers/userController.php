@@ -55,12 +55,16 @@ class userController extends Controller
     public function user_update(Request $request)
     {
         //
-        
+        //Check if user is authorized to perform this action
+        if (Auth::user()->roles !== 'ADMINISTRATOR') {
+            return redirect()->route('unauthorized');
+        }
+
         $user=User::where('id', $request->userid)->first();
         $user->roles=$request->userrole;
-        $user->save();      
+        $user->save();
         $users=User::all();
-    
+
 
         return view('user.user_admin')->with('users',$users );
 
@@ -69,16 +73,21 @@ class userController extends Controller
         public function user_pwd(Request $request)
     {
         //
+        //Check if user is authorized to perform this action
+        if (Auth::user()->roles !== 'ADMINISTRATOR') {
+            return redirect()->route('unauthorized');
+        }
+
         $validated = $request->validate([
 
             'password' => ['required', 'string', Rules\Password::defaults()]]);
-        
+
         $user=User::where('id', $request->uid)->first();
         $user->password=Hash::make($validated['password']);
-        $user->save();      
+        $user->save();
         $users=User::all();
         $message="Password sucessfullly updated for user ".$user->name;
-    
+
 
         return view('user.user_admin')->with('users',$users )->with('message',$message);
 

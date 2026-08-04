@@ -61,7 +61,10 @@ class farmentrance extends Model
     }
     public function reportagrochems()
     {
-         $reportagrochems=agrochemicalrecords::where('entranceid', $this->id)->where('active', true)->get();
+         //$reportagrochems=agrochemicalrecords::where('entranceid', $this->id)->where('active', true)->get();
+
+         //Temporary fix to address poor data practices
+         $reportagrochems=agrochemicalrecords::where('farmid', $this->farmid)->where('active', true)->get();
         return $reportagrochems;
 
     }
