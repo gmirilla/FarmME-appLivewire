@@ -70,6 +70,8 @@ class farmentrance extends Model
     }
         public function reportothercrops()
     {
+         //$reportothercrops=othercropsrecords::where('farmentranceid', $this->id)->where('active', true)->get();
+         //Temporary fix to address poor data practices
          $reportothercrops=othercropsrecords::where('farmentranceid', $this->id)->where('active', true)->get();
         return $reportothercrops;
 
