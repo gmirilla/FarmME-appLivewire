@@ -7,9 +7,29 @@ use App\Models\farm;
 use App\Models\farmentrance;
 use App\Models\misccodes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FarmunitsController extends Controller
 {
+    /**
+     * Check if the current user is allowed to view/edit the given farm's units.
+     * ADMINISTRATOR can access any farm; INSPECTOR only farms assigned to them.
+     */
+    private function userCanAccessFarm($farmId): bool
+    {
+        $user = Auth::user();
+
+        if ($user->roles === 'ADMINISTRATOR') {
+            return true;
+        }
+
+        if ($user->roles === 'INSPECTOR') {
+            return farm::where('id', $farmId)->where('inspectorid', $user->id)->exists();
+        }
+
+        return false;
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -50,6 +70,9 @@ class FarmunitsController extends Controller
     public function edit(Request $request)
     {
         //
+        if (! $this->userCanAccessFarm($request->farmid)) {
+            return redirect()->route('unauthorized');
+        }
 
         $farm=farm::where('id',$request->farmid)->first();
         $farmunits=farmunits::where('farmid',$request->farmid)->get();
@@ -61,6 +84,10 @@ class FarmunitsController extends Controller
     public function listfunits(Request $request)
     {
         //
+        if (! $this->userCanAccessFarm($request->fid)) {
+            return redirect()->route('unauthorized');
+        }
+
         $farm=farm::where('id',$request->fid)->first();
         $farmunits=farmunits::where('farmid',$request->fid)->get();
         //dd($request);
@@ -72,6 +99,10 @@ class FarmunitsController extends Controller
     public function editfunit(Request $request)
     {
         //
+        if (! $this->userCanAccessFarm($request->farmid)) {
+            return redirect()->route('unauthorized');
+        }
+
         try {
             //code...
 
@@ -130,6 +161,9 @@ class FarmunitsController extends Controller
     public function newfunit(Request $request)
     {
         //
+        if (! $this->userCanAccessFarm($request->farmid)) {
+            return redirect()->route('unauthorized');
+        }
 
         try {
             //code...
@@ -153,6 +187,10 @@ class FarmunitsController extends Controller
     public function savefunit(Request $request)
     {
         //
+        if (! $this->userCanAccessFarm($request->fid)) {
+            return redirect()->route('unauthorized');
+        }
+
         try {
             //code...
             $farm=farm::where('id',$request->fid)->first();

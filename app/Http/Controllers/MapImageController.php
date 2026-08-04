@@ -53,9 +53,19 @@ public function store(Request $request)
         return response()->json(['error' => 'Invalid image format'], 422);
     }
 
+    // Reject oversized payloads before decoding (base64 is ~4/3 the size of the decoded binary)
+    $maxBytes = 5 * 1024 * 1024;
+    if (strlen($dataUrl) > $maxBytes * 4 / 3) {
+        return response()->json(['error' => 'Image exceeds maximum allowed size'], 422);
+    }
+
     // Extract Base64 string and decode it
     $base64 = str_replace('data:image/png;base64,', '', $dataUrl);
     $binary = base64_decode($base64);
+
+    if ($binary === false || strlen($binary) > $maxBytes) {
+        return response()->json(['error' => 'Image exceeds maximum allowed size'], 422);
+    }
 
     // Generate a unique filename
     $filename = 'map_' . Str::uuid() . '.png';
