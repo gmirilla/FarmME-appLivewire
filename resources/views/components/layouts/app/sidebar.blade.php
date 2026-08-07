@@ -15,6 +15,16 @@
 
     </head>
     <style>
+        /* Flux gives the mobile sidebar drawer and its backdrop the same z-index (20).
+           They normally stack correctly by DOM order, but with equal z-index any reordering
+           lets the backdrop capture taps meant for the nav items (menu closes, link never fires).
+           Force the drawer strictly above its own backdrop so taps always reach the items. */
+        [data-flux-sidebar] {
+            z-index: 30 !important;
+        }
+        [data-flux-sidebar-backdrop] {
+            z-index: 20 !important;
+        }
 
         .c-sidebar a {
             color:#F5F0E6;

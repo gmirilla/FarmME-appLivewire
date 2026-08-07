@@ -158,9 +158,9 @@
             @forelse ($farmentrance->reportothercrops() as $othercrop )
                         <tr>
                 <td>{{$othercrop->plotname}}</td>
-                 <td>{{$othercrop->crop}}<</td>
-                  <td>{{$othercrop->area}}<</td>
-                   <td>{{$othercrop->location}}<</td>
+                 <td>{{$othercrop->crop}}</td>
+                  <td>{{$othercrop->area}}</td>
+                   <td>{{$othercrop->location}}</td>
         </tr>
                 
             @empty
