@@ -212,6 +212,7 @@ class FarmController extends Controller
             'region' => 'required|string',
             'latitude' => 'nullable|numeric',
             'longitude' => 'nullable|numeric',
+            'farmcode' => 'required|string|unique:farms,farmcode,' . $newfarm->id,
 
         ]);
 
@@ -232,6 +233,7 @@ class FarmController extends Controller
         $newfarm->nooftempworkers = $request->notworkers;
         $newfarm->latitude = $request->latitude;
         $newfarm->longitude = $request->longitude;
+        $newfarm->farmcode = $request->farmcode;
 
         try {
             $newfarm->save();
