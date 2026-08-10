@@ -28,6 +28,20 @@
     };
 @endphp
 
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
 <style>
     .metric-card   { border-left: 4px solid #198754; }
     .metric-num    { font-size: 1.8rem; font-weight: 700; line-height: 1.1; }
@@ -212,7 +226,6 @@
         </div>
     </div>
 </div>
-@endif
 
 <script>
     // Populate farm code into the schedule modal

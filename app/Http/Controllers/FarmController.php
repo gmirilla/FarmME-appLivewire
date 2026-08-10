@@ -195,18 +195,25 @@ class FarmController extends Controller
     public function updatefarm(Request $request)
     {
 
-        $newfarm = farm::where('id', $request->fid)->first();
-        //Validate data 
+        $newfarm = farm::where('id', $request->fid)->firstOrFail();
+        $this->authorizeInspectorFarmAccess($newfarm);
+
+        //Validate data
 
         $validate = $request->validate([
             'community' => 'required',
             'fname' => 'required|string',
             'phone' => 'required',
             'idno' => 'required',
+            'gender' => 'required|string',
+            'crop' => 'required|string',
+            'cropvariety' => 'required|string',
+            'state' => 'required|string',
+            'region' => 'required|string',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
 
         ]);
-
-
 
         $farmowner = $request->fname . " " . $request->surname;
         $newfarm->farmname = $farmowner;
@@ -226,13 +233,15 @@ class FarmController extends Controller
         $newfarm->latitude = $request->latitude;
         $newfarm->longitude = $request->longitude;
 
+        try {
+            $newfarm->save();
+        } catch (\Throwable $e) {
+            return redirect()->route('displayfarm', ['id' => $newfarm->farmcode])
+                ->with('error', 'Unable to update farm details. Please try again.');
+        }
 
-
-        $newfarm->save();
-
-        $farmlist = farm::all();
-
-        return redirect()->route('index');
+        return redirect()->route('index')
+            ->with('success', 'Farm details updated successfully.');
     }
     /**
      * Schedule a new inspection date
