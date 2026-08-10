@@ -21,6 +21,20 @@
 @php
   $user=auth()->user();
 @endphp
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
 @if ($user->roles=='ADMINISTRATOR')
 <a href='{{route('season.index')}}' class="btn btn-warning" style="margin:5px"><i class="fa fa-calendar"></i> Season Management</a>
 <a href='{{route('disabled.farms')}}' class="btn btn-secondary" style="margin:5px"><i class="fa fa-ban"></i> Disabled Farms</a>

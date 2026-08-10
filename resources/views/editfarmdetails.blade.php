@@ -22,6 +22,13 @@
         <div class="p-2 bd-highlight" style="margin-right: 5px"><button disabled class="btn btn-primary"> Farm Details
             </button></div>
     </div>
+    @if (session('error'))
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -39,7 +46,7 @@
             <h4>{{ $farm->farmname }}</h4>
         </div>
         <div class="card-body">
-            <form method="post" action='/farm/updatefarm'>
+            <form method="post" action="{{ route('updatefarm') }}">
                 {{ csrf_field() }}
                 <div class="row gy-2 gx-3 align-items-center">
                     <div class="col-auto mb-3">
