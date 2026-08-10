@@ -219,6 +219,7 @@ switch ($user->roles) {
             'region'=>'required|string',
             'latitude'=>'nullable|numeric',
             'longitude'=>'nullable|numeric',
+            'farmcode'=>'required|string|unique:farms,farmcode,'.$newfarm->id,
 
         ]);
 
@@ -241,6 +242,7 @@ switch ($user->roles) {
         $newfarm->nooftempworkers=$request->notworkers;
         $newfarm->latitude=$request->latitude;
         $newfarm->longitude=$request->longitude;
+        $newfarm->farmcode=$request->farmcode;
 
         try {
             $newfarm->save();
