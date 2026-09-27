@@ -234,14 +234,15 @@
                id="reports" style="width:100%">
             <thead class="table-dark">
                 <tr>
-                    <th style="width:8%">Season</th>
-                    <th style="width:12%">Report Type</th>
+                    <th style="width:7%">Season</th>
+                    <th style="width:10%">Report Type</th>
                     <th style="width:8%">Filed By</th>
-                    <th style="width:15%">Farm Name</th>
-                    <th style="width:8%">Score</th>
+                    <th style="width:10%">Farm Name</th>
+                    <th style="width:13%">Farm Code</th>
+                    <th style="width:5%">Score</th>
                     <th style="width:7%">Status</th>
                     <th style="width:8%">Error Check</th>
-                    <th style="width:12%">IMS Comment(s)</th>
+                    <th style="width:10%">IMS Comment(s)</th>
                     <th style="width:6%">Verification</th>
                     <th style="width:8%">Actions</th>
                 </tr>
@@ -253,8 +254,8 @@
                         <td class="small">{{ $inspection->getreport()->reportname }}</td>
                         <td class="small">{{ $inspection->reportinspectorname()->iname }}</td>
                         <td class="small fw-semibold">{{ $inspection->getfarm()->farmname }}</td>
-                        <td>
-                            @if ($inspection->getreport()->max_score == 0)
+                        <td class="small">{{ $inspection->getfarm()->farmcode }}</td>
+                            @if ($inspection->getreport()->max_score ?? 0 == 0)
                                 <span class="badge bg-secondary">Check Report</span>
                             @else
                                 @php

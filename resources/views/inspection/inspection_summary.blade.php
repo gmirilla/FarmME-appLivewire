@@ -2,11 +2,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 @php
-    $reporttype = 'NIL';
-    if (strpos($reportname->reportname, 'Entrance') !== false) {
-        $reporttype = 'Entrance';
-    }
-
     $stateBadge = fn($s) => match($s) {
         'APPROVED'    => 'bg-success',
         'CONDITIONAL' => 'bg-warning text-dark',
@@ -69,11 +64,49 @@
         <i class="fa fa-bar-chart me-2 text-primary"></i>Inspection Summary Report
     </h5>
     <div class="d-flex gap-2">
+        <div class="dropdown">
+            <button type="button" class="btn btn-outline-secondary btn-sm dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                <i class="fa fa-table me-1"></i> Columns
+            </button>
+            <div class="dropdown-menu p-3" style="min-width:280px;max-height:60vh;overflow:auto;">
+                <div class="d-flex justify-content-between mb-2">
+                    <a href="#" class="small" id="columnsSelectAll">Select all</a>
+                    <a href="#" class="small" id="columnsSelectNone">Clear</a>
+                </div>
+                @foreach ($availableColumns as $key => $col)
+                    <div class="form-check">
+                        <input class="form-check-input column-toggle" type="checkbox" value="{{ $key }}"
+                               id="col_{{ $key }}" @checked(in_array($key, $selectedColumns))>
+                        <label class="form-check-label small" for="col_{{ $key }}">{{ $col['label'] }}</label>
+                    </div>
+                @endforeach
+                <hr class="my-2">
+                <div class="d-flex gap-2">
+                    <button type="submit" form="columnsApplyForm" class="btn btn-primary btn-sm flex-fill">Apply</button>
+                    <button type="submit" form="columnsSaveForm" class="btn btn-outline-primary btn-sm flex-fill">Save as default</button>
+                </div>
+            </div>
+        </div>
+
+        <form id="columnsApplyForm" method="GET" action="{{ route('summarypage') }}">
+            <input type="hidden" name="season" value="{{ $season }}">
+            <input type="hidden" name="report" value="{{ $reportname->id }}">
+            <input type="hidden" name="reportstate" value="{{ $state }}">
+            <div id="columnsApplyFields"></div>
+        </form>
+        <form id="columnsSaveForm" method="POST" action="{{ route('savesummarycolumns') }}">
+            @csrf
+            <input type="hidden" name="season" value="{{ $season }}">
+            <input type="hidden" name="report" value="{{ $reportname->id }}">
+            <input type="hidden" name="reportstate" value="{{ $state }}">
+            <div id="columnsSaveFields"></div>
+        </form>
+
         <button type="button" class="btn btn-success btn-sm" onclick="exportSummaryToExcel()">
             <i class="fa fa-file-excel-o me-1"></i> Excel
         </button>
-        <a class="btn btn-danger btn-sm"
-           href="{{ route('summarypdf', ['season' => $season, 'report' => $reportname->id, 'reportstate' => $state]) }}">
+        <a class="btn btn-danger btn-sm" id="pdfExportLink"
+           href="{{ route('summarypdf', ['season' => $season, 'report' => $reportname->id, 'reportstate' => $state, 'columns' => $selectedColumns]) }}">
             <i class="fa fa-file-pdf-o me-1"></i> PDF
         </a>
     </div>
@@ -153,78 +186,24 @@
 <div class="card shadow-sm">
     <div class="card-body table-responsive">
 
-@if ($reporttype == 'Entrance')
 <table class="table table-striped table-hover table-sm" id="inspectiondt" style="width:100%">
     <thead class="table-dark">
         <tr>
-            <th class="sortable">Farmer Name<i class="fa fa-sort"></i></th>
-            <th class="sortable">Phone Number<i class="fa fa-sort"></i></th>
-            <th class="sortable">Farm Code<i class="fa fa-sort"></i></th>
-            <th class="sortable">Gender<i class="fa fa-sort"></i></th>
-            <th class="sortable">Year of Birth<i class="fa fa-sort"></i></th>
-            <th class="sortable">ID NO<i class="fa fa-sort"></i></th>
-            <th class="sortable">Plot name<i class="fa fa-sort"></i></th>
-            <th class="sortable">Plot Size (ha)<i class="fa fa-sort"></i></th>
-            <th class="sortable">Plot Lat.<i class="fa fa-sort"></i></th>
-            <th class="sortable">Plot Long.<i class="fa fa-sort"></i></th>
-            <th class="sortable">No of Plots<i class="fa fa-sort"></i></th>
-            <th class="sortable">Total Farm Size (ha)<i class="fa fa-sort"></i></th>
-            <th class="sortable">Estimated yield (kg)<i class="fa fa-sort"></i></th>
-            <th class="sortable">Non Ginger Hectare<i class="fa fa-sort"></i></th>
-            <th class="sortable">Previous Year Del.<i class="fa fa-sort"></i></th>
-            <th class="sortable">Previous 2 Years Del.<i class="fa fa-sort"></i></th>
-            <th class="sortable">Previous 3 Years Del.<i class="fa fa-sort"></i></th>
+            @foreach ($selectedColumns as $key)
+                <th class="sortable">{{ $availableColumns[$key]['label'] }}<i class="fa fa-sort"></i></th>
+            @endforeach
         </tr>
     </thead>
     <tbody>
         @forelse ( $internalinspection as $inspection )
         <tr>
-            <td>{{$inspection->getfarm()->farmname}}</td>
-            <td>{{$inspection->getfarm()->phonenumber ?? 'N/A'}}</td>
-            <td>{{$inspection->getfarm()->farmcode}}</td>
-            <td>{{$inspection->getfarm()->gender}}</td>
-            <td>{{$inspection->getfarm()->yob}}</td>
-            <td>{{$inspection->getfarm()->nationalidnumber}}</td>
-            @if (!empty($inspection->getplotdetails()))
-            <td>{{$inspection->getplotdetails()->plotname}}</td>
-            <td>{{$inspection->getplotdetails()->fuarea}}</td>
-            <td>{{$inspection->getplotdetails()->fulatitude}}</td>
-            <td>{{$inspection->getplotdetails()->fulongitude}}</td>
-            @else
-                <td>Error Found (ID: {{$inspection->id}})</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            @endif
-
-             <td>{{$inspection->getfarm()->getreportfarmcount($season)}}</td>
-            <td>{{number_format($inspection->getfarm()->getreportfarmarea($season),2)}}</td>
-            @if (!empty($inspection->farmentrance))
-                <td>{{number_format($inspection->farmentrance->getestimatedyield(),2)}}</td>
-                <td>{{number_format($inspection->getothercropsize(),4)}}</td>
-                <td>@if (!empty($inspection->farmentrance->reportvolcropdel()[0]))
-                    {{number_format($inspection->farmentrance->reportvolcropdel()[0]->value,2)}}
-                    @endif
-                </td>
-                <td>@if (!empty($inspection->farmentrance->reportvolcropdel()[1]))
-                    {{number_format($inspection->farmentrance->reportvolcropdel()[1]->value,2)}}
-                    @endif
-                </td>
-                <td>@if (!empty($inspection->farmentrance->reportvolcropdel()[2]))
-                    {{number_format($inspection->farmentrance->reportvolcropdel()[2]->value,2)}}
-                    @endif
-                </td>
-            @else
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            @endif
+            @foreach ($selectedColumns as $key)
+                <td>{{ ($availableColumns[$key]['value'])($inspection, $season) }}</td>
+            @endforeach
         </tr>
         @empty
         <tr>
-            <td colspan="16" class="text-center text-muted py-4">
+            <td colspan="{{ max(count($selectedColumns), 1) }}" class="text-center text-muted py-4">
                 <i class="fa fa-inbox fa-2x mb-2 d-block"></i>
                 No records found for this report.
             </td>
@@ -232,46 +211,6 @@
         @endforelse
     </tbody>
 </table>
-@else
-<table class="table table-striped table-hover table-sm" id="inspectiondt" style="width:100%">
-    <thead class="table-dark">
-        <tr>
-            <th class="sortable">Farmer Name<i class="fa fa-sort"></i></th>
-            <th class="sortable">Farm Code<i class="fa fa-sort"></i></th>
-            <th class="sortable">Phone Number<i class="fa fa-sort"></i></th>
-            <th class="sortable">House Lat.<i class="fa fa-sort"></i></th>
-            <th class="sortable">House Long.<i class="fa fa-sort"></i></th>
-            <th class="sortable">No of Plots<i class="fa fa-sort"></i></th>
-            <th class="sortable">Total Farm Size (ha)<i class="fa fa-sort"></i></th>
-            <th class="sortable">Approval Committee Conditions<i class="fa fa-sort"></i></th>
-        </tr>
-    </thead>
-    <tbody>
-        @forelse ( $internalinspection as $inspection )
-        <tr>
-            <td>{{$inspection->getfarm()->farmname}}</td>
-            <td>{{$inspection->getfarm()->farmcode}}</td>
-            <td>{{$inspection->getfarm()->phonenumber}}</td>
-            <td>{{$inspection->getfarm()->latitude}}</td>
-            <td>{{$inspection->getfarm()->longitude}}</td>
-            <td>{{$inspection->getfarm()->getreportfarmcount($season)}}</td>
-            <td>{{number_format($inspection->getfarm()->getreportfarmarea($season),2)}}</td>
-            <td><b>IMS Comments: </b>@if (!empty($inspection->comments)) {{$inspection->comments}} @endif
-                @if (!empty($inspection->conditions))
-                <br/><b>Committee: </b>{{$inspection->conditions}} @endif</td>
-            </td>
-        </tr>
-        @empty
-        <tr>
-            <td colspan="8" class="text-center text-muted py-4">
-                <i class="fa fa-inbox fa-2x mb-2 d-block"></i>
-                No records found for this report.
-            </td>
-        </tr>
-        @endforelse
-    </tbody>
-</table>
-@endif
 
     </div>
 </div>
@@ -320,6 +259,35 @@
 
             rows.forEach(function (row) { tbody.appendChild(row); });
         });
+    });
+
+    // ── Columns picker: select all / clear, and sync checked columns into the two forms ──
+    document.getElementById('columnsSelectAll').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelectorAll('.column-toggle').forEach(function (cb) { cb.checked = true; });
+    });
+    document.getElementById('columnsSelectNone').addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelectorAll('.column-toggle').forEach(function (cb) { cb.checked = false; });
+    });
+
+    function syncColumnsInto(fieldsContainerId) {
+        var container = document.getElementById(fieldsContainerId);
+        container.innerHTML = '';
+        document.querySelectorAll('.column-toggle:checked').forEach(function (cb) {
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'columns[]';
+            input.value = cb.value;
+            container.appendChild(input);
+        });
+    }
+
+    document.getElementById('columnsApplyForm').addEventListener('submit', function () {
+        syncColumnsInto('columnsApplyFields');
+    });
+    document.getElementById('columnsSaveForm').addEventListener('submit', function () {
+        syncColumnsInto('columnsSaveFields');
     });
 
     // ── Excel export (client-side, no external library required) ─────────────────

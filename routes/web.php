@@ -191,6 +191,7 @@ Route::middleware('auth')->group(function () {
     Route::post('ireject',[InternalinspectionController::class, 'iapprove'])->name('ireject');
     Route::get('inspection/summary',[InternalinspectionController::class,'summarypage'])->name('summarypage');
     Route::get('inspection/summary/pdf',[InternalinspectionController::class,'summarypdf'])->name('summarypdf');
+    Route::post('inspection/summary/columns',[InternalinspectionController::class,'saveSummaryColumns'])->name('savesummarycolumns');
     Route::post('inspection/cancel',[InternalinspectionController::class, 'icancel'])->name('icancel');
     Route::post('inspection/changedate',[InternalinspectionController::class, 'changedate'])->name('changedate');
 
