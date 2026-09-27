@@ -19,13 +19,6 @@
 </head>
 <body>
 
-@php
-    $reporttype = 'NIL';
-    if (strpos($reportname->reportname, 'Entrance') !== false) {
-        $reporttype = 'Entrance';
-    }
-@endphp
-
 <div class="header">
     <h2>B &amp; R SPICES NIGERIA LTD</h2>
     <h3>INSPECTION SUMMARY REPORT</h3>
@@ -40,97 +33,26 @@
     </tr>
 </table>
 
-@if ($reporttype == 'Entrance')
-    <table class="data">
-        <thead>
+<table class="data">
+    <thead>
+        <tr>
+            @foreach ($selectedColumns as $key)
+                <th>{{ $availableColumns[$key]['label'] }}</th>
+            @endforeach
+        </tr>
+    </thead>
+    <tbody>
+        @forelse ($internalinspection as $inspection)
             <tr>
-                <th>Farmer Name</th>
-                <th>Farm Code</th>
-                <th>Gender</th>
-                <th>Year of Birth</th>
-                <th>ID NO</th>
-                <th>Plot name</th>
-                <th>Plot Size (ha)</th>
-                <th>Plot Lat.</th>
-                <th>Plot Long.</th>
-                <th>No of Plots</th>
-                <th>Total Farm Size (ha)</th>
-                <th>Estimated yield (kg)</th>
-                <th>Non Ginger Hectare</th>
-                <th>Previous Year Del.</th>
-                <th>Previous 2 Years Del.</th>
-                <th>Previous 3 Years Del.</th>
+                @foreach ($selectedColumns as $key)
+                    <td>{{ ($availableColumns[$key]['value'])($inspection, $season) }}</td>
+                @endforeach
             </tr>
-        </thead>
-        <tbody>
-            @forelse ($internalinspection as $inspection)
-                <tr>
-                    <td>{{ $inspection->getfarm()->farmname }}</td>
-                    <td>{{ $inspection->getfarm()->farmcode }}</td>
-                    <td>{{ $inspection->getfarm()->gender }}</td>
-                    <td>{{ $inspection->getfarm()->yob }}</td>
-                    <td>{{ $inspection->getfarm()->nationalidnumber }}</td>
-                    <td>{{ $inspection->getplotdetails()->plotname ?? 'N/A' }}</td>
-                    <td>{{ $inspection->getplotdetails()->fuarea ?? 'N/A' }}</td>
-                    <td>{{ $inspection->getplotdetails()->fulatitude ?? 'N/A' }}</td>
-                    <td>{{ $inspection->getplotdetails()->fulongitude ?? 'N/A' }}</td>
-                    <td>{{ $inspection->getfarm()->getreportfarmcount($season) }}</td>
-                    <td>{{ number_format($inspection->getfarm()->getreportfarmarea($season), 2) }}</td>
-                    @if (!empty($inspection->farmentrance))
-                        <td>{{ number_format($inspection->farmentrance->getestimatedyield(), 2) }}</td>
-                        <td>{{ number_format($inspection->getothercropsize(), 4) }}</td>
-                        <td>{{ !empty($inspection->farmentrance->reportvolcropdel()[0]) ? number_format($inspection->farmentrance->reportvolcropdel()[0]->value, 2) : '' }}</td>
-                        <td>{{ !empty($inspection->farmentrance->reportvolcropdel()[1]) ? number_format($inspection->farmentrance->reportvolcropdel()[1]->value, 2) : '' }}</td>
-                        <td>{{ !empty($inspection->farmentrance->reportvolcropdel()[2]) ? number_format($inspection->farmentrance->reportvolcropdel()[2]->value, 2) : '' }}</td>
-                    @else
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    @endif
-                </tr>
-            @empty
-                <tr><td colspan="16" class="text-muted">No records found.</td></tr>
-            @endforelse
-        </tbody>
-    </table>
-@else
-    <table class="data">
-        <thead>
-            <tr>
-                <th>Farmer Name</th>
-                <th>Farm Code</th>
-                <th>Phone Number</th>
-                <th>House Lat.</th>
-                <th>House Long.</th>
-                <th>No of Plots</th>
-                <th>Total Farm Size (ha)</th>
-                <th>Approval Committee Conditions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($internalinspection as $inspection)
-                <tr>
-                    <td>{{ $inspection->getfarm()->farmname }}</td>
-                    <td>{{ $inspection->getfarm()->farmcode }}</td>
-                    <td>{{ $inspection->getfarm()->phonenumber }}</td>
-                    <td>{{ $inspection->getfarm()->latitude }}</td>
-                    <td>{{ $inspection->getfarm()->longitude }}</td>
-                    <td>{{ $inspection->getfarm()->getreportfarmcount($season) }}</td>
-                    <td>{{ number_format($inspection->getfarm()->getreportfarmarea($season), 2) }}</td>
-                    <td>
-                        <b>IMS Comments:</b> {{ $inspection->comments }}
-                        @if (!empty($inspection->conditions))
-                            <br><b>Committee:</b> {{ $inspection->conditions }}
-                        @endif
-                    </td>
-                </tr>
-            @empty
-                <tr><td colspan="8" class="text-muted">No records found.</td></tr>
-            @endforelse
-        </tbody>
-    </table>
-@endif
+        @empty
+            <tr><td colspan="{{ max(count($selectedColumns), 1) }}" class="text-muted">No records found.</td></tr>
+        @endforelse
+    </tbody>
+</table>
 
 <div class="footer">Generated {{ now()->format('Y-m-d H:i') }}</div>
 

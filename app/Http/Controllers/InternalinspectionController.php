@@ -15,14 +15,19 @@ use App\Models\reports;
 use App\Models\reportsection;
 use App\Models\approvalcommitte;
 use App\Models\Season;
+use App\Models\reportcolumnpreference;
 use App\Services\InspectionApprovalService;
+use App\Services\ReportColumnRegistry;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class InternalinspectionController extends Controller
 {
-    public function __construct(private InspectionApprovalService $approvalService) {}
+    public function __construct(
+        private InspectionApprovalService $approvalService,
+        private ReportColumnRegistry $columnRegistry,
+    ) {}
 
     /**
      * Display a listing of the resource.
@@ -466,26 +471,95 @@ class InternalinspectionController extends Controller
             $internalinspection = internalinspection::where('reportid', $request->report)->where('inspectionstate', $state)->where('season', $season)->get();
         }
 
-        return [$internalinspection, $season, $state, $reportname];
+        $reporttype = $this->columnRegistry->reportTypeFor($reportname->reportname);
+
+        return [$internalinspection, $season, $state, $reportname, $reporttype];
+    }
+
+    /**
+     * Resolve the ordered, whitelisted set of column keys to render for this request:
+     * an explicit ?columns[] selection wins, then the user's saved default, then the
+     * registry's full default set. Anything not in the registry for this report type
+     * is silently dropped — column keys are never used to resolve arbitrary properties.
+     */
+    private function resolveSelectedColumns(Request $request, string $reporttype): array
+    {
+        if ($request->has('columns')) {
+            $requested = $this->columnRegistry->sanitizeKeys($reporttype, (array) $request->input('columns'));
+            if (!empty($requested)) {
+                return $requested;
+            }
+        }
+
+        $user = Auth::user();
+        if ($user) {
+            $preference = reportcolumnpreference::where('user_id', $user->id)
+                ->where('report_type', $reporttype)
+                ->first();
+
+            if ($preference) {
+                $saved = $this->columnRegistry->sanitizeKeys($reporttype, $preference->columns);
+                if (!empty($saved)) {
+                    return $saved;
+                }
+            }
+        }
+
+        return $this->columnRegistry->defaultKeysFor($reporttype);
     }
 
     public function summarypage(Request $request)
     {
-        [$internalinspection, $season, $state, $reportname] = $this->getSummaryInspections($request);
+        [$internalinspection, $season, $state, $reportname, $reporttype] = $this->getSummaryInspections($request);
 
-        return view('inspection.inspection_summary', compact('internalinspection', 'season', 'state', 'reportname'));
+        $availableColumns = $this->columnRegistry->columnsFor($reporttype);
+        $selectedColumns = $this->resolveSelectedColumns($request, $reporttype);
+
+        return view('inspection.inspection_summary', compact(
+            'internalinspection', 'season', 'state', 'reportname',
+            'reporttype', 'availableColumns', 'selectedColumns'
+        ));
     }
 
     public function summarypdf(Request $request)
     {
-        [$internalinspection, $season, $state, $reportname] = $this->getSummaryInspections($request);
+        [$internalinspection, $season, $state, $reportname, $reporttype] = $this->getSummaryInspections($request);
 
-        $pdf = Pdf::loadView('pdf.inspectionsummarypdf', compact('internalinspection', 'season', 'state', 'reportname'))
-            ->setPaper('a4', 'landscape');
+        $availableColumns = $this->columnRegistry->columnsFor($reporttype);
+        $selectedColumns = $this->resolveSelectedColumns($request, $reporttype);
+
+        $pdf = Pdf::loadView('pdf.inspectionsummarypdf', compact(
+            'internalinspection', 'season', 'state', 'reportname',
+            'reporttype', 'availableColumns', 'selectedColumns'
+        ))->setPaper('a4', 'landscape');
 
         $pdfname = preg_replace('/\//', '_', $reportname->reportname . '_Summary_' . $season . '.pdf');
 
         return $pdf->download($pdfname);
+    }
+
+    public function saveSummaryColumns(Request $request)
+    {
+        $user = Auth::user();
+        $reportname = reports::where('id', $request->report)->first();
+        abort_if(!$reportname, 404);
+
+        $reporttype = $this->columnRegistry->reportTypeFor($reportname->reportname);
+        $columns = $this->columnRegistry->sanitizeKeys($reporttype, (array) $request->input('columns', []));
+
+        if (!empty($columns)) {
+            reportcolumnpreference::updateOrCreate(
+                ['user_id' => $user->id, 'report_type' => $reporttype],
+                ['columns' => $columns]
+            );
+        }
+
+        return redirect()->route('summarypage', [
+            'season' => $request->season,
+            'report' => $request->report,
+            'reportstate' => $request->reportstate,
+            'columns' => $columns,
+        ])->with('status', 'Default columns saved.');
     }
 
     public function icancel(Request $request)
